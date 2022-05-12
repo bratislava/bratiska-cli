@@ -8,10 +8,9 @@
   },
   "main": "bin/bratiska-cli.js",
   "scripts": {
-    "build": "tsc && chmod && npm link",
+    "build": "tsc",
     "lint": "eslint '**/*.{js,ts}' --fix",
     "prettier": "prettier --write .",
-    "chmod": "chmod u+x bin/bratiska-cli.js",
     "bratiska-cli": "bin/bratiska-cli.js"
   },
   "repository": {
