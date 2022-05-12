@@ -2,16 +2,18 @@
   "name": "bratiska-cli",
   "version": "1.0.0",
   "description": "Simple CLI for deploying Bratislava apps to kubernetes",
+  "preferGlobal": true,
   "bin": {
-    "bratiska-cli": "./bin/bratiska-cli.js"
+    "bratiska-cli": "bin/bratiska-cli.js"
   },
+  "main": "bin/bratiska-cli.js",
   "scripts": {
     "build": "tsc && chmod && npm link",
     "prepublishOnly": "npm run build",
     "lint": "eslint '**/*.{js,ts}' --fix",
     "prettier": "prettier --write .",
-    "chmod": "chmod u+x ./bin/bratiska-cli.js",
-    "bratiska-cli": "./bin/bratiska-cli.js"
+    "chmod": "chmod u+x bin/bratiska-cli.js",
+    "bratiska-cli": "bin/bratiska-cli.js"
   },
   "repository": {
     "type": "git",
@@ -53,3 +55,4 @@
     "typescript-eslint-parser": "^22.0.0"
   }
 }
+
