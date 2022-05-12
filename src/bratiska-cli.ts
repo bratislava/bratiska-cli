@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 import chalk from 'chalk';
-import clear from 'clear';
-import figlet from 'figlet';
+//import clear from 'clear';
+import * as figlet from 'figlet';
 import { program } from 'commander';
-import cp from 'child_process';
+import * as cp from 'child_process';
 import { execSync } from 'child_process';
-import fs from 'fs';
+import * as fs from 'fs';
 
 const log = console.log.bind(console);
 
@@ -15,11 +15,11 @@ interface Bash {
   err: string;
 }
 
-function image_tag(options) {
+function image_tag(options: any) {
   return `${image(options)}:${tag(options)}`;
 }
 
-function tag(options) {
+function tag(options: any) {
   let untracked = '';
   let branch = '-' + options.branch;
   if (options.untracked) {
@@ -32,11 +32,11 @@ function tag(options) {
   return `bratiska-cli-${options.commit}${branch}${untracked}`;
 }
 
-function image(options) {
+function image(options: any) {
   return `${options.registry}/${options.namespace}/${options.deployment}`;
 }
 
-function manifest(options) {
+function manifest(options: any) {
   return `manifest-${tag(options)}.yaml`;
 }
 
@@ -52,7 +52,7 @@ function ok(): void {
   log(chalk.green(' OK'));
 }
 
-function line(content) {
+function line(content: any) {
   process.stdout.write('\x1b[37m' + content);
 }
 
@@ -60,7 +60,7 @@ function message(content: string): void {
   log(chalk.white(content));
 }
 
-const capitalize = (s) => {
+const capitalize = (s: string) => {
   if (typeof s !== 'string') return '';
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
@@ -268,7 +268,7 @@ function deployment_status(options: any) {
 }
 
 try {
-  clear();
+  //clear();
   console.log(
     chalk.blue(figlet.textSync('Bratiska-cli', { horizontalLayout: 'full' })),
   );
@@ -307,12 +307,12 @@ try {
   if (typeof options.deployment === 'undefined') {
     /* TODO */
     /* options.deployment = pack.name; */
-    options.deployment = 'test'
+    options.deployment = 'test';
   }
 
   if (typeof options.version === 'undefined') {
     /* options.version = pack.version; */
-    options.version = '1.0.0'
+    options.version = '1.0.0';
   }
 
   if (typeof options.debug === 'undefined') {

@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "Simple CLI for deploying Bratislava apps to kubernetes",
   "bin": {
-    "bratiska-cli": "dist/bratiska-cli.js"
+    "bratiska-cli": "./bin/bratiska-cli.js"
   },
   "scripts": {
-    "build": "tsc && npm link",
+    "build": "tsc && chmod && npm link",
     "prepublishOnly": "npm run build",
-    "bratiska-cli": "dist/bratiska-cli.js"
+    "lint": "eslint '**/*.{js,ts}' --fix",
+    "prettier": "prettier --write .",
+    "chmod": "chmod u+x ./bin/bratiska-cli.js",
+    "bratiska-cli": "./bin/bratiska-cli.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/bratislava/bratiska-cli/issues"
   },
-  "homepage": "https://github.com/bratislava/bratiska-cli#readme",
+  "homepage": "https://github.com/bratislava/bratiska-cli",
   "dependencies": {
     "chalk": "^5.0.1",
     "child_process": "^1.0.2",
@@ -30,12 +33,20 @@
   },
   "devDependencies": {
     "@liftr/tscov": "^2.0.0",
+    "@types/clear": "^0.1.2",
     "@types/figlet": "^1.5.4",
     "@types/inquirer": "^8.2.1",
-    "@types/node": "^17.0.31",
-    "@typescript-eslint/eslint-plugin": "^5.22.0",
-    "@typescript-eslint/parser": "^5.22.0",
+    "@types/node": "^17.0.32",
+    "@types/node-fetch": "^2.5.12",
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.15.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "install": "^0.13.0",
+    "node-fetch": "^2.6.7",
+    "npm": "^8.10.0",
+    "prettier": "^2.6.2",
     "ts-node": "^10.7.0",
     "typedoc": "^0.22.15",
     "typescript": "^4.6.4",
