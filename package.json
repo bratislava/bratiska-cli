@@ -9,7 +9,6 @@
   "main": "bin/bratiska-cli.js",
   "scripts": {
     "build": "tsc && chmod && npm link",
-    "prepublishOnly": "npm run build",
     "lint": "eslint '**/*.{js,ts}' --fix",
     "prettier": "prettier --write .",
     "chmod": "chmod u+x bin/bratiska-cli.js",
