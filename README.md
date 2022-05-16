@@ -26,14 +26,10 @@ These apps should be running when you start `bratiska-cli`:
 
 ## Installation
 
-Installing dependencies
-```bash
-npm install
-```
+Install globally in your npm from bratislava github repository.
 
-Building cli in repo
 ```bash
-npm run bratiska:build
+npm i -g bratislava/bratiska-cli
 ```
 
 ## Usage
@@ -127,6 +123,19 @@ $ docker login https://harbor.bratislava.sk
 using your username `your.name@bratislava.sk` and `CLI secret` value
 5. When you see `Login Succeeded,` then you are done 👏
 
+
+# Development
+
+
+Installing dependencies
+```bash
+npm install
+```
+
+Building cli in repo
+```bash
+npm run build
+```
 
 ## Stay in touch
 - If you find some bug, please get in touch with us on GitHub or mail inovacie@bratislava.sk
