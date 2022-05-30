@@ -4,16 +4,14 @@
   "description": "Simple CLI for deploying Bratislava apps to kubernetes",
   "preferGlobal": true,
   "bin": {
-    "bratiska-cli": "./dist/src/bratiska-cli.js"
+    "bratiska-cli": "bin/bratiska-cli.js"
   },
-  "main": "./dist/src/bratiska-cli.js",
+  "main": "bin/bratiska-cli.js",
   "scripts": {
-    "build": "tsc && yarn run chmod",
+    "build": "tsc",
     "lint": "eslint '**/*.{js,ts}' --fix",
     "prettier": "prettier --write .",
-    "chmod": "chmod u+x ./dist/src/bratiska-cli.js",
-    "bratiska-cli": "./dist/src/bratiska-cli.js",
-    "start": "./dist/src/bratiska-cli.js"
+    "bratiska-cli": "bin/bratiska-cli.js"
   },
   "repository": {
     "type": "git",
