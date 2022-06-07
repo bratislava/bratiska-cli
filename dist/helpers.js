@@ -173,16 +173,36 @@ function assign_env_vars(options) {
     if (image_tag(options) === '//') {
         throw new Error('Image have to be filled! Please use --image <image_tag>.');
     }
-    process.env['BUILD_REPOSITORY_URI'] = options.repository_uri;
-    process.env['BUILD_REPOSITORY_NAME'] = options.deployment;
-    process.env['HOSTNAME'] = options.host;
-    process.env['IMAGE_TAG'] = image_tag(options);
-    process.env['IMAGE'] = image(options);
-    process.env['TAG'] = tag(options);
-    process.env['COMMIT'] = options.commit;
-    process.env['NAMESPACE'] = options.namespace;
-    process.env['IMAGE_PULL_SECRET'] = pull_secret_name(options);
-    process.env['INTERNAL_APP_PORT'] = options.app_port;
+    if (!process.env['BUILD_REPOSITORY_URI']) {
+        process.env['BUILD_REPOSITORY_URI'] = options.repository_uri;
+    }
+    if (!process.env['BUILD_REPOSITORY_NAME']) {
+        process.env['BUILD_REPOSITORY_NAME'] = options.deployment;
+    }
+    if (!process.env['HOSTNAME']) {
+        process.env['HOSTNAME'] = options.host;
+    }
+    if (!process.env['IMAGE_TAG']) {
+        process.env['IMAGE_TAG'] = image_tag(options);
+    }
+    if (!process.env['IMAGE']) {
+        process.env['IMAGE'] = image(options);
+    }
+    if (!process.env['TAG']) {
+        process.env['TAG'] = tag(options);
+    }
+    if (!process.env['COMMIT']) {
+        process.env['COMMIT'] = options.commit;
+    }
+    if (!process.env['NAMESPACE']) {
+        process.env['NAMESPACE'] = options.namespace;
+    }
+    if (!process.env['IMAGE_PULL_SECRET']) {
+        process.env['IMAGE_PULL_SECRET'] = pull_secret_name(options);
+    }
+    if (!process.env['INTERNAL_APP_PORT']) {
+        process.env['INTERNAL_APP_PORT'] = pull_secret_name(options);
+    }
 }
 exports.assign_env_vars = assign_env_vars;
 function star_wars() {

@@ -17,7 +17,7 @@ try {
 
   program
     .name('bratiska-cli')
-    .version('1.3.0')
+    .version('1.3.1')
     .description(
       'Simple Bratiska-cli utility for managing Bratislava Innovation apps',
     )
