@@ -24,49 +24,44 @@ To be able to work with this utility, you need to have a few things configured:
 
 #### Running apps:
 
-These apps should be running when you start `bratiska-cli`:
+These apps needs be running when you use `bratiska-cli`:
 
-1. Run `docker`
-2. You need to be signed in to our docker repository `harbor.Bratislava.sk`. See the manual below.
+- running `docker`
+- You need to be signed in to our docker repository `harbor.bratislava.sk`. See the manual below.
 
-```bash
-docker login https://harbor.bratislava.sk
-```
-
-4. You need to have running `kubect` and be signed into the Kubernetes cluster. If you have issues signing to Kubernetes, contact your administrator.
+    ```bash
+    docker login https://harbor.bratislava.sk
+    ```
+- You need to have running `kubect` and be signed into the Kubernetes cluster. If you have issues signing to Kubernetes, contact your administrator.
 
 ## Installation
 
 Installing dependencies
 
 ```bash
-npm install
+yarn global add bratislava/bratiska-cli
 ```
 
-Building cli in the repo
 
-```bash
-npm run deploy:build
-```
 
 ## Usage
 
 There is straightforward usage because the utility tries to obtain all values from the repo automatically, and if something is missing, it will point out.
 
 ```bash
-npm run deploy
+bratiska-cli deploy
 ```
 
 If you need to deploy to staging or production, you need to add a special flag to the command.
 
 ```bash
-npm run deploy -- --staging
+bratiska-cli deploy -- --staging
 ```
 
 or
 
 ```bash
-npm run deploy -- --production
+bratiska-cli deploy -- --production
 ```
 
 ### Run with more options
@@ -76,7 +71,7 @@ npm run deploy -- --production
 If you want to build an image only, run:
 
 ```bash
-npm run deploy -- --build_image
+bratiska-cli deploy -- --build_image
 ```
 
 #### Build image only without push to the registry
@@ -84,7 +79,7 @@ npm run deploy -- --build_image
 If you want to build an image without pushing to registry run:
 
 ```bash
-npm run deploy -- --build_image_no_registry
+bratiska-cli deploy -- --build_image_no_registry
 ```
 
 #### Build kustomize only
@@ -92,7 +87,7 @@ npm run deploy -- --build_image_no_registry
 If you want to build a kustomize file, only run
 
 ```bash
-npm run deploy -- --build_kustomize
+bratiska-cli deploy -- --build_kustomize
 ```
 
 #### Build kustomize only with specified docker image
@@ -100,7 +95,7 @@ npm run deploy -- --build_kustomize
 If you want to build kustomize file only run
 
 ```bash
-npm run deploy -- --build_kustomize --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
+bratiska-cli deploy -- --build_kustomize --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
 ```
 
 #### Deploy with special imagee
@@ -108,7 +103,7 @@ npm run deploy -- --build_kustomize --image harbor.bratislava.sk/standalone/nest
 If you have specified image you can deploy it
 
 ```bash
-npm run deploy --  --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
+bratiska-cli deploy --  --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
 ```
 
 #### Specify kustomize file or folder
@@ -116,7 +111,7 @@ npm run deploy --  --image harbor.bratislava.sk/standalone/nest-prisma-template:
 If you want, you can specify the kustomize file or kustomize folder with this command:
 
 ```bash
-npm run deploy -- --kustomize ./path/path
+bratiska-cli deploy -- --kustomize ./path/path
 ```
 
 #### Dry run, without deploying to Kubernetes
@@ -124,7 +119,7 @@ npm run deploy -- --kustomize ./path/path
 If you don`t want to deploy to Kubernetes, then you can run it with a dry run flag:
 
 ```bash
-npm run deploy -- --dry_run
+bratiska-cli deploy -- --dry_run
 ```
 
 #### Namespace
@@ -132,7 +127,7 @@ npm run deploy -- --dry_run
 The default namespace for utility is `standalone`, but you can change it to other like:
 
 ```bash
-npm run deploy -- --namespace=bratislava-monorepo
+bratiska-cli deploy -- --namespace=bratislava-monorepo
 ```
 
 #### Deployment
@@ -140,7 +135,7 @@ npm run deploy -- --namespace=bratislava-monorepo
 Default deployment for the app names from `project.json`, but you can change it like:
 
 ```bash
-npm run deploy -- --deployment=nest-Prisma-template-super-duper
+bratiska-cli deploy -- --deployment=nest-Prisma-template-super-duper
 ```
 
 #### Host
@@ -148,7 +143,7 @@ npm run deploy -- --deployment=nest-Prisma-template-super-duper
 Default deployment host for an app depends on `deployment` and `environment`, but you can change it like:
 
 ```bash
-npm run deploy -- --host=starwars.bratislava.sk
+bratiska-cli deploy -- --host=starwars.bratislava.sk
 ```
 
 #### Enviroment
@@ -156,7 +151,7 @@ npm run deploy -- --host=starwars.bratislava.sk
 If you want to change the environment, you can specify it there:
 
 ```bash
-npm run deploy -- --env=dev
+bratiska-cli deploy -- --env=dev
 ```
 
 Or you switch env with `kubectl config use-context tkg-innov-dev`
@@ -166,7 +161,7 @@ Or you switch env with `kubectl config use-context tkg-innov-dev`
 If you want to use a different registry like `ghcr.io`, you can change it here, but don`t forget to add new credentials.
 
 ```bash
-npm run deploy -- --registry=ghcr.io
+bratiska-cli deploy -- --registry=ghcr.io
 ```
 
 #### Staging and Production
@@ -176,7 +171,7 @@ To deploy to the stage, you need to add `--staging` flag, and your changes need 
 The same applies to production, so you need to use `--production`, and changes must be merged to master. Otherwise, you can`t update production.
 
 ```bash
-npm run deploy -- --staging
+bratiska-cli deploy -- --staging
 ```
 
 #### Debug
@@ -184,7 +179,7 @@ npm run deploy -- --staging
 If you need to debug the deploy process, you can add the `--debug` option. This will save the kustomize manifest to the directory so that you can inspect it. Also, it does not delete the image from docker so that you can have a look at it.
 
 ```bash
-npm run deploy -- --debug
+bratiska-cli deploy -- --debug
 ```
 
 ### Examples
@@ -192,7 +187,7 @@ npm run deploy -- --debug
 Dry run with custom image and specified folder to kustomize.
 
 ```bash
-npm run deploy -- --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
+bratiska-cli deploy -- --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
 ```
 
 ## More manuals
@@ -221,6 +216,11 @@ docker login https://harbor.bratislava.sk
 
 using your username `your.name@bratislava.sk` and `CLI secret` value 5. When you see `Login Succeeded,` then you are done 👏
 
+## Development
+
+You need to pull this repo with 
+`git clone bratislava/bratiska-cli`. Then you can build it with command: `yarn run build`. If everything was builded fine, you can test it localy with `yarn run start`.
+
 ## Stay in touch
 
 - If you find some bug, please get in touch with us on GitHub or mail inovacie@bratislava.sk
@@ -228,3 +228,5 @@ using your username `your.name@bratislava.sk` and `CLI secret` value 5. When you
 
 TODO
 -- secrets creation support
+
+
