@@ -39,7 +39,7 @@ try {
     console.log(chalk_1.default.blue(figlet_1.default.textSync('Bratiska-cli', { horizontalLayout: 'full' })));
     commander_1.program
         .name('bratiska-cli')
-        .version('1.2')
+        .version('1.3.0')
         .description('Simple Bratiska-cli utility for managing Bratislava Innovation apps')
         .action((commandAndOptions) => {
         console.log(chalk_1.default.green('Please choose from selected commands based on yur needs. My favourite command is `deploy`.'));
