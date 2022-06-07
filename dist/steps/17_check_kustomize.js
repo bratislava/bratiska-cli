@@ -22,23 +22,27 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_kubernetes_enviroment = void 0;
+exports.check_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
-function check_kubernetes_enviroment(options) {
-    helpers.line('(4) Checking chosen kubernetes cluster with environment...');
+const fs_1 = __importDefault(require("fs"));
+function check_kustomize(options) {
+    helpers.line('(16) Checking the kustomize manifest...');
     if (options.build_image || options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    if (typeof options.env === 'undefined') {
-        options.env = helpers.map_cluster_to_env(options.cluster);
+    const manifest_path = helpers.manifest_path(options);
+    if (!fs_1.default.existsSync(manifest_path)) {
+        throw new Error(`We had an error creating the kustomize manifest. No kustomize file was found!`);
     }
-    else if (options.env != helpers.map_cluster_to_env(options.cluster)) {
-        const cluster_env = helpers.map_cluster_to_env(options.cluster);
-        throw new Error(`Your kubernetes context "${options.cluster}" (${cluster_env}) do not match chosen context (${options.env})! Change with --env or kubernetes cluster context!`);
+    const stats = fs_1.default.statSync(manifest_path);
+    if (stats.size < 10) {
+        throw new Error(`We had an error creating the kustomize manifest. The Kustomize file is empty! Check issue logs on kustomize build.`);
     }
     helpers.ok();
-    return options;
 }
-exports.check_kubernetes_enviroment = check_kubernetes_enviroment;
+exports.check_kustomize = check_kustomize;

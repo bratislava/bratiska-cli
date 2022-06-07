@@ -26,18 +26,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_current_status = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.pwd = void 0;
-const child_process_1 = __importDefault(require("child_process"));
-const child_process_2 = require("child_process");
+exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_current_status = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
+const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
 function pwd() {
-    const pwd = (0, child_process_2.execSync)('printf "%q\\n" "$(pwd)"', {
+    const pwd = (0, child_process_1.execSync)('printf "%q\\n" "$(pwd)"', {
         encoding: 'utf8',
     });
     return pwd.trim();
 }
 exports.pwd = pwd;
+function cd(path) {
+    const cd = (0, child_process_1.execSync)(`cd ${path}`, {
+        encoding: 'utf8',
+    });
+    return cd.trim();
+}
+exports.cd = cd;
 function git_current_branch() {
     const result = child_process_1.default.spawnSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
         encoding: 'utf8',
@@ -125,7 +131,7 @@ function docker() {
 exports.docker = docker;
 function docker_build(options) {
     const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(options)} --target=prod . `;
-    (0, child_process_2.execSync)(cmd, {
+    (0, child_process_1.execSync)(cmd, {
         stdio: 'inherit',
     });
     helpers.print_if_debug(options, cmd);
@@ -160,13 +166,13 @@ function docker_check_image_in_registry(options) {
 }
 exports.docker_check_image_in_registry = docker_check_image_in_registry;
 function kustomize_build_manifest(options) {
-    let path = `${options.pwd}/kubernetes/envs/${helpers.capitalize(options.env)}`;
+    let path = helpers.kustomize_folder_path(options);
     if (options.kustomize) {
         path = options.kustomize;
     }
     const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
     helpers.print_if_debug(options, cmd);
-    (0, child_process_2.execSync)(cmd, { encoding: 'utf8' });
+    (0, child_process_1.execSync)(cmd, { encoding: 'utf8' });
 }
 exports.kustomize_build_manifest = kustomize_build_manifest;
 function kubect_apply_to_kubernetes(manifest_path) {

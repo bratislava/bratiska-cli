@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function check_pushed_image(options: any) {
-  helpers.line('(11) Checking if image is in remote registry...');
+  helpers.line('(11) Checking if the image is in the remote registry.\n...');
   if (options.image || options.build_image_no_registry) {
     helpers.skipping();
     return;
@@ -11,7 +11,7 @@ export function check_pushed_image(options: any) {
   const image_r = commands.docker_check_image_in_registry(options);
   if (image_r.err !== '') {
     throw new Error(
-      `There was an issue checking if image is in a registry! Propably you are unauthorised or image is not there. Check above docker push log.`,
+      `There was an issue checking if the image is in a registry! Probably you are unauthorized, or the image is not there. Check the above docker push log.`,
     );
   }
   helpers.print_line_if_debug(options, '(11) Continue Checking if image...');

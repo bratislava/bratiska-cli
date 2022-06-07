@@ -11,7 +11,7 @@ export function check_git_resources(options: any) {
   const branch_bash = commands.git_current_branch();
   if (branch_bash.err !== '') {
     throw new Error(
-      'There was an issue obtaining git branch name! Do you have git installed?',
+      'There was an issue obtaining the git branch name! Do you have git installed?',
     );
   }
   options.branch = branch_bash.res;
@@ -20,7 +20,7 @@ export function check_git_resources(options: any) {
   const repository_bash = commands.git_repository_url();
   if (repository_bash.err !== '') {
     throw new Error(
-      'There was an issue getting remote repository url. Please push your changes to github or azure.',
+      'There was an issue getting the remote repository URL. Please push your changes to GitHub or azure.\n',
     );
   }
   options.repository_uri = repository_bash.res;
@@ -35,7 +35,7 @@ export function check_git_resources(options: any) {
 
   const commit_bash = commands.git_current_commit();
   if (commit_bash.err !== '') {
-    throw new Error('There was an issue getting commit!');
+    throw new Error('There was an issue getting commit status!\n');
   }
   options.commit = commit_bash.res;
   helpers.print_if_debug(options, `commit: ${options.commit}`);
@@ -49,7 +49,7 @@ export function check_git_resources(options: any) {
   if (status_bash.res !== '') {
     options.untracked = true;
     helpers.print_warning(
-      '\nWe have untracked changes in repo, adding tag "untracked"...',
+      '\nWe have untracked changes in the repo, adding the tag "untracked"...\n',
     );
   }
 

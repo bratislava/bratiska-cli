@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function check_deployment(options: any) {
-  helpers.line('(19) Checking deployment status...');
+  helpers.line('(19) Checking the deployment status...');
   if (
     options.dry_run ||
     options.build_kustomize ||

@@ -16,7 +16,7 @@ export function clean_kustomize(options: any) {
   try {
     fs.unlinkSync(helpers.manifest_path(options));
   } catch (err) {
-    throw new Error(`We had an error by cleaning manifest file`);
+    throw new Error(`We had an error by cleaning the manifest file.`);
   }
   helpers.ok();
 }

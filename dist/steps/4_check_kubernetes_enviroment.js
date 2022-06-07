@@ -23,17 +23,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.push_docker_image = void 0;
+exports.check_kubernetes_enviroment = void 0;
 const helpers = __importStar(require("../helpers"));
-const commands = __importStar(require("../commands"));
-function push_docker_image(options) {
-    helpers.line('(10) Pushing image to regitry ...');
-    if (options.image || options.build_image_no_registry) {
+function check_kubernetes_enviroment(options) {
+    helpers.line('(4) Checking chosen Kubernetes cluster with the environment...');
+    if (options.build_image || options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    helpers.br();
-    commands.docker_push_image(options);
-    helpers.finished();
+    if (typeof options.env === 'undefined') {
+        options.env = helpers.map_cluster_to_env(options.cluster);
+    }
+    else if (options.env != helpers.map_cluster_to_env(options.cluster)) {
+        const cluster_env = helpers.map_cluster_to_env(options.cluster);
+        throw new Error(`Your kubernetes context "${options.cluster}" (${cluster_env}) do not match chosen context (${options.env})! Change with --env or kubernetes cluster context!`);
+    }
+    helpers.ok();
+    return options;
 }
-exports.push_docker_image = push_docker_image;
+exports.check_kubernetes_enviroment = check_kubernetes_enviroment;

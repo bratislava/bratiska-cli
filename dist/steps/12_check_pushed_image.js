@@ -23,23 +23,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_kubernetes_connection = void 0;
+exports.check_pushed_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function check_kubernetes_connection(options) {
-    helpers.line('(3) Checking kubernetes connection to cluster...');
-    if (options.dry_run ||
-        options.build_kustomize ||
-        options.build_image ||
-        options.build_image_no_registry) {
+function check_pushed_image(options) {
+    helpers.line('(11) Checking if the image is in the remote registry.\n...');
+    if (options.image || options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    const pods = commands.kubectl_pods();
-    if (pods.err !== '') {
-        throw new Error(`Kubernetes cluster ${options.cluster} is not reachable from your computer! Maybe turn on VPN or check internet connection or sign in to cluster.`);
+    helpers.print_if_debug(options, `image tag: ${helpers.image_tag(options)}`);
+    const image_r = commands.docker_check_image_in_registry(options);
+    if (image_r.err !== '') {
+        throw new Error(`There was an issue checking if the image is in a registry! Probably you are unauthorized, or the image is not there. Check the above docker push log.`);
     }
+    helpers.print_line_if_debug(options, '(11) Continue Checking if image...');
     helpers.ok();
-    return options;
 }
-exports.check_kubernetes_connection = check_kubernetes_connection;
+exports.check_pushed_image = check_pushed_image;

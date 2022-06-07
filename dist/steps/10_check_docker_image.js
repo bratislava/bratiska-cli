@@ -23,23 +23,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clean_docker_image = void 0;
+exports.check_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function clean_docker_image(options) {
-    helpers.line('(12) Cleaning local docker image...');
-    if (options.debug ||
-        options.image ||
-        options.dry_run ||
-        options.build_image ||
-        options.build_image_no_registry) {
+function check_docker_image(options) {
+    helpers.line('(9) Checking if the image was locally created...');
+    if (options.image) {
         helpers.skipping();
         return;
     }
-    const image_r = commands.docker_delete_image(options);
-    if (image_r.err !== '') {
-        throw new Error(`There was an issue cleaning local docker image with tag ${helpers.image_tag(options)}`);
+    const image = commands.docker_check_image(options);
+    if (image.err !== '') {
+        throw new Error(`There was an issue creating a docker image! Check the above docker build log.`);
+    }
+    const res_json = image.res;
+    const iro = JSON.parse(res_json);
+    if (iro[0].RepoTags[0] !== helpers.image_tag(options)) {
+        throw new Error(`The image was not properly created. Tags do not fit! More info: ${iro[0].RepoTags[0]} != ${helpers.image_tag(options)}`);
     }
     helpers.ok();
 }
-exports.clean_docker_image = clean_docker_image;
+exports.check_docker_image = check_docker_image;

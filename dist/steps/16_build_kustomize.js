@@ -23,15 +23,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_ports_numbers = void 0;
+exports.build_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
-function check_ports_numbers(options) {
-    helpers.line('(13) Checking ports numbers...');
+const commands = __importStar(require("../commands"));
+function build_kustomize(options) {
+    helpers.line('(15) Building the kustomize manifest...');
     if (options.build_image || options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    helpers.check_ports(options);
+    commands.kustomize_build_manifest(options);
     helpers.ok();
 }
-exports.check_ports_numbers = check_ports_numbers;
+exports.build_kustomize = build_kustomize;

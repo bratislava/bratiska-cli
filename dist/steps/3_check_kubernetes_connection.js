@@ -23,15 +23,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.create_env_vars = void 0;
+exports.check_kubernetes_connection = void 0;
 const helpers = __importStar(require("../helpers"));
-function create_env_vars(options) {
-    helpers.line('(14) Creating env variables for kustomize...');
-    if (options.build_image || options.build_image_no_registry) {
+const commands = __importStar(require("../commands"));
+function check_kubernetes_connection(options) {
+    helpers.line('(3) Checking Kubernetes connection to the cluster...');
+    if (options.dry_run ||
+        options.build_kustomize ||
+        options.build_image ||
+        options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    helpers.assign_env_vars(options);
+    const pods = commands.kubectl_pods();
+    if (pods.err !== '') {
+        throw new Error(`Kubernetes cluster ${options.cluster} is not reachable from your computer! Maybe turn on VPN or check the internet connection or sign in to the cluster.`);
+    }
     helpers.ok();
+    return options;
 }
-exports.create_env_vars = create_env_vars;
+exports.check_kubernetes_connection = check_kubernetes_connection;

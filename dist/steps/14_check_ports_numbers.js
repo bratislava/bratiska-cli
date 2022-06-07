@@ -23,21 +23,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_pushed_image = void 0;
+exports.check_ports_numbers = void 0;
 const helpers = __importStar(require("../helpers"));
-const commands = __importStar(require("../commands"));
-function check_pushed_image(options) {
-    helpers.line('(11) Checking if image is in remote registry...');
-    if (options.image || options.build_image_no_registry) {
+function check_ports_numbers(options) {
+    helpers.line('(13) Checking the ports numbers...');
+    if (options.build_image || options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    helpers.print_if_debug(options, `image tag: ${helpers.image_tag(options)}`);
-    const image_r = commands.docker_check_image_in_registry(options);
-    if (image_r.err !== '') {
-        throw new Error(`There was an issue checking if image is in a registry! Propably you are unauthorised or image is not there. Check above docker push log.`);
-    }
-    helpers.print_line_if_debug(options, '(11) Continue Checking if image...');
+    helpers.check_ports(options);
     helpers.ok();
 }
-exports.check_pushed_image = check_pushed_image;
+exports.check_ports_numbers = check_ports_numbers;

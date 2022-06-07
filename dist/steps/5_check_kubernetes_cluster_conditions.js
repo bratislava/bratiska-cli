@@ -26,7 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_cluster_conditions = void 0;
 const helpers = __importStar(require("../helpers"));
 function check_kubernetes_cluster_conditions(options) {
-    helpers.line('(5) Checking kubernetes cluster conditions...');
+    helpers.line('(5) Checking Kubernetes cluster conditions...');
     if (options.build_kustomize ||
         options.build_image ||
         options.build_image_no_registry) {
@@ -36,27 +36,27 @@ function check_kubernetes_cluster_conditions(options) {
     switch (options.cluster) {
         case 'tkg-innov-prod':
             if (typeof options.production === 'undefined') {
-                throw new Error("You cannot deploy to 'tkg-innov-prod' without production flag! Please add flag `--production` to the command.");
+                throw new Error("You cannot deploy to 'tkg-innov-prod' without a production flag! Please add the flag `--production` to the command.");
             }
             if (options.untracked === true && options.force === false) {
-                throw new Error(`You cannot deploy to 'tkg-innov-prod' when you have untracked changes. Please commit and PR merge your changes to master!`);
+                throw new Error(`You cannot deploy to 'tkg-innov-prod' when you have untracked changes. Please commit, and PR merge your changes to master!`);
             }
             if (options.branch !== 'master' && options.force === false) {
-                throw new Error(`You cannot deploy to 'tkg-innov-prod' when your current branch is not master. Please checkout git branch to master. Run 'git checkout master'`);
+                throw new Error(`You cannot deploy to 'tkg-innov-prod' when your current branch is not master. Please check out the git branch to master. Run 'git checkout master'`);
             }
             if (options.merged === false && options.force === false) {
-                throw new Error(`You cannot deploy to 'tkg-innov-prod' when the changes are not merged in 'master' branch. Please create PR to propagate your changes to master!`);
+                throw new Error(`You cannot deploy to 'tkg-innov-prod' when the changes are not merged in the 'master' branch. Please create PR to propagate your changes to master!`);
             }
             break;
         case 'tkg-innov-staging':
             if (typeof options.staging === 'undefined' && options.force === false) {
-                throw new Error("You cannot deploy to 'tkg-innov-staging' without staging flag! Please add flag `--staging` to the command.");
+                throw new Error("You cannot deploy to 'tkg-innov-staging' without a staging flag! Please add the flag `--staging` to the command.");
             }
             if (options.untracked === true && options.force === false) {
-                throw new Error(`You cannot deploy to 'tkg-innov-staging' when you have untracked changes. Please commit and push changes to you branch origin/${options.branch}!`);
+                throw new Error(`You cannot deploy to 'tkg-innov-staging' when you have untracked changes. Please commit and push changes to your branch origin/${options.branch}!`);
             }
             if (options.merged === false && options.force === false) {
-                throw new Error(`You cannot deploy to 'tkg-innov-staging' when the changes are not pushed in branch origin/${options.branch}. Please push your changes!`);
+                throw new Error(`You cannot deploy to 'tkg-innov-staging' when the changes are not pushed in-branch origin/${options.branch}. Please push your changes!`);
             }
             break;
     }

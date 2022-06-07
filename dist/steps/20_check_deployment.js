@@ -23,24 +23,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_kubernetes_cluster = void 0;
+exports.check_deployment = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function check_kubernetes_cluster(options) {
-    helpers.line('(2) Checking current kubernetes cluster...');
-    if (options.build_image || options.build_image_no_registry) {
+function check_deployment(options) {
+    helpers.line('(19) Checking the deployment status...');
+    if (options.dry_run ||
+        options.build_kustomize ||
+        options.build_image ||
+        options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    const response_cluster = commands.kubectl_cluster();
-    options.cluster = response_cluster.res;
-    helpers.print_if_debug(options, `current cluster: ${options.cluster}`);
-    if (response_cluster.err !== '') {
-        throw new Error('There is no kubernetes context available. Please log in to kubernetes cluster! \n More info: ' +
-            response_cluster.err);
-    }
-    helpers.print_line_if_debug(options, '(2) Continue Checking current kubernetes cluster...');
-    helpers.ok();
-    return options;
+    commands.kubectl_deployment_status(options);
+    helpers.finished();
 }
-exports.check_kubernetes_cluster = check_kubernetes_cluster;
+exports.check_deployment = check_deployment;

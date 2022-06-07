@@ -23,28 +23,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_kubernetes_harbor_key = void 0;
+exports.push_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-/*
-  CHECKING KUBERNETES PULL SECRET FOR HARBOR
-  we need to check if we have a key to download image from harbor in kubernetes cluster.
-*/
-function check_kubernetes_harbor_key(options) {
-    helpers.line(`(6) Checking kubernetes harbor pull secret `);
-    helpers.print_important_info_line(`'${helpers.pull_secret_name(options)}'`);
-    helpers.line(`...`);
-    if (options.dry_run ||
-        options.build_kustomize ||
-        options.build_image ||
-        options.build_image_no_registry) {
+function push_docker_image(options) {
+    helpers.line('(10) Pushing image to the regitry ...');
+    if (options.image || options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    const pull_secret_bash = commands.kubectl_pull_secret(options);
-    if (pull_secret_bash.res === '') {
-        throw new Error(`We have no harbor pull secrets with name '${helpers.pull_secret_name(options)}'  on kubernetes cluster '${options.cluster}'. Please contact kubernetes admin to create pull secret.`);
-    }
-    helpers.ok();
+    helpers.br();
+    commands.docker_push_image(options);
+    helpers.finished();
 }
-exports.check_kubernetes_harbor_key = check_kubernetes_harbor_key;
+exports.push_docker_image = push_docker_image;

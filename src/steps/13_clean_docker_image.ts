@@ -17,7 +17,7 @@ export function clean_docker_image(options: any) {
   const image_r = commands.docker_delete_image(options);
   if (image_r.err !== '') {
     throw new Error(
-      `There was an issue cleaning local docker image with tag ${helpers.image_tag(
+      `There was an issue cleaning the local docker image with tag ${helpers.image_tag(
         options,
       )}`,
     );

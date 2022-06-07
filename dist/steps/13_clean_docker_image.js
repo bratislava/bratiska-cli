@@ -23,19 +23,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_deployment = void 0;
+exports.clean_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function check_deployment(options) {
-    helpers.line('(19) Checking deployment status...');
-    if (options.dry_run ||
-        options.build_kustomize ||
+function clean_docker_image(options) {
+    helpers.line('(12) Cleaning local docker image...');
+    if (options.debug ||
+        options.image ||
+        options.dry_run ||
         options.build_image ||
         options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    commands.kubectl_deployment_status(options);
-    helpers.finished();
+    const image_r = commands.docker_delete_image(options);
+    if (image_r.err !== '') {
+        throw new Error(`There was an issue cleaning the local docker image with tag ${helpers.image_tag(options)}`);
+    }
+    helpers.ok();
 }
-exports.check_deployment = check_deployment;
+exports.clean_docker_image = clean_docker_image;

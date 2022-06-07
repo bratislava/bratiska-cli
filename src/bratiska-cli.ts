@@ -32,7 +32,7 @@ try {
     .description(
       'If you need to deploy app to kubernetes, this is tool for you',
     )
-    .argument('[source_path]', 'Path to main folder for app')
+    //.argument('[source_path]', 'Path to main folder for app')
     .option('-build_image, --build_image', 'Build image only.')
     .option(
       '-build_image_no_registry, --build_image_no_registry',
@@ -64,10 +64,7 @@ try {
     )
     .option('-debug, --debug', 'Debuging')
     .option('-force, --force <pass>', 'Force')
-    .action((str, options) => {
-      console.log(1);
-      helpers.initialize_options(options);
-
+    .action((options) => {
       steps.show_options_0(options);
       steps.check_git_resources_1(options);
       steps.check_kubernetes_cluster_2(options);

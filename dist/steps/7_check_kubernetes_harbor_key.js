@@ -23,24 +23,28 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_docker_image = void 0;
+exports.check_kubernetes_harbor_key = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function check_docker_image(options) {
-    helpers.line('(9) Checking if image was localy created...');
-    if (options.image) {
+/*
+  CHECKING KUBERNETES PULL SECRET FOR HARBOR
+  we need to check if we have a key to download image from harbor in kubernetes cluster.
+*/
+function check_kubernetes_harbor_key(options) {
+    helpers.line(`(6) Checking the Kubernetes harbor pull secret `);
+    helpers.print_important_info_line(`'${helpers.pull_secret_name(options)}'`);
+    helpers.line(`...`);
+    if (options.dry_run ||
+        options.build_kustomize ||
+        options.build_image ||
+        options.build_image_no_registry) {
         helpers.skipping();
         return;
     }
-    const image = commands.docker_check_image(options);
-    if (image.err !== '') {
-        throw new Error(`There was an issue creating docker image! Check above docker build log.`);
-    }
-    const res_json = image.res;
-    const iro = JSON.parse(res_json);
-    if (iro[0].RepoTags[0] !== helpers.image_tag(options)) {
-        throw new Error(`Image was not properly created. Tags do not fit! More info: ${iro[0].RepoTags[0]} != ${helpers.image_tag(options)}`);
+    const pull_secret_bash = commands.kubectl_pull_secret(options);
+    if (pull_secret_bash.res === '') {
+        throw new Error(`We have no harbor pull secrets with name '${helpers.pull_secret_name(options)}'  on kubernetes cluster '${options.cluster}'. Don't hesitate to contact Kubernetes admin to create a pull secret.`);
     }
     helpers.ok();
 }
-exports.check_docker_image = check_docker_image;
+exports.check_kubernetes_harbor_key = check_kubernetes_harbor_key;

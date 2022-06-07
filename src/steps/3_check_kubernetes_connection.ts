@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function check_kubernetes_connection(options: any) {
-  helpers.line('(3) Checking kubernetes connection to cluster...');
+  helpers.line('(3) Checking Kubernetes connection to the cluster...');
   if (
     options.dry_run ||
     options.build_kustomize ||
@@ -15,7 +15,7 @@ export function check_kubernetes_connection(options: any) {
   const pods = commands.kubectl_pods();
   if (pods.err !== '') {
     throw new Error(
-      `Kubernetes cluster ${options.cluster} is not reachable from your computer! Maybe turn on VPN or check internet connection or sign in to cluster.`,
+      `Kubernetes cluster ${options.cluster} is not reachable from your computer! Maybe turn on VPN or check the internet connection or sign in to the cluster.`,
     );
   }
   helpers.ok();

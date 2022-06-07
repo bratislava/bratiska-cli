@@ -1,37 +1,13 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initialize_options = exports.assign_env_vars = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.manifest_path = exports.manifest = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.skipping = exports.ok = exports.line = exports.log = void 0;
+exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_path = exports.manifest_path = exports.manifest = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.skipping = exports.ok = exports.line = exports.log = void 0;
 const chalk_1 = __importDefault(require("chalk"));
-const pack = __importStar(require("../package.json"));
-const crypto_1 = __importDefault(require("crypto"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
+const fs_1 = __importDefault(require("fs"));
 exports.log = console.log.bind(console);
 function line(content) {
     process.stdout.write('\x1b[37m' + content);
@@ -133,6 +109,10 @@ function manifest_path(options) {
     return `${options.pwd}/${manifest(options)}`;
 }
 exports.manifest_path = manifest_path;
+function kustomize_folder_path(options) {
+    return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
+}
+exports.kustomize_folder_path = kustomize_folder_path;
 function pull_secret_name(options) {
     return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }
@@ -173,22 +153,22 @@ function assign_env_vars(options) {
         options.commit = 'using_external_image';
     }
     if (!options.repository_uri) {
-        throw new Error('Git repository uri cannot be false!');
+        throw new Error('Git repository URI cannot be false!');
     }
     if (!options.commit) {
-        throw new Error('Git Commit  cannot be false!');
+        throw new Error('Git Commit cannot be false!');
     }
     if (!options.deployment) {
-        throw new Error('Deployment name have to be filled! Please use --deployment <deployment_name> for defining deployment name.');
+        throw new Error('Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n');
     }
     if (!options.host) {
-        throw new Error('Host have to be filled! Please use --host <host> for deployment url host.');
+        throw new Error('The host has to be filled! Please use --host <host> for deployment URL host.\n');
     }
     if (!options.registry) {
-        throw new Error('Registry have to be filled! Please use --registry <registry_url>.');
+        throw new Error('The registry has to be filled! Please use --registry <registry_url>.');
     }
     if (!options.namespace) {
-        throw new Error('Namespace have to be filled! Please use --namespace <namespace>.');
+        throw new Error('Namespace has to be filled! Please use --namespace <namespace>.');
     }
     if (image_tag(options) === '//') {
         throw new Error('Image have to be filled! Please use --image <image_tag>.');
@@ -205,67 +185,26 @@ function assign_env_vars(options) {
     process.env['INTERNAL_APP_PORT'] = options.app_port;
 }
 exports.assign_env_vars = assign_env_vars;
-function initialize_options(options) {
-    //const options = program.opts();
-    //const commands = program.args;
-    options.deploy = false;
-    /*
-    switch (commands[0]) {
-      case 'deploy':
-        options.deploy = true;
-        break;
-      default:
-        program.help();
-    }
-  */
-    if (typeof options.build_image === 'undefined') {
-        options.build_image = false;
-    }
-    if (typeof options.build_image_no_registry === 'undefined') {
-        options.build_image_no_registry = false;
-    }
-    if (typeof options.build_kustomize === 'undefined') {
-        options.build_kustomize = false;
-    }
-    if (typeof options.kustomize === 'undefined') {
-        options.kustomize = false;
-    }
-    if (typeof options.image === 'undefined') {
-        options.image = false;
-    }
-    if (typeof options.namespace === 'undefined') {
-        options.namespace = 'stantalone';
-    }
-    if (typeof options.deployment === 'undefined') {
-        options.deployment = pack.name;
-    }
-    if (typeof options.version === 'undefined') {
-        options.version = pack.version;
-    }
-    if (typeof options.debug === 'undefined') {
-        options.debug = false;
-    }
-    if (typeof options.force === 'undefined') {
-        options.force = false;
-    }
-    else {
-        const pass = crypto_1.default
-            .createHash('sha256')
-            .update(options.force)
-            .digest('base64');
-        if (pass === '8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=') {
-            options.force = true;
-            (0, clear_1.default)();
-            console.log(chalk_1.default.black(figlet_1.default.textSync('Star Wars', { horizontalLayout: 'full' })), '\n', chalk_1.default.red('MAY THE FORCE BE WITH YOU! SECURITY CHECKS ARE DISABLED! YOU SHOULD KNOW WHAT YOU ARE DOING!'));
-        }
-        else {
-            throw new Error('Wrong password for using a --force! You should not use this option. Incident reported.');
-        }
-    }
-    if (typeof options.staging !== 'undefined' &&
-        typeof options.production !== 'undefined') {
-        throw new Error('Staging and production flag can`t be used at the same time!');
-    }
-    return options;
+function star_wars() {
+    (0, clear_1.default)();
+    console.log(chalk_1.default.black(figlet_1.default.textSync('Star Wars', { horizontalLayout: 'full' })), '\n', chalk_1.default.red('MAY THE FORCE BE WITH YOU! SECURITY CHECKS ARE DISABLED! YOU SHOULD KNOW WHAT YOU ARE DOING!'));
 }
-exports.initialize_options = initialize_options;
+exports.star_wars = star_wars;
+function game_over() {
+    return '\n' + figlet_1.default.textSync('Game Over', { horizontalLayout: 'full' }) + '\n Wrong password for using a --force! It would help if you did not use this option. Incident reported.';
+}
+exports.game_over = game_over;
+function load_package(options) {
+    let path = options.pwd + '/package.json';
+    if (!fs_1.default.existsSync(path)) {
+        throw new Error('We haven`t found package.json in path: ' + path);
+    }
+    try {
+        let packageData = require(options.pwd + '/package.json');
+        return packageData;
+    }
+    catch (e) {
+        throw new Error('There is an issue with package.json on path: ' + path + ' \n Error' + e);
+    }
+}
+exports.load_package = load_package;
