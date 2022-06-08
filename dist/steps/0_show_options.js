@@ -143,7 +143,8 @@ function show_options(options) {
     if (options.registry) {
         helpers.print_important_info(`--registry=${options.registry}`);
     }
-    helpers.log("\nSummary:");
+    options.repository_uri = path.basename(options.pwd);
+    helpers.log("Summary:");
     helpers.line(`Application name: `);
     helpers.print_important_info(`${options.deployment}`);
     helpers.line(`Directory of application: `);
@@ -152,7 +153,6 @@ function show_options(options) {
     helpers.print_important_info("present");
     helpers.line(`Kubernetes folder with kustomize files included: `);
     helpers.print_important_info(`${options.kustomize_default_path}`);
-    options.repository_uri = path.basename(options.pwd);
     return options;
 }
 exports.show_options = show_options;

@@ -211,7 +211,7 @@ export function assign_env_vars(options: any) {
         process.env['IMAGE_PULL_SECRET'] = pull_secret_name(options);
     }
     if(!process.env['INTERNAL_APP_PORT']) {
-        process.env['INTERNAL_APP_PORT'] = pull_secret_name(options);
+        process.env['INTERNAL_APP_PORT'] = options.app_port;;
     }
 }
 

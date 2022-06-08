@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function check_kubernetes_cluster(options: any) {
-  helpers.line('(2) Checking the current Kubernetes cluster...\n');
+  helpers.line('(2) Checking the current Kubernetes cluster...');
 
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();

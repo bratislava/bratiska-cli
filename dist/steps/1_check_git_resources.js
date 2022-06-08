@@ -44,6 +44,12 @@ function check_git_resources(options) {
     }
     options.repository_uri = repository_bash.res;
     helpers.print_if_debug(options, `repository_uri: ${options.repository_uri}`);
+    const name_bash = commands.git_repo_name(options);
+    if (name_bash === '') {
+        throw new Error('There was an issue fetching git repo name from git origin!');
+    }
+    options.repo_name = name_bash;
+    helpers.print_if_debug(options, `reponame: ${options.repo_name}`);
     const fetch_bash = commands.git_fetch_origin();
     if (fetch_bash.err !== '') {
         throw new Error('There was an issue fetching changes from git origin!');
@@ -63,11 +69,11 @@ function check_git_resources(options) {
     options.untracked = false;
     if (status_bash.res !== '') {
         options.untracked = true;
-        helpers.print_warning('\nWe have untracked changes in the repo, adding the tag "untracked"...\n');
+        helpers.print_warning('\nWe have untracked changes in the repo, adding the tag "untracked"...');
     }
     const remote_commit_bash = commands.git_check_commit_remote(options.commit, options.branch);
     helpers.print_if_debug(options, `remote_commit_bash: ${remote_commit_bash.err}`);
-    helpers.print_line_if_debug(options, '(1) Continue Checking git...');
+    helpers.line('(1) Continue Checking git...');
     options.merged = remote_commit_bash.err === '';
     helpers.ok();
     return options;

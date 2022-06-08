@@ -27,7 +27,7 @@ exports.check_kubernetes_cluster = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function check_kubernetes_cluster(options) {
-    helpers.line('(2) Checking the current Kubernetes cluster...\n');
+    helpers.line('(2) Checking the current Kubernetes cluster...');
     if (options.build_image || options.build_image_no_registry) {
         helpers.skipping();
         return;
