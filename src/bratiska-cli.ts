@@ -1,69 +1,73 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk';
-import clear from 'clear';
-import figlet from 'figlet';
-import { program } from 'commander';
-import { Steps } from './steps';
-import * as helpers from './helpers';
+import chalk from "chalk";
+import clear from "clear";
+import figlet from "figlet";
+import { program } from "commander";
+import { Steps } from "./steps";
+import * as helpers from "./helpers";
 
+const version = "1.3.3";
 const steps = new Steps();
 
 try {
+  let pack = helpers.load_package();
+
+
   clear();
   console.log(
-    chalk.blue(figlet.textSync('Bratiska-cli', { horizontalLayout: 'full' })),
+    chalk.blue(figlet.textSync("Bratiska-cli", { horizontalLayout: "full" }))
   );
-
+  helpers.line(version);
   program
-    .name('bratiska-cli')
-    .version('1.3.2')
+    .name("bratiska-cli")
+    .version(version)
     .description(
-      'Simple Bratiska-cli utility for managing Bratislava Innovation apps',
+      "Simple Bratiska-cli utility for managing Bratislava Innovation apps"
     )
-    .action((commandAndOptions:any) => {
-        console.log(chalk.green('Please choose from selected commands based on yur needs. My favourite command is `deploy`.'))
-        program.help();
+    .action((commandAndOptions: any) => {
+      console.log(chalk.green("Please choose from selected commands based on yur needs. My favourite command is `deploy`."));
+      program.help();
     });
 
   program
-    .command('deploy')
-    .summary('Deploy to kubernetes')
+    .command("deploy")
+    .summary("Deploy to kubernetes")
     .description(
-      'If you need to deploy app to kubernetes, this is tool for you',
+      "If you need to deploy app to kubernetes, this is tool for you"
     )
     //.argument('[source_path]', 'Path to main folder for app')
-    .option('-build_image, --build_image', 'Build image only.')
+    .option("-build_image, --build_image", "Build image only.")
     .option(
-      '-build_image_no_registry, --build_image_no_registry',
-      'Don`t push to registry',
+      "-build_image_no_registry, --build_image_no_registry",
+      "Don`t push to registry"
     )
-    .option('-build_kustomize, --build_kustomize', 'Build kustomize file only.')
-    .option('-dry_run, --dry_run', 'Run without deploying to kubernetes')
+    .option("-build_kustomize, --build_kustomize", "Build kustomize file only.")
+    .option("-dry_run, --dry_run", "Run without deploying to kubernetes")
     .option(
-      '-k, --kustomize <file_or_direcotry>',
-      'Specify kustomize file or kustomize directory',
+      "-k, --kustomize <file_or_direcotry>",
+      "Specify kustomize file or kustomize directory"
     )
-    .option('-i, --image <url>', 'Specify image from harbour via url')
-    .option('-n, --namespace <namespace>', 'Namespace', 'standalone')
-    .option('-d, --deployment <deployment>', 'Deployment app')
-    .option('-h, --host <host>', 'Host url address')
-    .option('-e, --env <env>', 'Deployment environment')
+    .option("-i, --image <url>", "Specify image from harbour via url")
+    .option("-n, --namespace <namespace>", "Namespace", "standalone")
+    .option("-d, --deployment <deployment>", "Deployment app")
+    .option("-h, --host <host>", "Host url address")
+    .option("-e, --env <env>", "Deployment environment")
     .option(
-      '-r, --registry <url>',
-      'Docker image registry url',
-      'harbor.bratislava.sk',
-    )
-    .option(
-      '-staging, --staging',
-      'To deploy on staging, you need to add this flag.',
+      "-r, --registry <url>",
+      "Docker image registry url",
+      "harbor.bratislava.sk"
     )
     .option(
-      '-production, --production',
-      'To deploy on production, you need to add this flag.',
+      "-staging, --staging",
+      "To deploy on staging, you need to add this flag."
     )
-    .option('-debug, --debug', 'Debuging')
-    .option('-force, --force <pass>', 'Force')
+    .option(
+      "-production, --production",
+      "To deploy on production, you need to add this flag."
+    )
+    .option("-debug, --debug", "Debuging")
+    .option("-force, --force <pass>", "Force")
     .action((options) => {
       steps.show_options_0(options);
       steps.check_git_resources_1(options);
@@ -90,6 +94,6 @@ try {
 
   program.parse(process.argv);
 } catch (e: any) {
-  helpers.log('');
-  helpers.log('\x1b[31m', `ERROR: ${e.message}`);
+  helpers.log("");
+  helpers.log("\x1b[31m", `ERROR: ${e.message}`);
 }

@@ -7,7 +7,17 @@ export function build_docker_image(options: any) {
     helpers.skipping();
     return;
   }
+
   helpers.print_info(`\nDocker image tag: ${helpers.image_tag(options)}`);
+  /* we will check if we already have an image */
+  const image = commands.docker_check_image(options);
+  
+  if (image.err === '') {
+    helpers.line(`\ndocker image is present...`);
+    helpers.skipping();
+    return;
+  }
+
   commands.docker_build(options);
   helpers.finished();
 }
