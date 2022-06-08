@@ -73,6 +73,14 @@ If you want to build an image only, run:
 bratiska-cli deploy --build_image
 ```
 
+#### Build image only
+
+If you want to forcibly rebuild an image, run:
+
+```bash
+bratiska-cli deploy --force_rebuild
+```
+
 #### Build image only without push to the registry
 
 If you want to build an image without pushing to registry run:

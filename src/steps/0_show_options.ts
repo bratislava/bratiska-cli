@@ -34,6 +34,10 @@ export function show_options(options: any) {
     options.build_image_no_registry = false;
   }
 
+  if (typeof options.force_rebuild === "undefined") {
+    options.force_rebuild = false;
+  }
+  
   if (typeof options.build_kustomize === "undefined") {
     options.build_kustomize = false;
   }
@@ -106,6 +110,11 @@ export function show_options(options: any) {
   if (options.build_kustomize) {
     helpers.print_important_info("--build_kustomize");
   }
+
+  if (options.force_rebuild) {
+    helpers.print_important_info("--force_rebuild");
+  }
+
 
   if (options.build_image) {
     helpers.print_important_info("--build_image");

@@ -27,7 +27,7 @@ exports.build_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function build_docker_image(options) {
-    helpers.line('(8) Building docker image for platform linux/amd64...');
+    helpers.line("(8) Building docker image for platform linux/amd64...");
     if (options.image) {
         helpers.skipping();
         return;
@@ -35,7 +35,7 @@ function build_docker_image(options) {
     helpers.print_info(`\nDocker image tag: ${helpers.image_tag(options)}`);
     /* we will check if we already have an image */
     const image = commands.docker_check_image(options);
-    if (image.err === '') {
+    if (image.err === "" && options.force_rebuild === false) {
         helpers.line(`\ndocker image is present...`);
         helpers.skipping();
         return;

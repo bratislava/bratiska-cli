@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const steps_1 = require("./steps");
 const helpers = __importStar(require("./helpers"));
-const version = "1.3.3";
+const version = "1.3.4";
 const steps = new steps_1.Steps();
 try {
     let pack = helpers.load_package();
@@ -54,6 +54,7 @@ try {
         .description("If you need to deploy app to kubernetes, this is tool for you")
         //.argument('[source_path]', 'Path to main folder for app')
         .option("-build_image, --build_image", "Build image only.")
+        .option("-force_rebuild, --force_rebuild", "Frocing image rebuild.")
         .option("-build_image_no_registry, --build_image_no_registry", "Don`t push to registry")
         .option("-build_kustomize, --build_kustomize", "Build kustomize file only.")
         .option("-dry_run, --dry_run", "Run without deploying to kubernetes")

@@ -7,7 +7,7 @@ import { program } from "commander";
 import { Steps } from "./steps";
 import * as helpers from "./helpers";
 
-const version = "1.3.3";
+const version = "1.3.4";
 const steps = new Steps();
 
 try {
@@ -38,6 +38,7 @@ try {
     )
     //.argument('[source_path]', 'Path to main folder for app')
     .option("-build_image, --build_image", "Build image only.")
+    .option("-force_rebuild, --force_rebuild", "Frocing image rebuild.")
     .option(
       "-build_image_no_registry, --build_image_no_registry",
       "Don`t push to registry"
