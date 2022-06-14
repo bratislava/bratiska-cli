@@ -221,6 +221,19 @@ using your username `your.name@bratislava.sk` and `CLI secret` value 5. When you
 You need to pull this repo with 
 `git clone bratislava/bratiska-cli`. Then you can build it with command: `yarn run build`. If everything was builded fine, you can test it localy with `yarn run start`.
 
+
+## Release
+
+Create tag:
+```bash
+git tag -a v1.3.5 -m "1.3.5 env fix" 
+```
+
+Push tag
+```bash
+git push origin v1.3.5
+```
+
 ## Stay in touch
 
 - If you find some bug, please get in touch with us on GitHub or mail inovacie@bratislava.sk
