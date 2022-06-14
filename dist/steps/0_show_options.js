@@ -33,17 +33,6 @@ const path = __importStar(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const crypto_1 = __importDefault(require("crypto"));
 function show_options(options) {
-    /*
-    if (typeof source_path !== 'undefined') {
-      if (!fs.existsSync(source_path)) {
-        throw new Error(`The directory '${source_path}' od deployment do not exists! Please choose correct path.`);
-      }
-  
-      options.pwd = source_path;
-      process.chdir(options.pwd);
-    } else {
-    
-     */
     const pwd = commands.pwd();
     if (pwd === "") {
         throw new Error("There was an issue getting the current working directory!");

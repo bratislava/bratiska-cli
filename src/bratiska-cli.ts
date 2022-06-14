@@ -7,7 +7,7 @@ import { program } from "commander";
 import { Steps } from "./steps";
 import * as helpers from "./helpers";
 
-const version = "1.3.4";
+const version = "1.3.5";
 const steps = new Steps();
 
 try {
@@ -18,7 +18,6 @@ try {
   console.log(
     chalk.blue(figlet.textSync("Bratiska-cli", { horizontalLayout: "full" }))
   );
-  helpers.line(version);
   program
     .name("bratiska-cli")
     .version(version)

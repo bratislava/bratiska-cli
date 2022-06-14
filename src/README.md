@@ -1,4 +1,4 @@
-##Beta version of
+## Beta version of
 
 ```bash
  ____                   _     _         _                             _   _
@@ -237,4 +237,4 @@ yarn run build
 ```
 
 TODO
--- secrets creation support
+-- secrets creation support~~

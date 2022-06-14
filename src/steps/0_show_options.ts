@@ -5,17 +5,6 @@ import fs from "fs";
 import crypto from "crypto";
 
 export function show_options(options: any) {
-  /*
-  if (typeof source_path !== 'undefined') {
-    if (!fs.existsSync(source_path)) {
-      throw new Error(`The directory '${source_path}' od deployment do not exists! Please choose correct path.`);
-    }
-
-    options.pwd = source_path;
-    process.chdir(options.pwd);
-  } else {
-  
-   */
   const pwd = commands.pwd();
   if (pwd === "") {
     throw new Error("There was an issue getting the current working directory!");

@@ -39,7 +39,6 @@ try {
     let pack = helpers.load_package();
     (0, clear_1.default)();
     console.log(chalk_1.default.blue(figlet_1.default.textSync("Bratiska-cli", { horizontalLayout: "full" })));
-    helpers.line(version);
     commander_1.program
         .name("bratiska-cli")
         .version(version)

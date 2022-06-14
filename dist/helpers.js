@@ -149,7 +149,8 @@ function capitalize(s) {
 }
 exports.capitalize = capitalize;
 function check_ports(options) {
-    dotenv_1.default.config();
+    const env_path = kustomize_folder_path(options) + '/.env';
+    dotenv_1.default.config({ path: env_path });
     if (typeof process.env["PORT"] === "undefined") {
         options.app_port = 3000;
         line(` using default app port `);
