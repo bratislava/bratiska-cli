@@ -36,6 +36,7 @@ function check_hosts(options) {
         if (options.env === 'prod.') {
             env = '';
         }
+        options.deployment_env = env;
         options.host = options.deployment + '.' + env + 'bratislava.sk';
         helpers.line(` using this host `);
         helpers.print_important_info_line(`${options.host}`);

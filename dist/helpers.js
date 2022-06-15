@@ -215,6 +215,9 @@ function assign_env_vars(options) {
     if (!process.env["BUILD_REPOSITORY_NAME"]) {
         process.env["BUILD_REPOSITORY_NAME"] = options.deployment;
     }
+    if (!process.env["DEPLOYMENT_ENV"]) {
+        process.env["DEPLOYMENT_ENV"] = options.deployment_env;
+    }
     if (!process.env["HOSTNAME"]) {
         process.env["HOSTNAME"] = options.host;
     }
