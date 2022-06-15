@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_path = exports.manifest_path = exports.manifest = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.skipping = exports.ok = exports.line = exports.log = void 0;
+exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.kustomize_folder_path = exports.manifest_path = exports.manifest = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.skipping = exports.ok = exports.line = exports.log = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -138,6 +138,10 @@ function kustomize_folder_path(options) {
     return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
 exports.kustomize_folder_path = kustomize_folder_path;
+function kustomize_folder_base(options) {
+    return `${options.pwd}/kubernetes/base`;
+}
+exports.kustomize_folder_base = kustomize_folder_base;
 function pull_secret_name(options) {
     return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }
@@ -149,9 +153,13 @@ function capitalize(s) {
 }
 exports.capitalize = capitalize;
 function check_ports(options) {
-    const env_path = kustomize_folder_path(options) + '/.env';
-    print_if_debug(options, `env_path: ${env_path}`);
-    dotenv_1.default.config({ path: env_path });
+    const env_path_specific = kustomize_folder_path(options) + '/.env';
+    const env_path_base = kustomize_folder_base(options) + '/.env';
+    print_if_debug(options, `env_path_specific: ${env_path_specific}`);
+    print_if_debug(options, `env_path_base: ${env_path_base}`);
+    dotenv_1.default.config({ path: env_path_base });
+    dotenv_1.default.config({ override: true });
+    dotenv_1.default.config({ path: env_path_specific });
     if (typeof process.env["PORT"] === "undefined") {
         options.app_port = 3000;
         line(` using default app port `);

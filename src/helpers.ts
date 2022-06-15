@@ -115,6 +115,10 @@ export function kustomize_folder_path(options: any) {
   )}`;
 }
 
+export function kustomize_folder_base(options: any) {
+  return `${options.pwd}/kubernetes/base`;
+}
+
 export function pull_secret_name(options: any): string {
   return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }
@@ -125,9 +129,16 @@ export function capitalize(s: any) {
 }
 
 export function check_ports(options: any): void {
-  const env_path = kustomize_folder_path(options)+'/.env';
-  print_if_debug(options, `env_path: ${env_path}`);
-  dotenv.config({ path: env_path });
+  const env_path_specific = kustomize_folder_path(options)+'/.env';
+  const env_path_base = kustomize_folder_base(options)+'/.env';
+
+  print_if_debug(options, `env_path_specific: ${env_path_specific}`);
+  print_if_debug(options, `env_path_base: ${env_path_base}`);
+
+  dotenv.config({ path: env_path_base });
+  dotenv.config({ override: true });
+  dotenv.config({ path: env_path_specific });
+
   if (typeof process.env["PORT"] === "undefined") {
     options.app_port = 3000;
     line(` using default app port `);
