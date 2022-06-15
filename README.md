@@ -20,7 +20,8 @@ To be able to work with this utility, you need to have a few things configured:
 2. Installed `kubectl` (https://kubernetes.io/docs/tasks/tools/)
 3. Installed `kustomize` (https://kubectl.docs.kubernetes.io/installation/kustomize/)
 4. Installed `docker` (https://docs.docker.com/engine/install)
-5. Kustomization files in `/kubernetes` folder
+5. Installed `envsubst` (`brew install gettext`)
+6. Kustomization files in `/kubernetes` folder
 
 #### Running apps:
 
