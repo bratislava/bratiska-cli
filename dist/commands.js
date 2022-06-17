@@ -31,10 +31,11 @@ const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
 function pwd() {
-    const pwd = (0, child_process_1.execSync)("builtin printf \"%q\\n\" \"$(pwd)\"", {
+    let pwd = (0, child_process_1.execSync)("pwd", {
         encoding: "utf8"
     });
-    return pwd.trim();
+    pwd = pwd.trim();
+    return pwd.replace(/\s/g, '\\ ');
 }
 exports.pwd = pwd;
 function cd(path) {

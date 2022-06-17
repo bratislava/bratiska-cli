@@ -8,10 +8,12 @@ export interface Bash {
 }
 
 export function pwd(): string {
-  const pwd = execSync("builtin printf \"%q\\n\" \"$(pwd)\"", {
+  let pwd = execSync("pwd", {
     encoding: "utf8"
   });
-  return pwd.trim();
+
+  pwd = pwd.trim();
+  return pwd.replace(/\s/g, '\\ ');
 }
 
 export function cd(path: string): string {
