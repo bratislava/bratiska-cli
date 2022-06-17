@@ -52,7 +52,7 @@ function check_git_resources(options) {
     helpers.print_if_debug(options, `reponame: ${options.repo_name}`);
     const fetch_bash = commands.git_fetch_origin();
     if (fetch_bash.err !== '') {
-        throw new Error('There was an issue fetching changes from git origin!');
+        throw new Error('There was an issue fetching changes from git origin! Error:' + fetch_bash.err);
     }
     options.fetch = fetch_bash.res;
     helpers.print_if_debug(options, `fetch: ${options.fetch}`);
