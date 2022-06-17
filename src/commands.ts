@@ -8,7 +8,7 @@ export interface Bash {
 }
 
 export function pwd(): string {
-  const pwd = execSync("printf \"%q\\n\" \"$(pwd)\"", {
+  const pwd = execSync("builtin printf \"%q\\n\" \"$(pwd)\"", {
     encoding: "utf8"
   });
   return pwd.trim();
