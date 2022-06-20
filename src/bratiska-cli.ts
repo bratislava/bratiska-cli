@@ -7,7 +7,7 @@ import { program } from "commander";
 import { Steps } from "./steps";
 import * as helpers from "./helpers";
 
-const version = "1.4.2";
+const version = "1.4.3";
 const steps = new Steps();
 
 try {
@@ -78,6 +78,7 @@ try {
       steps.check_hosts_6(options);
       steps.check_kubernetes_harbor_key_7(options);
       steps.check_docker_8();
+      steps.check_docker_login_89(options);
       steps.build_docker_image_9(options);
       steps.check_docker_image_10(options);
       steps.push_docker_image_11(options);

@@ -10,6 +10,7 @@ const _5_check_kubernetes_cluster_conditions_1 = require("./steps/5_check_kubern
 const _6_check_hosts_1 = require("./steps/6_check_hosts");
 const _7_check_kubernetes_harbor_key_1 = require("./steps/7_check_kubernetes_harbor_key");
 const _8_check_docker_1 = require("./steps/8_check_docker");
+const _89_check_docker_login_1 = require("./steps/89_check_docker_login");
 const _9_build_docker_image_1 = require("./steps/9_build_docker_image");
 const _10_check_docker_image_1 = require("./steps/10_check_docker_image");
 const _11_push_docker_image_1 = require("./steps/11_push_docker_image");
@@ -49,6 +50,9 @@ class Steps {
     }
     check_docker_8() {
         (0, _8_check_docker_1.check_docker)();
+    }
+    check_docker_login_89(options) {
+        (0, _89_check_docker_login_1.check_docker_login)(options);
     }
     build_docker_image_9(options) {
         (0, _9_build_docker_image_1.build_docker_image)(options);

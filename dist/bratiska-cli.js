@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const steps_1 = require("./steps");
 const helpers = __importStar(require("./helpers"));
-const version = "1.4.2";
+const version = "1.4.3";
 const steps = new steps_1.Steps();
 try {
     let pack = helpers.load_package();
@@ -78,6 +78,7 @@ try {
         steps.check_hosts_6(options);
         steps.check_kubernetes_harbor_key_7(options);
         steps.check_docker_8();
+        steps.check_docker_login_89(options);
         steps.build_docker_image_9(options);
         steps.check_docker_image_10(options);
         steps.push_docker_image_11(options);

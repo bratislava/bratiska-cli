@@ -7,6 +7,7 @@ import { check_kubernetes_cluster_conditions } from './steps/5_check_kubernetes_
 import { check_hosts } from './steps/6_check_hosts';
 import { check_kubernetes_harbor_key } from './steps/7_check_kubernetes_harbor_key';
 import { check_docker } from './steps/8_check_docker';
+import { check_docker_login } from './steps/89_check_docker_login';
 import { build_docker_image } from './steps/9_build_docker_image';
 import { check_docker_image } from './steps/10_check_docker_image';
 import { push_docker_image } from './steps/11_push_docker_image';
@@ -47,6 +48,9 @@ export class Steps {
   }
   check_docker_8() {
     check_docker();
+  }
+  check_docker_login_89(options: any) {
+    check_docker_login(options);
   }
   build_docker_image_9(options: any) {
     build_docker_image(options);

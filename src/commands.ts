@@ -97,7 +97,7 @@ export function kubectl_cluster(): Bash {
 export function kubectl_pods(): Bash {
   const result = cp.spawnSync(
     "kubectl",
-    ["get", "pods", "-n", "kube-system", "--request-timeout=1"],
+    ["get", "pods", "-n", "kube-system", "--request-timeout=3"],
     {
       encoding: "utf8"
     }
@@ -176,6 +176,21 @@ export function docker_check_image_in_registry(options: any) {
   const result = cp.spawnSync(
     "docker",
     ["manifest", "inspect", helpers.image_tag(options)],
+    {
+      encoding: "utf8"
+    }
+  );
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+export function docker_login(options: any) {
+  helpers.print_if_debug(
+    options,
+    `docker login ${options.registry}`
+  );
+  const result = cp.spawnSync(
+    "docker",
+    ["login", options.registry],
     {
       encoding: "utf8"
     }
