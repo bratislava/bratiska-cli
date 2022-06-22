@@ -28,15 +28,19 @@ export function check_git_resources(options: any) {
 
   const name_bash = commands.git_repo_name(options);
   if (name_bash === '') {
-    throw new Error('There was an issue fetching git repo name from git origin!');
+    throw new Error(
+      'There was an issue fetching git repo name from git origin!',
+    );
   }
-  options.repo_name = name_bash
+  options.repo_name = name_bash;
   helpers.print_if_debug(options, `reponame: ${options.repo_name}`);
-
 
   const fetch_bash = commands.git_fetch_origin();
   if (fetch_bash.err !== '') {
-    throw new Error('There was an issue fetching changes from git origin! Error:' + fetch_bash.err);
+    throw new Error(
+      'There was an issue fetching changes from git origin! Error:' +
+        fetch_bash.err,
+    );
   }
   options.fetch = fetch_bash.res;
   helpers.print_if_debug(options, `fetch: ${options.fetch}`);
@@ -48,7 +52,7 @@ export function check_git_resources(options: any) {
   options.commit = commit_bash.res;
   helpers.print_if_debug(options, `commit: ${options.commit}`);
 
-  const status_bash = commands.git_current_status();
+  const status_bash = commands.git_current_status(options);
   if (status_bash.err !== '') {
     throw new Error('There was an issue getting git status!');
   }
@@ -70,7 +74,7 @@ export function check_git_resources(options: any) {
     options,
     `remote_commit_bash: ${remote_commit_bash.err}`,
   );
-  
+
   helpers.line('(1) Continue Checking git...');
 
   options.merged = remote_commit_bash.err === '';
