@@ -24,15 +24,23 @@ export function check_kubernetes_cluster_conditions(options: any) {
           `You cannot deploy to 'tkg-innov-prod' when you have untracked changes. Please commit, and PR merge your changes to master!`,
         );
       }
-      if (options.branch !== 'master' && options.force === false) {
-        throw new Error(
-          `You cannot deploy to 'tkg-innov-prod' when your current branch is not master. Please check out the git branch to master. Run 'git checkout master'`,
-        );
-      }
-      if (options.merged === false && options.force === false) {
-        throw new Error(
-          `You cannot deploy to 'tkg-innov-prod' when the changes are not merged in the 'master' branch. Please create PR to propagate your changes to master!`,
-        );
+      if (options.image) {
+        if (!helpers.is_master_image(options)) {
+          throw new Error(
+            `You cannot deploy to 'tkg-innov-prod' image which is not a master image! Please checkout the git branch to master, build master image, push to harbor and then you can use the master image.'`,
+          );
+        }
+      } else {
+        if (options.branch !== 'master' && options.force === false) {
+          throw new Error(
+            `You cannot deploy to 'tkg-innov-prod' when your current branch is not master. Please check out the git branch to master. Run 'git checkout master'`,
+          );
+        }
+        if (options.merged === false && options.force === false) {
+          throw new Error(
+            `You cannot deploy to 'tkg-innov-prod' when the changes are not merged in the 'master' branch. Please create PR to propagate your changes to master!`,
+          );
+        }
       }
       break;
     case 'tkg-innov-staging':

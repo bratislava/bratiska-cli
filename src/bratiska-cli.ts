@@ -7,12 +7,10 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.4.4';
+const version = '1.4.5';
 const steps = new Steps();
 
 try {
-  const pack = helpers.load_package();
-
   clear();
   console.log(
     chalk.blue(figlet.textSync('Bratiska-cli', { horizontalLayout: 'full' })),

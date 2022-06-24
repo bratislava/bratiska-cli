@@ -1,7 +1,7 @@
 import * as helpers from '../helpers';
 
 export function check_hosts(options: any) {
-  helpers.line('(5) Determining host...');
+  helpers.line('(6) Determining host...');
 
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
@@ -10,7 +10,7 @@ export function check_hosts(options: any) {
 
   if (typeof options.host === 'undefined') {
     let env = options.env + '.';
-    if (options.env === 'prod.') {
+    if (options.env === 'prod') {
       env = '';
     }
     options.deployment_env = env;
