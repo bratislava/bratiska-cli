@@ -1,7 +1,9 @@
 import * as helpers from '../helpers';
 
 export function check_kubernetes_enviroment(options: any) {
-  helpers.line('(4) Checking chosen Kubernetes cluster with the environment...');
+  helpers.line(
+    '(4) Checking chosen Kubernetes cluster with the environment...',
+  );
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
     return;

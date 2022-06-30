@@ -30,11 +30,10 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
+exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
-
 function pwd() {
   let pwd = (0, child_process_1.execSync)("pwd", {
     encoding: "utf8"
@@ -42,9 +41,7 @@ function pwd() {
   pwd = pwd.trim();
   return pwd.replace(/\s/g, "\\ ");
 }
-
 exports.pwd = pwd;
-
 function cd(path) {
   const cd = (0, child_process_1.execSync)(`cd ${path}`, {
     encoding: "utf8"
@@ -180,7 +177,9 @@ function docker_check_image_in_registry(options) {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.docker_check_image_in_registry = docker_check_image_in_registry;
+
 function docker_login(options) {
   helpers.print_if_debug(options, `docker login ${options.registry}`);
   const result = child_process_1.default.spawnSync("docker", ["login", options.registry], {
@@ -188,7 +187,19 @@ function docker_login(options) {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.docker_login = docker_login;
+
+function docker_running(options) {
+  helpers.print_if_debug(options, `docker running`);
+  const result = child_process_1.default.spawnSync("docker", ["info"], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+exports.docker_running = docker_running;
+
 function kustomize_build_manifest(options) {
   let path = helpers.kustomize_folder_path(options);
   if (options.kustomize) {
@@ -198,6 +209,7 @@ function kustomize_build_manifest(options) {
   helpers.print_if_debug(options, cmd);
   (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
 }
+
 exports.kustomize_build_manifest = kustomize_build_manifest;
 function kubect_apply_to_kubernetes(manifest_path) {
   helpers.log(chalk_1.default.reset(""));

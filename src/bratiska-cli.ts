@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.4.5';
+const version = '1.4.6';
 const steps = new Steps();
 
 try {
@@ -77,15 +77,17 @@ try {
       steps.check_kubernetes_enviroment_4(options);
       steps.check_kubernetes_cluster_conditions_5(options);
       steps.check_hosts_6(options);
+      steps.check_ports_numbers_65(options);
       steps.check_kubernetes_harbor_key_7(options);
+      steps.check_docker_75(options);
       steps.check_docker_8();
+      steps.check_docker_running_81(options);
       steps.check_docker_login_89(options);
       steps.build_docker_image_9(options);
       steps.check_docker_image_10(options);
       steps.push_docker_image_11(options);
       steps.check_pushed_image_12(options);
       steps.clean_docker_image_13(options);
-      steps.check_ports_numbers_14(options);
       steps.create_env_vars_15(options);
       steps.build_kustomize_16(options);
       steps.check_kustomize_17(options);

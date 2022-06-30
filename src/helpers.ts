@@ -51,11 +51,11 @@ export function print_info_line(cmd: string): void {
   process.stdout.write(chalk.grey(cmd));
 }
 
-export function print_debug(cmd: string): void {
+export function print_debug(cmd: string | undefined): void {
   process.stdout.write(chalk.cyan(`\nDEBUG: ${cmd}\n`));
 }
 
-export function print_if_debug(options: any, cmd: string): void {
+export function print_if_debug(options: any, cmd: string | undefined): void {
   if (options.debug) {
     print_debug(cmd);
   }
@@ -109,6 +109,10 @@ export function manifest_path(options: any) {
   return `${options.pwd}/${manifest(options)}`;
 }
 
+export function dockerfile_path(options: any) {
+  return `${options.pwd}/Dockerfile`;
+}
+
 export function kustomize_folder_path(options: any) {
   return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
@@ -129,13 +133,19 @@ export function capitalize(s: any) {
 export function check_ports(options: any): void {
   const env_path_specific = kustomize_folder_path(options) + '/.env';
   const env_path_base = kustomize_folder_base(options) + '/.env';
+  const env_path_main = options.pwd + '/.env';
 
   print_if_debug(options, `env_path_specific: ${env_path_specific}`);
   print_if_debug(options, `env_path_base: ${env_path_base}`);
+  print_if_debug(options, `env_path_main: ${env_path_main}`);
 
-  dotenv.config({ path: env_path_base });
-  dotenv.config({ override: true });
-  dotenv.config({ path: env_path_specific });
+  print_if_debug(options, process.env['PORT']);
+  dotenv.config({ path: env_path_main });
+  print_if_debug(options, process.env['PORT']);
+  dotenv.config({ override: true, path: env_path_base });
+  print_if_debug(options, process.env['PORT']);
+  dotenv.config({ override: true, path: env_path_specific });
+  print_if_debug(options, process.env['PORT']);
 
   if (typeof process.env['PORT'] === 'undefined') {
     options.app_port = 3000;

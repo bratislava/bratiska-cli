@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.kustomize_folder_path = exports.manifest_path = exports.manifest = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.skipping = exports.ok = exports.line = exports.log = void 0;
+exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.skipping = exports.ok = exports.line = exports.log = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -125,25 +125,41 @@ function tag(options) {
   branch = branch.replace(/\//g, "");
   return `bratiska-cli-${options.commit}${branch}${untracked}`;
 }
+
 exports.tag = tag;
+
 function manifest(options) {
-    return `manifest-${tag(options)}.yaml`;
+  return `manifest-${tag(options)}.yaml`;
 }
+
 exports.manifest = manifest;
+
 function manifest_path(options) {
-    return `${options.pwd}/${manifest(options)}`;
+  return `${options.pwd}/${manifest(options)}`;
 }
+
 exports.manifest_path = manifest_path;
+
+function dockerfile_path(options) {
+  return `${options.pwd}/Dockerfile`;
+}
+
+exports.dockerfile_path = dockerfile_path;
+
 function kustomize_folder_path(options) {
-    return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
+  return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
+
 exports.kustomize_folder_path = kustomize_folder_path;
+
 function kustomize_folder_base(options) {
-    return `${options.pwd}/kubernetes/base`;
+  return `${options.pwd}/kubernetes/base`;
 }
+
 exports.kustomize_folder_base = kustomize_folder_base;
+
 function pull_secret_name(options) {
-    return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
+  return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }
 exports.pull_secret_name = pull_secret_name;
 function capitalize(s) {
@@ -155,11 +171,17 @@ exports.capitalize = capitalize;
 function check_ports(options) {
   const env_path_specific = kustomize_folder_path(options) + "/.env";
   const env_path_base = kustomize_folder_base(options) + "/.env";
+  const env_path_main = options.pwd + "/.env";
   print_if_debug(options, `env_path_specific: ${env_path_specific}`);
   print_if_debug(options, `env_path_base: ${env_path_base}`);
-  dotenv_1.default.config({ path: env_path_base });
-  dotenv_1.default.config({ override: true });
-  dotenv_1.default.config({ path: env_path_specific });
+  print_if_debug(options, `env_path_main: ${env_path_main}`);
+  print_if_debug(options, process.env["PORT"]);
+  dotenv_1.default.config({ path: env_path_main });
+  print_if_debug(options, process.env["PORT"]);
+  dotenv_1.default.config({ override: true, path: env_path_base });
+  print_if_debug(options, process.env["PORT"]);
+  dotenv_1.default.config({ override: true, path: env_path_specific });
+  print_if_debug(options, process.env["PORT"]);
   if (typeof process.env["PORT"] === "undefined") {
     options.app_port = 3000;
     line(` using default app port `);
@@ -172,9 +194,7 @@ function check_ports(options) {
     line(`...`);
   }
 }
-
 exports.check_ports = check_ports;
-
 function map_cluster_to_env(cluster) {
   cluster = cluster.trim();
   if (cluster.trim() === "tkg-master") {
@@ -183,18 +203,14 @@ function map_cluster_to_env(cluster) {
   const parts = cluster.split("-");
   return parts[2];
 }
-
 exports.map_cluster_to_env = map_cluster_to_env;
-
 function is_master_image(options) {
   if (options.image) {
     return options.image.includes("master");
   }
   return false;
 }
-
 exports.is_master_image = is_master_image;
-
 function assign_env_vars(options) {
   if (options.image) {
     options.repository_uri = "using_external_image";

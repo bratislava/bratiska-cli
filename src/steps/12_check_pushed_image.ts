@@ -7,6 +7,7 @@ export function check_pushed_image(options: any) {
     helpers.skipping();
     return;
   }
+
   helpers.print_if_debug(options, `image tag: ${helpers.image_tag(options)}`);
   const image_r = commands.docker_check_image_in_registry(options);
   if (image_r.err !== '') {

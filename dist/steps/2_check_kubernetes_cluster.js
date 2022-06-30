@@ -35,7 +35,7 @@ function check_kubernetes_cluster(options) {
     const response_cluster = commands.kubectl_cluster();
     options.cluster = response_cluster.res;
     if (options.cluster === "prod-k8s-ns-01") {
-        throw new Error(`You cannot deploy to '${options.cluster}' cluster! It is forbidden.`);
+      throw new Error(`You cannot deploy to '${options.cluster}' cluster! It is forbidden.`);
     }
     helpers.print_if_debug(options, `current cluster: ${options.cluster}`);
     if (response_cluster.err !== '') {

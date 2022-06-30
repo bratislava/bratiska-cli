@@ -192,6 +192,14 @@ export function docker_login(options: any) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
+export function docker_running(options: any) {
+  helpers.print_if_debug(options, `docker running`);
+  const result = cp.spawnSync('docker', ['info'], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 export function kustomize_build_manifest(options: any) {
   let path = helpers.kustomize_folder_path(options);
 
