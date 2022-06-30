@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function check_docker_image(options: any) {
-  helpers.line('(9) Checking if the image was locally created...');
+  helpers.line('(10) Checking if the image was locally created...');
   if (options.image) {
     helpers.skipping();
     return;

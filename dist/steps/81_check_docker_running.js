@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_docker_running = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_docker_running(options) {
   helpers.line("(8.1) Checking docker running...");
   const docker = commands.docker_running(options);
@@ -40,5 +39,4 @@ function check_docker_running(options) {
   }
   helpers.ok();
 }
-
 exports.check_docker_running = check_docker_running;

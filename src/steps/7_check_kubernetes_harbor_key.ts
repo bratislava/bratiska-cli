@@ -6,7 +6,7 @@ import * as commands from '../commands';
   we need to check if we have a key to download image from harbor in kubernetes cluster.
 */
 export function check_kubernetes_harbor_key(options: any) {
-  helpers.line(`(6) Checking the Kubernetes harbor pull secret `);
+  helpers.line(`(7) Checking the Kubernetes harbor pull secret `);
   helpers.print_important_info_line(`'${helpers.pull_secret_name(options)}'`);
   helpers.line(`...`);
   if (

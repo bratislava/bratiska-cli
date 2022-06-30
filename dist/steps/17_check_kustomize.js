@@ -30,7 +30,7 @@ exports.check_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
 function check_kustomize(options) {
-    helpers.line('(16) Checking the kustomize manifest...');
+    helpers.line("(17) Checking the kustomize manifest...");
     if (options.build_image || options.build_image_no_registry) {
         helpers.skipping();
         return;

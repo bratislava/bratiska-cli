@@ -33,6 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const fs_1 = __importDefault(require("fs"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const commands = __importStar(require("./commands"));
+const crypto_1 = __importDefault(require("crypto"));
 exports.log = console.log.bind(console);
 function line(content) {
   process.stdout.write("\x1b[37m" + content);
@@ -122,42 +123,34 @@ function tag(options) {
   if (options.branch === "origin/master") {
     branch = "";
   }
+  let force_rebuild = "";
+  if (options.force_rebuild) {
+    force_rebuild = "-force-rebuild-" + crypto_1.default.randomBytes(20).toString("hex");
+  }
   branch = branch.replace(/\//g, "");
-  return `bratiska-cli-${options.commit}${branch}${untracked}`;
+  return `bratiska-cli-${options.commit}${branch}${untracked}${force_rebuild}`;
 }
-
 exports.tag = tag;
-
 function manifest(options) {
   return `manifest-${tag(options)}.yaml`;
 }
-
 exports.manifest = manifest;
-
 function manifest_path(options) {
   return `${options.pwd}/${manifest(options)}`;
 }
-
 exports.manifest_path = manifest_path;
-
 function dockerfile_path(options) {
   return `${options.pwd}/Dockerfile`;
 }
-
 exports.dockerfile_path = dockerfile_path;
-
 function kustomize_folder_path(options) {
   return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
-
 exports.kustomize_folder_path = kustomize_folder_path;
-
 function kustomize_folder_base(options) {
   return `${options.pwd}/kubernetes/base`;
 }
-
 exports.kustomize_folder_base = kustomize_folder_base;
-
 function pull_secret_name(options) {
   return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }

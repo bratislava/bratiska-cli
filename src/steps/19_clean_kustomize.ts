@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import fs from 'fs';
 
 export function clean_kustomize(options: any) {
-  helpers.line('(18) Cleaning kustomize manifest...');
+  helpers.line('(19) Cleaning kustomize manifest...');
   if (
     options.debug ||
     options.dry_run ||

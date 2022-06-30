@@ -30,7 +30,7 @@ exports.clean_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
 function clean_kustomize(options) {
-    helpers.line('(18) Cleaning kustomize manifest...');
+    helpers.line("(19) Cleaning kustomize manifest...");
     if (options.debug ||
         options.dry_run ||
         options.build_kustomize ||

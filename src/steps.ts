@@ -27,15 +27,19 @@ export class Steps {
   show_options_0(options: any) {
     show_options(options);
   }
+
   check_git_resources_1(options: any) {
     check_git_resources(options);
   }
+
   check_kubernetes_cluster_2(options: any) {
     check_kubernetes_cluster(options);
   }
+
   check_kubernetes_connection_3(options: any) {
     check_kubernetes_connection(options);
   }
+
   check_kubernetes_enviroment_4(options: any) {
     check_kubernetes_enviroment(options);
   }

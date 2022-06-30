@@ -31,8 +31,8 @@ const commands = __importStar(require("../commands"));
   we need to check if we have a key to download image from harbor in kubernetes cluster.
 */
 function check_kubernetes_harbor_key(options) {
-    helpers.line(`(6) Checking the Kubernetes harbor pull secret `);
-    helpers.print_important_info_line(`'${helpers.pull_secret_name(options)}'`);
+    helpers.line(`(7) Checking the Kubernetes harbor pull secret `);
+  helpers.print_important_info_line(`'${helpers.pull_secret_name(options)}'`);
     helpers.line(`...`);
     if (options.dry_run ||
         options.build_kustomize ||

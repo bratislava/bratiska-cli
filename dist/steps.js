@@ -25,7 +25,6 @@ const _17_check_kustomize_1 = require("./steps/17_check_kustomize");
 const _18_deploy_kubernetes_1 = require("./steps/18_deploy_kubernetes");
 const _19_clean_kustomize_1 = require("./steps/19_clean_kustomize");
 const _20_check_deployment_1 = require("./steps/20_check_deployment");
-
 class Steps {
   show_options_0(options) {
     (0, _0_show_options_1.show_options)(options);

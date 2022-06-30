@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import fs from 'fs';
 
 export function check_kustomize(options: any) {
-  helpers.line('(16) Checking the kustomize manifest...');
+  helpers.line('(17) Checking the kustomize manifest...');
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
     return;

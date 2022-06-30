@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function check_docker() {
-  helpers.line('(7) Checking docker...');
+  helpers.line('(8) Checking docker...');
   const docker = commands.docker();
   if (docker.err !== '') {
     throw new Error(

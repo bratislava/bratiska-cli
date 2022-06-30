@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function clean_docker_image(options: any) {
-  helpers.line('(12) Cleaning local docker image...');
+  helpers.line('(13) Cleaning local docker image...');
   if (
     options.debug ||
     options.image ||

@@ -27,7 +27,7 @@ exports.check_pushed_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function check_pushed_image(options) {
-    helpers.line('(11) Checking if the image is in the remote registry.\n...');
+    helpers.line("(12) Checking if the image is in the remote registry.\n...");
     if (options.image || options.build_image_no_registry) {
         helpers.skipping();
         return;

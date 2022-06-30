@@ -27,7 +27,7 @@ exports.clean_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function clean_docker_image(options) {
-    helpers.line('(12) Cleaning local docker image...');
+    helpers.line("(13) Cleaning local docker image...");
     if (options.debug ||
         options.image ||
         options.dry_run ||

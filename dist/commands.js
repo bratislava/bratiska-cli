@@ -177,9 +177,7 @@ function docker_check_image_in_registry(options) {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.docker_check_image_in_registry = docker_check_image_in_registry;
-
 function docker_login(options) {
   helpers.print_if_debug(options, `docker login ${options.registry}`);
   const result = child_process_1.default.spawnSync("docker", ["login", options.registry], {
@@ -187,9 +185,7 @@ function docker_login(options) {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.docker_login = docker_login;
-
 function docker_running(options) {
   helpers.print_if_debug(options, `docker running`);
   const result = child_process_1.default.spawnSync("docker", ["info"], {
@@ -197,9 +193,7 @@ function docker_running(options) {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.docker_running = docker_running;
-
 function kustomize_build_manifest(options) {
   let path = helpers.kustomize_folder_path(options);
   if (options.kustomize) {
@@ -209,7 +203,6 @@ function kustomize_build_manifest(options) {
   helpers.print_if_debug(options, cmd);
   (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
 }
-
 exports.kustomize_build_manifest = kustomize_build_manifest;
 function kubect_apply_to_kubernetes(manifest_path) {
   helpers.log(chalk_1.default.reset(""));

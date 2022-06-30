@@ -4,6 +4,7 @@ import figlet from 'figlet';
 import fs from 'fs';
 import dotenv from 'dotenv';
 import * as commands from './commands';
+import crypto from 'crypto';
 
 export const log = console.log.bind(console);
 
@@ -97,8 +98,12 @@ export function tag(options: any) {
   if (options.branch === 'origin/master') {
     branch = '';
   }
+  let force_rebuild = '';
+  if (options.force_rebuild) {
+    force_rebuild = '-force-rebuild-' + crypto.randomBytes(20).toString('hex');
+  }
   branch = branch.replace(/\//g, '');
-  return `bratiska-cli-${options.commit}${branch}${untracked}`;
+  return `bratiska-cli-${options.commit}${branch}${untracked}${force_rebuild}`;
 }
 
 export function manifest(options: any) {

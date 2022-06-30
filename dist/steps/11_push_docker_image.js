@@ -27,7 +27,7 @@ exports.push_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function push_docker_image(options) {
-    helpers.line('(10) Pushing image to the regitry ...');
+    helpers.line("(11) Pushing image to the regitry ...");
     if (options.image || options.build_image_no_registry) {
         helpers.skipping();
         return;

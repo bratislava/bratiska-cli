@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function deploy_kubernetes(options: any) {
-  helpers.line('(17) Deploying to kubernetes...');
+  helpers.line('(18) Deploying to kubernetes...');
   if (
     options.dry_run ||
     options.build_kustomize ||

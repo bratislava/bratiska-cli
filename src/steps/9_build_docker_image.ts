@@ -2,7 +2,7 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 
 export function build_docker_image(options: any) {
-  helpers.line('(8) Building docker image for platform linux/amd64...');
+  helpers.line('(9) Building docker image for platform linux/amd64...');
   if (options.image) {
     helpers.skipping();
     return;
