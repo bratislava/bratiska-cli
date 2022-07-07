@@ -25,7 +25,7 @@ export function check_kubernetes_cluster_conditions(options: any) {
         );
       }
       if (options.image) {
-        if (!helpers.is_master_image(options)) {
+        if (!helpers.is_master_image(options) && options.force === false) {
           throw new Error(
             `You cannot deploy to 'tkg-innov-prod' image which is not a master image! Please checkout the git branch to master, build master image, push to harbor and then you can use the master image.'`,
           );
