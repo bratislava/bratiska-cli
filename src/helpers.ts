@@ -20,6 +20,10 @@ export function skipping(): void {
   log(chalk.yellow(' SKIPPING'));
 }
 
+export function not_present(): void {
+  log(chalk.yellow(' NOT PRESENT'));
+}
+
 export function finished(): void {
   log(chalk.green(' FINISHED'));
 }
@@ -288,12 +292,89 @@ export function load_package(options?: any) {
   if (!fs.existsSync(path)) {
     throw new Error('We haven`t found package.json in path: ' + path);
   }
+  return load_json(path);
+}
+
+export function load_json(path: string) {
+  if (!fs.existsSync(path)) {
+    return false;
+  }
   try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
-    return require(options.pwd + '/package.json');
+    return require(path);
   } catch (e) {
     throw new Error(
-      'There is an issue with package.json on path: ' + path + ' \n Error' + e,
+      'There was an issue with json file on path: ' + path + ' \n Error' + e,
     );
+  }
+}
+
+export function print_options(options: any) {
+  if (options.staging) {
+    print_important_info('--staging');
+  }
+
+  if (options.production) {
+    print_important_info('--production');
+  }
+
+  if (options.debug) {
+    print_important_info('--debug');
+  }
+
+  if (options.dry_run) {
+    print_important_info('--dry_run');
+  }
+
+  if (options.force) {
+    print_important_info('--force');
+  }
+
+  if (options.build_kustomize) {
+    print_important_info('--build_kustomize');
+  }
+
+  if (options.force_rebuild) {
+    print_important_info('--force_rebuild');
+  }
+
+  if (options.build_image) {
+    print_important_info('--build_image');
+  }
+
+  if (options.build_image_no_registry) {
+    print_important_info('--build_image_no_registry');
+  }
+
+  if (options.deployment) {
+    print_important_info(`--deployment=${options.deployment}`);
+  }
+
+  if (options.version) {
+    print_important_info(`--version=${options.version}`);
+  }
+
+  if (options.image) {
+    print_important_info(`--image=${options.image}`);
+  }
+
+  if (options.kustomize) {
+    print_important_info(`--kustomize=${options.kustomize}`);
+  }
+
+  if (options.namespace) {
+    print_important_info(`--namespace=${options.namespace}`);
+  }
+
+  if (options.host) {
+    print_important_info(`--host=${options.host}`);
+  }
+
+  if (options.registry) {
+    print_important_info(`--registry=${options.registry}`);
+  }
+
+  if (options.env) {
+    print_important_info(`--env=${options.env}`);
   }
 }

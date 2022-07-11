@@ -3,6 +3,7 @@ import { check_git_resources } from './steps/1_check_git_resources';
 import { check_kubernetes_cluster } from './steps/2_check_kubernetes_cluster';
 import { check_kubernetes_connection } from './steps/3_check_kubernetes_connection';
 import { check_kubernetes_enviroment } from './steps/4_check_kubernetes_enviroment';
+import { check_kubernetes_enviroment_configuration } from './steps/45_check_kubernetes_enviroment_configuration';
 import { check_kubernetes_cluster_conditions } from './steps/5_check_kubernetes_cluster_conditions';
 import { check_hosts } from './steps/6_check_hosts';
 import { check_kubernetes_harbor_key } from './steps/7_check_kubernetes_harbor_key';
@@ -42,6 +43,10 @@ export class Steps {
 
   check_kubernetes_enviroment_4(options: any) {
     check_kubernetes_enviroment(options);
+  }
+
+  check_kubernetes_enviroment_configuration_45(options: any) {
+    return check_kubernetes_enviroment_configuration(options);
   }
 
   check_kubernetes_cluster_conditions_5(options: any) {

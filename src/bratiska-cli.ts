@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.4.8';
+const version = '1.4.9';
 const steps = new Steps();
 
 try {
@@ -75,6 +75,7 @@ try {
       steps.check_kubernetes_cluster_2(options);
       steps.check_kubernetes_connection_3(options);
       steps.check_kubernetes_enviroment_4(options);
+      options = steps.check_kubernetes_enviroment_configuration_45(options);
       steps.check_kubernetes_cluster_conditions_5(options);
       steps.check_hosts_6(options);
       steps.check_ports_numbers_65(options);
@@ -99,5 +100,5 @@ try {
   program.parse(process.argv);
 } catch (e: any) {
   helpers.log('');
-  helpers.log('\x1b[31m', `ERROR: ${e.message}`);
+  helpers.log('\x1b[31m', `HOUSTON, WE HAVE A PROBLEM: ${e.message}`);
 }

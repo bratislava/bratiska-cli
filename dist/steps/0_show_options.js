@@ -41,7 +41,6 @@ function show_options(options) {
     if (options.debug) {
         helpers.print_debug(`pwd: ${options.pwd}`);
     }
-    // }
     if (typeof options.build_image === "undefined") {
         options.build_image = false;
     }
@@ -93,50 +92,12 @@ function show_options(options) {
     }
     helpers.line("(0) Starting with options... \n");
     options.kustomize_default_path = false;
-    if (options.debug) {
-        helpers.print_important_info("--debug");
-    }
-    if (options.dry_run) {
-        helpers.print_important_info("--dry_run");
-    }
-    if (options.force) {
-        helpers.print_important_info("--force");
-    }
-    if (options.build_kustomize) {
-        helpers.print_important_info("--build_kustomize");
-    }
-    if (options.force_rebuild) {
-        helpers.print_important_info("--force_rebuild");
-    }
-    if (options.build_image) {
-        helpers.print_important_info("--build_image");
-    }
-    if (options.build_image_no_registry) {
-        helpers.print_important_info("--build_image_no_registry");
-    }
-    if (options.deployment) {
-        helpers.print_important_info(`--deployment=${options.deployment}`);
-    }
-    if (options.version) {
-        helpers.print_important_info(`--version=${options.version}`);
-    }
-    if (options.image) {
-        helpers.print_important_info(`--image=${options.image}`);
-    }
-    if (options.kustomize) {
-        helpers.print_important_info(`--kustomize=${options.kustomize}`);
-    }
     const path_ku_local = helpers.kustomize_folder_path(options);
     if (fs_1.default.existsSync(path_ku_local)) {
         options.kustomize_default_path = true;
     }
-    if (options.namespace) {
-        helpers.print_important_info(`--namespace=${options.namespace}`);
-    }
-    if (options.registry) {
-        helpers.print_important_info(`--registry=${options.registry}`);
-    }
     options.repository_uri = path.basename(options.pwd);
+    helpers.print_options(options);
     helpers.log("Summary:");
     helpers.line(`Application name: `);
     helpers.print_important_info(`${options.deployment}`);

@@ -197,6 +197,21 @@ Dry run with custom image and specified folder to kustomize.
 bratiska-cli deploy --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
 ```
 
+## Automatization
+
+You can automatize running of the utility with configuration file, which can overwrite startup arguments. Configuration
+file must be created in kustomize folder specific to cluster, like `/Dev/config.json`. This file can cointain all
+configurable parametes of the utility, like `host`, `deployment`, `env` etc..
+
+Example of config file
+
+```json
+{
+  "host": "bratislava.sk",
+  "env": "prod"
+}
+```
+
 ## More manuals
 
 ### Signing to harbor
