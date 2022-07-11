@@ -34,37 +34,37 @@ function check_kubernetes_cluster_conditions(options) {
         return;
     }
     switch (options.cluster) {
-        case "tkg-innov-prod":
-            if (typeof options.production === "undefined") {
-                throw new Error("You cannot deploy to 'tkg-innov-prod' without a production flag! Please add the flag `--production` to the command.");
-            }
-            if (options.untracked === true && options.force === false) {
-                throw new Error(`You cannot deploy to 'tkg-innov-prod' when you have untracked changes. Please commit, and PR merge your changes to master!`);
-            }
-            if (options.image) {
-                if (!helpers.is_master_image(options) && options.force === false) {
-                    throw new Error(`You cannot deploy to 'tkg-innov-prod' image which is not a master image! Please checkout the git branch to master, build master image, push to harbor and then you can use the master image.'`);
-                }
-            } else {
-                if (options.branch !== "master" && options.force === false) {
-                    throw new Error(`You cannot deploy to 'tkg-innov-prod' when your current branch is not master. Please check out the git branch to master. Run 'git checkout master'`);
-                }
-                if (options.merged === false && options.force === false) {
-                    throw new Error(`You cannot deploy to 'tkg-innov-prod' when the changes are not merged in the 'master' branch. Please create PR to propagate your changes to master!`);
-                }
-            }
-            break;
-        case "tkg-innov-staging":
-            if (typeof options.staging === "undefined" && options.force === false) {
-                throw new Error("You cannot deploy to 'tkg-innov-staging' without a staging flag! Please add the flag `--staging` to the command.");
-            }
-            if (options.untracked === true && options.force === false) {
-                throw new Error(`You cannot deploy to 'tkg-innov-staging' when you have untracked changes. Please commit and push changes to your branch origin/${options.branch}!`);
-            }
-            if (options.merged === false && options.force === false) {
-                throw new Error(`You cannot deploy to 'tkg-innov-staging' when the changes are not pushed in-branch origin/${options.branch}. Please push your changes!`);
-            }
-            break;
+      case "tkg-innov-prod":
+        if (typeof options.production === "undefined") {
+          throw new Error("You cannot deploy to 'tkg-innov-prod' without a production flag! Please add the flag `--production` to the command.");
+        }
+        if (options.untracked === true && options.force === false) {
+          throw new Error(`You cannot deploy to 'tkg-innov-prod' when you have untracked changes. Please commit, and PR merge your changes to master!`);
+        }
+        if (options.image) {
+          if (!helpers.is_master_image(options) && options.force === false) {
+            throw new Error(`You cannot deploy to 'tkg-innov-prod' image which is not a master image! Please checkout the git branch to master, build master image, push to harbor and then you can use the master image.'`);
+          }
+        } else {
+          if (options.branch !== "master" && options.force === false) {
+            throw new Error(`You cannot deploy to 'tkg-innov-prod' when your current branch is not master. Please check out the git branch to master. Run 'git checkout master'`);
+          }
+          if (options.merged === false && options.force === false) {
+            throw new Error(`You cannot deploy to 'tkg-innov-prod' when the changes are not merged in the 'master' branch. Please create PR to propagate your changes to master!`);
+          }
+        }
+        break;
+      case "tkg-innov-staging":
+        if (typeof options.staging === "undefined" && options.force === false) {
+          throw new Error("You cannot deploy to 'tkg-innov-staging' without a staging flag! Please add the flag `--staging` to the command.");
+        }
+        if (options.untracked === true && options.force === false) {
+          throw new Error(`You cannot deploy to 'tkg-innov-staging' when you have untracked changes. Please commit and push changes to your branch origin/${options.branch}!`);
+        }
+        if (options.merged === false && options.force === false) {
+          throw new Error(`You cannot deploy to 'tkg-innov-staging' when the changes are not pushed in-branch origin/${options.branch}. Please push your changes!`);
+        }
+        break;
     }
     helpers.line(` we will use `);
     helpers.print_important_info_line(`${options.cluster}`);

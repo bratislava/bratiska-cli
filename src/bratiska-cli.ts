@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.4.9';
+const version = '1.5.0';
 const steps = new Steps();
 
 try {
@@ -41,7 +41,7 @@ try {
     .option('-force_rebuild, --force_rebuild', 'Frocing image rebuild.')
     .option(
       '-build_image_no_registry, --build_image_no_registry',
-      'Don`t push to registry',
+      'Don`t push to rezgistry',
     )
     .option('-build_kustomize, --build_kustomize', 'Build kustomize file only.')
     .option('-dry_run, --dry_run', 'Run without deploying to kubernetes')

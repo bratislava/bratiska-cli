@@ -36,41 +36,29 @@ const commands = __importStar(require("./commands"));
 const crypto_1 = __importDefault(require("crypto"));
 exports.log = console.log.bind(console);
 function line(content) {
-  process.stdout.write("\x1b[37m" + content);
+    process.stdout.write("\x1b[37m" + content);
 }
-
 exports.line = line;
-
 function ok() {
   (0, exports.log)(chalk_1.default.green(" OK"));
 }
-
 exports.ok = ok;
-
 function skipping() {
   (0, exports.log)(chalk_1.default.yellow(" SKIPPING"));
 }
-
 exports.skipping = skipping;
-
 function not_present() {
   (0, exports.log)(chalk_1.default.yellow(" NOT PRESENT"));
 }
-
 exports.not_present = not_present;
-
 function finished() {
   (0, exports.log)(chalk_1.default.green(" FINISHED"));
 }
-
 exports.finished = finished;
-
 function br() {
   (0, exports.log)("\n");
 }
-
 exports.br = br;
-
 function print_command(cmd) {
   (0, exports.log)(chalk_1.default.yellow(cmd));
 }
@@ -225,15 +213,15 @@ function assign_env_vars(options) {
       options.repository_uri = "using_external_image";
       options.commit = "using_external_image";
     }
-    if (!options.repository_uri) {
-      throw new Error("Git repository URI cannot be false!");
-    }
-    if (!options.commit) {
-      throw new Error("Git Commit cannot be false!");
-    }
-    if (!options.deployment) {
-      throw new Error("Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n");
-    }
+  if (!options.repository_uri) {
+    throw new Error("Git repository URI cannot be false!");
+  }
+  if (!options.commit) {
+    throw new Error("Git Commit cannot be false!");
+  }
+  if (!options.deployment) {
+    throw new Error("Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n");
+  }
   if (!options.host) {
     throw new Error("The host has to be filled! Please use --host <host> for deployment URL host.\n");
   }
@@ -291,9 +279,7 @@ function game_over() {
     figlet_1.default.textSync("Game Over", { horizontalLayout: "full" }) +
     "\n Wrong password for using a --force! It would help if you did not use this option. Incident reported.");
 }
-
 exports.game_over = game_over;
-
 function load_package(options) {
   if (typeof options === "undefined") {
     const pwd = commands.pwd();
@@ -308,9 +294,7 @@ function load_package(options) {
   }
   return load_json(path);
 }
-
 exports.load_package = load_package;
-
 function load_json(path) {
   if (!fs_1.default.existsSync(path)) {
     return false;
@@ -322,9 +306,7 @@ function load_json(path) {
     throw new Error("There was an issue with json file on path: " + path + " \n Error" + e);
   }
 }
-
 exports.load_json = load_json;
-
 function print_options(options) {
   if (options.staging) {
     print_important_info("--staging");
@@ -378,5 +360,4 @@ function print_options(options) {
     print_important_info(`--env=${options.env}`);
   }
 }
-
 exports.print_options = print_options;

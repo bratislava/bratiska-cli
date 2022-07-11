@@ -27,20 +27,20 @@ exports.build_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function build_docker_image(options) {
-    helpers.line("(9) Building docker image for platform linux/amd64...");
-    if (options.image) {
-        helpers.skipping();
-        return;
-    }
-    helpers.print_info(`\nDocker image tag: ${helpers.image_tag(options)}`);
-    /* we will check if we already have an image */
-    const image = commands.docker_check_image(options);
+  helpers.line("(9) Building docker image for platform linux/amd64...");
+  if (options.image) {
+    helpers.skipping();
+    return;
+  }
+  helpers.print_info(`\nDocker image tag: ${helpers.image_tag(options)}`);
+  /* we will check if we already have an image */
+  const image = commands.docker_check_image(options);
   if (image.err === "" && options.force_rebuild === false) {
     helpers.line(`\ndocker image is present...`);
     helpers.skipping();
     return;
   }
-    commands.docker_build(options);
-    helpers.finished();
+  commands.docker_build(options);
+  helpers.finished();
 }
 exports.build_docker_image = build_docker_image;

@@ -33,35 +33,27 @@ class Steps {
     check_git_resources_1(options) {
         (0, _1_check_git_resources_1.check_git_resources)(options);
     }
-
     check_kubernetes_cluster_2(options) {
         (0, _2_check_kubernetes_cluster_1.check_kubernetes_cluster)(options);
     }
-
     check_kubernetes_connection_3(options) {
         (0, _3_check_kubernetes_connection_1.check_kubernetes_connection)(options);
     }
-
     check_kubernetes_enviroment_4(options) {
         (0, _4_check_kubernetes_enviroment_1.check_kubernetes_enviroment)(options);
     }
-
     check_kubernetes_enviroment_configuration_45(options) {
         return (0, _45_check_kubernetes_enviroment_configuration_1.check_kubernetes_enviroment_configuration)(options);
     }
-
     check_kubernetes_cluster_conditions_5(options) {
         (0, _5_check_kubernetes_cluster_conditions_1.check_kubernetes_cluster_conditions)(options);
     }
-
     check_hosts_6(options) {
         (0, _6_check_hosts_1.check_hosts)(options);
     }
-
     check_kubernetes_harbor_key_7(options) {
         (0, _7_check_kubernetes_harbor_key_1.check_kubernetes_harbor_key)(options);
     }
-
     check_docker_75(options) {
         (0, _75_check_docker_file_1.check_docker_file)(options);
     }

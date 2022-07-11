@@ -32,11 +32,11 @@ const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function check_docker_running(options) {
   helpers.line("(8.1) Checking docker running...");
-    const docker = commands.docker_running(options);
-    helpers.print_if_debug(options, `docker_running res: ${docker.res.trim()} err: ${docker.res}`);
+  const docker = commands.docker_running(options);
+  helpers.print_if_debug(options, `docker_running res: ${docker.res.trim()} err: ${docker.res}`);
   if (docker.err !== "") {
     throw new Error(`Docker is not running! Please start docker.`);
   }
-    helpers.ok();
+  helpers.ok();
 }
 exports.check_docker_running = check_docker_running;

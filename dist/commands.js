@@ -195,11 +195,11 @@ function docker_running(options) {
 }
 exports.docker_running = docker_running;
 function kustomize_build_manifest(options) {
-    let path = helpers.kustomize_folder_path(options);
-    if (options.kustomize) {
-        path = options.kustomize;
-    }
-    const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
+  let path = helpers.kustomize_folder_path(options);
+  if (options.kustomize) {
+    path = options.kustomize;
+  }
+  const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
   helpers.print_if_debug(options, cmd);
   (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
 }
