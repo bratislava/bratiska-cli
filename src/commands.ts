@@ -51,6 +51,13 @@ export function git_current_commit(): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
+export function git_commit_tag(commit: string): Bash {
+  const result = cp.spawnSync('git', ['describe', '--tags', commit], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 export function git_current_status(options: any): Bash {
   const result = cp.spawnSync('git', ['status', '-s'], {
     encoding: 'utf8',

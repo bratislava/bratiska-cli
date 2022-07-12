@@ -30,7 +30,7 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
+exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_commit_tag = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
@@ -69,14 +69,27 @@ function git_fetch_origin() {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.git_fetch_origin = git_fetch_origin;
+
 function git_current_commit() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "HEAD"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.git_current_commit = git_current_commit;
+
+function git_commit_tag(commit) {
+  const result = child_process_1.default.spawnSync("git", ["describe", "--tags", commit], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+exports.git_commit_tag = git_commit_tag;
+
 function git_current_status(options) {
   const result = child_process_1.default.spawnSync("git", ["status", "-s"], {
     encoding: "utf8"
@@ -84,7 +97,9 @@ function git_current_status(options) {
   helpers.print_if_debug(options, "Untracked changes: " + result.stdout.trim());
   return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.git_current_status = git_current_status;
+
 function git_repo_name(options) {
   const cmd = "basename `git rev-parse --show-toplevel`";
     helpers.print_if_debug(options, cmd);

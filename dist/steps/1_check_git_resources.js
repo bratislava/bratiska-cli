@@ -30,6 +30,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_git_resources = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
+const commands_1 = require("../commands");
 function check_git_resources(options) {
   helpers.line("(1) Checking git...");
   if (options.image) {
@@ -78,6 +79,13 @@ function check_git_resources(options) {
   }
   const remote_commit_bash = commands.git_check_commit_remote(options.commit, options.branch);
   helpers.print_if_debug(options, `remote_commit_bash: ${remote_commit_bash.err}`);
+  const tag_bash = (0, commands_1.git_commit_tag)(options.commit);
+  helpers.print_if_debug(options, `tag info: ${tag_bash.res}, ${tag_bash.err}`);
+  if (tag_bash.res !== "") {
+    options.tag = tag_bash.res;
+  } else if (tag_bash.err !== "") {
+    options.tag = false;
+  }
   helpers.line("(1) Continue Checking git...");
   options.merged = remote_commit_bash.err === "";
   helpers.ok();

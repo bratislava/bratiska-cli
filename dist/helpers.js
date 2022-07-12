@@ -209,10 +209,10 @@ function is_master_image(options) {
 }
 exports.is_master_image = is_master_image;
 function assign_env_vars(options) {
-    if (options.image) {
-      options.repository_uri = "using_external_image";
-      options.commit = "using_external_image";
-    }
+  if (options.image) {
+    options.repository_uri = "using_external_image";
+    options.commit = "using_external_image";
+  }
   if (!options.repository_uri) {
     throw new Error("Git repository URI cannot be false!");
   }

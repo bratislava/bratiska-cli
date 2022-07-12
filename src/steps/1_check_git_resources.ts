@@ -1,5 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
+import { git_commit_tag } from '../commands';
 
 export function check_git_resources(options: any) {
   helpers.line('(1) Checking git...');
@@ -74,6 +75,15 @@ export function check_git_resources(options: any) {
     options,
     `remote_commit_bash: ${remote_commit_bash.err}`,
   );
+
+  const tag_bash = git_commit_tag(options.commit);
+  helpers.print_if_debug(options, `tag info: ${tag_bash.res}, ${tag_bash.err}`);
+
+  if (tag_bash.res !== '') {
+    options.tag = tag_bash.res;
+  } else if (tag_bash.err !== '') {
+    options.tag = false;
+  }
 
   helpers.line('(1) Continue Checking git...');
 

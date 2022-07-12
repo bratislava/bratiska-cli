@@ -100,13 +100,13 @@ function show_options(options) {
   helpers.print_options(options);
   helpers.log("Summary:");
   helpers.line(`Application name: `);
-    helpers.print_important_info(`${options.deployment}`);
-    helpers.line(`Directory of application: `);
-    helpers.print_important_info(`${options.pwd}`);
+  helpers.print_important_info(`${options.deployment}`);
+  helpers.line(`Directory of application: `);
+  helpers.print_important_info(`${options.pwd}`);
   helpers.line(`Package.json: `);
   helpers.print_important_info("present");
   helpers.line(`Kubernetes folder with kustomize files included: `);
-    helpers.print_important_info(`${options.kustomize_default_path}`);
-    return options;
+  helpers.print_important_info(`${options.kustomize_default_path}`);
+  return options;
 }
 exports.show_options = show_options;
