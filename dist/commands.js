@@ -69,27 +69,21 @@ function git_fetch_origin() {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_fetch_origin = git_fetch_origin;
-
 function git_current_commit() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "HEAD"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_commit = git_current_commit;
-
 function git_commit_tag(commit) {
-  const result = child_process_1.default.spawnSync("git", ["describe", "--tags", commit], {
+  const result = child_process_1.default.spawnSync("git", ["tag", "--contains", commit], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_commit_tag = git_commit_tag;
-
 function git_current_status(options) {
   const result = child_process_1.default.spawnSync("git", ["status", "-s"], {
     encoding: "utf8"
@@ -97,9 +91,7 @@ function git_current_status(options) {
   helpers.print_if_debug(options, "Untracked changes: " + result.stdout.trim());
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_status = git_current_status;
-
 function git_repo_name(options) {
   const cmd = "basename `git rev-parse --show-toplevel`";
     helpers.print_if_debug(options, cmd);

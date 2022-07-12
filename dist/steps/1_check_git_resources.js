@@ -79,13 +79,13 @@ function check_git_resources(options) {
   }
   const remote_commit_bash = commands.git_check_commit_remote(options.commit, options.branch);
   helpers.print_if_debug(options, `remote_commit_bash: ${remote_commit_bash.err}`);
-  const tag_bash = (0, commands_1.git_commit_tag)(options.commit);
-  helpers.print_if_debug(options, `tag info: ${tag_bash.res}, ${tag_bash.err}`);
-  if (tag_bash.res !== "") {
-    options.tag = tag_bash.res;
-  } else if (tag_bash.err !== "") {
-    options.tag = false;
+  const gittag_bash = (0, commands_1.git_commit_tag)(options.commit);
+  helpers.print_if_debug(options, `tag info: ${gittag_bash.res}, ${gittag_bash.err}`);
+  options.gittag = false;
+  if (gittag_bash.res !== "") {
+    options.gittag = gittag_bash.res;
   }
+  helpers.print_if_debug(options, `options.gittag: ${options.gittag}`);
   helpers.line("(1) Continue Checking git...");
   options.merged = remote_commit_bash.err === "";
   helpers.ok();

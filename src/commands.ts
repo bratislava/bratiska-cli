@@ -52,7 +52,7 @@ export function git_current_commit(): Bash {
 }
 
 export function git_commit_tag(commit: string): Bash {
-  const result = cp.spawnSync('git', ['describe', '--tags', commit], {
+  const result = cp.spawnSync('git', ['tag', '--contains', commit], {
     encoding: 'utf8',
   });
   return { res: result.stdout.trim(), err: result.stderr };

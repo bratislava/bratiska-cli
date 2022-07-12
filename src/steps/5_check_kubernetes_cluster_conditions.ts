@@ -36,9 +36,21 @@ export function check_kubernetes_cluster_conditions(options: any) {
             `You cannot deploy to 'tkg-innov-prod' when your current branch is not master. Please check out the git branch to master. Run 'git checkout master'`,
           );
         }
-        if (options.merged === false && options.force === false) {
+        //turned off
+        if (options.merged === false && options.force === false && false) {
           throw new Error(
             `You cannot deploy to 'tkg-innov-prod' when the changes are not merged in the 'master' branch. Please create PR to propagate your changes to master!`,
+          );
+        }
+
+        if (options.gittag === false && options.force === false) {
+          throw new Error(
+            `You cannot deploy to 'tkg-innov-prod' when the changes are not tagged. Please tag and push your tags.!`,
+          );
+        }
+        if (options.gittag !== 'v' + options.version) {
+          throw new Error(
+            `Git tag version should match your package.json! Git tag: ${options.gittag} !== v${options.version}`,
           );
         }
       }

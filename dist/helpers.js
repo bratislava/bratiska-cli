@@ -267,6 +267,9 @@ function assign_env_vars(options) {
   if (!process.env["INTERNAL_APP_PORT"]) {
     process.env["INTERNAL_APP_PORT"] = options.app_port;
   }
+  if (!process.env["GIT_TAG"]) {
+    process.env["GIT_TAG"] = options.gittag;
+  }
 }
 exports.assign_env_vars = assign_env_vars;
 function star_wars() {

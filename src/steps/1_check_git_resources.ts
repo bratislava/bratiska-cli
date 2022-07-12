@@ -76,14 +76,16 @@ export function check_git_resources(options: any) {
     `remote_commit_bash: ${remote_commit_bash.err}`,
   );
 
-  const tag_bash = git_commit_tag(options.commit);
-  helpers.print_if_debug(options, `tag info: ${tag_bash.res}, ${tag_bash.err}`);
-
-  if (tag_bash.res !== '') {
-    options.tag = tag_bash.res;
-  } else if (tag_bash.err !== '') {
-    options.tag = false;
+  const gittag_bash = git_commit_tag(options.commit);
+  helpers.print_if_debug(
+    options,
+    `tag info: ${gittag_bash.res}, ${gittag_bash.err}`,
+  );
+  options.gittag = false;
+  if (gittag_bash.res !== '') {
+    options.gittag = gittag_bash.res;
   }
+  helpers.print_if_debug(options, `options.gittag: ${options.gittag}`);
 
   helpers.line('(1) Continue Checking git...');
 
