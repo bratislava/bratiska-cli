@@ -58,6 +58,17 @@ export function git_commit_tag(commit: string): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
+export function git_origin_commit_tag(tag: string): Bash {
+  const result = cp.spawnSync(
+    'git',
+    ['ls-remote', 'origin', '--contains', `refs/tags/${tag}`],
+    {
+      encoding: 'utf8',
+    },
+  );
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 export function git_current_status(options: any): Bash {
   const result = cp.spawnSync('git', ['status', '-s'], {
     encoding: 'utf8',

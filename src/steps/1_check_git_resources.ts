@@ -1,6 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
-import { git_commit_tag } from '../commands';
+import { git_commit_tag, git_origin_commit_tag } from '../commands';
 
 export function check_git_resources(options: any) {
   helpers.line('(1) Checking git...');
@@ -82,10 +82,22 @@ export function check_git_resources(options: any) {
     `tag info: ${gittag_bash.res}, ${gittag_bash.err}`,
   );
   options.gittag = false;
+  options.origin_gittag = false;
   if (gittag_bash.res !== '') {
     options.gittag = gittag_bash.res;
   }
   helpers.print_if_debug(options, `options.gittag: ${options.gittag}`);
+
+  if (options.gittag) {
+    const gittag_origin_bash = git_origin_commit_tag(options.gittag);
+    if (gittag_origin_bash.res !== '') {
+      options.origin_gittag = gittag_origin_bash.res;
+    }
+  }
+  helpers.print_if_debug(
+    options,
+    `options.origin_gittag: ${options.origin_gittag}`,
+  );
 
   helpers.line('(1) Continue Checking git...');
 

@@ -53,6 +53,12 @@ export function check_kubernetes_cluster_conditions(options: any) {
             `Git tag version should match your package.json! Git tag: ${options.gittag} !== v${options.version}`,
           );
         }
+
+        if (options.origin_gittag === false) {
+          throw new Error(
+            `Push your local tag to origin because origin tag is not same as your local.`,
+          );
+        }
       }
       break;
     case 'tkg-innov-staging':

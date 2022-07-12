@@ -82,10 +82,18 @@ function check_git_resources(options) {
   const gittag_bash = (0, commands_1.git_commit_tag)(options.commit);
   helpers.print_if_debug(options, `tag info: ${gittag_bash.res}, ${gittag_bash.err}`);
   options.gittag = false;
+  options.origin_gittag = false;
   if (gittag_bash.res !== "") {
     options.gittag = gittag_bash.res;
   }
   helpers.print_if_debug(options, `options.gittag: ${options.gittag}`);
+  if (options.gittag) {
+    const gittag_origin_bash = (0, commands_1.git_origin_commit_tag)(options.gittag);
+    if (gittag_origin_bash.res !== "") {
+      options.origin_gittag = gittag_origin_bash.res;
+    }
+  }
+  helpers.print_if_debug(options, `options.origin_gittag: ${options.origin_gittag}`);
   helpers.line("(1) Continue Checking git...");
   options.merged = remote_commit_bash.err === "";
   helpers.ok();
