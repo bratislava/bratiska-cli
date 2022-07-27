@@ -4,7 +4,7 @@ export function check_kubernetes_enviroment_configuration(options: any) {
   helpers.line('(45) Checking Kubernetes environment configuration file...');
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
-    return;
+    return options;
   }
 
   const config_path = helpers.kustomize_folder_path(options) + '/config.json';
