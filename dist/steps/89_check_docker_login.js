@@ -38,7 +38,7 @@ function check_docker_login(options) {
     throw new Error(`You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`);
   }
   if (docker.err !== "" &&
-    !docker.res.includes("Your password will be stored unencrypted in")) {
+    !docker.err.includes("Your password will be stored unencrypted in")) {
     throw new Error(`There was an error checking docker registry ${options.registry} Error: ${docker.err}`);
   }
   helpers.ok();

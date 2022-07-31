@@ -22,7 +22,7 @@ export function check_docker_login(options: any) {
 
   if (
     docker.err !== '' &&
-    !docker.res.includes('Your password will be stored unencrypted in')
+    !docker.err.includes('Your password will be stored unencrypted in')
   ) {
     throw new Error(
       `There was an error checking docker registry ${options.registry} Error: ${docker.err}`,
