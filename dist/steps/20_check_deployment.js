@@ -27,7 +27,7 @@ exports.check_deployment = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function check_deployment(options) {
-    helpers.line("(20) Checking the deployment status...");
+    helpers.line('(20) Checking the deployment status...');
     if (options.dry_run ||
         options.build_kustomize ||
         options.build_image ||

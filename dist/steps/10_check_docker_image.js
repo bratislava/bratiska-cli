@@ -27,7 +27,7 @@ exports.check_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function check_docker_image(options) {
-    helpers.line("(10) Checking if the image was locally created...");
+    helpers.line('(10) Checking if the image was locally created...');
     if (options.image) {
         helpers.skipping();
         return;

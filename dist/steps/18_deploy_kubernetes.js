@@ -27,7 +27,7 @@ exports.deploy_kubernetes = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function deploy_kubernetes(options) {
-    helpers.line("(18) Deploying to kubernetes...");
+    helpers.line('(18) Deploying to kubernetes...');
     if (options.dry_run ||
         options.build_kustomize ||
         options.build_image ||

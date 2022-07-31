@@ -12,7 +12,7 @@ export function check_kubernetes_connection(options: any) {
     helpers.skipping();
     return;
   }
-  const pods = commands.kubectl_pods();
+  const pods = commands.kubectl_pods(options);
   if (pods.err !== '') {
     throw new Error(
       `Kubernetes cluster ${options.cluster} is not reachable from your computer! Maybe turn on VPN or check the internet connection or sign in to the cluster.`,

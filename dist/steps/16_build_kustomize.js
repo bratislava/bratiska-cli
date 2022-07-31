@@ -27,7 +27,7 @@ exports.build_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function build_kustomize(options) {
-    helpers.line("(16) Building the kustomize manifest...");
+    helpers.line('(16) Building the kustomize manifest...');
     if (options.build_image || options.build_image_no_registry) {
         helpers.skipping();
         return;

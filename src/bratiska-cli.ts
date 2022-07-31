@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.5.3';
+const version = '1.5.4';
 const steps = new Steps();
 
 try {
