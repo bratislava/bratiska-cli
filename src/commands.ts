@@ -1,7 +1,6 @@
 import cp, { execSync } from 'child_process';
 import * as helpers from './helpers';
 import chalk from 'chalk';
-import { print_if_debug } from './helpers';
 
 export interface Bash {
   res: string;
@@ -122,7 +121,7 @@ export function kubectl_pods_admin(options: any): Bash {
       encoding: 'utf8',
     },
   );
-  print_if_debug(
+  helpers.print_if_debug(
     options,
     `kubectl get pods admin: ${result.stdout}\n ${result.stderr}`,
   );
@@ -138,7 +137,7 @@ export function kubectl_pods(options: any): Bash {
     },
   );
 
-  print_if_debug(
+  helpers.print_if_debug(
     options,
     `kubectl get pods: ${result.stdout}\n ${result.stderr}`,
   );

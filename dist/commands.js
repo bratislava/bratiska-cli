@@ -30,7 +30,6 @@ exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
-const helpers_1 = require("./helpers");
 function pwd() {
     let pwd = (0, child_process_1.execSync)('pwd', {
         encoding: 'utf8',
@@ -131,7 +130,7 @@ function kubectl_pods_admin(options) {
     const result = child_process_1.default.spawnSync('kubectl', ['get', 'pods', '-n', 'kube-system', '--request-timeout=3'], {
         encoding: 'utf8',
     });
-    (0, helpers_1.print_if_debug)(options, `kubectl get pods admin: ${result.stdout}\n ${result.stderr}`);
+    helpers.print_if_debug(options, `kubectl get pods admin: ${result.stdout}\n ${result.stderr}`);
     return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.kubectl_pods_admin = kubectl_pods_admin;
@@ -139,7 +138,7 @@ function kubectl_pods(options) {
     const result = child_process_1.default.spawnSync('kubectl', ['get', 'pods', '-n', options.namespace, '--request-timeout=3'], {
         encoding: 'utf8',
     });
-    (0, helpers_1.print_if_debug)(options, `kubectl get pods: ${result.stdout}\n ${result.stderr}`);
+  helpers.print_if_debug(options, `kubectl get pods: ${result.stdout}\n ${result.stderr}`);
     return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.kubectl_pods = kubectl_pods;
