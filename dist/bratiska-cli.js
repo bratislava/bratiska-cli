@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const steps_1 = require("./steps");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.5";
+const version = "1.5.51";
 const steps = new steps_1.Steps();
 try {
     (0, clear_1.default)();
@@ -98,5 +98,6 @@ try {
 }
 catch (e) {
     helpers.log('');
-    helpers.log('\x1b[31m', `HOUSTON, WE HAVE A PROBLEM: ${e.message}`);
+    helpers.log("\x1b[31m", `HOUSTON, WE HAVE A PROBLEM: ${e.message}`);
+    process.exit(1);
 }

@@ -18,9 +18,7 @@ export function check_docker_login(options: any) {
     throw new Error(
       `You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`,
     );
-  }
-
-  if (docker.err !== '') {
+  } else if (docker.err !== '') {
     throw new Error(
       `There was an error checking docker registry ${options.registry} Error: ${docker.err}`,
     );

@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.5.5';
+const version = '1.5.51';
 const steps = new Steps();
 
 try {
@@ -101,4 +101,5 @@ try {
 } catch (e: any) {
   helpers.log('');
   helpers.log('\x1b[31m', `HOUSTON, WE HAVE A PROBLEM: ${e.message}`);
+  process.exit(1);
 }
