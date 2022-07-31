@@ -14,10 +14,7 @@ export function check_docker_login(options: any) {
     `docker_login res: ${docker.res.trim()} err: ${docker.res}`,
   );
 
-  if (
-    docker.res !==
-    'Authenticating with existing credentials...\n' + 'Login Succeeded'
-  ) {
+  if (!docker.res.includes('Login Succeeded')) {
     throw new Error(
       `You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`,
     );

@@ -138,7 +138,7 @@ function kubectl_pods(options) {
     const result = child_process_1.default.spawnSync('kubectl', ['get', 'pods', '-n', options.namespace, '--request-timeout=3'], {
         encoding: 'utf8',
     });
-  helpers.print_if_debug(options, `kubectl get pods: ${result.stdout}\n ${result.stderr}`);
+    helpers.print_if_debug(options, `kubectl get pods: ${result.stdout}\n ${result.stderr}`);
     return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.kubectl_pods = kubectl_pods;
