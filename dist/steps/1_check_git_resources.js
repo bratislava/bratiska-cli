@@ -92,7 +92,7 @@ function check_git_resources(options) {
     helpers.print_if_debug(options, `options.origin_gittag: ${options.origin_gittag}`);
     helpers.print_if_debug(options, `Possible image tag: ${helpers.image_tag(options)}`);
     helpers.line("(1) Continue Checking git...");
-    options.merged = remote_commit_bash.err === '';
+    options.merged = remote_commit_bash.err === "";
     helpers.ok();
     return options;
 }

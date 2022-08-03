@@ -86,8 +86,7 @@ function show_options(options) {
         if (pass === "8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=") {
             options.force = true;
             helpers.star_wars();
-        }
-        else {
+        } else {
             throw new Error(helpers.game_over());
         }
     }
