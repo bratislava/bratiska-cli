@@ -99,6 +99,11 @@ export function check_git_resources(options: any) {
     `options.origin_gittag: ${options.origin_gittag}`,
   );
 
+  helpers.print_if_debug(
+    options,
+    `Possible image tag: ${helpers.image_tag(options)}`,
+  );
+
   helpers.line('(1) Continue Checking git...');
 
   options.merged = remote_commit_bash.err === '';

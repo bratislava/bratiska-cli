@@ -5,6 +5,7 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import * as commands from './commands';
 import crypto from 'crypto';
+import { git_commit_tag } from './commands';
 
 export const log = console.log.bind(console);
 
@@ -95,6 +96,8 @@ export function tag(options: any) {
   }
 
   let untracked = '';
+  let pipelines = '';
+  let tag = '';
   let branch = '-' + options.branch;
   if (options.untracked) {
     untracked = '-untracked';
@@ -107,7 +110,16 @@ export function tag(options: any) {
     force_rebuild = '-force-rebuild-' + crypto.randomBytes(20).toString('hex');
   }
   branch = branch.replace(/\//g, '');
-  return `bratiska-cli-${options.commit}${branch}${untracked}${force_rebuild}`;
+
+  if (options.pipelines) {
+    pipelines = 'pipelines-';
+  }
+
+  if (options.gittag) {
+    tag = `-tag-${options.gittag}`;
+  }
+
+  return `bratiska-cli-${pipelines}${options.commit}${tag}${branch}${untracked}${force_rebuild}`;
 }
 
 export function manifest(options: any) {

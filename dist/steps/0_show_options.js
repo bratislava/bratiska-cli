@@ -38,6 +38,7 @@ function show_options(options) {
         throw new Error('There was an issue getting the current working directory!');
     }
     options.pwd = pwd;
+    options.pipelines = false;
     if (options.debug) {
         helpers.print_debug(`pwd: ${options.pwd}`);
     }
@@ -63,24 +64,26 @@ function show_options(options) {
         options.namespace = 'stantalone';
     }
     const pack = helpers.load_package(options);
-    if (typeof options.deployment === 'undefined') {
+    if (typeof options.deployment === "undefined") {
         options.deployment = pack.name;
     }
-    if (typeof options.version === 'undefined') {
+    if (typeof options.version === "undefined") {
         options.version = pack.version;
     }
-    if (typeof options.debug === 'undefined') {
+    if (typeof options.debug === "undefined") {
         options.debug = false;
     }
-    if (typeof options.force === 'undefined') {
-        options.force = false;
+    if (process.env["CI"]) {
+        options.pipelines = true;
     }
-    else {
+    if (typeof options.force === "undefined") {
+        options.force = false;
+    } else {
         const pass = crypto_1.default
-            .createHash('sha256')
-            .update(options.force)
-            .digest('base64');
-        if (pass === '8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=') {
+          .createHash("sha256")
+          .update(options.force)
+          .digest("base64");
+        if (pass === "8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=") {
             options.force = true;
             helpers.star_wars();
         }

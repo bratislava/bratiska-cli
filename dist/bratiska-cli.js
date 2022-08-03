@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const steps_1 = require("./steps");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.53";
+const version = "1.5.6";
 const steps = new steps_1.Steps();
 try {
     (0, clear_1.default)();

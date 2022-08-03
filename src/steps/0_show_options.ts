@@ -12,6 +12,7 @@ export function show_options(options: any) {
     );
   }
   options.pwd = pwd;
+  options.pipelines = false;
   if (options.debug) {
     helpers.print_debug(`pwd: ${options.pwd}`);
   }
@@ -55,6 +56,10 @@ export function show_options(options: any) {
 
   if (typeof options.debug === 'undefined') {
     options.debug = false;
+  }
+
+  if (process.env['CI']) {
+    options.pipelines = true;
   }
 
   if (typeof options.force === 'undefined') {

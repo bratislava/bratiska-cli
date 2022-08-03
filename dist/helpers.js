@@ -115,24 +115,32 @@ function image_tag(options) {
 }
 exports.image_tag = image_tag;
 function tag(options) {
-    if (options.image) {
-        const tmp_split = options.image.split(':');
-        return tmp_split[1];
-    }
-    let untracked = '';
-    let branch = '-' + options.branch;
-    if (options.untracked) {
-        untracked = '-untracked';
-    }
-    if (options.branch === 'origin/master') {
-        branch = '';
-    }
-    let force_rebuild = '';
-    if (options.force_rebuild) {
-        force_rebuild = '-force-rebuild-' + crypto_1.default.randomBytes(20).toString('hex');
-    }
-    branch = branch.replace(/\//g, '');
-    return `bratiska-cli-${options.commit}${branch}${untracked}${force_rebuild}`;
+  if (options.image) {
+    const tmp_split = options.image.split(":");
+    return tmp_split[1];
+  }
+  let untracked = "";
+  let pipelines = "";
+  let tag = "";
+  let branch = "-" + options.branch;
+  if (options.untracked) {
+    untracked = "-untracked";
+  }
+  if (options.branch === "origin/master") {
+    branch = "";
+  }
+  let force_rebuild = "";
+  if (options.force_rebuild) {
+    force_rebuild = "-force-rebuild-" + crypto_1.default.randomBytes(20).toString("hex");
+  }
+  branch = branch.replace(/\//g, "");
+  if (options.pipelines) {
+    pipelines = "pipelines-";
+  }
+  if (options.gittag) {
+    tag = `-tag-${options.gittag}`;
+  }
+  return `bratiska-cli-${pipelines}${options.commit}${tag}${branch}${untracked}${force_rebuild}`;
 }
 exports.tag = tag;
 function manifest(options) {
