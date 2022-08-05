@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.5.61';
+const version = '1.5.62';
 const steps = new Steps();
 
 try {
@@ -38,7 +38,7 @@ try {
     )
     //.argument('[source_path]', 'Path to main folder for app')
     .option('-build_image, --build_image', 'Build image only.')
-    .option('-force_rebuild, --force_rebuild', 'Frocing image rebuild.')
+    .option('-force_rebuild, --force_rebuild', 'Forcing image rebuild.')
     .option(
       '-build_image_no_registry, --build_image_no_registry',
       'Don`t push to rezgistry',
@@ -70,6 +70,7 @@ try {
     .option('-debug, --debug', 'Debuging')
     .option('-force, --force <pass>', 'Force')
     .action((options) => {
+      console.log(options.version);
       steps.show_options_0(options);
       steps.check_git_resources_1(options);
       steps.check_kubernetes_cluster_2(options);

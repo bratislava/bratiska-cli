@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const steps_1 = require("./steps");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.61";
+const version = "1.5.62";
 const steps = new steps_1.Steps();
 try {
     (0, clear_1.default)();
@@ -46,13 +46,13 @@ try {
         console.log(chalk_1.default.green('Please choose from selected commands based on yur needs. My favourite command is `deploy`.'));
         commander_1.program.help();
     });
-    commander_1.program
-        .command('deploy')
-        .summary('Deploy to kubernetes')
-        .description('If you need to deploy app to kubernetes, this is tool for you')
-        //.argument('[source_path]', 'Path to main folder for app')
-        .option('-build_image, --build_image', 'Build image only.')
-        .option('-force_rebuild, --force_rebuild', 'Frocing image rebuild.')
+  commander_1.program
+    .command("deploy")
+    .summary("Deploy to kubernetes")
+    .description("If you need to deploy app to kubernetes, this is tool for you")
+    //.argument('[source_path]', 'Path to main folder for app')
+    .option("-build_image, --build_image", "Build image only.")
+    .option("-force_rebuild, --force_rebuild", "Forcing image rebuild.")
         .option('-build_image_no_registry, --build_image_no_registry', 'Don`t push to rezgistry')
         .option('-build_kustomize, --build_kustomize', 'Build kustomize file only.')
         .option('-dry_run, --dry_run', 'Run without deploying to kubernetes')
@@ -68,7 +68,8 @@ try {
         .option('-debug, --debug', 'Debuging')
         .option('-force, --force <pass>', 'Force')
         .action((options) => {
-        steps.show_options_0(options);
+          console.log(options.version);
+          steps.show_options_0(options);
         steps.check_git_resources_1(options);
         steps.check_kubernetes_cluster_2(options);
         steps.check_kubernetes_connection_3(options);
@@ -97,7 +98,7 @@ try {
     commander_1.program.parse(process.argv);
 }
 catch (e) {
-    helpers.log("");
-    helpers.log("\x1b[31m", `HOUSTON, WE HAVE A PROBLEM: ${e.message}`);
-    process.exit(1);
+  helpers.log("");
+  helpers.log("\x1b[31m", `HOUSTON, WE HAVE A PROBLEM: ${e.message}`);
+  process.exit(1);
 }

@@ -3,7 +3,7 @@ import * as commands from '../commands';
 
 export function check_docker_login(options: any) {
   helpers.line('(8.9) Checking docker login...');
-  if (options.image) {
+  if (options.image || options.build_image_no_registry) {
     helpers.skipping();
     return;
   }
@@ -14,7 +14,12 @@ export function check_docker_login(options: any) {
     `docker_login res: ${docker.res.trim()} err: ${docker.err}`,
   );
 
-  if (!docker.res.includes('Login Succeeded')) {
+  if (
+    !(
+      docker.res.includes('Login Succeeded') ||
+      docker.res.includes('Already logged in to')
+    )
+  ) {
     throw new Error(
       `You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`,
     );
