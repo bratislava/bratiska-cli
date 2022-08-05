@@ -118,7 +118,7 @@ export function tag(options: any) {
     tag = `-tag-${options.gittag}`;
   }
 
-  return `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${options.commit}${tag}${branch}${untracked}${force_rebuild}`;
+  return `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${options.commit}${tag}${branch}-v${options.version}${untracked}${force_rebuild}`;
 }
 
 export function manifest(options: any) {
