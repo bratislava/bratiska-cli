@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.5.62';
+const version = '1.5.63';
 const steps = new Steps();
 
 try {
@@ -70,7 +70,8 @@ try {
     .option('-debug, --debug', 'Debuging')
     .option('-force, --force <pass>', 'Force')
     .action((options) => {
-      console.log(options.version);
+      options.bratiska_cli_version = version;
+      console.log(version + '\n');
       steps.show_options_0(options);
       steps.check_git_resources_1(options);
       steps.check_kubernetes_cluster_2(options);
