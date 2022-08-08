@@ -191,6 +191,62 @@ Dry run with custom image and specified folder to kustomize.
 bratiska-cli deploy -- --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
 ```
 
+## Enviroment variables passed to kustomize files
+
+```dotenv
+BUILD_REPOSITORY_URI
+```
+
+repository uri like
+
+```dotenv
+BUILD_REPOSITORY_NAME
+```
+
+```dotenv
+DEPLOYMENT_ENV
+```
+
+```dotenv
+ENV
+```
+
+```dotenv
+HOSTNAME
+```
+
+```dotenv
+IMAGE_TAG
+```
+
+```dotenv
+IMAGE
+```
+
+```dotenv
+TAG
+```
+
+```dotenv
+GIT_TAG
+```
+
+```dotenv
+COMMIT
+```
+
+```dotenv
+NAMESPACE
+```
+
+```dotenv
+IMAGE_PULL_SECRET
+```
+
+```dotenv
+INTERNAL_APP_PORT
+````
+
 ## More manuals
 
 ### Signing to harbor

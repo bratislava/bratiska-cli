@@ -65,31 +65,31 @@ function show_options(options) {
     }
     const pack = helpers.load_package(options);
     if (typeof options.deployment === "undefined") {
-        options.deployment = pack.name;
+      options.deployment = pack.name;
     }
-    if (typeof options.version === "undefined") {
-        options.version = pack.version;
-    }
-    if (typeof options.debug === "undefined") {
-        options.debug = false;
-    }
-    if (process.env["CI"]) {
-        options.pipelines = true;
-    }
-    if (typeof options.force === "undefined") {
-        options.force = false;
+  if (typeof options.version === "undefined") {
+    options.version = pack.version;
+  }
+  if (typeof options.debug === "undefined") {
+    options.debug = false;
+  }
+  if (process.env["CI"]) {
+    options.pipelines = true;
+  }
+  if (typeof options.force === "undefined") {
+    options.force = false;
+  } else {
+    const pass = crypto_1.default
+      .createHash("sha256")
+      .update(options.force)
+      .digest("base64");
+    if (pass === "8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=") {
+      options.force = true;
+      helpers.star_wars();
     } else {
-        const pass = crypto_1.default
-          .createHash("sha256")
-          .update(options.force)
-          .digest("base64");
-        if (pass === "8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=") {
-            options.force = true;
-            helpers.star_wars();
-        } else {
-            throw new Error(helpers.game_over());
-        }
+      throw new Error(helpers.game_over());
     }
+  }
     if (typeof options.staging !== 'undefined' &&
         typeof options.production !== 'undefined') {
         throw new Error('Staging and production flags can`t be used at the same time!');
