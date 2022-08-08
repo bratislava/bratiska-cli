@@ -1,6 +1,6 @@
 {
   "name": "bratiska-cli",
-  "version": "1.5.64",
+  "version": "1.5.7",
   "description": "Simple CLI for deploying Bratislava apps to kubernetes",
   "preferGlobal": true,
   "bin": {
@@ -32,7 +32,8 @@
     "commander": "^9.2.0",
     "dotenv": "^16.0.1",
     "figlet": "^1.5.2",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "sync-request": "^6.1.0"
   },
   "devDependencies": {
     "@liftr/tscov": "^2.0.0",

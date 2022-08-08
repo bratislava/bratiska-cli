@@ -51,50 +51,50 @@ function show_options(options) {
     if (typeof options.force_rebuild === 'undefined') {
         options.force_rebuild = false;
     }
-    if (typeof options.build_kustomize === 'undefined') {
+    if (typeof options.build_kustomize === "undefined") {
         options.build_kustomize = false;
     }
-    if (typeof options.kustomize === 'undefined') {
+    if (typeof options.kustomize === "undefined") {
         options.kustomize = false;
     }
-    if (typeof options.image === 'undefined') {
+    if (typeof options.image === "undefined") {
         options.image = false;
     }
-    if (typeof options.namespace === 'undefined') {
-        options.namespace = 'stantalone';
+    if (typeof options.namespace === "undefined") {
+        options.namespace = "stantalone";
     }
     const pack = helpers.load_package(options);
     if (typeof options.deployment === "undefined") {
-      options.deployment = pack.name;
+        options.deployment = pack.name;
     }
-  if (typeof options.version === "undefined") {
-    options.version = pack.version;
-  }
-  if (typeof options.debug === "undefined") {
-    options.debug = false;
-  }
-  if (process.env["CI"]) {
-    options.pipelines = true;
-  }
-  if (typeof options.force === "undefined") {
-    options.force = false;
-  } else {
-    const pass = crypto_1.default
-      .createHash("sha256")
-      .update(options.force)
-      .digest("base64");
-    if (pass === "8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=") {
-      options.force = true;
-      helpers.star_wars();
+    if (typeof options.version === "undefined") {
+        options.version = pack.version;
+    }
+    if (typeof options.debug === "undefined") {
+        options.debug = false;
+    }
+    if (process.env["CI"]) {
+        options.pipelines = true;
+    }
+    if (typeof options.force === "undefined") {
+        options.force = false;
     } else {
-      throw new Error(helpers.game_over());
+        const pass = crypto_1.default
+          .createHash("sha256")
+          .update(options.force)
+          .digest("base64");
+        if (pass === "8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=") {
+            options.force = true;
+            helpers.star_wars();
+        } else {
+            throw new Error(helpers.game_over());
+        }
     }
-  }
-    if (typeof options.staging !== 'undefined' &&
-        typeof options.production !== 'undefined') {
-        throw new Error('Staging and production flags can`t be used at the same time!');
+    if (typeof options.staging !== "undefined" &&
+      typeof options.production !== "undefined") {
+        throw new Error("Staging and production flags can`t be used at the same time!");
     }
-    helpers.line('(0) Starting with options... \n');
+    helpers.line("(0) Starting with options... \n");
     options.kustomize_default_path = false;
     const path_ku_local = helpers.kustomize_folder_path(options);
     if (fs_1.default.existsSync(path_ku_local)) {
@@ -102,7 +102,7 @@ function show_options(options) {
     }
     options.repository_uri = path.basename(options.pwd);
     helpers.print_options(options);
-    helpers.log('Summary:');
+    helpers.log("Summary:");
     helpers.line(`Application name: `);
     helpers.print_important_info(`${options.deployment}`);
     helpers.line(`Directory of application: `);

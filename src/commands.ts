@@ -1,6 +1,8 @@
 import cp, { execSync } from 'child_process';
 import * as helpers from './helpers';
 import chalk from 'chalk';
+import * as https from 'https';
+import request from 'sync-request';
 
 export interface Bash {
   res: string;
@@ -170,7 +172,7 @@ export function docker(): Bash {
 export function docker_build(options: any) {
   const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(
     options,
-  )} --target=prod . `;
+  )} --tag=${helpers.image_latest_tag(options)} --target=prod . `;
 
   execSync(cmd, {
     stdio: 'inherit',
@@ -238,6 +240,14 @@ export function docker_running(options: any) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
+export function get_bratiska_cli_git_package_json(options: any) {
+  const package_url =
+    'https://raw.githubusercontent.com/bratislava/bratiska-cli/master/package.json';
+
+  const res = request('GET', package_url);
+  return res.getBody('utf8');
+}
+
 export function kustomize_build_manifest(options: any) {
   let path = helpers.kustomize_folder_path(options);
 
@@ -275,4 +285,27 @@ export function kubectl_deployment_status(options: any) {
       stdio: 'inherit',
     },
   );
+}
+
+async function http_request(package_url: string) {
+  return new Promise((resolve, reject) => {
+    const req = https.get(package_url, (res) => {
+      res.setEncoding('utf8');
+      let responseBody = '';
+
+      res.on('data', (chunk) => {
+        responseBody += chunk;
+      });
+
+      res.on('end', () => {
+        resolve(JSON.parse(responseBody));
+      });
+    });
+
+    req.on('error', (err) => {
+      reject(err);
+    });
+
+    req.end();
+  });
 }

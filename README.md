@@ -209,7 +209,7 @@ name from package.json
 DEPLOYMENT_ENV
 ```
 
-it is used in url addresses like `DEPLOYMENT_ENV.bratislava.sk`
+it is used in url addresses like `DEPLOYMENT_ENVbratislava.sk`
 dev => `dev.`
 staging => `staging.`
 prod => `` (is empty)
@@ -217,7 +217,6 @@ prod => `` (is empty)
 ```dotenv
 ENV
 ```
-
 Can have three values: `dev`, `staging`, `prod`
 
 ```dotenv

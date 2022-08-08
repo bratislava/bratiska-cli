@@ -121,6 +121,18 @@ export function tag(options: any) {
   return `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${options.commit}${tag}${branch}-v${options.version}${untracked}${force_rebuild}`;
 }
 
+export function latest_tag(options: any) {
+  return `${options.env}-latest`;
+}
+
+export function image_latest_tag(options: any) {
+  if (options.image) {
+    return options.image;
+  }
+
+  return `${image(options)}:${latest_tag(options)}`;
+}
+
 export function manifest(options: any) {
   return `manifest-${tag(options)}.yaml`;
 }

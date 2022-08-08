@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const steps_1 = require("./steps");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.64";
+const version = "1.5.7";
 const steps = new steps_1.Steps();
 try {
   (0, clear_1.default)();
@@ -68,8 +68,7 @@ try {
     .option("-debug, --debug", "Debuging")
     .option("-force, --force <pass>", "Force")
     .action((options) => {
-      options.bratiska_cli_version = version;
-      console.log(version + "\n");
+      steps.show_version_01(options, version);
       steps.show_options_0(options);
       steps.check_git_resources_1(options);
       steps.check_kubernetes_cluster_2(options);

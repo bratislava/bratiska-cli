@@ -15,29 +15,34 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
+var __importStar = (this && this.__importStar) || function(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
     if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
+var __importDefault = (this && this.__importDefault) || function(mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_origin_commit_tag = exports.git_commit_tag = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
+exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_origin_commit_tag = exports.git_commit_tag = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
+const https = __importStar(require("https"));
+const sync_request_1 = __importDefault(require("sync-request"));
+
 function pwd() {
-    let pwd = (0, child_process_1.execSync)('pwd', {
-        encoding: 'utf8',
+    let pwd = (0, child_process_1.execSync)("pwd", {
+        encoding: "utf8"
     });
     pwd = pwd.trim();
-    return pwd.replace(/\s/g, '\\ ');
+    return pwd.replace(/\s/g, "\\ ");
 }
+
 exports.pwd = pwd;
+
 function cd(path) {
     const cd = (0, child_process_1.execSync)(`cd ${path}`, {
         encoding: 'utf8',
@@ -162,7 +167,7 @@ function docker() {
 }
 exports.docker = docker;
 function docker_build(options) {
-    const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(options)} --target=prod . `;
+    const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(options)} --tag=${helpers.image_latest_tag(options)} --target=prod . `;
     (0, child_process_1.execSync)(cmd, {
         stdio: 'inherit',
     });
@@ -204,15 +209,27 @@ function docker_login(options) {
     });
     return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.docker_login = docker_login;
+
 function docker_running(options) {
     helpers.print_if_debug(options, `docker running`);
-    const result = child_process_1.default.spawnSync('docker', ['info'], {
-        encoding: 'utf8',
+    const result = child_process_1.default.spawnSync("docker", ["info"], {
+        encoding: "utf8"
     });
     return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.docker_running = docker_running;
+
+function get_bratiska_cli_git_package_json(options) {
+    const package_url = "https://raw.githubusercontent.com/bratislava/bratiska-cli/master/package.json";
+    const res = (0, sync_request_1.default)("GET", package_url);
+    return res.getBody("utf8");
+}
+
+exports.get_bratiska_cli_git_package_json = get_bratiska_cli_git_package_json;
+
 function kustomize_build_manifest(options) {
     let path = helpers.kustomize_folder_path(options);
     if (options.kustomize) {
@@ -220,8 +237,9 @@ function kustomize_build_manifest(options) {
     }
     const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
     helpers.print_if_debug(options, cmd);
-    (0, child_process_1.execSync)(cmd, { encoding: 'utf8' });
+    (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
 }
+
 exports.kustomize_build_manifest = kustomize_build_manifest;
 function kubect_apply_to_kubernetes(manifest_path) {
     helpers.log(chalk_1.default.reset(''));
@@ -234,12 +252,32 @@ function kubectl_deployment_status(options) {
     helpers.log(chalk_1.default.reset(''));
     child_process_1.default.spawnSync('kubectl', [
         'rollout',
-        'status',
-        'deployment',
+        "status",
+        "deployment",
         `${options.deployment}-app`,
-        `--namespace=${options.namespace}`,
+        `--namespace=${options.namespace}`
     ], {
-        stdio: 'inherit',
+        stdio: "inherit"
     });
 }
+
 exports.kubectl_deployment_status = kubectl_deployment_status;
+
+async function http_request(package_url) {
+    return new Promise((resolve, reject) => {
+        const req = https.get(package_url, (res) => {
+            res.setEncoding("utf8");
+            let responseBody = "";
+            res.on("data", (chunk) => {
+                responseBody += chunk;
+            });
+            res.on("end", () => {
+                resolve(JSON.parse(responseBody));
+            });
+        });
+        req.on("error", (err) => {
+            reject(err);
+        });
+        req.end();
+    });
+}

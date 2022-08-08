@@ -1,3 +1,4 @@
+import { show_version } from './steps/01_show_version';
 import { show_options } from './steps/0_show_options';
 import { check_git_resources } from './steps/1_check_git_resources';
 import { check_kubernetes_cluster } from './steps/2_check_kubernetes_cluster';
@@ -25,6 +26,10 @@ import { clean_kustomize } from './steps/19_clean_kustomize';
 import { check_deployment } from './steps/20_check_deployment';
 
 export class Steps {
+  show_version_01(options: any, version: string) {
+    show_version(options, version);
+  }
+
   show_options_0(options: any) {
     show_options(options);
   }
@@ -112,12 +117,15 @@ export class Steps {
   check_kustomize_17(options: any) {
     check_kustomize(options);
   }
+
   deploy_kubernetes_18(options: any) {
     deploy_kubernetes(options);
   }
+
   clean_kustomize_19(options: any) {
     clean_kustomize(options);
   }
+
   check_deployment_20(options: any) {
     check_deployment(options);
   }
