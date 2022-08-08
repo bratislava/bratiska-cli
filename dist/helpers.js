@@ -115,63 +115,53 @@ function image_tag(options) {
 }
 exports.image_tag = image_tag;
 function tag(options) {
-    if (options.image) {
-        const tmp_split = options.image.split(":");
-        return tmp_split[1];
-    }
-    let untracked = "";
-    let pipelines = "";
-    let tag = "";
-    let branch = "-" + options.branch;
-    if (options.untracked) {
-        untracked = "-untracked";
-    }
-    if (options.branch === "origin/master") {
-        branch = "";
-    }
-    let force_rebuild = "";
-    if (options.force_rebuild) {
-        force_rebuild = "-force-rebuild-" + crypto_1.default.randomBytes(20).toString("hex");
-    }
-    branch = branch.replace(/\//g, "");
-    if (options.pipelines) {
-        pipelines = "pipelines-";
-    }
-    if (options.gittag) {
-        tag = `-tag-${options.gittag}`;
-    }
-    return `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${options.commit}${tag}${branch}-v${options.version}${untracked}${force_rebuild}`;
+  if (options.image) {
+    const tmp_split = options.image.split(":");
+    return tmp_split[1];
+  }
+  let untracked = "";
+  let pipelines = "";
+  let tag = "";
+  let branch = "-" + options.branch;
+  if (options.untracked) {
+    untracked = "-untracked";
+  }
+  if (options.branch === "origin/master") {
+    branch = "";
+  }
+  let force_rebuild = "";
+  if (options.force_rebuild) {
+    force_rebuild = "-force-rebuild-" + crypto_1.default.randomBytes(20).toString("hex");
+  }
+  branch = branch.replace(/\//g, "");
+  if (options.pipelines) {
+    pipelines = "pipelines-";
+  }
+  if (options.gittag) {
+    tag = `-tag-${options.gittag}`;
+  }
+  return `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${options.commit}${tag}${branch}-v${options.version}${untracked}${force_rebuild}`;
 }
-
 exports.tag = tag;
-
 function latest_tag(options) {
     return `${options.env}-latest`;
 }
-
 exports.latest_tag = latest_tag;
-
 function image_latest_tag(options) {
     if (options.image) {
         return options.image;
     }
     return `${image(options)}:${latest_tag(options)}`;
 }
-
 exports.image_latest_tag = image_latest_tag;
-
 function manifest(options) {
     return `manifest-${tag(options)}.yaml`;
 }
-
 exports.manifest = manifest;
-
 function manifest_path(options) {
     return `${options.pwd}/${manifest(options)}`;
 }
-
 exports.manifest_path = manifest_path;
-
 function dockerfile_path(options) {
     return `${options.pwd}/Dockerfile`;
 }
@@ -239,83 +229,89 @@ function is_master_image(options) {
 }
 exports.is_master_image = is_master_image;
 function assign_env_vars(options) {
-    if (options.image) {
-        options.repository_uri = 'using_external_image';
-        options.commit = 'using_external_image';
+  if (options.image) {
+    options.repository_uri = "using_external_image";
+    options.commit = "using_external_image";
+  }
+  if (!options.repository_uri) {
+    throw new Error("Git repository URI cannot be false!");
+  }
+  if (!options.commit) {
+    throw new Error("Git Commit cannot be false!");
+  }
+  if (!options.deployment) {
+    throw new Error("Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n");
+  }
+  if (!options.host) {
+    throw new Error("The host has to be filled! Please use --host <host> for deployment URL host.\n");
+  }
+  if (!options.registry) {
+    throw new Error("The registry has to be filled! Please use --registry <registry_url>.");
+  }
+  if (!options.namespace) {
+    throw new Error("Namespace has to be filled! Please use --namespace <namespace>.");
+  }
+  if (image_tag(options) === "//") {
+    throw new Error("Image have to be filled! Please use --image <image_tag>.");
+  }
+  if (!process.env["BUILD_REPOSITORY_URI"]) {
+    process.env["BUILD_REPOSITORY_URI"] = options.repository_uri;
+    print_if_debug(options, `BUILD_REPOSITORY_URI=${process.env["BUILD_REPOSITORY_URI"]}`);
+  }
+  if (!process.env["BUILD_REPOSITORY_NAME"]) {
+    process.env["BUILD_REPOSITORY_NAME"] = options.deployment;
+    print_if_debug(options, `BUILD_REPOSITORY_NAME=${process.env["BUILD_REPOSITORY_NAME"]}`);
+  }
+  if (!process.env["DEPLOYMENT_ENV"]) {
+    process.env["DEPLOYMENT_ENV"] = options.deployment_env;
+    print_if_debug(options, `DEPLOYMENT_ENV=${process.env["DEPLOYMENT_ENV"]}`);
+  }
+  if (!process.env["ENV"]) {
+    process.env["ENV"] = options.env;
+    print_if_debug(options, `ENV=${process.env["ENV"]}`);
+  }
+  if (!process.env["HOSTNAME"]) {
+    process.env["HOSTNAME"] = options.host;
+    print_if_debug(options, `HOSTNAME=${process.env["HOSTNAME"]}`);
+  }
+  if (!process.env["IMAGE_TAG"]) {
+    process.env["IMAGE_TAG"] = image_tag(options);
+    print_if_debug(options, `IMAGE_TAG=${process.env["IMAGE_TAG"]}`);
+  }
+  if (!process.env["IMAGE"]) {
+    process.env["IMAGE"] = image(options);
+    print_if_debug(options, `IMAGE=${process.env["IMAGE"]}`);
+  }
+  if (!process.env["TAG"]) {
+    process.env["TAG"] = tag(options);
+    print_if_debug(options, `TAG=${process.env["TAG"]}`);
+  }
+  if (!process.env["GIT_TAG"]) {
+    process.env["GIT_TAG"] = options.gittag;
+    print_if_debug(options, `GIT_TAG=${process.env["GIT_TAG"]}`);
+  }
+  if (!process.env["COMMIT"]) {
+    process.env["COMMIT"] = options.commit;
+    print_if_debug(options, `COMMIT=${process.env["COMMIT"]}`);
+  }
+  if (!process.env["NAMESPACE"]) {
+    process.env["NAMESPACE"] = options.namespace;
+    print_if_debug(options, `NAMESPACE=${process.env["NAMESPACE"]}`);
+  }
+  if (!process.env["IMAGE_PULL_SECRET"]) {
+    process.env["IMAGE_PULL_SECRET"] = pull_secret_name(options);
+    print_if_debug(options, `IMAGE_PULL_SECRET=${process.env["IMAGE_PULL_SECRET"]}`);
+  }
+  if (!process.env["INTERNAL_APP_PORT"]) {
+    process.env["INTERNAL_APP_PORT"] = options.app_port;
+    print_if_debug(options, `INTERNAL_APP_PORT=${process.env["INTERNAL_APP_PORT"]}`);
+  }
+  if (typeof options.envs !== "undefined") {
+    for (const [env_name, env_value] of Object.entries(options.envs)) {
+      process.env[env_name.toUpperCase()] = env_value;
+      print_if_debug(options, `${env_name.toUpperCase()}=${process.env[env_name.toUpperCase()]}`);
     }
-    if (!options.repository_uri) {
-        throw new Error('Git repository URI cannot be false!');
-    }
-    if (!options.commit) {
-        throw new Error('Git Commit cannot be false!');
-    }
-    if (!options.deployment) {
-        throw new Error('Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n');
-    }
-    if (!options.host) {
-        throw new Error('The host has to be filled! Please use --host <host> for deployment URL host.\n');
-    }
-    if (!options.registry) {
-        throw new Error("The registry has to be filled! Please use --registry <registry_url>.");
-    }
-    if (!options.namespace) {
-        throw new Error("Namespace has to be filled! Please use --namespace <namespace>.");
-    }
-    if (image_tag(options) === "//") {
-        throw new Error("Image have to be filled! Please use --image <image_tag>.");
-    }
-    if (!process.env["BUILD_REPOSITORY_URI"]) {
-        process.env["BUILD_REPOSITORY_URI"] = options.repository_uri;
-        print_if_debug(options, `'BUILD_REPOSITORY_URI'=${process.env["BUILD_REPOSITORY_URI"]}`);
-    }
-    if (!process.env["BUILD_REPOSITORY_NAME"]) {
-        process.env["BUILD_REPOSITORY_NAME"] = options.deployment;
-        print_if_debug(options, `'BUILD_REPOSITORY_NAME'=${process.env["BUILD_REPOSITORY_NAME"]}`);
-    }
-    if (!process.env["DEPLOYMENT_ENV"]) {
-        process.env["DEPLOYMENT_ENV"] = options.deployment_env;
-        print_if_debug(options, `'DEPLOYMENT_ENV'=${process.env["DEPLOYMENT_ENV"]}`);
-    }
-    if (!process.env["ENV"]) {
-        process.env["ENV"] = options.env;
-        print_if_debug(options, `'ENV'=${process.env["ENV"]}`);
-    }
-    if (!process.env["HOSTNAME"]) {
-        process.env["HOSTNAME"] = options.host;
-        print_if_debug(options, `'HOSTNAME'=${process.env["HOSTNAME"]}`);
-    }
-    if (!process.env["IMAGE_TAG"]) {
-        process.env["IMAGE_TAG"] = image_tag(options);
-        print_if_debug(options, `'IMAGE_TAG'=${process.env["IMAGE_TAG"]}`);
-    }
-    if (!process.env["IMAGE"]) {
-        process.env["IMAGE"] = image(options);
-        print_if_debug(options, `'IMAGE'=${process.env["IMAGE"]}`);
-    }
-    if (!process.env["TAG"]) {
-        process.env["TAG"] = tag(options);
-        print_if_debug(options, `'TAG'=${process.env["TAG"]}`);
-    }
-    if (!process.env["GIT_TAG"]) {
-        process.env["GIT_TAG"] = options.gittag;
-        print_if_debug(options, `'GIT_TAG'=${process.env["GIT_TAG"]}`);
-    }
-    if (!process.env["COMMIT"]) {
-        process.env["COMMIT"] = options.commit;
-        print_if_debug(options, `'COMMIT'=${process.env["COMMIT"]}`);
-    }
-    if (!process.env["NAMESPACE"]) {
-        process.env["NAMESPACE"] = options.namespace;
-        print_if_debug(options, `'NAMESPACE'=${process.env["NAMESPACE"]}`);
-    }
-    if (!process.env["IMAGE_PULL_SECRET"]) {
-        process.env["IMAGE_PULL_SECRET"] = pull_secret_name(options);
-        print_if_debug(options, `'IMAGE_PULL_SECRET'=${process.env["IMAGE_PULL_SECRET"]}`);
-    }
-    if (!process.env["INTERNAL_APP_PORT"]) {
-        process.env["INTERNAL_APP_PORT"] = options.app_port;
-        print_if_debug(options, `'INTERNAL_APP_PORT'=${process.env["INTERNAL_APP_PORT"]}`);
-    }
+  }
 }
 exports.assign_env_vars = assign_env_vars;
 function star_wars() {

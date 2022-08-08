@@ -27,24 +27,19 @@ const _17_check_kustomize_1 = require("./steps/17_check_kustomize");
 const _18_deploy_kubernetes_1 = require("./steps/18_deploy_kubernetes");
 const _19_clean_kustomize_1 = require("./steps/19_clean_kustomize");
 const _20_check_deployment_1 = require("./steps/20_check_deployment");
-
 class Steps {
     show_version_01(options, version) {
         (0, _01_show_version_1.show_version)(options, version);
     }
-
     show_options_0(options) {
         (0, _0_show_options_1.show_options)(options);
     }
-
     check_git_resources_1(options) {
         (0, _1_check_git_resources_1.check_git_resources)(options);
     }
-
     check_kubernetes_cluster_2(options) {
         (0, _2_check_kubernetes_cluster_1.check_kubernetes_cluster)(options);
     }
-
     check_kubernetes_connection_3(options) {
         (0, _3_check_kubernetes_connection_1.check_kubernetes_connection)(options);
     }
