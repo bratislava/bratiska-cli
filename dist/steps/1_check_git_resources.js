@@ -59,16 +59,16 @@ function check_git_resources(options) {
     options.fetch = fetch_bash.res;
     helpers.print_if_debug(options, `fetch: ${options.fetch}`);
     const commit_bash = commands.git_current_commit();
-    if (commit_bash.err !== '') {
-        throw new Error('There was an issue getting commit status!\n');
-    }
-    options.commit = commit_bash.res;
-    helpers.print_if_debug(options, `commit: ${options.commit}`);
-    const status_bash = commands.git_current_status(options);
-    if (status_bash.err !== '') {
-        throw new Error('There was an issue getting git status!');
-    }
-    options.untracked = false;
+  if (commit_bash.err !== "") {
+    throw new Error("There was an issue getting commit status!\n");
+  }
+  options.commit = commit_bash.res;
+  helpers.print_if_debug(options, `commit: ${options.commit}`);
+  const status_bash = commands.git_current_status(options);
+  if (status_bash.err !== "") {
+    throw new Error("There was an issue getting git status!");
+  }
+  options.untracked = false;
   if (status_bash.res !== "") {
     options.untracked = true;
     helpers.print_warning("\nWe have untracked changes in the repo, adding the tag \"untracked\"...");

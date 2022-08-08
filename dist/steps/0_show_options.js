@@ -33,11 +33,11 @@ const path = __importStar(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const crypto_1 = __importDefault(require("crypto"));
 function show_options(options) {
-    const pwd = commands.pwd();
-    if (pwd === '') {
-        throw new Error('There was an issue getting the current working directory!');
-    }
-    options.pwd = pwd;
+  const pwd = commands.pwd();
+  if (pwd === "") {
+    throw new Error("There was an issue getting the current working directory!");
+  }
+  options.pwd = pwd;
   options.pipelines = false;
   if (options.debug) {
     helpers.print_debug(`pwd: ${options.pwd}`);
