@@ -177,10 +177,27 @@ bratiska-cli deploy -- --staging
 
 #### Debug
 
-If you need to debug the deploy process, you can add the `--debug` option. This will save the kustomize manifest to the directory so that you can inspect it. Also, it does not delete the image from docker so that you can have a look at it.
+If you need to debug the deploy process, you can add the `--debug` option. This will save the kustomize manifest to the
+directory so that you can inspect it. Also, it does not delete the image from docker so that you can have a look at it.
 
 ```bash
 bratiska-cli deploy -- --debug
+```
+
+#### Define config in kustomize folder
+
+If you need to have some permanent settings on enviroment, you can define a config
+in `/kubernetes/envs/[Dev,Staging,Prod]` with name `config.json`. Config is overriding all options passed or
+automatically assesed by the bratiska-cli utility. Example of config:
+
+```bash
+{
+  "host": "gmb.sk",
+  "envs": {
+    "CDN_PORT": "4747",
+    "DEFAULT_ANSWER": "42"
+  }
+}
 ```
 
 ### Examples
