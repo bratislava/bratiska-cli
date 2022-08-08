@@ -191,61 +191,90 @@ Dry run with custom image and specified folder to kustomize.
 bratiska-cli deploy -- --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
 ```
 
-## Enviroment variables passed to kustomize files
+## Environment variables passed to kustomize files
 
 ```dotenv
 BUILD_REPOSITORY_URI
 ```
 
-repository uri like
+git repository uri and if is external image then value is `using_external_image`
 
 ```dotenv
 BUILD_REPOSITORY_NAME
 ```
 
+name from package.json
+
 ```dotenv
 DEPLOYMENT_ENV
 ```
+
+it is used in url addresses like `DEPLOYMENT_ENV.bratislava.sk`
+dev => `dev.`
+staging => `staging.`
+prod => `` (is empty)
 
 ```dotenv
 ENV
 ```
 
+Can have three values: `dev`, `staging`, `prod`
+
 ```dotenv
 HOSTNAME
 ```
+
+hostname of the app
 
 ```dotenv
 IMAGE_TAG
 ```
 
+complete image tag with url and tag
+like `harbor.bratislava.sk/municipal-police/zandaris:bratiska-cli-1.5.64-pipelines-1e6277615d3649300384a399f7cb6a8c12a0e128-master-v0.3.1`
+
 ```dotenv
 IMAGE
 ```
+
+image part of `IMAGE_TAG` like `harbor.bratislava.sk/municipal-police/zandaris`
 
 ```dotenv
 TAG
 ```
 
+tag value `bratiska-cli-1.5.64-pipelines-1e6277615d3649300384a399f7cb6a8c12a0e128-master-v0.3.1`
+
 ```dotenv
 GIT_TAG
 ```
+
+value of git tag used in deployment like `dev1.47`
 
 ```dotenv
 COMMIT
 ```
 
+value of commit `1e6277615d3649300384a399f7cb6a8c12a0e128` and if we are using external image then value
+is `using_external_image`
+
 ```dotenv
 NAMESPACE
 ```
+
+namespace where should be image deployed like `standalone`
 
 ```dotenv
 IMAGE_PULL_SECRET
 ```
 
+image pull secret name which is then checked if exists on kubernetes like `harbor-secret-dev-standalone-bratiska-cli`
+
 ```dotenv
 INTERNAL_APP_PORT
 ````
+
+app port which is then exposed to the public like `1338`
 
 ## More manuals
 
