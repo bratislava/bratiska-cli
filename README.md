@@ -33,6 +33,10 @@ These apps needs be running when you use `bratiska-cli`:
     ```bash
     docker login https://harbor.bratislava.sk
     ```
+    For Windows WSL use:
+    ```bash
+    docker login harbor.bratislava.sk
+    ```
 - You need to have running `kubect` and be signed into the Kubernetes cluster. If you have issues signing to Kubernetes, contact your administrator.
 
 ## Installation
