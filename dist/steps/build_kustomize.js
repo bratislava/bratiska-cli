@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.build_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function build_kustomize(options) {
   helpers.line(`(${helpers.step(options)}) Building the kustomize manifest...`);
   if (options.build_image || options.build_image_no_registry) {
@@ -40,5 +39,4 @@ function build_kustomize(options) {
   commands.kustomize_build_manifest(options);
   helpers.ok();
 }
-
 exports.build_kustomize = build_kustomize;

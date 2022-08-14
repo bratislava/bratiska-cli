@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.build_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function build_docker_image(options) {
   helpers.line(`(${helpers.step(options)}) Building docker image for platform linux/amd64...`);
   if (options.image) {
@@ -48,5 +47,4 @@ function build_docker_image(options) {
   commands.docker_build(options);
   helpers.finished();
 }
-
 exports.build_docker_image = build_docker_image;

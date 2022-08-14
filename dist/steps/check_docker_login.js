@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_docker_login = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_docker_login(options) {
   helpers.line(`(${helpers.step(options)}) Checking docker login...`);
   if (options.image || options.build_image_no_registry) {
@@ -49,5 +48,4 @@ function check_docker_login(options) {
   }
   helpers.ok();
 }
-
 exports.check_docker_login = check_docker_login;

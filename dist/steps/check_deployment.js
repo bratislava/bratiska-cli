@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_deployment = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_deployment(options) {
   helpers.line(`(${helpers.step(options)}) Checking the deployment status...`);
   if (options.dry_run ||
@@ -43,5 +42,4 @@ function check_deployment(options) {
   commands.kubectl_deployment_status(options);
   helpers.finished();
 }
-
 exports.check_deployment = check_deployment;

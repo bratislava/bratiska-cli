@@ -3,11 +3,11 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = {
-            enumerable: true, get: function() {
-                return m[k];
-            }
-        };
+      desc = {
+          enumerable: true, get: function() {
+              return m[k];
+          }
+      };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
@@ -29,7 +29,6 @@ var __importStar = (this && this.__importStar) || function(mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_enviroment = void 0;
 const helpers = __importStar(require("../helpers"));
-
 function check_kubernetes_enviroment(options) {
     helpers.line(`(${helpers.step(options)}) Checking chosen Kubernetes cluster with the environment...`);
     if (options.build_image || options.build_image_no_registry) {
@@ -45,5 +44,4 @@ function check_kubernetes_enviroment(options) {
     helpers.ok();
     return options;
 }
-
 exports.check_kubernetes_enviroment = check_kubernetes_enviroment;

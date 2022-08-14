@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_cluster = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_kubernetes_cluster(options) {
   helpers.line(`(${helpers.step(options)}) Checking the current Kubernetes cluster...`);
   if (options.build_image || options.build_image_no_registry) {
@@ -51,5 +50,4 @@ function check_kubernetes_cluster(options) {
   helpers.ok();
   return options;
 }
-
 exports.check_kubernetes_cluster = check_kubernetes_cluster;

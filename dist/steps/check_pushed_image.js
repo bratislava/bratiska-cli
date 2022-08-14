@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_pushed_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_pushed_image(options) {
   helpers.line(`(${helpers.step(options)}) Checking if the image is in the remote registry.\n...`);
   if (options.image || options.build_image_no_registry) {
@@ -45,5 +44,4 @@ function check_pushed_image(options) {
   helpers.print_line_if_debug(options, "(11) Continue Checking if image...");
   helpers.ok();
 }
-
 exports.check_pushed_image = check_pushed_image;

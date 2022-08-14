@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_docker = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_docker(options) {
   helpers.line(`(${helpers.step(options)}) Checking docker...`);
   const docker = commands.docker();
@@ -39,5 +38,4 @@ function check_docker(options) {
   }
   helpers.ok();
 }
-
 exports.check_docker = check_docker;

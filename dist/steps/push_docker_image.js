@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.push_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function push_docker_image(options) {
   helpers.line(`(${helpers.step(options)}) Pushing image to the regitry ...`);
   if (options.image || options.build_image_no_registry) {
@@ -41,5 +40,4 @@ function push_docker_image(options) {
   commands.docker_push_image(options);
   helpers.finished();
 }
-
 exports.push_docker_image = push_docker_image;

@@ -4,7 +4,7 @@ import * as path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
 
-export function show_options(options: any) {
+export function show_options(options: Options) {
   const pwd = commands.pwd();
   if (pwd === '') {
     throw new Error(
@@ -42,7 +42,7 @@ export function show_options(options: any) {
   }
 
   if (typeof options.namespace === 'undefined') {
-    options.namespace = 'stantalone';
+    options.namespace = 'standalone';
   }
 
   const pack = helpers.load_package(options);
@@ -67,6 +67,8 @@ export function show_options(options: any) {
   } else {
     const pass = crypto
       .createHash('sha256')
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       .update(options.force)
       .digest('base64');
     if (pass === '8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=') {

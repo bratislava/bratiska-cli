@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_harbor_key = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 /*
   CHECKING KUBERNETES PULL SECRET FOR HARBOR
   we need to check if we have a key to download image from harbor in kubernetes cluster.
@@ -52,5 +51,4 @@ function check_kubernetes_harbor_key(options) {
   }
   helpers.ok();
 }
-
 exports.check_kubernetes_harbor_key = check_kubernetes_harbor_key;

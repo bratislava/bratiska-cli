@@ -27,7 +27,6 @@ const check_kustomize_1 = require("./steps/check_kustomize");
 const deploy_kubernetes_1 = require("./steps/deploy_kubernetes");
 const clean_kustomize_1 = require("./steps/clean_kustomize");
 const check_deployment_1 = require("./steps/check_deployment");
-
 class Steps {
   show_version(options, version) {
     (0, show_version_1.show_version)(options, version);

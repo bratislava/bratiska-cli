@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_connection = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_kubernetes_connection(options) {
   helpers.line(`(${helpers.step(options)}) Checking Kubernetes connection to the cluster...`);
   if (options.dry_run ||
@@ -47,5 +46,4 @@ function check_kubernetes_connection(options) {
   helpers.ok();
   return options;
 }
-
 exports.check_kubernetes_connection = check_kubernetes_connection;

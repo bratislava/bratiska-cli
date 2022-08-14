@@ -29,7 +29,6 @@ var __importStar = (this && this.__importStar) || function(mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_cluster_conditions = void 0;
 const helpers = __importStar(require("../helpers"));
-
 function check_kubernetes_cluster_conditions(options) {
   helpers.line(`(${helpers.step(options)}) Checking Kubernetes cluster conditions...`);
   if (options.build_kustomize ||
@@ -87,5 +86,4 @@ function check_kubernetes_cluster_conditions(options) {
   helpers.ok();
   return options;
 }
-
 exports.check_kubernetes_cluster_conditions = check_kubernetes_cluster_conditions;

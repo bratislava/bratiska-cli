@@ -109,7 +109,7 @@ function image(options) {
 exports.image = image;
 function image_tag(options) {
     if (options.image) {
-      options.image = options.image;
+        options.image = options.image;
         return options.image;
     }
     return `${image(options)}:${tag(options)}`;
@@ -203,8 +203,8 @@ function check_ports(options) {
     if (typeof process.env['PORT'] === 'undefined') {
       options.app_port = "3000";
       line(` using default app port `);
-        print_important_info_line(`'PORT' = '${options.app_port}'`);
-        line(`...`);
+      print_important_info_line(`'PORT' = '${options.app_port}'`);
+      line(`...`);
     }
     else {
         options.app_port = process.env['PORT'];
@@ -393,15 +393,15 @@ function print_options(options) {
     if (options.image) {
         print_important_info(`--image=${options.image}`);
     }
-    if (options.kustomize) {
-        print_important_info(`--kustomize=${options.kustomize}`);
-    }
-    if (options.namespace) {
-        print_important_info(`--namespace=${options.namespace}`);
-    }
-    if (options.host) {
-      print_important_info(`--host=${options.host}`);
-    }
+  if (options.kustomize) {
+    print_important_info(`--kustomize=${options.kustomize}`);
+  }
+  if (options.namespace) {
+    print_important_info(`--namespace=${options.namespace}`);
+  }
+  if (options.host) {
+    print_important_info(`--host=${options.host}`);
+  }
   if (options.registry) {
     print_important_info(`--registry=${options.registry}`);
   }
@@ -409,12 +409,9 @@ function print_options(options) {
     print_important_info(`--env=${options.env}`);
   }
 }
-
 exports.print_options = print_options;
-
 function step(options) {
   options.step++;
   return options.step;
 }
-
 exports.step = step;
