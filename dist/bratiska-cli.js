@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const steps_1 = require("./steps");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.72";
+const version = "1.5.8";
 const steps = new steps_1.Steps();
 try {
     (0, clear_1.default)();
@@ -42,7 +42,7 @@ try {
       .name("bratiska-cli")
       .version(version)
       .description("Simple Bratiska-cli utility for managing Bratislava Innovation apps")
-      .action((commandAndOptions) => {
+      .action(() => {
           console.log(chalk_1.default.green("Please choose from selected commands based on yur needs. My favourite command is `deploy`."));
           commander_1.program.help();
       });
@@ -99,29 +99,35 @@ try {
           /* step 14 */
           steps.check_docker_login(options);
           /* step 15 */
-          steps.build_docker_image(options);
+          steps.load_build_envs(options);
           /* step 16 */
-          steps.check_docker_image(options);
+          steps.build_docker_image(options);
           /* step 17 */
-          steps.push_docker_image(options);
+          steps.check_docker_image(options);
           /* step 18 */
-          steps.check_pushed_image(options);
+          steps.clean_build_envs(options);
           /* step 19 */
-          steps.clean_docker_image(options);
+          steps.push_docker_image(options);
           /* step 20 */
-          steps.create_env_vars(options);
+          steps.check_pushed_image(options);
           /* step 21 */
-          steps.build_kustomize(options);
+          steps.clean_docker_image(options);
           /* step 22 */
-          steps.check_kustomize(options);
+          steps.create_env_vars(options);
           /* step 23 */
-          steps.deploy_kubernetes(options);
+          steps.build_kustomize(options);
           /* step 24 */
-          steps.clean_kustomize(options);
+          steps.check_kustomize(options);
           /* step 25 */
+          steps.deploy_kubernetes(options);
+          /* step 26 */
+          steps.clean_kustomize(options);
+          /* step 27 */
           steps.check_deployment(options);
       });
     commander_1.program.parse(process.argv);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
 }
 catch (e) {
     helpers.log("");

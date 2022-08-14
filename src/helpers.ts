@@ -21,7 +21,7 @@ export function skipping(): void {
 }
 
 export function not_present(): void {
-  log(chalk.yellow(' NOT PRESENT'));
+  line(chalk.yellow(' NOT PRESENT'));
 }
 
 export function finished(): void {
@@ -154,6 +154,14 @@ export function kustomize_folder_path(options: Options) {
   return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
 
+export function docker_build_dot_env_file(options: Options) {
+  return `${options.pwd}/.env.${options.env}`;
+}
+
+export function docker_build_next_env(options: Options) {
+  return `${options.pwd}/.env.production.local`;
+}
+
 export function kustomize_folder_base(options: Options) {
   return `${options.pwd}/kubernetes/base`;
 }
@@ -162,7 +170,7 @@ export function pull_secret_name(options: Options): string {
   return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }
 
-export function capitalize(s: any) {
+export function capitalize(s: unknown) {
   if (typeof s !== 'string') return '';
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
@@ -348,7 +356,7 @@ export function game_over() {
   );
 }
 
-export function load_package(options?: any) {
+export function load_package(options?: Options) {
   if (typeof options === 'undefined') {
     const pwd = commands.pwd();
     if (pwd === '') {
@@ -356,7 +364,20 @@ export function load_package(options?: any) {
         'There was an issue getting the current working directory!',
       );
     }
-    options = { pwd: pwd };
+    options = {
+      app_port: '',
+      cluster: '',
+      commit: '',
+      deployment: '',
+      deployment_env: '',
+      env: '',
+      host: '',
+      namespace: '',
+      registry: '',
+      repository_uri: '',
+      step: 0,
+      pwd: pwd,
+    };
   }
 
   const path = options.pwd + '/package.json';

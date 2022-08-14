@@ -12,8 +12,10 @@ import { check_docker_file } from './steps/check_docker_file';
 import { check_docker } from './steps/check_docker';
 import { check_docker_login } from './steps/check_docker_login';
 import { check_docker_running } from './steps/check_docker_running';
+import { load_build_envs } from './steps/load_build_envs';
 import { build_docker_image } from './steps/build_docker_image';
 import { check_docker_image } from './steps/check_docker_image';
+import { clean_build_envs } from './steps/clean_build_envs';
 import { push_docker_image } from './steps/push_docker_image';
 import { check_pushed_image } from './steps/check_pushed_image';
 import { clean_docker_image } from './steps/clean_docker_image';
@@ -82,12 +84,20 @@ export class Steps {
     check_docker_running(options);
   }
 
+  load_build_envs(options: Options) {
+    load_build_envs(options);
+  }
+
   build_docker_image(options: Options) {
     build_docker_image(options);
   }
 
   check_docker_image(options: Options) {
     check_docker_image(options);
+  }
+
+  clean_build_envs(options: Options) {
+    clean_build_envs(options);
   }
 
   push_docker_image(options: Options) {
