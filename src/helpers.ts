@@ -60,13 +60,16 @@ export function print_debug(cmd: string | undefined): void {
   process.stdout.write(chalk.cyan(`\nDEBUG: ${cmd}\n`));
 }
 
-export function print_if_debug(options: any, cmd: string | undefined): void {
+export function print_if_debug(
+  options: Options,
+  cmd: string | undefined,
+): void {
   if (options.debug) {
     print_debug(cmd);
   }
 }
 
-export function print_line_if_debug(options: any, content: string) {
+export function print_line_if_debug(options: Options, content: string) {
   if (options.debug) {
     process.stdout.write('\x1b[37m' + content);
   }
@@ -76,20 +79,22 @@ export function message(content: string): void {
   log(chalk.white(content));
 }
 
-export function image(options: any) {
+export function image(options: Options) {
   return `${options.registry}/${options.namespace}/${options.deployment}`;
 }
 
-export function image_tag(options: any) {
+export function image_tag(options: Options) {
   if (options.image) {
+    options.image = <string>options.image;
     return options.image;
   }
 
   return `${image(options)}:${tag(options)}`;
 }
 
-export function tag(options: any) {
+export function tag(options: Options) {
   if (options.image) {
+    options.image = <string>options.image;
     const tmp_split = options.image.split(':');
     return tmp_split[1];
   }
@@ -121,11 +126,11 @@ export function tag(options: any) {
   return `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${options.commit}${tag}${branch}-v${options.version}${untracked}${force_rebuild}`;
 }
 
-export function latest_tag(options: any) {
+export function latest_tag(options: Options) {
   return `${options.env}-latest`;
 }
 
-export function image_latest_tag(options: any) {
+export function image_latest_tag(options: Options) {
   if (options.image) {
     return options.image;
   }
@@ -133,27 +138,27 @@ export function image_latest_tag(options: any) {
   return `${image(options)}:${latest_tag(options)}`;
 }
 
-export function manifest(options: any) {
+export function manifest(options: Options) {
   return `manifest-${tag(options)}.yaml`;
 }
 
-export function manifest_path(options: any) {
+export function manifest_path(options: Options) {
   return `${options.pwd}/${manifest(options)}`;
 }
 
-export function dockerfile_path(options: any) {
+export function dockerfile_path(options: Options) {
   return `${options.pwd}/Dockerfile`;
 }
 
-export function kustomize_folder_path(options: any) {
+export function kustomize_folder_path(options: Options) {
   return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
 
-export function kustomize_folder_base(options: any) {
+export function kustomize_folder_base(options: Options) {
   return `${options.pwd}/kubernetes/base`;
 }
 
-export function pull_secret_name(options: any): string {
+export function pull_secret_name(options: Options): string {
   return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }
 
@@ -162,7 +167,7 @@ export function capitalize(s: any) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export function check_ports(options: any): void {
+export function check_ports(options: Options): void {
   const env_path_specific = kustomize_folder_path(options) + '/.env';
   const env_path_base = kustomize_folder_base(options) + '/.env';
   const env_path_main = options.pwd + '/.env';
@@ -180,7 +185,7 @@ export function check_ports(options: any): void {
   print_if_debug(options, process.env['PORT']);
 
   if (typeof process.env['PORT'] === 'undefined') {
-    options.app_port = 3000;
+    options.app_port = '3000';
     line(` using default app port `);
     print_important_info_line(`'PORT' = '${options.app_port}'`);
     line(`...`);
@@ -204,14 +209,15 @@ export function map_cluster_to_env(cluster: string): string {
   return parts[2];
 }
 
-export function is_master_image(options: any): boolean {
+export function is_master_image(options: Options): boolean {
   if (options.image) {
+    options.image = <string>options.image;
     return options.image.includes('master');
   }
   return false;
 }
 
-export function assign_env_vars(options: any) {
+export function assign_env_vars(options: Options) {
   if (options.image) {
     options.repository_uri = 'using_external_image';
     options.commit = 'using_external_image';
@@ -274,7 +280,7 @@ export function assign_env_vars(options: any) {
     print_if_debug(options, `HOSTNAME=${process.env['HOSTNAME']}`);
   }
   if (!process.env['IMAGE_TAG']) {
-    process.env['IMAGE_TAG'] = image_tag(options);
+    process.env['IMAGE_TAG'] = <string>image_tag(options);
     print_if_debug(options, `IMAGE_TAG=${process.env['IMAGE_TAG']}`);
   }
   if (!process.env['IMAGE']) {
@@ -286,7 +292,7 @@ export function assign_env_vars(options: any) {
     print_if_debug(options, `TAG=${process.env['TAG']}`);
   }
   if (!process.env['GIT_TAG']) {
-    process.env['GIT_TAG'] = options.gittag;
+    process.env['GIT_TAG'] = <string>options.gittag;
     print_if_debug(options, `GIT_TAG=${process.env['GIT_TAG']}`);
   }
   if (!process.env['COMMIT']) {
@@ -374,7 +380,7 @@ export function load_json(path: string) {
   }
 }
 
-export function print_options(options: any) {
+export function print_options(options: Options) {
   if (options.staging) {
     print_important_info('--staging');
   }
@@ -442,4 +448,9 @@ export function print_options(options: any) {
   if (options.env) {
     print_important_info(`--env=${options.env}`);
   }
+}
+
+export function step(options: Options) {
+  options.step++;
+  return options.step;
 }

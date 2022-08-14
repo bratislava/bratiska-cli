@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.line = exports.log = void 0;
+exports.step = exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.line = exports.log = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -109,6 +109,7 @@ function image(options) {
 exports.image = image;
 function image_tag(options) {
     if (options.image) {
+      options.image = options.image;
         return options.image;
     }
     return `${image(options)}:${tag(options)}`;
@@ -116,6 +117,7 @@ function image_tag(options) {
 exports.image_tag = image_tag;
 function tag(options) {
   if (options.image) {
+    options.image = options.image;
     const tmp_split = options.image.split(":");
     return tmp_split[1];
   }
@@ -199,8 +201,8 @@ function check_ports(options) {
     dotenv_1.default.config({ override: true, path: env_path_specific });
     print_if_debug(options, process.env['PORT']);
     if (typeof process.env['PORT'] === 'undefined') {
-        options.app_port = 3000;
-        line(` using default app port `);
+      options.app_port = "3000";
+      line(` using default app port `);
         print_important_info_line(`'PORT' = '${options.app_port}'`);
         line(`...`);
     }
@@ -223,6 +225,7 @@ function map_cluster_to_env(cluster) {
 exports.map_cluster_to_env = map_cluster_to_env;
 function is_master_image(options) {
     if (options.image) {
+      options.image = options.image;
         return options.image.includes('master');
     }
     return false;
@@ -397,13 +400,21 @@ function print_options(options) {
         print_important_info(`--namespace=${options.namespace}`);
     }
     if (options.host) {
-        print_important_info(`--host=${options.host}`);
+      print_important_info(`--host=${options.host}`);
     }
-    if (options.registry) {
-        print_important_info(`--registry=${options.registry}`);
-    }
-    if (options.env) {
-        print_important_info(`--env=${options.env}`);
-    }
+  if (options.registry) {
+    print_important_info(`--registry=${options.registry}`);
+  }
+  if (options.env) {
+    print_important_info(`--env=${options.env}`);
+  }
 }
+
 exports.print_options = print_options;
+
+function step(options) {
+  options.step++;
+  return options.step;
+}
+
+exports.step = step;

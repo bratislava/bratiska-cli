@@ -70,32 +70,58 @@ try {
     .option('-debug, --debug', 'Debuging')
     .option('-force, --force <pass>', 'Force')
     .action((options) => {
-      steps.show_version_01(options, version);
-      steps.show_options_0(options);
-      steps.check_git_resources_1(options);
-      steps.check_kubernetes_cluster_2(options);
-      steps.check_kubernetes_connection_3(options);
-      steps.check_kubernetes_enviroment_4(options);
-      options = steps.check_kubernetes_enviroment_configuration_45(options);
-      steps.check_kubernetes_cluster_conditions_5(options);
-      steps.check_hosts_6(options);
-      steps.check_ports_numbers_65(options);
-      steps.check_kubernetes_harbor_key_7(options);
-      steps.check_docker_75(options);
-      steps.check_docker_8();
-      steps.check_docker_running_81(options);
-      steps.check_docker_login_89(options);
-      steps.build_docker_image_9(options);
-      steps.check_docker_image_10(options);
-      steps.push_docker_image_11(options);
-      steps.check_pushed_image_12(options);
-      steps.clean_docker_image_13(options);
-      steps.create_env_vars_15(options);
-      steps.build_kustomize_16(options);
-      steps.check_kustomize_17(options);
-      steps.deploy_kubernetes_18(options);
-      steps.clean_kustomize_19(options);
-      steps.check_deployment_20(options);
+      /* step 0 */
+      steps.show_version(options, version);
+      /* step 1 */
+      steps.show_options(options);
+      /* step 2 */
+      steps.check_git_resources(options);
+      /* step 3 */
+      steps.check_kubernetes_cluster(options);
+      /* step 4 */
+      steps.check_kubernetes_connection(options);
+      /* step 5 */
+      steps.check_kubernetes_enviroment(options);
+      /* step 6 */
+      options = steps.check_kubernetes_enviroment_configuration(options);
+      /* step 7 */
+      steps.check_kubernetes_cluster_conditions(options);
+      /* step 8 */
+      steps.check_hosts(options);
+      /* step 9 */
+      steps.check_ports_numbers(options);
+      /* step 10 */
+      steps.check_kubernetes_harbor_key(options);
+      /* step 11 */
+      steps.check_docker_file(options);
+      /* step 12 */
+      steps.check_docker(options);
+      /* step 13 */
+      steps.check_docker_running(options);
+      /* step 14 */
+      steps.check_docker_login(options);
+      /* step 15 */
+      steps.build_docker_image(options);
+      /* step 16 */
+      steps.check_docker_image(options);
+      /* step 17 */
+      steps.push_docker_image(options);
+      /* step 18 */
+      steps.check_pushed_image(options);
+      /* step 19 */
+      steps.clean_docker_image(options);
+      /* step 20 */
+      steps.create_env_vars(options);
+      /* step 21 */
+      steps.build_kustomize(options);
+      /* step 22 */
+      steps.check_kustomize(options);
+      /* step 23 */
+      steps.deploy_kubernetes(options);
+      /* step 24 */
+      steps.clean_kustomize(options);
+      /* step 25 */
+      steps.check_deployment(options);
     });
 
   program.parse(process.argv);

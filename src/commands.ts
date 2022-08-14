@@ -71,7 +71,7 @@ export function git_origin_commit_tag(tag: string): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function git_current_status(options: any): Bash {
+export function git_current_status(options: Options): Bash {
   const result = cp.spawnSync('git', ['status', '-s'], {
     encoding: 'utf8',
   });
@@ -79,7 +79,7 @@ export function git_current_status(options: any): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function git_repo_name(options: any): string {
+export function git_repo_name(options: Options): string {
   const cmd = 'basename `git rev-parse --show-toplevel`';
   helpers.print_if_debug(options, cmd);
   const name = execSync(cmd, { encoding: 'utf8' });
@@ -115,7 +115,7 @@ export function kubectl_cluster(): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function kubectl_pods_admin(options: any): Bash {
+export function kubectl_pods_admin(options: Options): Bash {
   const result = cp.spawnSync(
     'kubectl',
     ['get', 'pods', '-n', 'kube-system', '--request-timeout=3'],
@@ -130,7 +130,7 @@ export function kubectl_pods_admin(options: any): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function kubectl_pods(options: any): Bash {
+export function kubectl_pods(options: Options): Bash {
   const result = cp.spawnSync(
     'kubectl',
     ['get', 'pods', '-n', options.namespace, '--request-timeout=3'],
@@ -146,7 +146,7 @@ export function kubectl_pods(options: any): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function kubectl_pull_secret(options: any): Bash {
+export function kubectl_pull_secret(options: Options): Bash {
   const result = cp.spawnSync(
     'kubectl',
     [
@@ -169,7 +169,7 @@ export function docker(): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function docker_build(options: any) {
+export function docker_build(options: Options) {
   const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(
     options,
   )} --tag=${helpers.image_latest_tag(options)} --target=prod . `;
@@ -181,7 +181,7 @@ export function docker_build(options: any) {
   helpers.print_if_debug(options, cmd);
 }
 
-export function docker_check_image(options: any) {
+export function docker_check_image(options: Options) {
   const result = cp.spawnSync(
     'docker',
     ['image', `inspect`, helpers.image_tag(options)],
@@ -192,7 +192,7 @@ export function docker_check_image(options: any) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function docker_delete_image(options: any) {
+export function docker_delete_image(options: Options) {
   const result = cp.spawnSync(
     'docker',
     ['image', `rm`, helpers.image_tag(options)],
@@ -203,13 +203,13 @@ export function docker_delete_image(options: any) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function docker_push_image(options: any) {
+export function docker_push_image(options: Options) {
   cp.spawnSync('docker', ['push', helpers.image_tag(options)], {
     stdio: 'inherit',
   });
 }
 
-export function docker_check_image_in_registry(options: any) {
+export function docker_check_image_in_registry(options: Options) {
   helpers.print_if_debug(
     options,
     `docker manifest inspect ${helpers.image_tag(options)}`,
@@ -224,7 +224,7 @@ export function docker_check_image_in_registry(options: any) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function docker_login(options: any) {
+export function docker_login(options: Options) {
   helpers.print_if_debug(options, `docker login ${options.registry}`);
   const result = cp.spawnSync('docker', ['login', options.registry], {
     encoding: 'utf8',
@@ -232,7 +232,7 @@ export function docker_login(options: any) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function docker_running(options: any) {
+export function docker_running(options: Options) {
   helpers.print_if_debug(options, `docker running`);
   const result = cp.spawnSync('docker', ['info'], {
     encoding: 'utf8',
@@ -240,7 +240,7 @@ export function docker_running(options: any) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function get_bratiska_cli_git_package_json(options: any) {
+export function get_bratiska_cli_git_package_json() {
   const package_url =
     'https://raw.githubusercontent.com/bratislava/bratiska-cli/master/package.json';
 
@@ -248,11 +248,11 @@ export function get_bratiska_cli_git_package_json(options: any) {
   return res.getBody('utf8');
 }
 
-export function kustomize_build_manifest(options: any) {
+export function kustomize_build_manifest(options: Options) {
   let path = helpers.kustomize_folder_path(options);
 
   if (options.kustomize) {
-    path = options.kustomize;
+    path = <string>options.kustomize;
   }
 
   const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(
@@ -270,7 +270,7 @@ export function kubect_apply_to_kubernetes(manifest_path: string) {
   });
 }
 
-export function kubectl_deployment_status(options: any) {
+export function kubectl_deployment_status(options: Options) {
   helpers.log(chalk.reset(''));
   cp.spawnSync(
     'kubectl',
