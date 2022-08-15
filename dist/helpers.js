@@ -48,7 +48,7 @@ function skipping() {
 }
 exports.skipping = skipping;
 function not_present() {
-  line(chalk_1.default.yellow(" NOT PRESENT"));
+    line(chalk_1.default.yellow(" NOT PRESENT"));
 }
 exports.not_present = not_present;
 function finished() {
@@ -163,48 +163,34 @@ exports.manifest = manifest;
 function manifest_path(options) {
     return `${options.pwd}/${manifest(options)}`;
 }
-
 exports.manifest_path = manifest_path;
-
 function dockerfile_path(options) {
   return `${options.pwd}/Dockerfile`;
 }
-
 exports.dockerfile_path = dockerfile_path;
-
 function kustomize_folder_path(options) {
   return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
-
 exports.kustomize_folder_path = kustomize_folder_path;
-
 function docker_build_dot_env_file(options) {
   return `${options.pwd}/.env.${options.env}`;
 }
-
 exports.docker_build_dot_env_file = docker_build_dot_env_file;
-
 function docker_build_next_env(options) {
   return `${options.pwd}/.env.production.local`;
 }
-
 exports.docker_build_next_env = docker_build_next_env;
-
 function kustomize_folder_base(options) {
   return `${options.pwd}/kubernetes/base`;
 }
-
 exports.kustomize_folder_base = kustomize_folder_base;
-
 function pull_secret_name(options) {
   return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }
-
 exports.pull_secret_name = pull_secret_name;
-
 function capitalize(s) {
   if (typeof s !== "string")
-        return '';
+    return "";
     return s.charAt(0).toUpperCase() + s.slice(1);
 }
 exports.capitalize = capitalize;
@@ -410,15 +396,15 @@ function print_options(options) {
     if (options.build_kustomize) {
         print_important_info('--build_kustomize');
     }
-    if (options.force_rebuild) {
-        print_important_info('--force_rebuild');
-    }
-    if (options.build_image) {
-        print_important_info('--build_image');
-    }
-    if (options.build_image_no_registry) {
-        print_important_info('--build_image_no_registry');
-    }
+  if (options.force_rebuild) {
+    print_important_info("--force_rebuild");
+  }
+  if (options.build_image) {
+    print_important_info("--build_image");
+  }
+  if (options.build_image_no_registry) {
+    print_important_info("--build_image_no_registry");
+  }
   if (options.deployment) {
     print_important_info(`--deployment=${options.deployment}`);
   }

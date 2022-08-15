@@ -30,7 +30,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_enviroment = void 0;
 const helpers = __importStar(require("../helpers"));
 function check_kubernetes_enviroment(options) {
-    helpers.line(`(${helpers.step(options)}) Checking chosen Kubernetes cluster with the environment...`);
+  helpers.line(`(${helpers.step(options)}) Checking chosen Kubernetes cluster with the environment...`);
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
     return;
@@ -41,7 +41,7 @@ function check_kubernetes_enviroment(options) {
     const cluster_env = helpers.map_cluster_to_env(options.cluster);
     throw new Error(`Your kubernetes context "${options.cluster}" (${cluster_env}) do not match chosen context (${options.env})! Change with --env or kubernetes cluster context!`);
   }
-    helpers.ok();
-    return options;
+  helpers.ok();
+  return options;
 }
 exports.check_kubernetes_enviroment = check_kubernetes_enviroment;

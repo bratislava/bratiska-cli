@@ -30,7 +30,6 @@ exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
-const https = __importStar(require("https"));
 const sync_request_1 = __importDefault(require("sync-request"));
 function pwd() {
   let pwd = (0, child_process_1.execSync)("pwd", {
@@ -164,7 +163,7 @@ function docker() {
 }
 exports.docker = docker;
 function docker_build(options) {
-    const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(options)} --tag=${helpers.image_latest_tag(options)} --target=prod . `;
+  const cmd = `docker buildx build --platform=linux/amd64 -t=${helpers.image_tag(options)} -t=${helpers.image_latest_tag(options)} --target=prod . `;
     (0, child_process_1.execSync)(cmd, {
         stdio: 'inherit',
     });
@@ -222,11 +221,11 @@ function get_bratiska_cli_git_package_json() {
 }
 exports.get_bratiska_cli_git_package_json = get_bratiska_cli_git_package_json;
 function kustomize_build_manifest(options) {
-    let path = helpers.kustomize_folder_path(options);
-    if (options.kustomize) {
-        path = options.kustomize;
-    }
-    const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
+  let path = helpers.kustomize_folder_path(options);
+  if (options.kustomize) {
+    path = options.kustomize;
+  }
+  const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
   helpers.print_if_debug(options, cmd);
   (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
 }
@@ -251,21 +250,3 @@ function kubectl_deployment_status(options) {
     });
 }
 exports.kubectl_deployment_status = kubectl_deployment_status;
-async function http_request(package_url) {
-    return new Promise((resolve, reject) => {
-        const req = https.get(package_url, (res) => {
-          res.setEncoding("utf8");
-          let responseBody = "";
-          res.on("data", (chunk) => {
-            responseBody += chunk;
-          });
-          res.on("end", () => {
-            resolve(JSON.parse(responseBody));
-          });
-        });
-      req.on("error", (err) => {
-        reject(err);
-      });
-        req.end();
-    });
-}

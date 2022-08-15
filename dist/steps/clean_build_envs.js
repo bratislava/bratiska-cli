@@ -33,7 +33,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.clean_build_envs = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
-
 function clean_build_envs(options) {
   helpers.line(`(${helpers.step(options)}) Cleaning for docker build envs... `);
   if (options.image || options.dry_run || options.debug) {
@@ -54,5 +53,4 @@ function clean_build_envs(options) {
   }
   helpers.ok();
 }
-
 exports.clean_build_envs = clean_build_envs;
