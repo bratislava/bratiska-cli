@@ -169,9 +169,9 @@ export function docker(): Bash {
 }
 
 export function docker_build(options: Options) {
-  const cmd = `docker buildx build --platform=linux/amd64 -t=${helpers.image_tag(
+  const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(
     options,
-  )} -t=${helpers.image_latest_tag(options)} --target=prod . `;
+  )} --target=prod . `;
 
   execSync(cmd, {
     stdio: 'inherit',

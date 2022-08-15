@@ -12,16 +12,16 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+  o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+var __importStar = (this && this.__importStar) || function(mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  __setModuleDefault(result, mod);
+  return result;
 };
 var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const deploy_1 = require("./deploy");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.83";
+const version = "1.5.84";
 const deploy = new deploy_1.Deploy();
 try {
   (0, clear_1.default)();
@@ -116,16 +116,16 @@ try {
       deploy.create_kustomize_env_vars(options);
       /* step 23 */
       deploy.build_kustomize(options);
-        /* step 24 */
+      /* step 24 */
       deploy.check_kustomize(options);
-        /* step 25 */
+      /* step 25 */
       deploy.deploy_kubernetes(options);
-        /* step 26 */
+      /* step 26 */
       deploy.clean_kustomize(options);
-        /* step 27 */
+      /* step 27 */
       deploy.check_deployment(options);
     });
-    commander_1.program.parse(process.argv);
+  commander_1.program.parse(process.argv);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
 }

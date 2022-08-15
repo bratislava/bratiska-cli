@@ -163,7 +163,7 @@ function docker() {
 }
 exports.docker = docker;
 function docker_build(options) {
-  const cmd = `docker buildx build --platform=linux/amd64 -t=${helpers.image_tag(options)} -t=${helpers.image_latest_tag(options)} --target=prod . `;
+  const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(options)} --target=prod . `;
     (0, child_process_1.execSync)(cmd, {
         stdio: 'inherit',
     });
