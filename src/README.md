@@ -199,6 +199,7 @@ bratiska-cli deploy --dry_run --image harbor.bratislava.sk/standalone/nest-prism
 
 ## Automatization
 
+### Bratiska-cli args in config.json
 You can automatize running of the utility with configuration file, which can overwrite startup arguments. Configuration
 file must be created in kustomize folder specific to cluster, like `/Dev/config.json`. This file can cointain all
 configurable parametes of the utility, like `host`, `deployment`, `env` etc..
@@ -211,6 +212,47 @@ Example of config file
   "env": "prod"
 }
 ```
+
+### Enviroment variables for kustomize
+
+You can extend `config.json` with custom environment variables for kustomize attributes. For example you can define some
+settings in kustomize which needs to be dynamic like:
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${BUILD_REPOSITORY_NAME}-app
+  namespace: ${NAMESPACE}
+  labels:
+    service: app
+```
+
+So `${BUILD_REPOSITORY_NAME}` is env variable `BUILD_REPOSITORY_NAME` which you can define in `config.json` like here:
+
+```json
+{
+  "host": "gmb.sk",
+  "envs": {
+    "BUILD_REPOSITORY_NAME": "super-duper-app"
+  }
+}
+```
+
+Btw `BUILD_REPOSITORY_NAME` is automatically created from `package.json` so no need to creating it in `config.json`
+
+### Environment variables for docker next build
+
+Sometimes you need to have different environment variables for different clusters during docker next build. You can
+achieve it by creating files:
+
+`.env.dev`
+`.env.staging`
+`.env.prod`
+
+Which is then loaded by bratiska-cli and all its content is copied to file `.env.production.local` which is then loaded
+to docker and processed by next during the build. More info regarding next envs can be found
+here: https://nextjs.org/docs/basic-features/environment-variables
 
 ## More manuals
 
