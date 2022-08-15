@@ -23,7 +23,7 @@ const push_docker_image_1 = require("./steps/push_docker_image");
 const check_pushed_image_1 = require("./steps/check_pushed_image");
 const clean_docker_image_1 = require("./steps/clean_docker_image");
 const check_ports_numbers_1 = require("./steps/check_ports_numbers");
-const create_env_vars_1 = require("./steps/create_env_vars");
+const create_kustomize_env_vars_1 = require("./steps/create_kustomize_env_vars");
 const build_kustomize_1 = require("./steps/build_kustomize");
 const check_kustomize_1 = require("./steps/check_kustomize");
 const deploy_kubernetes_1 = require("./steps/deploy_kubernetes");
@@ -69,50 +69,65 @@ class Steps {
     check_docker_login(options) {
         (0, check_docker_login_1.check_docker_login)(options);
     }
-    check_docker_running(options) {
-        (0, check_docker_running_1.check_docker_running)(options);
-    }
-    load_build_envs(options) {
-        (0, load_build_envs_1.load_build_envs)(options);
-    }
-    build_docker_image(options) {
-        (0, build_docker_image_1.build_docker_image)(options);
-    }
-    check_docker_image(options) {
-        (0, check_docker_image_1.check_docker_image)(options);
-    }
-    clean_build_envs(options) {
-        (0, clean_build_envs_1.clean_build_envs)(options);
-    }
-    push_docker_image(options) {
-        (0, push_docker_image_1.push_docker_image)(options);
-    }
-    check_pushed_image(options) {
-        (0, check_pushed_image_1.check_pushed_image)(options);
-    }
-    clean_docker_image(options) {
-        (0, clean_docker_image_1.clean_docker_image)(options);
-    }
-    check_ports_numbers(options) {
-        (0, check_ports_numbers_1.check_ports_numbers)(options);
-    }
-    create_env_vars(options) {
-        (0, create_env_vars_1.create_env_vars)(options);
-    }
-    build_kustomize(options) {
-        (0, build_kustomize_1.build_kustomize)(options);
-    }
-    check_kustomize(options) {
-        (0, check_kustomize_1.check_kustomize)(options);
-    }
-    deploy_kubernetes(options) {
-        (0, deploy_kubernetes_1.deploy_kubernetes)(options);
-    }
-    clean_kustomize(options) {
-        (0, clean_kustomize_1.clean_kustomize)(options);
-    }
-    check_deployment(options) {
-        (0, check_deployment_1.check_deployment)(options);
-    }
+
+  check_docker_running(options) {
+    (0, check_docker_running_1.check_docker_running)(options);
+  }
+
+  load_build_envs(options) {
+    (0, load_build_envs_1.load_build_envs)(options);
+  }
+
+  build_docker_image(options) {
+    (0, build_docker_image_1.build_docker_image)(options);
+  }
+
+  check_docker_image(options) {
+    (0, check_docker_image_1.check_docker_image)(options);
+  }
+
+  clean_build_envs(options) {
+    (0, clean_build_envs_1.clean_build_envs)(options);
+  }
+
+  push_docker_image(options) {
+    (0, push_docker_image_1.push_docker_image)(options);
+  }
+
+  check_pushed_image(options) {
+    (0, check_pushed_image_1.check_pushed_image)(options);
+  }
+
+  clean_docker_image(options) {
+    (0, clean_docker_image_1.clean_docker_image)(options);
+  }
+
+  check_ports_numbers(options) {
+    (0, check_ports_numbers_1.check_ports_numbers)(options);
+  }
+
+  create_kustomize_env_vars(options) {
+    (0, create_kustomize_env_vars_1.create_kustomize_env_vars)(options);
+  }
+
+  build_kustomize(options) {
+    (0, build_kustomize_1.build_kustomize)(options);
+  }
+
+  check_kustomize(options) {
+    (0, check_kustomize_1.check_kustomize)(options);
+  }
+
+  deploy_kubernetes(options) {
+    (0, deploy_kubernetes_1.deploy_kubernetes)(options);
+  }
+
+  clean_kustomize(options) {
+    (0, clean_kustomize_1.clean_kustomize)(options);
+  }
+
+  check_deployment(options) {
+    (0, check_deployment_1.check_deployment)(options);
+  }
 }
 exports.Steps = Steps;

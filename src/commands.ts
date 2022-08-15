@@ -209,17 +209,15 @@ export function docker_push_image(options: Options) {
 }
 
 export function docker_check_image_in_registry(options: Options) {
-  helpers.print_if_debug(
-    options,
-    `docker manifest inspect ${helpers.image_tag(options)}`,
-  );
-  const result = cp.spawnSync(
-    'docker',
-    ['manifest', 'inspect', helpers.image_tag(options)],
-    {
-      encoding: 'utf8',
-    },
-  );
+  let image = helpers.image_tag(options);
+  if (options.image) {
+    image = <string>options.image;
+  }
+
+  helpers.print_if_debug(options, `docker manifest inspect ${image}`);
+  const result = cp.spawnSync('docker', ['manifest', 'inspect', image], {
+    encoding: 'utf8',
+  });
   return { res: result.stdout.trim(), err: result.stderr };
 }
 

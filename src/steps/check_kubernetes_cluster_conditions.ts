@@ -15,6 +15,24 @@ export function check_kubernetes_cluster_conditions(options: Options) {
   }
 
   switch (options.cluster) {
+    case 'tkg-innov-staging':
+      if (typeof options.staging === 'undefined' && options.force === false) {
+        throw new Error(
+          "You cannot deploy to 'tkg-innov-staging' without a staging flag! Please add the flag `--staging` to the command.",
+        );
+      }
+      if (options.untracked === true && options.force === false) {
+        throw new Error(
+          `You cannot deploy to 'tkg-innov-staging' when you have untracked changes. Please commit and push changes to your branch origin/${options.branch}!`,
+        );
+      }
+
+      if (options.merged === false && options.force === false) {
+        throw new Error(
+          `You cannot deploy to 'tkg-innov-staging' when the changes are not pushed in-branch origin/${options.branch}. Please push your changes!`,
+        );
+      }
+      break;
     case 'tkg-innov-prod':
       if (typeof options.production === 'undefined') {
         throw new Error(
@@ -62,24 +80,6 @@ export function check_kubernetes_cluster_conditions(options: Options) {
             `Push your local tag to origin because origin tag is not same as your local.`,
           );
         }
-      }
-      break;
-    case 'tkg-innov-staging':
-      if (typeof options.staging === 'undefined' && options.force === false) {
-        throw new Error(
-          "You cannot deploy to 'tkg-innov-staging' without a staging flag! Please add the flag `--staging` to the command.",
-        );
-      }
-      if (options.untracked === true && options.force === false) {
-        throw new Error(
-          `You cannot deploy to 'tkg-innov-staging' when you have untracked changes. Please commit and push changes to your branch origin/${options.branch}!`,
-        );
-      }
-
-      if (options.merged === false && options.force === false) {
-        throw new Error(
-          `You cannot deploy to 'tkg-innov-staging' when the changes are not pushed in-branch origin/${options.branch}. Please push your changes!`,
-        );
       }
       break;
   }

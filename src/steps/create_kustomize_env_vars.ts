@@ -1,6 +1,6 @@
 import * as helpers from '../helpers';
 
-export function create_env_vars(options: Options) {
+export function create_kustomize_env_vars(options: Options) {
   helpers.line(
     `(${helpers.step(options)}) Creating the env variables for kustomize...`,
   );

@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const steps_1 = require("./steps");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.81";
+const version = "1.5.82";
 const steps = new steps_1.Steps();
 try {
   (0, clear_1.default)();
@@ -106,26 +106,26 @@ try {
       steps.check_docker_image(options);
       /* step 18 */
       steps.clean_build_envs(options);
-      /* step 19 */
-      steps.push_docker_image(options);
-      /* step 20 */
-      steps.check_pushed_image(options);
-      /* step 21 */
-      steps.clean_docker_image(options);
-      /* step 22 */
-      steps.create_env_vars(options);
-      /* step 23 */
-      steps.build_kustomize(options);
-      /* step 24 */
-      steps.check_kustomize(options);
-      /* step 25 */
-      steps.deploy_kubernetes(options);
-      /* step 26 */
-      steps.clean_kustomize(options);
-      /* step 27 */
-      steps.check_deployment(options);
+        /* step 19 */
+        steps.push_docker_image(options);
+        /* step 20 */
+        steps.check_pushed_image(options);
+        /* step 21 */
+        steps.clean_docker_image(options);
+        /* step 22 */
+        steps.create_kustomize_env_vars(options);
+        /* step 23 */
+        steps.build_kustomize(options);
+        /* step 24 */
+        steps.check_kustomize(options);
+        /* step 25 */
+        steps.deploy_kubernetes(options);
+        /* step 26 */
+        steps.clean_kustomize(options);
+        /* step 27 */
+        steps.check_deployment(options);
     });
-  commander_1.program.parse(process.argv);
+    commander_1.program.parse(process.argv);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
 }

@@ -27,21 +27,17 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_pushed_image = void 0;
+exports.create_kustomize_env_vars = void 0;
 const helpers = __importStar(require("../helpers"));
-const commands = __importStar(require("../commands"));
-function check_pushed_image(options) {
-  helpers.line(`(${helpers.step(options)}) Checking if the image is in the remote registry.\n...`);
-  if (options.build_image_no_registry) {
+
+function create_kustomize_env_vars(options) {
+  helpers.line(`(${helpers.step(options)}) Creating the env variables for kustomize...`);
+  if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
     return;
   }
-  helpers.print_if_debug(options, `image tag: ${helpers.image_tag(options)}`);
-  const image_r = commands.docker_check_image_in_registry(options);
-  if (image_r.err !== "") {
-    throw new Error(`Image is not in the registry! Probably you are unauthorized, or the image is simply not there. Check your repository.`);
-  }
-  helpers.print_line_if_debug(options, "(11) Continue Checking if image...");
+  helpers.assign_env_vars(options);
   helpers.ok();
 }
-exports.check_pushed_image = check_pushed_image;
+
+exports.create_kustomize_env_vars = create_kustomize_env_vars;

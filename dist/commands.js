@@ -191,11 +191,15 @@ function docker_push_image(options) {
 }
 exports.docker_push_image = docker_push_image;
 function docker_check_image_in_registry(options) {
-    helpers.print_if_debug(options, `docker manifest inspect ${helpers.image_tag(options)}`);
-    const result = child_process_1.default.spawnSync('docker', ['manifest', 'inspect', helpers.image_tag(options)], {
-        encoding: 'utf8',
-    });
-    return { res: result.stdout.trim(), err: result.stderr };
+  let image = helpers.image_tag(options);
+  if (options.image) {
+    image = options.image;
+  }
+  helpers.print_if_debug(options, `docker manifest inspect ${image}`);
+  const result = child_process_1.default.spawnSync("docker", ["manifest", "inspect", image], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.docker_check_image_in_registry = docker_check_image_in_registry;
 function docker_login(options) {

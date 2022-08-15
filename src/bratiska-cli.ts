@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Steps } from './steps';
 import * as helpers from './helpers';
 
-const version = '1.5.81';
+const version = '1.5.82';
 const steps = new Steps();
 
 try {
@@ -115,7 +115,7 @@ try {
       /* step 21 */
       steps.clean_docker_image(options);
       /* step 22 */
-      steps.create_env_vars(options);
+      steps.create_kustomize_env_vars(options);
       /* step 23 */
       steps.build_kustomize(options);
       /* step 24 */

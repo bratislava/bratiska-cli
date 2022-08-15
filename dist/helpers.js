@@ -191,7 +191,7 @@ exports.pull_secret_name = pull_secret_name;
 function capitalize(s) {
   if (typeof s !== "string")
     return "";
-    return s.charAt(0).toUpperCase() + s.slice(1);
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 exports.capitalize = capitalize;
 function check_ports(options) {
@@ -378,24 +378,24 @@ function load_json(path) {
 }
 exports.load_json = load_json;
 function print_options(options) {
-    if (options.staging) {
-        print_important_info('--staging');
-    }
-    if (options.production) {
-        print_important_info('--production');
-    }
-    if (options.debug) {
-        print_important_info('--debug');
-    }
-    if (options.dry_run) {
-        print_important_info('--dry_run');
-    }
-    if (options.force) {
-        print_important_info('--force');
-    }
-    if (options.build_kustomize) {
-        print_important_info('--build_kustomize');
-    }
+  if (options.staging) {
+    print_important_info("--staging");
+  }
+  if (options.production) {
+    print_important_info("--production");
+  }
+  if (options.debug) {
+    print_important_info("--debug");
+  }
+  if (options.dry_run) {
+    print_important_info("--dry_run");
+  }
+  if (options.force) {
+    print_important_info("--force");
+  }
+  if (options.build_kustomize) {
+    print_important_info("--build_kustomize");
+  }
   if (options.force_rebuild) {
     print_important_info("--force_rebuild");
   }

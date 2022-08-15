@@ -20,7 +20,7 @@ import { push_docker_image } from './steps/push_docker_image';
 import { check_pushed_image } from './steps/check_pushed_image';
 import { clean_docker_image } from './steps/clean_docker_image';
 import { check_ports_numbers } from './steps/check_ports_numbers';
-import { create_env_vars } from './steps/create_env_vars';
+import { create_kustomize_env_vars } from './steps/create_kustomize_env_vars';
 import { build_kustomize } from './steps/build_kustomize';
 import { check_kustomize } from './steps/check_kustomize';
 import { deploy_kubernetes } from './steps/deploy_kubernetes';
@@ -116,8 +116,8 @@ export class Steps {
     check_ports_numbers(options);
   }
 
-  create_env_vars(options: Options) {
-    create_env_vars(options);
+  create_kustomize_env_vars(options: Options) {
+    create_kustomize_env_vars(options);
   }
 
   build_kustomize(options: Options) {
