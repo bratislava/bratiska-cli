@@ -203,7 +203,7 @@ export function docker_delete_image(options: Options) {
 }
 
 export function docker_push_image(options: Options) {
-  cp.spawnSync('docker', ['push', helpers.image_tag(options)], {
+  cp.spawnSync('docker', ['push', '--all-tags'], {
     stdio: 'inherit',
   });
 }

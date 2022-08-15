@@ -27,7 +27,7 @@ import { deploy_kubernetes } from './steps/deploy_kubernetes';
 import { clean_kustomize } from './steps/clean_kustomize';
 import { check_deployment } from './steps/check_deployment';
 
-export class Steps {
+export class Deploy {
   show_version(options: Options, version: string) {
     show_version(options, version);
   }

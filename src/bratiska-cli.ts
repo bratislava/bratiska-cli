@@ -4,11 +4,11 @@ import chalk from 'chalk';
 import clear from 'clear';
 import figlet from 'figlet';
 import { program } from 'commander';
-import { Steps } from './steps';
+import { Deploy } from './deploy';
 import * as helpers from './helpers';
 
-const version = '1.5.82';
-const steps = new Steps();
+const version = '1.5.83';
+const deploy = new Deploy();
 
 try {
   clear();
@@ -41,7 +41,7 @@ try {
     .option('-force_rebuild, --force_rebuild', 'Forcing image rebuild.')
     .option(
       '-build_image_no_registry, --build_image_no_registry',
-      'Don`t push to rezgistry',
+      'Don`t push to registry',
     )
     .option('-build_kustomize, --build_kustomize', 'Build kustomize file only.')
     .option('-dry_run, --dry_run', 'Run without deploying to kubernetes')
@@ -71,61 +71,61 @@ try {
     .option('-force, --force <pass>', 'Force')
     .action((options) => {
       /* step 0 */
-      steps.show_version(options, version);
+      deploy.show_version(options, version);
       /* step 1 */
-      steps.show_options(options);
+      deploy.show_options(options);
       /* step 2 */
-      steps.check_git_resources(options);
+      deploy.check_git_resources(options);
       /* step 3 */
-      steps.check_kubernetes_cluster(options);
+      deploy.check_kubernetes_cluster(options);
       /* step 4 */
-      steps.check_kubernetes_connection(options);
+      deploy.check_kubernetes_connection(options);
       /* step 5 */
-      steps.check_kubernetes_enviroment(options);
+      deploy.check_kubernetes_enviroment(options);
       /* step 6 */
-      options = steps.check_kubernetes_enviroment_configuration(options);
+      options = deploy.check_kubernetes_enviroment_configuration(options);
       /* step 7 */
-      steps.check_kubernetes_cluster_conditions(options);
+      deploy.check_kubernetes_cluster_conditions(options);
       /* step 8 */
-      steps.check_hosts(options);
+      deploy.check_hosts(options);
       /* step 9 */
-      steps.check_ports_numbers(options);
+      deploy.check_ports_numbers(options);
       /* step 10 */
-      steps.check_kubernetes_harbor_key(options);
+      deploy.check_kubernetes_harbor_key(options);
       /* step 11 */
-      steps.check_docker_file(options);
+      deploy.check_docker_file(options);
       /* step 12 */
-      steps.check_docker(options);
+      deploy.check_docker(options);
       /* step 13 */
-      steps.check_docker_running(options);
+      deploy.check_docker_running(options);
       /* step 14 */
-      steps.check_docker_login(options);
+      deploy.check_docker_login(options);
       /* step 15 */
-      steps.load_build_envs(options);
+      deploy.load_build_envs(options);
       /* step 16 */
-      steps.build_docker_image(options);
+      deploy.build_docker_image(options);
       /* step 17 */
-      steps.check_docker_image(options);
+      deploy.check_docker_image(options);
       /* step 18 */
-      steps.clean_build_envs(options);
+      deploy.clean_build_envs(options);
       /* step 19 */
-      steps.push_docker_image(options);
+      deploy.push_docker_image(options);
       /* step 20 */
-      steps.check_pushed_image(options);
+      deploy.check_pushed_image(options);
       /* step 21 */
-      steps.clean_docker_image(options);
+      deploy.clean_docker_image(options);
       /* step 22 */
-      steps.create_kustomize_env_vars(options);
+      deploy.create_kustomize_env_vars(options);
       /* step 23 */
-      steps.build_kustomize(options);
+      deploy.build_kustomize(options);
       /* step 24 */
-      steps.check_kustomize(options);
+      deploy.check_kustomize(options);
       /* step 25 */
-      steps.deploy_kubernetes(options);
+      deploy.deploy_kubernetes(options);
       /* step 26 */
-      steps.clean_kustomize(options);
+      deploy.clean_kustomize(options);
       /* step 27 */
-      steps.check_deployment(options);
+      deploy.check_deployment(options);
     });
 
   program.parse(process.argv);

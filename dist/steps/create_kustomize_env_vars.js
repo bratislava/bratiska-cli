@@ -29,7 +29,6 @@ var __importStar = (this && this.__importStar) || function(mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.create_kustomize_env_vars = void 0;
 const helpers = __importStar(require("../helpers"));
-
 function create_kustomize_env_vars(options) {
   helpers.line(`(${helpers.step(options)}) Creating the env variables for kustomize...`);
   if (options.build_image || options.build_image_no_registry) {
@@ -39,5 +38,4 @@ function create_kustomize_env_vars(options) {
   helpers.assign_env_vars(options);
   helpers.ok();
 }
-
 exports.create_kustomize_env_vars = create_kustomize_env_vars;
