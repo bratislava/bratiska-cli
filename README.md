@@ -25,19 +25,20 @@ To be able to work with this utility, you need to have a few things configured:
 
 #### Running apps:
 
-These apps needs be running when you use `bratiska-cli`:
+These apps needs are running when you use `bratiska-cli`:
 
 - running `docker`
-- You need to be signed in to our docker repository `harbor.bratislava.sk`. See the manual below.
+- You must be signed in to our docker repository `harbor.bratislava.sk`. See the manual below.
 
     ```bash
     docker login https://harbor.bratislava.sk
     ```
-    For Windows WSL use:
+  For Windows WSL use:
     ```bash
     docker login harbor.bratislava.sk
     ```
-- You need to have running `kubect` and be signed into the Kubernetes cluster. If you have issues signing to Kubernetes, contact your administrator.
+- You need to have running `kubect` and be signed into the Kubernetes cluster. If you have issues signing to Kubernetes,
+  contact your administrator.
 
 ## Installation
 
@@ -89,7 +90,7 @@ bratiska-cli deploy -- --build_image_no_registry
 
 #### Build kustomize only
 
-If you want to build a kustomize file, only run
+If you want to build a kustomize file, only run.
 
 ```bash
 bratiska-cli deploy -- --build_kustomize
@@ -97,15 +98,15 @@ bratiska-cli deploy -- --build_kustomize
 
 #### Build kustomize only with specified docker image
 
-If you want to build kustomize file only run
+If you want to build a kustomize file, only run.
 
 ```bash
 bratiska-cli deploy -- --build_kustomize --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
 ```
 
-#### Deploy with special imagee
+#### Deploy with a special image
 
-If you have specified image you can deploy it
+If you have a specified image, you can deploy it.
 
 ```bash
 bratiska-cli deploy --  --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
@@ -171,9 +172,11 @@ bratiska-cli deploy -- --registry=ghcr.io
 
 #### Staging and Production
 
-To deploy to the stage, you need to add `--staging` flag, and your changes need to be committed and pushed to branch to our repository. You can`t have untracked changes.
+To deploy to the stage, you need to add `--staging` flag, and your changes need to be committed and pushed to branch to
+our repository. You can`t have untracked changes.
 
-The same applies to production, so you need to use `--production`, and changes must be merged to master. Otherwise, you can`t update production.
+The same applies to production, so you must use `--production`, and changes must be merged to master. Otherwise, you
+can`t update production.
 
 ```bash
 bratiska-cli deploy -- --staging
@@ -182,26 +185,10 @@ bratiska-cli deploy -- --staging
 #### Debug
 
 If you need to debug the deploy process, you can add the `--debug` option. This will save the kustomize manifest to the
-directory so that you can inspect it. Also, it does not delete the image from docker so that you can have a look at it.
+directory so you can inspect it. Also, it does not delete the image from docker, so you can look at it.
 
 ```bash
 bratiska-cli deploy -- --debug
-```
-
-#### Define config in kustomize folder
-
-If you need to have some permanent settings on enviroment, you can define a config
-in `/kubernetes/envs/[Dev,Staging,Prod]` with name `config.json`. Config is overriding all options passed or
-automatically assesed by the bratiska-cli utility. Example of config:
-
-```bash
-{
-  "host": "gmb.sk",
-  "envs": {
-    "CDN_PORT": "4747",
-    "DEFAULT_ANSWER": "42"
-  }
-}
 ```
 
 ### Examples
@@ -212,13 +199,75 @@ Dry run with custom image and specified folder to kustomize.
 bratiska-cli deploy -- --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
 ```
 
-## Environment variables passed to kustomize files
+## Automatization
+
+### Bratiska-cli args in config.json
+
+You can automatize the running of the utility with a configuration file, which can overwrite startup arguments. If you
+need to have some permanent settings on the environment, you can define a config
+in `/kubernetes/envs/[Dev,Staging,Prod]` with the name `config.json`. Config is overriding all options passed or
+automatically assessed by the bratiska-cli utility. Example of config:
+
+Example of `config.json` file
+
+```json
+{
+  "host": "bratislava.sk",
+  "env": "prod"
+}
+```
+
+### Environment variables for kustomize
+
+You can extend `config.json` with custom environment variables for kustomize attributes. For example, you can define
+some
+settings in kustomize, which needs to be dynamic like:
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${BUILD_REPOSITORY_NAME}-app
+  namespace: ${NAMESPACE}
+  labels:
+    service: app
+```
+
+So `${BUILD_REPOSITORY_NAME}` is env variable `BUILD_REPOSITORY_NAME` which you can define in `config.json` like here:
+
+```json
+{
+  "host": "gmb.sk",
+  "envs": {
+    "BUILD_REPOSITORY_NAME": "super-duper-app"
+  }
+}
+```
+
+Btw `BUILD_REPOSITORY_NAME` is automatically created from `package.json`, so there is no need to create it
+in `config.json`
+
+### Environment variables for docker next build
+
+Sometimes you need to have different environment variables for other clusters during docker next build. You can
+achieve it by creating files:
+
+`.env.dev`
+`.env.staging`
+`.env.prod`
+
+Which is then loaded by bratiska-cli, and all its content is copied to file `.env.production.local`, which is then
+loaded
+to docker and processed by next during the build. More info regarding the next envs can be found
+here: https://nextjs.org/docs/basic-features/environment-variables
+
+### Environment variables passed to kustomize files
 
 ```dotenv
 BUILD_REPOSITORY_URI
 ```
 
-git repository uri and if is external image then value is `using_external_image`
+Git repository uri, and if is an external image, then the value is `using_external_image`
 
 ```dotenv
 BUILD_REPOSITORY_NAME
@@ -230,7 +279,7 @@ name from package.json
 DEPLOYMENT_ENV
 ```
 
-it is used in url addresses like `DEPLOYMENT_ENVbratislava.sk`
+it is used in URL addresses like `DEPLOYMENT_ENVbratislava.sk`
 dev => `dev.`
 staging => `staging.`
 prod => `` (is empty)
@@ -244,13 +293,13 @@ Can have three values: `dev`, `staging`, `prod`
 HOSTNAME
 ```
 
-hostname of the app
+the hostname of the app
 
 ```dotenv
 IMAGE_TAG
 ```
 
-complete image tag with url and tag
+complete image tag with URL and tag
 like `harbor.bratislava.sk/municipal-police/zandaris:bratiska-cli-1.5.64-pipelines-1e6277615d3649300384a399f7cb6a8c12a0e128-master-v0.3.1`
 
 ```dotenv
@@ -269,7 +318,7 @@ tag value `bratiska-cli-1.5.64-pipelines-1e6277615d3649300384a399f7cb6a8c12a0e12
 GIT_TAG
 ```
 
-value of git tag used in deployment like `dev1.47`
+value of git tag used in a deployment like `dev1.47.`
 
 ```dotenv
 COMMIT
@@ -282,19 +331,20 @@ is `using_external_image`
 NAMESPACE
 ```
 
-namespace where should be image deployed like `standalone`
+Namespace where should be image deployed like `standalone`
 
 ```dotenv
 IMAGE_PULL_SECRET
 ```
 
-image pull secret name which is then checked if exists on kubernetes like `harbor-secret-dev-standalone-bratiska-cli`
+an Image pull secret name, which is then checked if it exists on Kubernetes
+like `harbor-secret-dev-standalone-bratiska-cli`
 
 ```dotenv
 INTERNAL_APP_PORT
 ````
 
-app port which is then exposed to the public like `1338`
+App port which is then exposed to the public like `1338`
 
 ## More manuals
 
@@ -306,13 +356,13 @@ We need to configure a harbor connection for uploading images to the registry.
 2. Sign in with your Azure account
 3. Copy CLI secret from your profile. Follow the picture guide:
 
-   - Go to your profile in the right top corner:
+    - Go to your profile in the right top corner:
 
-     ![alt text](./public/readme/user.png)
+      ![alt text](./public/readme/user.png)
 
-   - Click on `User Profile`
-   - Copy `CLI secret`
-     ![alt text](./public/readme/profile.png)
+    - Click on `User Profile
+    - Copy `CLI secret`
+      ![alt text](./public/readme/profile.png)
 
 4. Sign in docker with the command:
 
@@ -320,12 +370,14 @@ We need to configure a harbor connection for uploading images to the registry.
 docker login https://harbor.bratislava.sk
 ```
 
-using your username `your.name@bratislava.sk` and `CLI secret` value 5. When you see `Login Succeeded,` then you are done 👏
+You use your username `your.name@bratislava.sk` and `CLI secret` value 5. When you see `Login Succeeded,` then you are
+done 👏
 
 ## Development
 
-You need to pull this repo with 
-`git clone bratislava/bratiska-cli`. Then you can build it with command: `yarn run build`. If everything was builded fine, you can test it localy with `yarn run start`.
+You need to pull this repo with
+`git clone bratislava/bratiska-cli`. Then you can build it with the command: `yarn run build`. You could test it locally
+with `yarn run start` if everything were built fine.
 
 
 ## Release
