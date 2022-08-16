@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const deploy_1 = require("./deploy");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.89";
+const version = "1.5.90";
 const deploy = new deploy_1.Deploy();
 try {
   (0, clear_1.default)();
@@ -67,6 +67,7 @@ try {
     .option("-production, --production", "To deploy on production, you need to add this flag.")
     .option("-debug, --debug", "Debuging")
     .option("-beta, --beta", "Beta features")
+    .option("-no-image-repo-check, --no-image-repo-check", "No Image repository check")
     .option("-force, --force <pass>", "Force")
     .action((options) => {
       /* step 0 */

@@ -422,6 +422,10 @@ export function print_options(options: Options) {
     print_important_info('--debug');
   }
 
+  if (options.no_image_repo_check) {
+    print_important_info('--no_image_repo_check');
+  }
+
   if (options.dry_run) {
     print_important_info('--dry_run');
   }

@@ -7,7 +7,7 @@ export function check_pushed_image(options: Options) {
       options,
     )}) Checking if the image is in the remote registry.\n...`,
   );
-  if (options.build_image_no_registry) {
+  if (options.build_image_no_registry || options.no_image_repo_check) {
     helpers.skipping();
     return;
   }

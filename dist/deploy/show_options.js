@@ -64,6 +64,9 @@ function show_options(options) {
   if (typeof options.image === "undefined") {
     options.image = false;
   }
+  if (typeof options.no_image_repo_check === "undefined") {
+    options.no_image_repo_check = false;
+  }
   if (typeof options.namespace === "undefined") {
     options.namespace = "standalone";
   }
