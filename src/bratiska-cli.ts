@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Deploy } from './deploy';
 import * as helpers from './helpers';
 
-const version = '1.5.86';
+const version = '1.5.87';
 const deploy = new Deploy();
 
 try {
@@ -68,6 +68,7 @@ try {
       'To deploy on production, you need to add this flag.',
     )
     .option('-debug, --debug', 'Debuging')
+    .option('-beta, --beta', 'Beta features')
     .option('-force, --force <pass>', 'Force')
     .action((options) => {
       /* step 0 */

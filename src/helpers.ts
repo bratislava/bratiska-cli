@@ -130,9 +130,9 @@ export function latest_tag(options: Options) {
   return `${options.env}-latest`;
 }
 
-export function image_latest_tag(options: Options) {
+export function image_latest_tag(options: Options): string {
   if (options.image) {
-    return options.image;
+    return <string>options.image;
   }
 
   return `${image(options)}:${latest_tag(options)}`;
@@ -408,6 +408,10 @@ export function print_options(options: Options) {
 
   if (options.production) {
     print_important_info('--production');
+  }
+
+  if (options.beta) {
+    print_important_info(`--beta`);
   }
 
   if (options.debug) {

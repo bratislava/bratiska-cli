@@ -384,6 +384,9 @@ function print_options(options) {
   if (options.production) {
     print_important_info("--production");
   }
+  if (options.beta) {
+    print_important_info(`--beta`);
+  }
   if (options.debug) {
     print_important_info("--debug");
   }

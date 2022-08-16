@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_origin_commit_tag = exports.git_commit_tag = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
+exports.kubectl_deployment_status = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_user = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_origin_commit_tag = exports.git_commit_tag = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_current_branch = exports.cd = exports.pwd = void 0;
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
@@ -161,42 +161,58 @@ function docker() {
     });
     return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.docker = docker;
+
 function docker_build(options) {
   const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(options)} --target=prod . `;
-    (0, child_process_1.execSync)(cmd, {
-        stdio: 'inherit',
-    });
-    helpers.print_if_debug(options, cmd);
+  (0, child_process_1.execSync)(cmd, {
+    stdio: "inherit"
+  });
+  helpers.print_if_debug(options, cmd);
 }
+
 exports.docker_build = docker_build;
-function docker_check_image(options) {
-    const result = child_process_1.default.spawnSync('docker', ['image', `inspect`, helpers.image_tag(options)], {
-        encoding: 'utf8',
-    });
-    return { res: result.stdout.trim(), err: result.stderr };
+
+function docker_tag(sourcetag, targettag) {
+  const result = child_process_1.default.spawnSync("docker", ["tag", sourcetag, targettag], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
 }
+
+exports.docker_tag = docker_tag;
+
+function docker_check_image(options) {
+  const result = child_process_1.default.spawnSync("docker", ["image", `inspect`, helpers.image_tag(options)], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 exports.docker_check_image = docker_check_image;
+
 function docker_delete_image(options) {
-    const result = child_process_1.default.spawnSync('docker', ['image', `rm`, helpers.image_tag(options)], {
-        encoding: 'utf8',
+  const result = child_process_1.default.spawnSync("docker", ["image", `rm`, helpers.image_tag(options)], {
+    encoding: "utf8"
     });
     return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.docker_delete_image = docker_delete_image;
-function docker_push_image(options) {
-  child_process_1.default.spawnSync("docker", ["push", helpers.image_tag(options)], {
+
+function docker_push_image(options, tag) {
+  child_process_1.default.spawnSync("docker", ["push", tag], {
     stdio: "inherit"
   });
 }
 exports.docker_push_image = docker_push_image;
-function docker_check_image_in_registry(options) {
-  let image = helpers.image_tag(options);
+
+function docker_check_image_in_registry(options, imagetag) {
   if (options.image) {
-    image = options.image;
+    imagetag = options.image;
   }
-  helpers.print_if_debug(options, `docker manifest inspect ${image}`);
-  const result = child_process_1.default.spawnSync("docker", ["manifest", "inspect", image], {
+  helpers.print_if_debug(options, `docker manifest inspect ${imagetag}`);
+  const result = child_process_1.default.spawnSync("docker", ["manifest", "inspect", imagetag], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };

@@ -180,6 +180,13 @@ export function docker_build(options: Options) {
   helpers.print_if_debug(options, cmd);
 }
 
+export function docker_tag(sourcetag: string, targettag: string) {
+  const result = cp.spawnSync('docker', ['tag', sourcetag, targettag], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 export function docker_check_image(options: Options) {
   const result = cp.spawnSync(
     'docker',
@@ -202,20 +209,22 @@ export function docker_delete_image(options: Options) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function docker_push_image(options: Options) {
-  cp.spawnSync('docker', ['push', helpers.image_tag(options)], {
+export function docker_push_image(options: Options, tag: string) {
+  cp.spawnSync('docker', ['push', tag], {
     stdio: 'inherit',
   });
 }
 
-export function docker_check_image_in_registry(options: Options) {
-  let image = helpers.image_tag(options);
+export function docker_check_image_in_registry(
+  options: Options,
+  imagetag: string,
+) {
   if (options.image) {
-    image = <string>options.image;
+    imagetag = <string>options.image;
   }
 
-  helpers.print_if_debug(options, `docker manifest inspect ${image}`);
-  const result = cp.spawnSync('docker', ['manifest', 'inspect', image], {
+  helpers.print_if_debug(options, `docker manifest inspect ${imagetag}`);
+  const result = cp.spawnSync('docker', ['manifest', 'inspect', imagetag], {
     encoding: 'utf8',
   });
   return { res: result.stdout.trim(), err: result.stderr };

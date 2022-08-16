@@ -54,6 +54,10 @@ export function show_options(options: Options) {
     options.version = pack.version;
   }
 
+  if (typeof options.beta === 'undefined') {
+    options.beta = false;
+  }
+
   if (typeof options.debug === 'undefined') {
     options.debug = false;
   }
