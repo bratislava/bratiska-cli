@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Deploy } from './deploy';
 import * as helpers from './helpers';
 
-const version = '1.5.90';
+const version = '1.5.91';
 const deploy = new Deploy();
 
 try {
@@ -70,7 +70,7 @@ try {
     .option('-debug, --debug', 'Debuging')
     .option('-beta, --beta', 'Beta features')
     .option(
-      '-no-image-repo-check, --no-image-repo-check',
+      '-no_image_repo_check, --no_image_repo_check',
       'No Image repository check',
     )
     .option('-force, --force <pass>', 'Force')
