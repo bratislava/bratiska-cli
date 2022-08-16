@@ -29,7 +29,6 @@ const check_kustomize_1 = require("./deploy/check_kustomize");
 const deploy_kubernetes_1 = require("./deploy/deploy_kubernetes");
 const clean_kustomize_1 = require("./deploy/clean_kustomize");
 const check_deployment_1 = require("./deploy/check_deployment");
-
 class Deploy {
   show_version(options, version) {
     (0, show_version_1.show_version)(options, version);

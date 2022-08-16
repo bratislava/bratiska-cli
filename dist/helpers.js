@@ -48,7 +48,7 @@ function skipping() {
 }
 exports.skipping = skipping;
 function not_present() {
-  line(chalk_1.default.yellow(" NOT PRESENT"));
+    line(chalk_1.default.yellow(" NOT PRESENT"));
 }
 exports.not_present = not_present;
 function finished() {
@@ -167,39 +167,27 @@ exports.manifest_path = manifest_path;
 function dockerfile_path(options) {
   return `${options.pwd}/Dockerfile`;
 }
-
 exports.dockerfile_path = dockerfile_path;
-
 function kustomize_folder_path(options) {
   return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
-
 exports.kustomize_folder_path = kustomize_folder_path;
-
 function bratiska_cli_build_env_filename(options) {
   return `.env.bratiska-cli-build.${options.env}`;
 }
-
 exports.bratiska_cli_build_env_filename = bratiska_cli_build_env_filename;
-
 function bratiska_cli_build_dot_env_path(options) {
   return `${options.pwd}/${bratiska_cli_build_env_filename(options)}`;
 }
-
 exports.bratiska_cli_build_dot_env_path = bratiska_cli_build_dot_env_path;
-
 function docker_build_next_env(options) {
   return `${options.pwd}/.env.production.local`;
 }
-
 exports.docker_build_next_env = docker_build_next_env;
-
 function kustomize_folder_base(options) {
   return `${options.pwd}/kubernetes/base`;
 }
-
 exports.kustomize_folder_base = kustomize_folder_base;
-
 function pull_secret_name(options) {
   return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }

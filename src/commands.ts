@@ -223,10 +223,12 @@ export function docker_check_image_in_registry(
     imagetag = <string>options.image;
   }
 
-  helpers.print_if_debug(options, `docker manifest inspect ${imagetag}`);
+  helpers.print_if_debug(options, `docker image manifest inspect ${imagetag}`);
   const result = cp.spawnSync('docker', ['manifest', 'inspect', imagetag], {
     encoding: 'utf8',
   });
+  helpers.print_if_debug(options, `Res: ${result.stdout.trim()}`);
+  helpers.print_if_debug(options, `Err: ${result.stderr}`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
