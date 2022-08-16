@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Deploy } from './deploy';
 import * as helpers from './helpers';
 
-const version = '1.5.87';
+const version = '1.5.88';
 const deploy = new Deploy();
 
 try {
@@ -102,13 +102,13 @@ try {
       /* step 14 */
       deploy.check_docker_login(options);
       /* step 15 */
-      deploy.load_build_envs(options);
+      deploy.check_bratiska_build_envs(options);
       /* step 16 */
       deploy.build_docker_image(options);
       /* step 17 */
       deploy.check_docker_image(options);
       /* step 18 */
-      deploy.clean_build_envs(options);
+      deploy.clean_bratiska_build_envs(options);
       /* step 19 */
       deploy.push_docker_image(options);
       /* step 20 */

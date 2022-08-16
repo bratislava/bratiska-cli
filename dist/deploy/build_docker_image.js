@@ -31,7 +31,6 @@ exports.build_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 const helpers_1 = require("../helpers");
-
 function build_docker_image(options) {
   helpers.line(`(${helpers.step(options)}) Building docker image for platform linux/amd64...`);
   if (options.image) {
@@ -57,5 +56,4 @@ function build_docker_image(options) {
   }
   helpers.finished();
 }
-
 exports.build_docker_image = build_docker_image;

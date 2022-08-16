@@ -36,7 +36,6 @@ const commands = __importStar(require("../commands"));
 const path = __importStar(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const crypto_1 = __importDefault(require("crypto"));
-
 function show_options(options) {
   const pwd = commands.pwd();
   if (pwd === "") {
@@ -123,5 +122,4 @@ function show_options(options) {
   helpers.print_important_info(`${options.kustomize_default_path}`);
   return options;
 }
-
 exports.show_options = show_options;

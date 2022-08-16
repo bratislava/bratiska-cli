@@ -161,9 +161,7 @@ function docker() {
     });
     return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.docker = docker;
-
 function docker_build(options) {
   const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(options)} --target=prod . `;
   (0, child_process_1.execSync)(cmd, {
@@ -171,42 +169,34 @@ function docker_build(options) {
   });
   helpers.print_if_debug(options, cmd);
 }
-
 exports.docker_build = docker_build;
-
 function docker_tag(sourcetag, targettag) {
   const result = child_process_1.default.spawnSync("docker", ["tag", sourcetag, targettag], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.docker_tag = docker_tag;
-
 function docker_check_image(options) {
   const result = child_process_1.default.spawnSync("docker", ["image", `inspect`, helpers.image_tag(options)], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.docker_check_image = docker_check_image;
-
 function docker_delete_image(options) {
   const result = child_process_1.default.spawnSync("docker", ["image", `rm`, helpers.image_tag(options)], {
     encoding: "utf8"
-    });
-    return { res: result.stdout.trim(), err: result.stderr };
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.docker_delete_image = docker_delete_image;
-
 function docker_push_image(options, tag) {
   child_process_1.default.spawnSync("docker", ["push", tag], {
     stdio: "inherit"
   });
 }
 exports.docker_push_image = docker_push_image;
-
 function docker_check_image_in_registry(options, imagetag) {
   if (options.image) {
     imagetag = options.image;

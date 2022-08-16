@@ -33,7 +33,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_docker_file = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
-
 function check_docker_file(options) {
   helpers.line(`(${helpers.step(options)}) Checking docker file...`);
   if (options.image) {
@@ -50,5 +49,4 @@ function check_docker_file(options) {
   }
   helpers.ok();
 }
-
 exports.check_docker_file = check_docker_file;

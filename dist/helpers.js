@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.step = exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.docker_build_dot_env_file = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.line = exports.log = void 0;
+exports.step = exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.line = exports.log = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -48,7 +48,7 @@ function skipping() {
 }
 exports.skipping = skipping;
 function not_present() {
-    line(chalk_1.default.yellow(" NOT PRESENT"));
+  line(chalk_1.default.yellow(" NOT PRESENT"));
 }
 exports.not_present = not_present;
 function finished() {
@@ -167,23 +167,39 @@ exports.manifest_path = manifest_path;
 function dockerfile_path(options) {
   return `${options.pwd}/Dockerfile`;
 }
+
 exports.dockerfile_path = dockerfile_path;
+
 function kustomize_folder_path(options) {
   return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
+
 exports.kustomize_folder_path = kustomize_folder_path;
-function docker_build_dot_env_file(options) {
-  return `${options.pwd}/.env.bratiska-cli-build.${options.env}`;
+
+function bratiska_cli_build_env_filename(options) {
+  return `.env.bratiska-cli-build.${options.env}`;
 }
-exports.docker_build_dot_env_file = docker_build_dot_env_file;
+
+exports.bratiska_cli_build_env_filename = bratiska_cli_build_env_filename;
+
+function bratiska_cli_build_dot_env_path(options) {
+  return `${options.pwd}/${bratiska_cli_build_env_filename(options)}`;
+}
+
+exports.bratiska_cli_build_dot_env_path = bratiska_cli_build_dot_env_path;
+
 function docker_build_next_env(options) {
   return `${options.pwd}/.env.production.local`;
 }
+
 exports.docker_build_next_env = docker_build_next_env;
+
 function kustomize_folder_base(options) {
   return `${options.pwd}/kubernetes/base`;
 }
+
 exports.kustomize_folder_base = kustomize_folder_base;
+
 function pull_secret_name(options) {
   return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }

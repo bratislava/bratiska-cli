@@ -1,8 +1,10 @@
 import * as helpers from '../helpers';
 import fs from 'fs';
 
-export function clean_build_envs(options: Options) {
-  helpers.line(`(${helpers.step(options)}) Cleaning for docker build envs... `);
+export function clean_bratiska_build_envs(options: Options) {
+  helpers.line(
+    `(${helpers.step(options)}) Cleaning for bratiska build envs... `,
+  );
   if (options.image || options.dry_run || options.debug) {
     helpers.skipping();
     return;

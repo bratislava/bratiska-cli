@@ -15,10 +15,10 @@ const check_docker_file_1 = require("./deploy/check_docker_file");
 const check_docker_1 = require("./deploy/check_docker");
 const check_docker_login_1 = require("./deploy/check_docker_login");
 const check_docker_running_1 = require("./deploy/check_docker_running");
-const load_build_envs_1 = require("./deploy/load_build_envs");
+const check_bratiska_build_envs_1 = require("./deploy/check_bratiska_build_envs");
 const build_docker_image_1 = require("./deploy/build_docker_image");
 const check_docker_image_1 = require("./deploy/check_docker_image");
-const clean_build_envs_1 = require("./deploy/clean_build_envs");
+const clean_bratiska_build_envs_1 = require("./deploy/clean_bratiska_build_envs");
 const push_docker_image_1 = require("./deploy/push_docker_image");
 const check_pushed_image_1 = require("./deploy/check_pushed_image");
 const clean_docker_image_1 = require("./deploy/clean_docker_image");
@@ -87,8 +87,8 @@ class Deploy {
     (0, check_docker_running_1.check_docker_running)(options);
   }
 
-  load_build_envs(options) {
-    (0, load_build_envs_1.load_build_envs)(options);
+  check_bratiska_build_envs(options) {
+    (0, check_bratiska_build_envs_1.check_bratiska_build_envs)(options);
   }
 
   build_docker_image(options) {
@@ -99,8 +99,8 @@ class Deploy {
     (0, check_docker_image_1.check_docker_image)(options);
   }
 
-  clean_build_envs(options) {
-    (0, clean_build_envs_1.clean_build_envs)(options);
+  clean_bratiska_build_envs(options) {
+    (0, clean_bratiska_build_envs_1.clean_bratiska_build_envs)(options);
   }
 
   push_docker_image(options) {

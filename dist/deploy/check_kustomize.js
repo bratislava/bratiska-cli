@@ -33,7 +33,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
-
 function check_kustomize(options) {
   helpers.line(`(${helpers.step(options)}) Checking the kustomize manifest...`);
   if (options.build_image || options.build_image_no_registry) {
@@ -50,5 +49,4 @@ function check_kustomize(options) {
   }
   helpers.ok();
 }
-
 exports.check_kustomize = check_kustomize;

@@ -29,7 +29,6 @@ var __importStar = (this && this.__importStar) || function(mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_hosts = void 0;
 const helpers = __importStar(require("../helpers"));
-
 function check_hosts(options) {
   helpers.line(`(${helpers.step(options)}) Determining host...`);
   if (options.build_image || options.build_image_no_registry) {
@@ -50,5 +49,4 @@ function check_hosts(options) {
   helpers.ok();
   return options;
 }
-
 exports.check_hosts = check_hosts;

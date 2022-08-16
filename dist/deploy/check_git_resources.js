@@ -31,7 +31,6 @@ exports.check_git_resources = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 const commands_1 = require("../commands");
-
 function check_git_resources(options) {
   helpers.line(`(${helpers.step(options)}) Checking git...`);
   if (options.image) {
@@ -106,5 +105,4 @@ function check_git_resources(options) {
   helpers.ok();
   return options;
 }
-
 exports.check_git_resources = check_git_resources;

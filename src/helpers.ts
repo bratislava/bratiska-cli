@@ -154,8 +154,12 @@ export function kustomize_folder_path(options: Options) {
   return `${options.pwd}/kubernetes/envs/${capitalize(options.env)}`;
 }
 
-export function docker_build_dot_env_file(options: Options) {
-  return `${options.pwd}/.env.bratiska-cli-build.${options.env}`;
+export function bratiska_cli_build_env_filename(options: Options) {
+  return `.env.bratiska-cli-build.${options.env}`;
+}
+
+export function bratiska_cli_build_dot_env_path(options: Options) {
+  return `${options.pwd}/${bratiska_cli_build_env_filename(options)}`;
 }
 
 export function docker_build_next_env(options: Options) {

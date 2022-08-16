@@ -33,7 +33,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.clean_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
-
 function clean_kustomize(options) {
   helpers.line(`(${helpers.step(options)}) Cleaning kustomize manifest...`);
   if (options.debug ||
@@ -51,5 +50,4 @@ function clean_kustomize(options) {
   }
   helpers.ok();
 }
-
 exports.clean_kustomize = clean_kustomize;

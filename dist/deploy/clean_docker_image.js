@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.clean_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function clean_docker_image(options) {
   helpers.line(`(${helpers.step(options)}) Cleaning local docker image...`);
   if (options.debug ||
@@ -47,5 +46,4 @@ function clean_docker_image(options) {
   }
   helpers.ok();
 }
-
 exports.clean_docker_image = clean_docker_image;

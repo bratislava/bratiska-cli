@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const deploy_1 = require("./deploy");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.87";
+const version = "1.5.88";
 const deploy = new deploy_1.Deploy();
 try {
   (0, clear_1.default)();
@@ -100,13 +100,13 @@ try {
       /* step 14 */
       deploy.check_docker_login(options);
       /* step 15 */
-      deploy.load_build_envs(options);
+      deploy.check_bratiska_build_envs(options);
       /* step 16 */
       deploy.build_docker_image(options);
       /* step 17 */
       deploy.check_docker_image(options);
       /* step 18 */
-      deploy.clean_build_envs(options);
+      deploy.clean_bratiska_build_envs(options);
       /* step 19 */
       deploy.push_docker_image(options);
       /* step 20 */
