@@ -14,14 +14,21 @@
 
 To be able to work with this utility, you need to have a few things configured:
 
+#### Accesses:
+
+1. Docker Harbor access - can be granted [here](https://portal.azure.com/#view/Microsoft_AAD_IAM/ManagedAppMenuBlade/~/Users/objectId/7b1ee611-cf01-4179-a765-215ee291f687/appId/216af6db-a39f-44b3-94d1-fd5142f14e6a) (note - [OIADS_EMPLOYEES](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Members/groupId/48fcf79f-46c5-44fc-8608-70eb512f840c) are included by default)
+2. Kubernetes access - contact the IT department or this
+3. Github access
+
 #### Installations:
 
 1. Installed `git` (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. Installed `kubectl` (https://kubernetes.io/docs/tasks/tools/)
-3. Installed `kustomize` (https://kubectl.docs.kubernetes.io/installation/kustomize/)
-4. Installed `docker` (https://docs.docker.com/engine/install)
-5. Installed `envsubst` (`brew install gettext`)
-6. Kustomization files in `/kubernetes` folder
+3. Installed `Bratislava kubectl vsphere plugin` (ask BA Innovations or IT for access)
+4. Installed `kustomize` (https://kubectl.docs.kubernetes.io/installation/kustomize/)
+5. Installed `docker` (https://docs.docker.com/engine/install)
+6. Installed `envsubst` (`brew install gettext`)
+7. Kustomization files in `/kubernetes` folder
 
 #### Running apps:
 
@@ -51,6 +58,21 @@ yarn global add bratislava/bratiska-cli
 
 
 ## Usage
+
+### Preparation
+
+Before you run any of the following commands, make sure you are
+
+1. logged in to harbor (see [running apps](#running-apps) above, as well as the [signing to harbor](#signing-to-harbor) section below)
+2. logged in to correct cluster (replace `<env>` is one of `dev`, `staging` or `prod` and `user.name@bratislava.sk` with your credentials)
+
+```
+kubectl vsphere login --server=10.10.10.1 --insecure-skip-tls-verify --tanzu-kubernetes-cluster-name=tkg-innov-<env> -u user.name@bratislava.sk
+```
+
+3. if you are logged in to multiple clusters, make sure you are using the correct one - `kubectl config use-context tkg-innov-<env>`
+
+### Deployment
 
 There is straightforward usage because the utility tries to obtain all values from the repo automatically, and if something is missing, it will point out.
 
