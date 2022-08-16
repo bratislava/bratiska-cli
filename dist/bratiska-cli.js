@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const deploy_1 = require("./deploy");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.84";
+const version = "1.5.85";
 const deploy = new deploy_1.Deploy();
 try {
   (0, clear_1.default)();
@@ -126,8 +126,8 @@ try {
       deploy.check_deployment(options);
     });
   commander_1.program.parse(process.argv);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
 }
 catch (e) {
   helpers.log("");

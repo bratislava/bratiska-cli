@@ -185,7 +185,7 @@ function docker_delete_image(options) {
 }
 exports.docker_delete_image = docker_delete_image;
 function docker_push_image(options) {
-  child_process_1.default.spawnSync("docker", ["push", "--all-tags"], {
+  child_process_1.default.spawnSync("docker", ["push", helpers.image_tag(options)], {
     stdio: "inherit"
   });
 }
