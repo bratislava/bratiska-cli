@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const deploy_1 = require("./deploy");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.85";
+const version = "1.5.86";
 const deploy = new deploy_1.Deploy();
 try {
   (0, clear_1.default)();

@@ -155,7 +155,7 @@ export function kustomize_folder_path(options: Options) {
 }
 
 export function docker_build_dot_env_file(options: Options) {
-  return `${options.pwd}/.env.${options.env}`;
+  return `${options.pwd}/.env.bratiska-cli-build.${options.env}`;
 }
 
 export function docker_build_next_env(options: Options) {
