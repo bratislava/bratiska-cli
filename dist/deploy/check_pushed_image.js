@@ -32,7 +32,9 @@ const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function check_pushed_image(options) {
   helpers.line(`(${helpers.step(options)}) Checking if the image is in the remote registry.\n...`);
-  if (options.build_image_no_registry || options.no_image_repo_check) {
+  if (options.build_image_no_registry ||
+    options.no_image_repo_check ||
+    options.dry_run) {
     helpers.skipping();
     return;
   }

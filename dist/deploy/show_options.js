@@ -95,7 +95,8 @@ function show_options(options) {
       // @ts-ignore
       .update(options.force)
       .digest("base64");
-    if (pass === "8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=") {
+    console.log(pass);
+    if (pass === "ynqstnhwPpmybNTjkQfHxXJuviKIyMRV66kUWcrspmU=") {
       options.force = true;
       helpers.star_wars();
     } else {

@@ -1,4 +1,5 @@
 import * as helpers from '../helpers';
+import { is_deployment_image } from '../helpers';
 
 export function check_kubernetes_cluster_conditions(options: Options) {
   helpers.line(
@@ -45,9 +46,20 @@ export function check_kubernetes_cluster_conditions(options: Options) {
         );
       }
       if (options.image) {
-        if (!helpers.is_master_image(options) && options.force === false) {
+        //turned off
+        if (
+          !helpers.is_master_image(options) &&
+          options.force === false &&
+          false
+        ) {
           throw new Error(
             `You cannot deploy to 'tkg-innov-prod' image which is not a master image! Please checkout the git branch to master, build master image, push to harbor and then you can use the master image.'`,
+          );
+        }
+
+        if (!helpers.is_deployment_image(options) && options.force === false) {
+          throw new Error(
+            `You cannot deploy to 'tkg-innov-prod' image which is not build from '${options.deployment}'!'`,
           );
         }
       } else {

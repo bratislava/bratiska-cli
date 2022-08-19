@@ -57,8 +57,14 @@ function check_kubernetes_cluster_conditions(options) {
         throw new Error(`You cannot deploy to 'tkg-innov-prod' when you have untracked changes. Please commit, and PR merge your changes to master!`);
       }
       if (options.image) {
-        if (!helpers.is_master_image(options) && options.force === false) {
+        //turned off
+        if (!helpers.is_master_image(options) &&
+          options.force === false &&
+          false) {
           throw new Error(`You cannot deploy to 'tkg-innov-prod' image which is not a master image! Please checkout the git branch to master, build master image, push to harbor and then you can use the master image.'`);
+        }
+        if (!helpers.is_deployment_image(options) && options.force === false) {
+          throw new Error(`You cannot deploy to 'tkg-innov-prod' image which is not build from '${options.deployment}'!'`);
         }
       } else {
         if (options.branch !== "master" && options.force === false) {

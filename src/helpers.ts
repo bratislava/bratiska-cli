@@ -229,6 +229,14 @@ export function is_master_image(options: Options): boolean {
   return false;
 }
 
+export function is_deployment_image(options: Options): boolean {
+  if (options.image) {
+    options.image = <string>options.image;
+    return options.image.includes(options.deployment);
+  }
+  return false;
+}
+
 export function assign_env_vars(options: Options) {
   if (options.image) {
     options.repository_uri = 'using_external_image';

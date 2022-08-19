@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.step = exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.line = exports.log = void 0;
+exports.step = exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.line = exports.log = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -48,7 +48,7 @@ function skipping() {
 }
 exports.skipping = skipping;
 function not_present() {
-    line(chalk_1.default.yellow(" NOT PRESENT"));
+  line(chalk_1.default.yellow(" NOT PRESENT"));
 }
 exports.not_present = not_present;
 function finished() {
@@ -234,15 +234,29 @@ function map_cluster_to_env(cluster) {
     const parts = cluster.split('-');
     return parts[2];
 }
+
 exports.map_cluster_to_env = map_cluster_to_env;
+
 function is_master_image(options) {
-    if (options.image) {
-      options.image = options.image;
-        return options.image.includes('master');
-    }
-    return false;
+  if (options.image) {
+    options.image = options.image;
+    return options.image.includes("master");
+  }
+  return false;
 }
+
 exports.is_master_image = is_master_image;
+
+function is_deployment_image(options) {
+  if (options.image) {
+    options.image = options.image;
+    return options.image.includes(options.deployment);
+  }
+  return false;
+}
+
+exports.is_deployment_image = is_deployment_image;
+
 function assign_env_vars(options) {
   if (options.image) {
     options.repository_uri = "using_external_image";
