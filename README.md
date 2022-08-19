@@ -24,7 +24,8 @@ To be able to work with this utility, you need to have a few things configured:
 
 1. Installed `git` (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. Installed `kubectl` (https://kubernetes.io/docs/tasks/tools/)
-3. Installed `Bratislava kubectl vsphere plugin` (ask BA Innovations or IT for access)
+3. Installed `Bratislava kubectl vsphere plugin`, you need to be connected on cable or through VPN to magistrat (https://k8s.tanzu.bratislava.sk/)
+  - Windows - copy `kubectl` and `kubectl-vsphere` to `c:/windows/system32` (needed admin rights) otherwise `kubectl vsphere login` commands will not work
 4. Installed `kustomize` (https://kubectl.docs.kubernetes.io/installation/kustomize/)
 5. Installed `docker` (https://docs.docker.com/engine/install)
 6. Installed `envsubst` (`brew install gettext`)
@@ -65,6 +66,7 @@ Before you run any of the following commands, make sure you are
 
 1. logged in to harbor (see [running apps](#running-apps) above, as well as the [signing to harbor](#signing-to-harbor) section below)
 2. logged in to correct cluster (replace `<env>` is one of `dev`, `staging` or `prod` and `user.name@bratislava.sk` with your credentials)
+  - to login through Windows you need to set password `export KUBECTL_VSPHERE_PASSWORD={{password}}`
 
 ```
 kubectl vsphere login --server=10.10.10.1 --insecure-skip-tls-verify --tanzu-kubernetes-cluster-name=tkg-innov-<env> -u user.name@bratislava.sk
