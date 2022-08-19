@@ -83,13 +83,13 @@ bratiska-cli deploy
 If you need to deploy to staging or production, you need to add a special flag to the command.
 
 ```bash
-bratiska-cli deploy -- --staging
+bratiska-cli deploy --staging
 ```
 
 or
 
 ```bash
-bratiska-cli deploy -- --production
+bratiska-cli deploy --production
 ```
 
 ### Run with more options
@@ -99,7 +99,7 @@ bratiska-cli deploy -- --production
 If you want to build an image only, run:
 
 ```bash
-bratiska-cli deploy -- --build_image
+bratiska-cli deploy --build_image
 ```
 
 #### Build image only without push to the registry
@@ -107,7 +107,7 @@ bratiska-cli deploy -- --build_image
 If you want to build an image without pushing to registry run:
 
 ```bash
-bratiska-cli deploy -- --build_image_no_registry
+bratiska-cli deploy --build_image_no_registry
 ```
 
 #### Build kustomize only
@@ -115,7 +115,7 @@ bratiska-cli deploy -- --build_image_no_registry
 If you want to build a kustomize file, only run.
 
 ```bash
-bratiska-cli deploy -- --build_kustomize
+bratiska-cli deploy --build_kustomize
 ```
 
 #### Build kustomize only with specified docker image
@@ -123,7 +123,7 @@ bratiska-cli deploy -- --build_kustomize
 If you want to build a kustomize file, only run.
 
 ```bash
-bratiska-cli deploy -- --build_kustomize --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
+bratiska-cli deploy --build_kustomize --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
 ```
 
 #### Deploy with a special image
@@ -131,7 +131,7 @@ bratiska-cli deploy -- --build_kustomize --image harbor.bratislava.sk/standalone
 If you have a specified image, you can deploy it.
 
 ```bash
-bratiska-cli deploy --  --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
+bratiska-cli deploy  --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
 ```
 
 #### Specify kustomize file or folder
@@ -139,7 +139,7 @@ bratiska-cli deploy --  --image harbor.bratislava.sk/standalone/nest-prisma-temp
 If you want, you can specify the kustomize file or kustomize folder with this command:
 
 ```bash
-bratiska-cli deploy -- --kustomize ./path/path
+bratiska-cli deploy --kustomize ./path/path
 ```
 
 #### Dry run, without deploying to Kubernetes
@@ -147,7 +147,7 @@ bratiska-cli deploy -- --kustomize ./path/path
 If you don`t want to deploy to Kubernetes, then you can run it with a dry run flag:
 
 ```bash
-bratiska-cli deploy -- --dry_run
+bratiska-cli deploy --dry_run
 ```
 
 #### Namespace
@@ -155,7 +155,7 @@ bratiska-cli deploy -- --dry_run
 The default namespace for utility is `standalone`, but you can change it to other like:
 
 ```bash
-bratiska-cli deploy -- --namespace=bratislava-monorepo
+bratiska-cli deploy --namespace=bratislava-monorepo
 ```
 
 #### Deployment
@@ -163,7 +163,7 @@ bratiska-cli deploy -- --namespace=bratislava-monorepo
 Default deployment for the app names from `project.json`, but you can change it like:
 
 ```bash
-bratiska-cli deploy -- --deployment=nest-Prisma-template-super-duper
+bratiska-cli deploy --deployment=nest-Prisma-template-super-duper
 ```
 
 #### Host
@@ -171,7 +171,7 @@ bratiska-cli deploy -- --deployment=nest-Prisma-template-super-duper
 Default deployment host for an app depends on `deployment` and `environment`, but you can change it like:
 
 ```bash
-bratiska-cli deploy -- --host=starwars.bratislava.sk
+bratiska-cli deploy --host=starwars.bratislava.sk
 ```
 
 #### Enviroment
@@ -179,7 +179,7 @@ bratiska-cli deploy -- --host=starwars.bratislava.sk
 If you want to change the environment, you can specify it there:
 
 ```bash
-bratiska-cli deploy -- --env=dev
+bratiska-cli deploy --env=dev
 ```
 
 Or you switch env with `kubectl config use-context tkg-innov-dev`
@@ -189,7 +189,7 @@ Or you switch env with `kubectl config use-context tkg-innov-dev`
 If you want to use a different registry like `ghcr.io`, you can change it here, but don`t forget to add new credentials.
 
 ```bash
-bratiska-cli deploy -- --registry=ghcr.io
+bratiska-cli deploy --registry=ghcr.io
 ```
 
 #### Staging and Production
@@ -201,7 +201,7 @@ The same applies to production, so you must use `--production`, and changes must
 can`t update production.
 
 ```bash
-bratiska-cli deploy -- --staging
+bratiska-cli deploy --staging
 ```
 
 #### Debug
@@ -210,7 +210,7 @@ If you need to debug the deploy process, you can add the `--debug` option. This 
 directory so you can inspect it. Also, it does not delete the image from docker, so you can look at it.
 
 ```bash
-bratiska-cli deploy -- --debug
+bratiska-cli deploy --debug
 ```
 
 ### Examples
@@ -218,7 +218,7 @@ bratiska-cli deploy -- --debug
 Dry run with custom image and specified folder to kustomize.
 
 ```bash
-bratiska-cli deploy -- --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
+bratiska-cli deploy --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
 ```
 
 ## Automatization
