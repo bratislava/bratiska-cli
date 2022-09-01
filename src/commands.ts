@@ -37,9 +37,11 @@ export function git_branch_from_commit(commit: string): Bash {
     [
       'branch',
       '--no-color',
-      '--format "%(refname:lstrip=2)"',
+      '--format',
+      '"%(refname:lstrip=2)"',
       '--no-column',
-      `--contains ${commit}`,
+      `--contains`,
+      commit,
     ],
     {
       encoding: 'utf8',
