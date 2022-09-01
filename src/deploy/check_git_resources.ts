@@ -1,6 +1,10 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
-import { git_commit_tag, git_origin_commit_tag } from '../commands';
+import {
+  git_branch_from_commit,
+  git_commit_tag,
+  git_origin_commit_tag,
+} from '../commands';
 
 export function check_git_resources(options: Options) {
   helpers.line(`(${helpers.step(options)}) Checking git...`);
@@ -9,6 +13,13 @@ export function check_git_resources(options: Options) {
     return;
   }
 
+  const commit_bash = commands.git_current_commit();
+  if (commit_bash.err !== '') {
+    throw new Error('There was an issue getting commit status!\n');
+  }
+  options.commit = commit_bash.res;
+  helpers.print_if_debug(options, `commit: ${options.commit}`);
+
   const branch_bash = commands.git_current_branch();
   if (branch_bash.err !== '') {
     throw new Error(
@@ -16,6 +27,14 @@ export function check_git_resources(options: Options) {
     );
   }
   options.branch = branch_bash.res;
+  if (options.branch === 'HEAD') {
+    helpers.print_if_debug(
+      options,
+      `Branch is in detached HEAD, getting branch from commit: ${options.commit}`,
+    );
+    const branch_bash = commands.git_branch_from_commit(options.commit);
+    options.branch = branch_bash.res;
+  }
   helpers.print_if_debug(options, `branch: ${options.branch}`);
 
   const repository_bash = commands.git_repository_url();
@@ -48,13 +67,6 @@ export function check_git_resources(options: Options) {
    */
   options.fetch = fetch_bash.res;
   helpers.print_if_debug(options, `fetch: ${options.fetch}`);
-
-  const commit_bash = commands.git_current_commit();
-  if (commit_bash.err !== '') {
-    throw new Error('There was an issue getting commit status!\n');
-  }
-  options.commit = commit_bash.res;
-  helpers.print_if_debug(options, `commit: ${options.commit}`);
 
   const status_bash = commands.git_current_status(options);
   if (status_bash.err !== '') {

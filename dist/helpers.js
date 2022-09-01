@@ -48,7 +48,7 @@ function skipping() {
 }
 exports.skipping = skipping;
 function not_present() {
-  line(chalk_1.default.yellow(" NOT PRESENT"));
+    line(chalk_1.default.yellow(" NOT PRESENT"));
 }
 exports.not_present = not_present;
 function finished() {
@@ -234,9 +234,7 @@ function map_cluster_to_env(cluster) {
     const parts = cluster.split('-');
     return parts[2];
 }
-
 exports.map_cluster_to_env = map_cluster_to_env;
-
 function is_master_image(options) {
   if (options.image) {
     options.image = options.image;
@@ -244,9 +242,7 @@ function is_master_image(options) {
   }
   return false;
 }
-
 exports.is_master_image = is_master_image;
-
 function is_deployment_image(options) {
   if (options.image) {
     options.image = options.image;
@@ -254,9 +250,7 @@ function is_deployment_image(options) {
   }
   return false;
 }
-
 exports.is_deployment_image = is_deployment_image;
-
 function assign_env_vars(options) {
   if (options.image) {
     options.repository_uri = "using_external_image";

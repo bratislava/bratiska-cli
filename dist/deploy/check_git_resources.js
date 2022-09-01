@@ -37,11 +37,22 @@ function check_git_resources(options) {
     helpers.skipping();
     return;
   }
+  const commit_bash = commands.git_current_commit();
+  if (commit_bash.err !== "") {
+    throw new Error("There was an issue getting commit status!\n");
+  }
+  options.commit = commit_bash.res;
+  helpers.print_if_debug(options, `commit: ${options.commit}`);
   const branch_bash = commands.git_current_branch();
   if (branch_bash.err !== "") {
     throw new Error("There was an issue obtaining the git branch name! Do you have git installed?");
   }
   options.branch = branch_bash.res;
+  if (options.branch === "HEAD") {
+    helpers.print_if_debug(options, `Branch is in detached HEAD, getting branch from commit: ${options.commit}`);
+    const branch_bash = commands.git_branch_from_commit(options.commit);
+    options.branch = branch_bash.res;
+  }
   helpers.print_if_debug(options, `branch: ${options.branch}`);
   const repository_bash = commands.git_repository_url();
   if (repository_bash.err !== "") {
@@ -67,12 +78,6 @@ function check_git_resources(options) {
    */
   options.fetch = fetch_bash.res;
   helpers.print_if_debug(options, `fetch: ${options.fetch}`);
-  const commit_bash = commands.git_current_commit();
-  if (commit_bash.err !== "") {
-    throw new Error("There was an issue getting commit status!\n");
-  }
-  options.commit = commit_bash.res;
-  helpers.print_if_debug(options, `commit: ${options.commit}`);
   const status_bash = commands.git_current_status(options);
   if (status_bash.err !== "") {
     throw new Error("There was an issue getting git status!");

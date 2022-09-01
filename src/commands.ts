@@ -31,6 +31,23 @@ export function git_current_branch(): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
+export function git_branch_from_commit(commit: string): Bash {
+  const result = cp.spawnSync(
+    'git',
+    [
+      'branch',
+      '--no-color',
+      '--format "%(refname:lstrip=2)"',
+      '--no-column',
+      `--contains ${commit}`,
+    ],
+    {
+      encoding: 'utf8',
+    },
+  );
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 export function git_repository_url(): Bash {
   const result = cp.spawnSync('git', ['config', '--get', 'remote.origin.url'], {
     encoding: 'utf8',
