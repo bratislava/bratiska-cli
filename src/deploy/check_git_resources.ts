@@ -34,6 +34,10 @@ export function check_git_resources(options: Options) {
     );
     const branch_bash = commands.git_branch_from_commit(options.commit);
     options.branch = branch_bash.res;
+
+    if (branch_bash.err !== '') {
+      throw new Error('There was an issue getting branch name.\n');
+    }
   }
   helpers.print_if_debug(options, `branch: ${options.branch}`);
 
