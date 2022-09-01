@@ -45,47 +45,41 @@ function cd(path) {
     });
   return cd.trim();
 }
-
 exports.cd = cd;
-
 function git_current_branch() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_branch = git_current_branch;
-
 function git_branch_from_commit(commit) {
   const result = child_process_1.default.spawnSync("git", [
     "branch",
     "--no-color",
-    "--format \"%(refname:lstrip=2)\"",
+    "--format",
+    "\"%(refname:lstrip=2)\"",
     "--no-column",
-    `--contains ${commit}`
+    `--contains`,
+    commit
   ], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_branch_from_commit = git_branch_from_commit;
-
 function git_repository_url() {
   const result = child_process_1.default.spawnSync("git", ["config", "--get", "remote.origin.url"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_repository_url = git_repository_url;
-
 function git_fetch_origin() {
   const result = child_process_1.default.spawnSync("git", ["fetch", "origin"], {
     encoding: "utf8"
-    });
-    return { res: result.stdout.trim(), err: result.stderr };
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.git_fetch_origin = git_fetch_origin;
 function git_current_commit() {
