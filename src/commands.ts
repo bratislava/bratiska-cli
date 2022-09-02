@@ -191,12 +191,11 @@ export function docker_build(options: Options) {
   const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(
     options,
   )} --target=prod . `;
+  helpers.print_if_debug(options, `docker build command: ${cmd}`);
 
   execSync(cmd, {
     stdio: 'inherit',
   });
-
-  helpers.print_if_debug(options, cmd);
 }
 
 export function docker_tag(sourcetag: string, targettag: string) {
