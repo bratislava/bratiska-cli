@@ -49,14 +49,19 @@ function check_git_resources(options) {
   }
   options.branch = branch_bash.res;
   if (options.branch === "HEAD") {
-    helpers.print_if_debug(options, `Branch is in detached HEAD, getting branch from commit: ${options.commit}`);
-    const branch_bash = commands.git_branch_from_commit(options.commit);
-    options.branch = branch_bash.res;
-    if (branch_bash.res === "") {
-      throw new Error("There was an issue getting branch name.\n");
-    }
-    if (branch_bash.err !== "") {
-      throw new Error(`There was an issue getting branch name. Error: ${branch_bash.err}\n`);
+    const branch = process.env["GITHUB_BRANCH"];
+    helpers.print_if_debug(options, `Branch is in detached HEAD, getting branch env GITHUB_BRANCH: ${branch}`);
+    options.branch = branch;
+    if (branch === "") {
+      helpers.print_if_debug(options, `Branch is in detached HEAD, getting branch from commit: ${options.commit}`);
+      const branch_bash = commands.git_branch_from_commit(options.commit);
+      options.branch = branch_bash.res;
+      if (branch_bash.res === "") {
+        throw new Error("There was an issue getting branch name.\n");
+      }
+      if (branch_bash.err !== "") {
+        throw new Error(`There was an issue getting branch name. Error: ${branch_bash.err}\n`);
+      }
     }
   }
   helpers.print_if_debug(options, `branch: ${options.branch}`);

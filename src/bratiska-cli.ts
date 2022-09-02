@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Deploy } from './deploy';
 import * as helpers from './helpers';
 
-const version = '1.5.93';
+const version = '1.5.94';
 const deploy = new Deploy();
 
 try {
