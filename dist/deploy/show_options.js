@@ -107,8 +107,10 @@ function show_options(options) {
   let sentry = process.env["SENTRY_AUTH_TOKEN"];
   if (typeof sentry !== "undefined") {
     sentry = Buffer.from(sentry).toString("base64");
+    (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(64base)=${sentry}`);
+  } else {
+    (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN=${sentry}`);
   }
-  (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(64base)=${sentry}`);
   if (typeof options.staging !== "undefined" &&
     typeof options.production !== "undefined") {
     throw new Error("Staging and production flags can`t be used at the same time!");
