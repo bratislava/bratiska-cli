@@ -273,11 +273,6 @@ export function assign_env_vars(options: Options) {
     throw new Error('Image have to be filled! Please use --image <image_tag>.');
   }
 
-  print_if_debug(
-    options,
-    `SENTRY_AUTH_TOKEN=${process.env['SENTRY_AUTH_TOKEN']}`,
-  );
-
   if (!process.env['BUILD_REPOSITORY_URI']) {
     process.env['BUILD_REPOSITORY_URI'] = options.repository_uri;
     print_if_debug(
