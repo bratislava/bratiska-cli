@@ -106,9 +106,12 @@ function show_options(options) {
   }
   const sentry = process.env["SENTRY_AUTH_TOKEN"];
   if (typeof sentry !== "undefined") {
-    (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString("base64")}`);
-  } else if (sentry === "***") {
-    (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN contains only stars in github actions, no key is passed.`);
+    if (sentry === "***") {
+      (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN contains only stars in github actions, no value is passed.`);
+    } else {
+      (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString("base64")}`);
+      (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(raw)=${sentry}`);
+    }
   } else {
     (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN=${sentry}`);
   }
