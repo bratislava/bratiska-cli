@@ -89,10 +89,17 @@ export function show_options(options: Options) {
     }
   }
 
-  let sentry = process.env['SENTRY_AUTH_TOKEN'];
+  const sentry = process.env['SENTRY_AUTH_TOKEN'];
   if (typeof sentry !== 'undefined') {
-    sentry = Buffer.from(sentry).toString('base64');
-    print_if_debug(options, `SENTRY_AUTH_TOKEN(64base)=${sentry}`);
+    print_if_debug(
+      options,
+      `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString('base64')}`,
+    );
+  } else if (sentry === '***') {
+    print_if_debug(
+      options,
+      `SENTRY_AUTH_TOKEN contains only stars in github actions, no key is passed.`,
+    );
   } else {
     print_if_debug(options, `SENTRY_AUTH_TOKEN=${sentry}`);
   }
