@@ -99,10 +99,10 @@ export function show_options(options: Options) {
     } else {
       print_if_debug(
         options,
-        `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString('base64')}`,
+        `SENTRY_AUTH_TOKEN(base64)=${Buffer.from('test').toString('base64')}`,
       );
-      print_if_debug(options, `SENTRY_AUTH_TOKEN(raw)=${sentry}`);
     }
+    print_if_debug(options, `SENTRY_AUTH_TOKEN(raw)='${sentry}'`);
   } else {
     print_if_debug(options, `SENTRY_AUTH_TOKEN=${sentry}`);
   }
