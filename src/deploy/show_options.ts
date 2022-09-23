@@ -3,7 +3,6 @@ import * as commands from '../commands';
 import * as path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
-import { print_if_debug } from '../helpers';
 
 export function show_options(options: Options) {
   const pwd = commands.pwd();
@@ -87,24 +86,6 @@ export function show_options(options: Options) {
     } else {
       throw new Error(helpers.game_over());
     }
-  }
-
-  const sentry = process.env['SENTRY_AUTH_TOKEN'];
-  if (typeof sentry !== 'undefined') {
-    if (sentry === '***') {
-      print_if_debug(
-        options,
-        `SENTRY_AUTH_TOKEN contains only stars in github actions, no value is passed.`,
-      );
-    } else {
-      print_if_debug(
-        options,
-        `SENTRY_AUTH_TOKEN(base64)=${Buffer.from('test').toString('base64')}`,
-      );
-    }
-    print_if_debug(options, `SENTRY_AUTH_TOKEN(raw)='${sentry}'`);
-  } else {
-    print_if_debug(options, `SENTRY_AUTH_TOKEN=${sentry}`);
   }
 
   if (
