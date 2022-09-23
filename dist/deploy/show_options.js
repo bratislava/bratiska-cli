@@ -36,7 +36,6 @@ const commands = __importStar(require("../commands"));
 const path = __importStar(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const crypto_1 = __importDefault(require("crypto"));
-const helpers_1 = require("../helpers");
 function show_options(options) {
   const pwd = commands.pwd();
   if (pwd === "") {
@@ -103,17 +102,6 @@ function show_options(options) {
     } else {
       throw new Error(helpers.game_over());
     }
-  }
-  const sentry = process.env["SENTRY_AUTH_TOKEN"];
-  if (typeof sentry !== "undefined") {
-    if (sentry === "***") {
-      (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN contains only stars in github actions, no value is passed.`);
-    } else {
-      (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(base64)=${Buffer.from("test").toString("base64")}`);
-    }
-    (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(raw)='${sentry}'`);
-  } else {
-    (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN=${sentry}`);
   }
   if (typeof options.staging !== "undefined" &&
     typeof options.production !== "undefined") {
