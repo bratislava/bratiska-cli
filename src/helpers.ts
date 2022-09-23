@@ -273,26 +273,6 @@ export function assign_env_vars(options: Options) {
     throw new Error('Image have to be filled! Please use --image <image_tag>.');
   }
 
-  const sentry = process.env['SENTRY_AUTH_TOKEN'];
-  if (typeof sentry !== 'undefined') {
-    print_if_debug(options, JSON.stringify(sentry));
-
-    if (sentry === '***') {
-      print_if_debug(
-        options,
-        `SENTRY_AUTH_TOKEN contains only stars in github actions, no value is passed.`,
-      );
-    } else {
-      print_if_debug(
-        options,
-        `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString('base64')}`,
-      );
-    }
-    print_if_debug(options, `SENTRY_AUTH_TOKEN(raw)='${sentry}'`);
-  } else {
-    print_if_debug(options, `SENTRY_AUTH_TOKEN=${sentry}`);
-  }
-
   if (!process.env['BUILD_REPOSITORY_URI']) {
     process.env['BUILD_REPOSITORY_URI'] = options.repository_uri;
     print_if_debug(
