@@ -2,8 +2,8 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 import * as path from 'path';
 import fs from 'fs';
-import crypto from "crypto";
-import { print_if_debug } from "../helpers";
+import crypto from 'crypto';
+import { print_if_debug } from '../helpers';
 
 export function show_options(options: Options) {
   const pwd = commands.pwd();
@@ -90,27 +90,27 @@ export function show_options(options: Options) {
   }
 
   if (
-    typeof options.staging !== "undefined" &&
-    typeof options.production !== "undefined"
+    typeof options.staging !== 'undefined' &&
+    typeof options.production !== 'undefined'
   ) {
     throw new Error(
-      "Staging and production flags can`t be used at the same time!"
+      'Staging and production flags can`t be used at the same time!',
     );
   }
 
-  const sentry = process.env["SENTRY_AUTH_TOKEN"];
-  if (typeof sentry !== "undefined") {
+  const sentry = process.env['SENTRY_AUTH_TOKEN'];
+  if (typeof sentry !== 'undefined') {
     print_if_debug(options, JSON.stringify(sentry));
 
-    if (sentry === "***") {
+    if (sentry === '***') {
       print_if_debug(
         options,
-        `SENTRY_AUTH_TOKEN contains only stars in github actions, no value is passed.`
+        `SENTRY_AUTH_TOKEN contains only stars in github actions, no value is passed.`,
       );
     } else {
       print_if_debug(
         options,
-        `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString("base64")}`
+        `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString('base64')}`,
       );
     }
     print_if_debug(options, `SENTRY_AUTH_TOKEN(raw)='${sentry}'`);
@@ -118,7 +118,7 @@ export function show_options(options: Options) {
     print_if_debug(options, `SENTRY_AUTH_TOKEN=${sentry}`);
   }
 
-  helpers.line("(0) Starting with options... \n");
+  helpers.line('(0) Starting with options... \n');
 
   options.kustomize_default_path = false;
 
