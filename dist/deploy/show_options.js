@@ -36,7 +36,6 @@ const commands = __importStar(require("../commands"));
 const path = __importStar(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const crypto_1 = __importDefault(require("crypto"));
-const helpers_1 = require("../helpers");
 function show_options(options) {
   const pwd = commands.pwd();
   if (pwd === "") {
@@ -70,6 +69,9 @@ function show_options(options) {
   }
   if (typeof options.namespace === "undefined") {
     options.namespace = "standalone";
+  }
+  if (typeof options.sentry === "undefined") {
+    options.sentry = false;
   }
   const pack = helpers.load_package(options);
   if (typeof options.deployment === "undefined") {
@@ -108,17 +110,8 @@ function show_options(options) {
     typeof options.production !== "undefined") {
     throw new Error("Staging and production flags can`t be used at the same time!");
   }
-  const sentry = process.env["SENTRY_AUTH_TOKEN"];
-  if (typeof sentry !== "undefined") {
-    (0, helpers_1.print_if_debug)(options, JSON.stringify(sentry));
-    if (sentry === "***") {
-      (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN contains only stars in github actions, no value is passed.`);
-    } else {
-      (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString("base64")}`);
-    }
-    (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN(raw)='${sentry}'`);
-  } else {
-    (0, helpers_1.print_if_debug)(options, `SENTRY_AUTH_TOKEN=${sentry}`);
+  if (options.sentry) {
+    process.env["SENTRY_AUTH_TOKEN"] = options.sentry;
   }
   helpers.line("(0) Starting with options... \n");
   options.kustomize_default_path = false;

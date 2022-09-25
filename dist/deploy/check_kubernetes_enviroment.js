@@ -33,6 +33,7 @@ function check_kubernetes_enviroment(options) {
   helpers.line(`(${helpers.step(options)}) Checking chosen Kubernetes cluster with the environment...`);
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
+    options.env = "dev";
     return;
   }
   if (typeof options.env === "undefined") {

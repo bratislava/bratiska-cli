@@ -33,7 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const deploy_1 = require("./deploy");
 const helpers = __importStar(require("./helpers"));
-const version = "1.5.99";
+const version = "1.6.0";
 const deploy = new deploy_1.Deploy();
 try {
   (0, clear_1.default)();
@@ -62,10 +62,11 @@ try {
     .option("-d, --deployment <deployment>", "Deployment app")
     .option("-h, --host <host>", "Host url address")
     .option("-e, --env <env>", "Deployment environment")
+    .option("-s, --sentry <token>", "Specify sentry auth token for build")
     .option("-r, --registry <url>", "Docker image registry url", "harbor.bratislava.sk")
     .option("-staging, --staging", "To deploy on staging, you need to add this flag.")
     .option("-production, --production", "To deploy on production, you need to add this flag.")
-    .option("-debug, --debug", "Debuging")
+    .option("-debug, --debug", "Debugging")
     .option("-beta, --beta", "Beta features")
     .option("-no_image_repo_check, --no_image_repo_check", "No Image repository check")
     .option("-force, --force <pass>", "Force")

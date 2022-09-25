@@ -8,6 +8,7 @@ export function check_kubernetes_enviroment(options: Options) {
   );
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
+    options.env = 'dev';
     return;
   }
 

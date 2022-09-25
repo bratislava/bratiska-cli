@@ -50,6 +50,10 @@ export function show_options(options: Options) {
     options.namespace = 'standalone';
   }
 
+  if (typeof options.sentry === 'undefined') {
+    options.sentry = false;
+  }
+
   const pack = helpers.load_package(options);
   if (typeof options.deployment === 'undefined') {
     options.deployment = pack.name;
@@ -98,24 +102,8 @@ export function show_options(options: Options) {
     );
   }
 
-  const sentry = process.env['SENTRY_AUTH_TOKEN'];
-  if (typeof sentry !== 'undefined') {
-    print_if_debug(options, JSON.stringify(sentry));
-
-    if (sentry === '***') {
-      print_if_debug(
-        options,
-        `SENTRY_AUTH_TOKEN contains only stars in github actions, no value is passed.`,
-      );
-    } else {
-      print_if_debug(
-        options,
-        `SENTRY_AUTH_TOKEN(base64)=${Buffer.from(sentry).toString('base64')}`,
-      );
-    }
-    print_if_debug(options, `SENTRY_AUTH_TOKEN(raw)='${sentry}'`);
-  } else {
-    print_if_debug(options, `SENTRY_AUTH_TOKEN=${sentry}`);
+  if (options.sentry) {
+    process.env['SENTRY_AUTH_TOKEN'] = <string>options.sentry;
   }
 
   helpers.line('(0) Starting with options... \n');

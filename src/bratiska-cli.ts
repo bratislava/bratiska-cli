@@ -7,7 +7,7 @@ import { program } from 'commander';
 import { Deploy } from './deploy';
 import * as helpers from './helpers';
 
-const version = '1.5.99';
+const version = '1.6.0';
 const deploy = new Deploy();
 
 try {
@@ -54,6 +54,8 @@ try {
     .option('-d, --deployment <deployment>', 'Deployment app')
     .option('-h, --host <host>', 'Host url address')
     .option('-e, --env <env>', 'Deployment environment')
+    .option('-s, --sentry <token>', 'Specify sentry auth token for build')
+
     .option(
       '-r, --registry <url>',
       'Docker image registry url',
@@ -67,7 +69,7 @@ try {
       '-production, --production',
       'To deploy on production, you need to add this flag.',
     )
-    .option('-debug, --debug', 'Debuging')
+    .option('-debug, --debug', 'Debugging')
     .option('-beta, --beta', 'Beta features')
     .option(
       '-no_image_repo_check, --no_image_repo_check',
