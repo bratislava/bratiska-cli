@@ -111,3 +111,4 @@ kubernetes/
 .env.staging
 .env.dev
 .env.production.local
+.env.bratiska-cli-build.dev
