@@ -120,7 +120,7 @@ export function check_git_resources(options: Options) {
   options.gittag = false;
   options.origin_gittag = false;
   if (gittag_bash.res !== '') {
-    options.gittag = gittag_bash.res;
+    options.gittag = gittag_bash.res.replace(/\n/g, '-');
   }
   helpers.print_if_debug(options, `options.gittag: ${options.gittag}`);
 
