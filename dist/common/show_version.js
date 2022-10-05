@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.show_version = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function show_version(options, version) {
   options.bratiska_cli_version = version;
   options.step = 0;
@@ -46,5 +45,4 @@ function show_version(options, version) {
     console.log();
   }
 }
-
 exports.show_version = show_version;

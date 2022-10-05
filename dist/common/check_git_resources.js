@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_git_resources = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_git_resources(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Checking git...`);
@@ -157,5 +156,4 @@ function check_git_resources(options) {
   helpers.ok();
   return options;
 }
-
 exports.check_git_resources = check_git_resources;

@@ -38,45 +38,35 @@ function pwd() {
   pwd = pwd.trim();
   return pwd.replace(/\s/g, "\\ ");
 }
-
 exports.pwd = pwd;
-
 function cd(path) {
   const cd = (0, child_process_1.execSync)(`cd ${path}`, {
     encoding: "utf8"
   });
   return cd.trim();
 }
-
 exports.cd = cd;
-
 function git_user_name() {
   const result = child_process_1.default.spawnSync("git", ["config", "user.name"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_user_name = git_user_name;
-
 function git_user_email() {
   const result = child_process_1.default.spawnSync("git", ["config", "user.email"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_user_email = git_user_email;
-
 function git_current_branch() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_branch = git_current_branch;
-
 function git_branch_from_commit(commit) {
   const result = child_process_1.default.spawnSync("git", [
     "branch",
@@ -105,81 +95,63 @@ function git_fetch_origin() {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_fetch_origin = git_fetch_origin;
-
 function git_current_commit() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "HEAD"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_commit = git_current_commit;
-
 function git_current_commit_short() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "--short", "HEAD"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_commit_short = git_current_commit_short;
-
 function git_commit_tag(commit) {
   const result = child_process_1.default.spawnSync("git", ["tag", "--contains", commit], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_commit_tag = git_commit_tag;
-
 function git_add_tag(tag) {
   const result = child_process_1.default.spawnSync("git", ["tag", "-a", tag, "-m", tag], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_add_tag = git_add_tag;
-
 function git_delete_tag(tag) {
   const result = child_process_1.default.spawnSync("git", ["tag", "-d", tag], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_delete_tag = git_delete_tag;
-
 function git_delete_tag_origin(tag) {
   const result = child_process_1.default.spawnSync("git", ["push", "--delete", "origin", tag], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_delete_tag_origin = git_delete_tag_origin;
-
 function git_push_tag(tag) {
   const result = child_process_1.default.spawnSync("git", ["push", "origin", tag], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_push_tag = git_push_tag;
-
 function git_origin_commit_tag(tag) {
   const result = child_process_1.default.spawnSync("git", ["ls-remote", "origin", "--contains", `"refs/tags/${tag}"`], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_origin_commit_tag = git_origin_commit_tag;
-
 function git_get_last_remote_tags(options, tag_format) {
   // let tag_format = "v[0-9]\.[0-9]\.[0-9]*"
   const cmd = `git ls-remote origin --contains "refs\/tags\/${tag_format}" | grep ".*[^}]$" | cut -f 2 | tail -n1 | awk '{gsub(/refs\\/tags\\//,"")}1'`;
@@ -187,9 +159,7 @@ function git_get_last_remote_tags(options, tag_format) {
   const last_tag = (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
   return last_tag.trim();
 }
-
 exports.git_get_last_remote_tags = git_get_last_remote_tags;
-
 function git_current_status(options) {
   const result = child_process_1.default.spawnSync("git", ["status", "-s"], {
     encoding: "utf8"
@@ -197,9 +167,7 @@ function git_current_status(options) {
   helpers.print_if_debug(options, "Untracked changes: " + result.stdout.trim());
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_status = git_current_status;
-
 function git_repo_name(options) {
   const cmd = "basename `git rev-parse --show-toplevel`";
     helpers.print_if_debug(options, cmd);

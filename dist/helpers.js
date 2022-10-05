@@ -15,7 +15,7 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
+var __importStar = (this && this.__importStar) || function(mod) {
   if (mod && mod.__esModule) return mod;
   var result = {};
   if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
@@ -37,37 +37,26 @@ const commands = __importStar(require("./commands"));
 const crypto_1 = __importDefault(require("crypto"));
 const ALLOWED_ENVIRONMENTS = ["dev", "staging", "prod"];
 exports.log = console.log.bind(console);
-
 function line(content) {
   process.stdout.write("\x1b[37m" + content);
 }
-
 exports.line = line;
-
 function spacer() {
   return "    ";
 }
-
 exports.spacer = spacer;
-
 function spacer_line(content) {
   return line(spacer() + content);
 }
-
 exports.spacer_line = spacer_line;
-
 function ok() {
   (0, exports.log)(chalk_1.default.green(" OK"));
 }
-
 exports.ok = ok;
-
 function skipping() {
   (0, exports.log)(chalk_1.default.yellow(" SKIPPING"));
 }
-
 exports.skipping = skipping;
-
 function not_present() {
   line(chalk_1.default.yellow(" NOT PRESENT"));
 }
@@ -79,107 +68,74 @@ exports.finished = finished;
 function br() {
     (0, exports.log)('\n');
 }
-
 exports.br = br;
-
 function print_command(cmd) {
   (0, exports.log)(chalk_1.default.yellow(cmd));
 }
-
 exports.print_command = print_command;
-
 function print_important_info(cmd) {
   (0, exports.log)(chalk_1.default.green(cmd));
 }
-
 exports.print_important_info = print_important_info;
-
 function print_important_info_spacer(cmd) {
   (0, exports.log)(chalk_1.default.green(spacer() + cmd));
 }
-
 exports.print_important_info_spacer = print_important_info_spacer;
-
 function print_important_info_line(cmd) {
   process.stdout.write(chalk_1.default.green(cmd));
 }
-
 exports.print_important_info_line = print_important_info_line;
-
 function print_warning(cmd) {
   (0, exports.log)(chalk_1.default.yellow(cmd));
 }
-
 exports.print_warning = print_warning;
-
 function print_warning_line(cmd) {
   process.stdout.write(chalk_1.default.yellow(cmd));
 }
-
 exports.print_warning_line = print_warning_line;
-
 function print_error(cmd) {
   (0, exports.log)(chalk_1.default.red(cmd));
 }
-
 exports.print_error = print_error;
-
 function print_error_line(cmd) {
   process.stdout.write(chalk_1.default.red(cmd));
 }
-
 exports.print_error_line = print_error_line;
-
 function print_error_line_spacer(cmd) {
   print_error_line(spacer() + cmd);
 }
-
 exports.print_error_line_spacer = print_error_line_spacer;
-
 function print_info(cmd) {
   (0, exports.log)(chalk_1.default.grey(cmd));
 }
-
 exports.print_info = print_info;
-
 function print_info_line(cmd) {
   process.stdout.write(chalk_1.default.grey(cmd));
 }
-
 exports.print_info_line = print_info_line;
-
 function print_debug(cmd) {
   process.stdout.write(chalk_1.default.cyan(`\nDEBUG: ${cmd}\n`));
 }
-
 exports.print_debug = print_debug;
-
 function print_if_debug(options, cmd) {
   if (options.debug) {
     print_debug(cmd);
   }
 }
-
 exports.print_if_debug = print_if_debug;
-
 function print_if_debug_bash(options, name, bash) {
   print_if_debug(options, `${name}.res: ${bash.res}, ${name}.err: ${bash.err} `);
 }
-
 exports.print_if_debug_bash = print_if_debug_bash;
-
 function print_line_if_debug(options, content) {
   if (options.debug) {
     process.stdout.write("\x1b[37m" + content);
   }
 }
-
 exports.print_line_if_debug = print_line_if_debug;
-
 function message(content) {
   (0, exports.log)(chalk_1.default.white(content));
 }
-
 exports.message = message;
 function image(options) {
     return `${options.registry}/${options.namespace}/${options.deployment}`;
@@ -544,22 +500,16 @@ function print_options(options) {
     print_important_info_spacer(`--registry=${options.registry}`);
   }
 }
-
 exports.print_options = print_options;
-
 function step(options) {
   options.step++;
   return options.step;
 }
-
 exports.step = step;
-
 function is_allowed_env(env) {
   return ALLOWED_ENVIRONMENTS.includes(env);
 }
-
 exports.is_allowed_env = is_allowed_env;
-
 function increment_bug(version) {
   const terms = version.split(".").map(function(e) {
     return parseInt(e);
@@ -573,7 +523,6 @@ function increment_bug(version) {
   }
   return terms.join(".");
 }
-
 function increment_feature(version) {
   const terms = version.split(".").map(function(e) {
     return parseInt(e);
@@ -588,11 +537,9 @@ function increment_feature(version) {
   }
   return terms.join(".");
 }
-
 function increment_major(version) {
   return [parseInt(version.split(".")[0]) + 1, 0, 0].join(".");
 }
-
 function tag_overridden_message(options, tag_value) {
   print_warning_line(`\n${spacer()}Automatically generated tag: `);
   print_important_info_line(tag_value);
@@ -600,7 +547,6 @@ function tag_overridden_message(options, tag_value) {
   print_important_info_line(options.tag);
   print_warning_line(`'`);
 }
-
 function tag_new_message(pre_tag) {
   print_warning_line(`\n${spacer()}This is the first tag with this format: `);
   print_important_info_line(pre_tag);
@@ -608,7 +554,6 @@ function tag_new_message(pre_tag) {
   print_important_info_line(`${pre_tag}1.0.0`);
   print_warning_line(`'`);
 }
-
 function tag_value_dev(options) {
   let tag_value = "";
   tag_value = options.env;
@@ -621,7 +566,6 @@ function tag_value_dev(options) {
   tag_value += `-${options.user_email}`;
   return tag_value;
 }
-
 function tag_value_staging(options) {
   let tag_format = options.env;
   if (options.tech !== false) {
@@ -650,11 +594,9 @@ function tag_value_staging(options) {
     return pre_tag + increment_bug(tag_version);
   }
 }
-
 function tag_value_prod(options) {
   return tag_value_staging(options);
 }
-
 function tag_value(options) {
   let tag_value = "";
   switch (options.env) {
@@ -676,5 +618,4 @@ function tag_value(options) {
   }
   return tag_value;
 }
-
 exports.tag_value = tag_value;

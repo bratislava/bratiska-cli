@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.create_tag = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function create_tag(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Creating tag...`);
@@ -77,5 +76,4 @@ function create_tag(options) {
   }
   return options;
 }
-
 exports.create_tag = create_tag;

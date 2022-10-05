@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.delete_tag = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function delete_tag(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Deleting tag...`);
@@ -83,5 +82,4 @@ function delete_tag(options) {
   }
   return options;
 }
-
 exports.delete_tag = delete_tag;

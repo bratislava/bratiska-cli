@@ -29,7 +29,6 @@ var __importStar = (this && this.__importStar) || function(mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.tag_options = void 0;
 const helpers = __importStar(require("../helpers"));
-
 function tag_options(options, env) {
   options.tag_command = true;
   if (typeof env !== "undefined" && env !== "") {
@@ -43,5 +42,4 @@ function tag_options(options, env) {
   helpers.print_if_debug(options, `options.env: ${options.env}, options.tech: ${options.tech}`);
   return options;
 }
-
 exports.tag_options = tag_options;
