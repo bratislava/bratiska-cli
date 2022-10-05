@@ -1,5 +1,6 @@
 import * as helpers from '../helpers';
 import fs from 'fs';
+import { Options } from './../types';
 
 export function check_kustomize(options: Options) {
   helpers.line(`(${helpers.step(options)}) Checking the kustomize manifest...`);

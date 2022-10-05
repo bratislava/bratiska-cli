@@ -1,5 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
+import { Options } from './../types';
 
 /*
   CHECKING KUBERNETES PULL SECRET FOR HARBOR

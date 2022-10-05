@@ -1,4 +1,5 @@
 import * as helpers from '../helpers';
+import { Options } from './../types';
 
 export function create_kustomize_env_vars(options: Options) {
   helpers.line(

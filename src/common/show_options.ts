@@ -3,7 +3,7 @@ import * as commands from '../commands';
 import * as path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
-import { print_if_debug } from '../helpers';
+import { Options } from './../types';
 
 export function show_options(options: Options) {
   const pwd = commands.pwd();
@@ -42,6 +42,14 @@ export function show_options(options: Options) {
     options.image = false;
   }
 
+  if (typeof options.tag === 'undefined') {
+    options.tag = false;
+  }
+
+  if (typeof options.tag_command === 'undefined') {
+    options.tag_command = false;
+  }
+
   if (typeof options.no_image_repo_check === 'undefined') {
     options.no_image_repo_check = false;
   }
@@ -69,6 +77,26 @@ export function show_options(options: Options) {
 
   if (typeof options.debug === 'undefined') {
     options.debug = false;
+  }
+
+  if (typeof options.recreate === 'undefined') {
+    options.recreate = false;
+  }
+
+  if (typeof options.delete === 'undefined') {
+    options.delete = false;
+  }
+
+  if (typeof options.tech === 'undefined') {
+    options.tech = false;
+  }
+
+  if (typeof options.feature === 'undefined') {
+    options.feature = false;
+  }
+
+  if (typeof options.major === 'undefined') {
+    options.major = false;
   }
 
   if (process.env['CI']) {
@@ -106,6 +134,15 @@ export function show_options(options: Options) {
     process.env['SENTRY_AUTH_TOKEN'] = <string>options.sentry;
   }
 
+  if (
+    !helpers.is_allowed_env(options.env) &&
+    typeof options.env !== 'undefined'
+  ) {
+    throw new Error(
+      `Unknown environment: '${options.env}'. Please use one of the allowed environments: 'dev', 'staging', 'prod'`,
+    );
+  }
+
   helpers.line('(0) Starting with options... \n');
 
   options.kustomize_default_path = false;
@@ -118,14 +155,14 @@ export function show_options(options: Options) {
 
   helpers.print_options(options);
 
-  helpers.log('Summary:');
-  helpers.line(`Application name: `);
+  helpers.line('(0) Showing detected app info... \n');
+  helpers.spacer_line(`Application name: `);
   helpers.print_important_info(`${options.deployment}`);
-  helpers.line(`Directory of application: `);
+  helpers.spacer_line(`Directory of application: `);
   helpers.print_important_info(`${options.pwd}`);
-  helpers.line(`Package.json: `);
+  helpers.spacer_line(`Package.json: `);
   helpers.print_important_info('present');
-  helpers.line(`Kubernetes folder with kustomize files included: `);
+  helpers.spacer_line(`Kubernetes folder with kustomize files included: `);
   helpers.print_important_info(`${options.kustomize_default_path}`);
 
   return options;

@@ -27,32 +27,34 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.build_docker_image = void 0;
+exports.check_kubernetes_cluster = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function build_docker_image(options) {
-  helpers.line(`(${helpers.step(options)}) Building docker image for platform linux/amd64...`);
-  if (options.image) {
+
+function check_kubernetes_cluster(options) {
+  const step = helpers.step(options);
+  helpers.line(`(${step}) Checking the current Kubernetes cluster...`);
+  if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
     return;
   }
-  const image_tag = helpers.image_tag(options);
-  helpers.print_info(`\nDocker image tag: ${image_tag}`);
-  /* we will check if we already have an image */
-  const image = commands.docker_check_image(options);
-  if (image.err === "" && options.force_rebuild === false) {
-    helpers.line(`\ndocker image is present...`);
-    helpers.skipping();
-    return;
+  const response_cluster = commands.kubectl_cluster();
+  options.cluster = response_cluster.res;
+  helpers.print_if_debug(options, `current cluster: ${options.cluster}`);
+  if (response_cluster.err !== "" && options.tag_command === false) {
+    throw new Error("There is no Kubernetes context available. Please log in to the Kubernetes cluster! \n More info:" +
+      response_cluster.err);
   }
-  commands.docker_build(options);
-  if (options.beta) {
-    const latest_tag = helpers.image_latest_tag(options);
-    helpers.line(`\n adding latest tag: ${latest_tag} ...`);
-    const tag_bash = commands.docker_tag(image_tag, latest_tag);
-    helpers.print_if_debug(options, tag_bash.res);
-    helpers.print_if_debug(options, tag_bash.err);
+  if (typeof options.cluster !== "undefined") {
+    helpers.line(`\n${helpers.spacer()}Detected cluster: `);
+    helpers.print_important_info(`${options.cluster}`);
   }
-  helpers.finished();
+  if (options.cluster === "prod-k8s-ns-01") {
+    throw new Error(`You cannot use '${options.cluster}' cluster! It is forbidden.`);
+  }
+  helpers.line(`(${step}) Checking the current Kubernetes cluster...`);
+  helpers.ok();
+  return options;
 }
-exports.build_docker_image = build_docker_image;
+
+exports.check_kubernetes_cluster = check_kubernetes_cluster;

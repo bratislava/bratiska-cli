@@ -5,11 +5,22 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import * as commands from './commands';
 import crypto from 'crypto';
+import { Bash, Options } from './types';
+
+const ALLOWED_ENVIRONMENTS = ['dev', 'staging', 'prod'];
 
 export const log = console.log.bind(console);
 
 export function line(content: string) {
   process.stdout.write('\x1b[37m' + content);
+}
+
+export function spacer() {
+  return '    ';
+}
+
+export function spacer_line(content: string) {
+  return line(spacer() + content);
 }
 
 export function ok(): void {
@@ -40,12 +51,32 @@ export function print_important_info(cmd: string): void {
   log(chalk.green(cmd));
 }
 
+export function print_important_info_spacer(cmd: string): void {
+  log(chalk.green(spacer() + cmd));
+}
+
 export function print_important_info_line(cmd: string): void {
   process.stdout.write(chalk.green(cmd));
 }
 
 export function print_warning(cmd: string): void {
   log(chalk.yellow(cmd));
+}
+
+export function print_warning_line(cmd: string): void {
+  process.stdout.write(chalk.yellow(cmd));
+}
+
+export function print_error(cmd: string): void {
+  log(chalk.red(cmd));
+}
+
+export function print_error_line(cmd: string): void {
+  process.stdout.write(chalk.red(cmd));
+}
+
+export function print_error_line_spacer(cmd: string): void {
+  print_error_line(spacer() + cmd);
 }
 
 export function print_info(cmd: string): void {
@@ -67,6 +98,17 @@ export function print_if_debug(
   if (options.debug) {
     print_debug(cmd);
   }
+}
+
+export function print_if_debug_bash(
+  options: Options,
+  name: string,
+  bash: Bash,
+): void {
+  print_if_debug(
+    options,
+    `${name}.res: ${bash.res}, ${name}.err: ${bash.err} `,
+  );
 }
 
 export function print_line_if_debug(options: Options, content: string) {
@@ -415,83 +457,236 @@ export function load_json(path: string) {
 
 export function print_options(options: Options) {
   if (options.staging) {
-    print_important_info('--staging');
+    print_important_info_spacer('--staging');
   }
 
   if (options.production) {
-    print_important_info('--production');
+    print_important_info_spacer('--production');
   }
 
   if (options.beta) {
-    print_important_info(`--beta`);
+    print_important_info_spacer(`--beta`);
   }
 
   if (options.debug) {
-    print_important_info('--debug');
+    print_important_info_spacer('--debug');
   }
 
   if (options.no_image_repo_check) {
-    print_important_info('--no_image_repo_check');
+    print_important_info_spacer('--no_image_repo_check');
   }
 
   if (options.dry_run) {
-    print_important_info('--dry_run');
+    print_important_info_spacer('--dry_run');
   }
 
   if (options.force) {
-    print_important_info('--force');
+    print_important_info_spacer('--force');
   }
 
   if (options.build_kustomize) {
-    print_important_info('--build_kustomize');
+    print_important_info_spacer('--build_kustomize');
   }
 
   if (options.force_rebuild) {
-    print_important_info('--force_rebuild');
+    print_important_info_spacer('--force_rebuild');
   }
 
   if (options.build_image) {
-    print_important_info('--build_image');
+    print_important_info_spacer('--build_image');
   }
 
   if (options.build_image_no_registry) {
-    print_important_info('--build_image_no_registry');
+    print_important_info_spacer('--build_image_no_registry');
   }
 
-  if (options.deployment) {
-    print_important_info(`--deployment=${options.deployment}`);
+  if (options.recreate) {
+    print_important_info_spacer(`--recreate`);
   }
 
-  if (options.version) {
-    print_important_info(`--version=${options.version}`);
+  if (options.delete) {
+    print_important_info_spacer(`--delete`);
   }
 
-  if (options.image) {
-    print_important_info(`--image=${options.image}`);
+  if (options.feature) {
+    print_important_info_spacer(`--feature`);
   }
 
-  if (options.kustomize) {
-    print_important_info(`--kustomize=${options.kustomize}`);
-  }
-
-  if (options.namespace) {
-    print_important_info(`--namespace=${options.namespace}`);
-  }
-
-  if (options.host) {
-    print_important_info(`--host=${options.host}`);
-  }
-
-  if (options.registry) {
-    print_important_info(`--registry=${options.registry}`);
+  if (options.major) {
+    print_important_info_spacer(`--major`);
   }
 
   if (options.env) {
-    print_important_info(`--env=${options.env}`);
+    print_important_info_spacer(`--env=${options.env}`);
+  }
+
+  if (options.tech) {
+    print_important_info_spacer(`--tech=${options.tech}`);
+  }
+
+  if (options.tag) {
+    print_important_info_spacer(`--tag=${options.tag}`);
+  }
+
+  if (options.deployment) {
+    print_important_info_spacer(`--deployment=${options.deployment}`);
+  }
+
+  if (options.version) {
+    print_important_info_spacer(`--version=${options.version}`);
+  }
+
+  if (options.image) {
+    print_important_info_spacer(`--image=${options.image}`);
+  }
+
+  if (options.kustomize) {
+    print_important_info_spacer(`--kustomize=${options.kustomize}`);
+  }
+
+  if (options.namespace) {
+    print_important_info_spacer(`--namespace=${options.namespace}`);
+  }
+
+  if (options.host) {
+    print_important_info_spacer(`--host=${options.host}`);
+  }
+
+  if (options.registry) {
+    print_important_info_spacer(`--registry=${options.registry}`);
   }
 }
 
 export function step(options: Options) {
   options.step++;
   return options.step;
+}
+
+export function is_allowed_env(env: string) {
+  return ALLOWED_ENVIRONMENTS.includes(env);
+}
+
+function increment_bug(version: string) {
+  const terms = version.split('.').map(function (e) {
+    return parseInt(e);
+  });
+  if (terms.length != 3) {
+    return version;
+  }
+  if (++terms[2] > 9) {
+    ++terms[1];
+    terms[2] = 0;
+  }
+  return terms.join('.');
+}
+
+function increment_feature(version: string) {
+  const terms = version.split('.').map(function (e) {
+    return parseInt(e);
+  });
+  if (terms.length != 3) {
+    return version;
+  }
+  if (++terms[1] > 9) {
+    ++terms[0];
+    terms[1] = 0;
+    terms[2] = 0;
+  }
+  return terms.join('.');
+}
+
+function increment_major(version: string) {
+  return [parseInt(version.split('.')[0]) + 1, 0, 0].join('.');
+}
+
+function tag_overridden_message(options: Options, tag_value: string) {
+  print_warning_line(`\n${spacer()}Automatically generated tag: `);
+  print_important_info_line(tag_value);
+  print_warning_line(` was overridden by --tag '`);
+  print_important_info_line(<string>options.tag);
+  print_warning_line(`'`);
+}
+
+function tag_new_message(pre_tag: string) {
+  print_warning_line(`\n${spacer()}This is the first tag with this format: `);
+  print_important_info_line(pre_tag);
+  print_warning_line(` in this repository. Creating the first version: '`);
+  print_important_info_line(`${pre_tag}1.0.0`);
+  print_warning_line(`'`);
+}
+
+function tag_value_dev(options: Options) {
+  let tag_value = '';
+  tag_value = options.env;
+
+  if (options.tech !== false) {
+    tag_value += `-${options.tech}`;
+  }
+  tag_value += `-${options.branch}`;
+  tag_value += `-${options.commit_short}`;
+  tag_value += `-${options.user_name}`;
+  tag_value += `-${options.user_email}`;
+  return tag_value;
+}
+
+function tag_value_staging(options: Options) {
+  let tag_format = options.env;
+  if (options.tech !== false) {
+    tag_format += `-${options.tech}`;
+  }
+  const pre_tag = tag_format;
+  tag_format += `[0-9]\.[0-9]\.[0-9]*`;
+
+  const last_tag = commands.git_get_last_remote_tags(options, tag_format);
+  if (last_tag === '') {
+    if (options.delete) {
+      return pre_tag;
+    }
+    tag_new_message(pre_tag);
+    return `${pre_tag}0.0.1`;
+  } else {
+    if (options.delete) {
+      return last_tag;
+    }
+    const tag_version = last_tag.replace(pre_tag, '');
+
+    if (options.major === true) {
+      return pre_tag + increment_major(tag_version);
+    }
+
+    if (options.feature === true) {
+      return pre_tag + increment_feature(tag_version);
+    }
+
+    return pre_tag + increment_bug(tag_version);
+  }
+}
+
+function tag_value_prod(options: Options) {
+  return tag_value_staging(options);
+}
+
+export function tag_value(options: Options) {
+  let tag_value = '';
+
+  switch (options.env) {
+    case 'dev':
+      tag_value = tag_value_dev(options);
+      break;
+    case 'staging':
+      tag_value = tag_value_staging(options);
+      break;
+    case 'prod':
+      tag_value = tag_value_prod(options);
+      break;
+  }
+
+  if (options.tag !== false) {
+    if (options.env !== '') {
+      tag_overridden_message(options, tag_value);
+    }
+    return <string>options.tag;
+  }
+
+  return tag_value;
 }

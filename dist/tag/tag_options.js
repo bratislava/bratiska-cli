@@ -27,32 +27,21 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.build_docker_image = void 0;
+exports.tag_options = void 0;
 const helpers = __importStar(require("../helpers"));
-const commands = __importStar(require("../commands"));
-function build_docker_image(options) {
-  helpers.line(`(${helpers.step(options)}) Building docker image for platform linux/amd64...`);
-  if (options.image) {
-    helpers.skipping();
-    return;
+
+function tag_options(options, env) {
+  options.tag_command = true;
+  if (typeof env !== "undefined" && env !== "") {
+    const envArray = env.split("-");
+    helpers.print_if_debug(options, `envArray[0]: ${envArray[0]}, envArray[1]: ${envArray[1]}`);
+    options.env = envArray[0];
+    if (typeof options.tech === "undefined") {
+      options.tech = envArray[1];
+    }
   }
-  const image_tag = helpers.image_tag(options);
-  helpers.print_info(`\nDocker image tag: ${image_tag}`);
-  /* we will check if we already have an image */
-  const image = commands.docker_check_image(options);
-  if (image.err === "" && options.force_rebuild === false) {
-    helpers.line(`\ndocker image is present...`);
-    helpers.skipping();
-    return;
-  }
-  commands.docker_build(options);
-  if (options.beta) {
-    const latest_tag = helpers.image_latest_tag(options);
-    helpers.line(`\n adding latest tag: ${latest_tag} ...`);
-    const tag_bash = commands.docker_tag(image_tag, latest_tag);
-    helpers.print_if_debug(options, tag_bash.res);
-    helpers.print_if_debug(options, tag_bash.err);
-  }
-  helpers.finished();
+  helpers.print_if_debug(options, `options.env: ${options.env}, options.tech: ${options.tech}`);
+  return options;
 }
-exports.build_docker_image = build_docker_image;
+
+exports.tag_options = tag_options;

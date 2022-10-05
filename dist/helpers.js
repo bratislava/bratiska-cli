@@ -16,17 +16,18 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
     o["default"] = v;
 });
 var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  __setModuleDefault(result, mod);
+  return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+var __importDefault = (this && this.__importDefault) || function(mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.step = exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_warning = exports.print_important_info_line = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.line = exports.log = void 0;
+exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug_bash = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_error_line_spacer = exports.print_error_line = exports.print_error = exports.print_warning_line = exports.print_warning = exports.print_important_info_line = exports.print_important_info_spacer = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.spacer_line = exports.spacer = exports.line = exports.log = void 0;
+exports.tag_value = exports.is_allowed_env = exports.step = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -34,21 +35,41 @@ const fs_1 = __importDefault(require("fs"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const commands = __importStar(require("./commands"));
 const crypto_1 = __importDefault(require("crypto"));
+const ALLOWED_ENVIRONMENTS = ["dev", "staging", "prod"];
 exports.log = console.log.bind(console);
+
 function line(content) {
-    process.stdout.write('\x1b[37m' + content);
+  process.stdout.write("\x1b[37m" + content);
 }
+
 exports.line = line;
+
+function spacer() {
+  return "    ";
+}
+
+exports.spacer = spacer;
+
+function spacer_line(content) {
+  return line(spacer() + content);
+}
+
+exports.spacer_line = spacer_line;
+
 function ok() {
-    (0, exports.log)(chalk_1.default.green(' OK'));
+  (0, exports.log)(chalk_1.default.green(" OK"));
 }
+
 exports.ok = ok;
+
 function skipping() {
-    (0, exports.log)(chalk_1.default.yellow(' SKIPPING'));
+  (0, exports.log)(chalk_1.default.yellow(" SKIPPING"));
 }
+
 exports.skipping = skipping;
+
 function not_present() {
-    line(chalk_1.default.yellow(" NOT PRESENT"));
+  line(chalk_1.default.yellow(" NOT PRESENT"));
 }
 exports.not_present = not_present;
 function finished() {
@@ -58,50 +79,107 @@ exports.finished = finished;
 function br() {
     (0, exports.log)('\n');
 }
+
 exports.br = br;
+
 function print_command(cmd) {
-    (0, exports.log)(chalk_1.default.yellow(cmd));
+  (0, exports.log)(chalk_1.default.yellow(cmd));
 }
+
 exports.print_command = print_command;
+
 function print_important_info(cmd) {
-    (0, exports.log)(chalk_1.default.green(cmd));
+  (0, exports.log)(chalk_1.default.green(cmd));
 }
+
 exports.print_important_info = print_important_info;
+
+function print_important_info_spacer(cmd) {
+  (0, exports.log)(chalk_1.default.green(spacer() + cmd));
+}
+
+exports.print_important_info_spacer = print_important_info_spacer;
+
 function print_important_info_line(cmd) {
-    process.stdout.write(chalk_1.default.green(cmd));
+  process.stdout.write(chalk_1.default.green(cmd));
 }
+
 exports.print_important_info_line = print_important_info_line;
+
 function print_warning(cmd) {
-    (0, exports.log)(chalk_1.default.yellow(cmd));
+  (0, exports.log)(chalk_1.default.yellow(cmd));
 }
+
 exports.print_warning = print_warning;
+
+function print_warning_line(cmd) {
+  process.stdout.write(chalk_1.default.yellow(cmd));
+}
+
+exports.print_warning_line = print_warning_line;
+
+function print_error(cmd) {
+  (0, exports.log)(chalk_1.default.red(cmd));
+}
+
+exports.print_error = print_error;
+
+function print_error_line(cmd) {
+  process.stdout.write(chalk_1.default.red(cmd));
+}
+
+exports.print_error_line = print_error_line;
+
+function print_error_line_spacer(cmd) {
+  print_error_line(spacer() + cmd);
+}
+
+exports.print_error_line_spacer = print_error_line_spacer;
+
 function print_info(cmd) {
-    (0, exports.log)(chalk_1.default.grey(cmd));
+  (0, exports.log)(chalk_1.default.grey(cmd));
 }
+
 exports.print_info = print_info;
+
 function print_info_line(cmd) {
-    process.stdout.write(chalk_1.default.grey(cmd));
+  process.stdout.write(chalk_1.default.grey(cmd));
 }
+
 exports.print_info_line = print_info_line;
+
 function print_debug(cmd) {
-    process.stdout.write(chalk_1.default.cyan(`\nDEBUG: ${cmd}\n`));
+  process.stdout.write(chalk_1.default.cyan(`\nDEBUG: ${cmd}\n`));
 }
+
 exports.print_debug = print_debug;
+
 function print_if_debug(options, cmd) {
-    if (options.debug) {
-        print_debug(cmd);
-    }
+  if (options.debug) {
+    print_debug(cmd);
+  }
 }
+
 exports.print_if_debug = print_if_debug;
+
+function print_if_debug_bash(options, name, bash) {
+  print_if_debug(options, `${name}.res: ${bash.res}, ${name}.err: ${bash.err} `);
+}
+
+exports.print_if_debug_bash = print_if_debug_bash;
+
 function print_line_if_debug(options, content) {
-    if (options.debug) {
-        process.stdout.write('\x1b[37m' + content);
-    }
+  if (options.debug) {
+    process.stdout.write("\x1b[37m" + content);
+  }
 }
+
 exports.print_line_if_debug = print_line_if_debug;
+
 function message(content) {
-    (0, exports.log)(chalk_1.default.white(content));
+  (0, exports.log)(chalk_1.default.white(content));
 }
+
 exports.message = message;
 function image(options) {
     return `${options.registry}/${options.namespace}/${options.deployment}`;
@@ -391,66 +469,212 @@ function load_json(path) {
 exports.load_json = load_json;
 function print_options(options) {
   if (options.staging) {
-    print_important_info("--staging");
+    print_important_info_spacer("--staging");
   }
   if (options.production) {
-    print_important_info("--production");
+    print_important_info_spacer("--production");
   }
   if (options.beta) {
-    print_important_info(`--beta`);
+    print_important_info_spacer(`--beta`);
   }
   if (options.debug) {
-    print_important_info("--debug");
+    print_important_info_spacer("--debug");
   }
   if (options.no_image_repo_check) {
-    print_important_info("--no_image_repo_check");
+    print_important_info_spacer("--no_image_repo_check");
   }
   if (options.dry_run) {
-    print_important_info("--dry_run");
+    print_important_info_spacer("--dry_run");
   }
   if (options.force) {
-    print_important_info("--force");
+    print_important_info_spacer("--force");
   }
   if (options.build_kustomize) {
-    print_important_info("--build_kustomize");
+    print_important_info_spacer("--build_kustomize");
   }
   if (options.force_rebuild) {
-    print_important_info("--force_rebuild");
+    print_important_info_spacer("--force_rebuild");
   }
   if (options.build_image) {
-    print_important_info("--build_image");
+    print_important_info_spacer("--build_image");
   }
   if (options.build_image_no_registry) {
-    print_important_info("--build_image_no_registry");
+    print_important_info_spacer("--build_image_no_registry");
   }
-  if (options.deployment) {
-    print_important_info(`--deployment=${options.deployment}`);
+  if (options.recreate) {
+    print_important_info_spacer(`--recreate`);
   }
-  if (options.version) {
-    print_important_info(`--version=${options.version}`);
+  if (options.delete) {
+    print_important_info_spacer(`--delete`);
   }
-  if (options.image) {
-    print_important_info(`--image=${options.image}`);
+  if (options.feature) {
+    print_important_info_spacer(`--feature`);
   }
-  if (options.kustomize) {
-    print_important_info(`--kustomize=${options.kustomize}`);
-  }
-  if (options.namespace) {
-    print_important_info(`--namespace=${options.namespace}`);
-  }
-  if (options.host) {
-    print_important_info(`--host=${options.host}`);
-  }
-  if (options.registry) {
-    print_important_info(`--registry=${options.registry}`);
+  if (options.major) {
+    print_important_info_spacer(`--major`);
   }
   if (options.env) {
-    print_important_info(`--env=${options.env}`);
+    print_important_info_spacer(`--env=${options.env}`);
+  }
+  if (options.tech) {
+    print_important_info_spacer(`--tech=${options.tech}`);
+  }
+  if (options.tag) {
+    print_important_info_spacer(`--tag=${options.tag}`);
+  }
+  if (options.deployment) {
+    print_important_info_spacer(`--deployment=${options.deployment}`);
+  }
+  if (options.version) {
+    print_important_info_spacer(`--version=${options.version}`);
+  }
+  if (options.image) {
+    print_important_info_spacer(`--image=${options.image}`);
+  }
+  if (options.kustomize) {
+    print_important_info_spacer(`--kustomize=${options.kustomize}`);
+  }
+  if (options.namespace) {
+    print_important_info_spacer(`--namespace=${options.namespace}`);
+  }
+  if (options.host) {
+    print_important_info_spacer(`--host=${options.host}`);
+  }
+  if (options.registry) {
+    print_important_info_spacer(`--registry=${options.registry}`);
   }
 }
+
 exports.print_options = print_options;
+
 function step(options) {
   options.step++;
   return options.step;
 }
+
 exports.step = step;
+
+function is_allowed_env(env) {
+  return ALLOWED_ENVIRONMENTS.includes(env);
+}
+
+exports.is_allowed_env = is_allowed_env;
+
+function increment_bug(version) {
+  const terms = version.split(".").map(function(e) {
+    return parseInt(e);
+  });
+  if (terms.length != 3) {
+    return version;
+  }
+  if (++terms[2] > 9) {
+    ++terms[1];
+    terms[2] = 0;
+  }
+  return terms.join(".");
+}
+
+function increment_feature(version) {
+  const terms = version.split(".").map(function(e) {
+    return parseInt(e);
+  });
+  if (terms.length != 3) {
+    return version;
+  }
+  if (++terms[1] > 9) {
+    ++terms[0];
+    terms[1] = 0;
+    terms[2] = 0;
+  }
+  return terms.join(".");
+}
+
+function increment_major(version) {
+  return [parseInt(version.split(".")[0]) + 1, 0, 0].join(".");
+}
+
+function tag_overridden_message(options, tag_value) {
+  print_warning_line(`\n${spacer()}Automatically generated tag: `);
+  print_important_info_line(tag_value);
+  print_warning_line(` was overridden by --tag '`);
+  print_important_info_line(options.tag);
+  print_warning_line(`'`);
+}
+
+function tag_new_message(pre_tag) {
+  print_warning_line(`\n${spacer()}This is the first tag with this format: `);
+  print_important_info_line(pre_tag);
+  print_warning_line(` in this repository. Creating the first version: '`);
+  print_important_info_line(`${pre_tag}1.0.0`);
+  print_warning_line(`'`);
+}
+
+function tag_value_dev(options) {
+  let tag_value = "";
+  tag_value = options.env;
+  if (options.tech !== false) {
+    tag_value += `-${options.tech}`;
+  }
+  tag_value += `-${options.branch}`;
+  tag_value += `-${options.commit_short}`;
+  tag_value += `-${options.user_name}`;
+  tag_value += `-${options.user_email}`;
+  return tag_value;
+}
+
+function tag_value_staging(options) {
+  let tag_format = options.env;
+  if (options.tech !== false) {
+    tag_format += `-${options.tech}`;
+  }
+  const pre_tag = tag_format;
+  tag_format += `[0-9]\.[0-9]\.[0-9]*`;
+  const last_tag = commands.git_get_last_remote_tags(options, tag_format);
+  if (last_tag === "") {
+    if (options.delete) {
+      return pre_tag;
+    }
+    tag_new_message(pre_tag);
+    return `${pre_tag}0.0.1`;
+  } else {
+    if (options.delete) {
+      return last_tag;
+    }
+    const tag_version = last_tag.replace(pre_tag, "");
+    if (options.major === true) {
+      return pre_tag + increment_major(tag_version);
+    }
+    if (options.feature === true) {
+      return pre_tag + increment_feature(tag_version);
+    }
+    return pre_tag + increment_bug(tag_version);
+  }
+}
+
+function tag_value_prod(options) {
+  return tag_value_staging(options);
+}
+
+function tag_value(options) {
+  let tag_value = "";
+  switch (options.env) {
+    case "dev":
+      tag_value = tag_value_dev(options);
+      break;
+    case "staging":
+      tag_value = tag_value_staging(options);
+      break;
+    case "prod":
+      tag_value = tag_value_prod(options);
+      break;
+  }
+  if (options.tag !== false) {
+    if (options.env !== "") {
+      tag_overridden_message(options, tag_value);
+    }
+    return options.tag;
+  }
+  return tag_value;
+}
+
+exports.tag_value = tag_value;

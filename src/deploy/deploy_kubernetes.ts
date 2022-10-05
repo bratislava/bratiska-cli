@@ -1,5 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
+import { Options } from './../types';
 
 export function deploy_kubernetes(options: Options) {
   helpers.line(`(${helpers.step(options)}) Deploying to kubernetes...`);

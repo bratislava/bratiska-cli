@@ -1,5 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
+import { Options } from './../types';
 
 export function clean_docker_image(options: Options) {
   helpers.line(`(${helpers.step(options)}) Cleaning local docker image...`);

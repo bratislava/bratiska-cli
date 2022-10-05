@@ -1,5 +1,5 @@
 //type Options = Record<string, string | number | boolean>;
-interface Options extends Record<string, string | number | boolean> {
+export interface Options extends Record<string, string | number | boolean> {
   cluster: string;
   repository_uri: string;
   deployment: string;
@@ -11,4 +11,9 @@ interface Options extends Record<string, string | number | boolean> {
   app_port: string;
   step: number;
   registry: string;
+}
+
+export interface Bash {
+  res: string;
+  err: string;
 }

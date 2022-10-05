@@ -32,9 +32,13 @@ const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const deploy_1 = require("./deploy");
+const tag_1 = require("./tag");
+const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "1.6.0";
+const version = "2.0.0";
 const deploy = new deploy_1.Deploy();
+const tag = new tag_1.Tag();
+const common = new common_1.Common();
 try {
   (0, clear_1.default)();
   console.log(chalk_1.default.blue(figlet_1.default.textSync("Bratiska-cli", { horizontalLayout: "full" })));
@@ -47,8 +51,38 @@ try {
       commander_1.program.help();
     });
   commander_1.program
+    .command("tag")
+    .argument("[env]", "environment", "")
+    .summary("Tag a version of app and run pipelines")
+    .description("Tag a version of app and run pipelines")
+    .option("-tag, --tag <tag>", "Specify a tag")
+    .option("-tech, --tech <tech>", "Technology in tag used in pipelines")
+    .option("-recreate, --recreate", "Recreate and re-push tag")
+    .option("-delete, --delete", "Delete a tag locally and in origin")
+    .option("-feature, --feature", "Increment version of app with feature level")
+    .option("-major, --major", "Increment version of app with major level")
+    .option("-debug, --debug", "Debugging")
+    .action((env, options) => {
+      /* step 0 */
+      common.show_version(options, version);
+      /* step 1 */
+      tag.tag_options(options, env);
+      /* step 2 */
+      common.show_options(options);
+      /* step 3 */
+      common.check_git_resources(options);
+      /* step 4 */
+      common.check_kubernetes_cluster(options);
+      /* step 5 */
+      common.check_kubernetes_enviroment(options);
+      /* step 6 */
+      tag.delete_tag(options);
+      /* step 7 */
+      tag.create_tag(options);
+    });
+  commander_1.program
     .command("deploy")
-    .summary("Deploy to kubernetes")
+    .summary("Local build and deploy to kubernetes")
     .description("If you need to deploy app to kubernetes, this is tool for you")
     //.argument('[source_path]', 'Path to main folder for app')
     .option("-build_image, --build_image", "Build image only.")
@@ -72,17 +106,17 @@ try {
     .option("-force, --force <pass>", "Force")
     .action((options) => {
       /* step 0 */
-      deploy.show_version(options, version);
+      common.show_version(options, version);
       /* step 1 */
-      deploy.show_options(options);
+      common.show_options(options);
       /* step 2 */
-      deploy.check_git_resources(options);
+      common.check_git_resources(options);
       /* step 3 */
-      deploy.check_kubernetes_cluster(options);
+      common.check_kubernetes_cluster(options);
       /* step 4 */
       deploy.check_kubernetes_connection(options);
       /* step 5 */
-      deploy.check_kubernetes_enviroment(options);
+      common.check_kubernetes_enviroment(options);
       /* step 6 */
       options = deploy.check_kubernetes_enviroment_configuration(options);
       /* step 7 */
@@ -134,6 +168,6 @@ try {
 }
 catch (e) {
   helpers.log("");
-  helpers.log("\x1b[31m", `HOUSTON, WE HAVE A PROBLEM: ${e.message}`);
+  helpers.log("\x1b[31m", `ISSUE: ${e.message}`);
   process.exit(1);
 }

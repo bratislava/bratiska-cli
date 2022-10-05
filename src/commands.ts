@@ -2,11 +2,7 @@ import cp, { execSync } from 'child_process';
 import * as helpers from './helpers';
 import chalk from 'chalk';
 import request from 'sync-request';
-
-export interface Bash {
-  res: string;
-  err: string;
-}
+import { Bash, Options } from './types';
 
 export function pwd(): string {
   let pwd = execSync('pwd', {
@@ -22,6 +18,20 @@ export function cd(path: string): string {
     encoding: 'utf8',
   });
   return cd.trim();
+}
+
+export function git_user_name(): Bash {
+  const result = cp.spawnSync('git', ['config', 'user.name'], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+export function git_user_email(): Bash {
+  const result = cp.spawnSync('git', ['config', 'user.email'], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
 }
 
 export function git_current_branch(): Bash {
@@ -71,8 +81,43 @@ export function git_current_commit(): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
+export function git_current_commit_short(): Bash {
+  const result = cp.spawnSync('git', ['rev-parse', '--short', 'HEAD'], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 export function git_commit_tag(commit: string): Bash {
   const result = cp.spawnSync('git', ['tag', '--contains', commit], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+export function git_add_tag(tag: string): Bash {
+  const result = cp.spawnSync('git', ['tag', '-a', tag, '-m', tag], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+export function git_delete_tag(tag: string): Bash {
+  const result = cp.spawnSync('git', ['tag', '-d', tag], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+export function git_delete_tag_origin(tag: string): Bash {
+  const result = cp.spawnSync('git', ['push', '--delete', 'origin', tag], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+export function git_push_tag(tag: string): Bash {
+  const result = cp.spawnSync('git', ['push', 'origin', tag], {
     encoding: 'utf8',
   });
   return { res: result.stdout.trim(), err: result.stderr };
@@ -81,12 +126,24 @@ export function git_commit_tag(commit: string): Bash {
 export function git_origin_commit_tag(tag: string): Bash {
   const result = cp.spawnSync(
     'git',
-    ['ls-remote', 'origin', '--contains', `refs/tags/${tag}`],
+    ['ls-remote', 'origin', '--contains', `"refs/tags/${tag}"`],
     {
       encoding: 'utf8',
     },
   );
   return { res: result.stdout.trim(), err: result.stderr };
+}
+
+export function git_get_last_remote_tags(
+  options: Options,
+  tag_format: string,
+): string {
+  // let tag_format = "v[0-9]\.[0-9]\.[0-9]*"
+  const cmd = `git ls-remote origin --contains "refs\/tags\/${tag_format}" | grep ".*[^}]$" | cut -f 2 | tail -n1 | awk '{gsub(/refs\\/tags\\//,"")}1'`;
+  helpers.print_if_debug(options, cmd);
+
+  const last_tag = execSync(cmd, { encoding: 'utf8' });
+  return last_tag.trim();
 }
 
 export function git_current_status(options: Options): Bash {
@@ -116,13 +173,6 @@ export function git_check_commit_remote(commit: string, branch?: string) {
       encoding: 'utf8',
     },
   );
-  return { res: result.stdout.trim(), err: result.stderr };
-}
-
-export function git_user(): Bash {
-  const result = cp.spawnSync('git', ['config', 'user.email'], {
-    encoding: 'utf8',
-  });
   return { res: result.stdout.trim(), err: result.stderr };
 }
 

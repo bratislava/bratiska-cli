@@ -1,5 +1,6 @@
 import * as helpers from '../helpers';
 import fs from 'fs';
+import { Options } from './../types';
 
 export function clean_bratiska_build_envs(options: Options) {
   helpers.line(

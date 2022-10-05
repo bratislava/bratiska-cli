@@ -27,32 +27,24 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.build_docker_image = void 0;
+exports.show_version = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function build_docker_image(options) {
-  helpers.line(`(${helpers.step(options)}) Building docker image for platform linux/amd64...`);
-  if (options.image) {
-    helpers.skipping();
-    return;
+
+function show_version(options, version) {
+  options.bratiska_cli_version = version;
+  options.step = 0;
+  console.log(version);
+  const package_json = commands.get_bratiska_cli_git_package_json();
+  if (package_json !== "") {
+    const package_obj = JSON.parse(package_json);
+    const package_version = package_obj.version;
+    helpers.print_if_debug(options, `Github bratiska-cli version: ${package_version}`);
+    if (package_version !== version) {
+      helpers.print_important_info(`There is a newer bratiska-cli version (${package_version}) for you available. Please update with \`yarn global upgrade\` `);
+    }
+    console.log();
   }
-  const image_tag = helpers.image_tag(options);
-  helpers.print_info(`\nDocker image tag: ${image_tag}`);
-  /* we will check if we already have an image */
-  const image = commands.docker_check_image(options);
-  if (image.err === "" && options.force_rebuild === false) {
-    helpers.line(`\ndocker image is present...`);
-    helpers.skipping();
-    return;
-  }
-  commands.docker_build(options);
-  if (options.beta) {
-    const latest_tag = helpers.image_latest_tag(options);
-    helpers.line(`\n adding latest tag: ${latest_tag} ...`);
-    const tag_bash = commands.docker_tag(image_tag, latest_tag);
-    helpers.print_if_debug(options, tag_bash.res);
-    helpers.print_if_debug(options, tag_bash.err);
-  }
-  helpers.finished();
 }
-exports.build_docker_image = build_docker_image;
+
+exports.show_version = show_version;

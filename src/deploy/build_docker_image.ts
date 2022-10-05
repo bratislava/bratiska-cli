@@ -1,6 +1,6 @@
+import { Options } from './../types';
 import * as helpers from '../helpers';
 import * as commands from '../commands';
-import { print_if_debug } from '../helpers';
 
 export function build_docker_image(options: Options) {
   helpers.line(
@@ -30,8 +30,8 @@ export function build_docker_image(options: Options) {
     const latest_tag = helpers.image_latest_tag(options);
     helpers.line(`\n adding latest tag: ${latest_tag} ...`);
     const tag_bash = commands.docker_tag(image_tag, latest_tag);
-    print_if_debug(options, tag_bash.res);
-    print_if_debug(options, tag_bash.err);
+    helpers.print_if_debug(options, tag_bash.res);
+    helpers.print_if_debug(options, tag_bash.err);
   }
   helpers.finished();
 }

@@ -1,4 +1,5 @@
 import * as helpers from '../helpers';
+import { Options } from './../types';
 
 export function check_hosts(options: Options) {
   helpers.line(`(${helpers.step(options)}) Determining host...`);

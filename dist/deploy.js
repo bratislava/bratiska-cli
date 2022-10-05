@@ -1,12 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Deploy = void 0;
-const show_version_1 = require("./deploy/show_version");
-const show_options_1 = require("./deploy/show_options");
-const check_git_resources_1 = require("./deploy/check_git_resources");
-const check_kubernetes_cluster_1 = require("./deploy/check_kubernetes_cluster");
 const check_kubernetes_connection_1 = require("./deploy/check_kubernetes_connection");
-const check_kubernetes_enviroment_1 = require("./deploy/check_kubernetes_enviroment");
 const check_kubernetes_enviroment_configuration_1 = require("./deploy/check_kubernetes_enviroment_configuration");
 const check_kubernetes_cluster_conditions_1 = require("./deploy/check_kubernetes_cluster_conditions");
 const check_hosts_1 = require("./deploy/check_hosts");
@@ -30,28 +25,8 @@ const deploy_kubernetes_1 = require("./deploy/deploy_kubernetes");
 const clean_kustomize_1 = require("./deploy/clean_kustomize");
 const check_deployment_1 = require("./deploy/check_deployment");
 class Deploy {
-  show_version(options, version) {
-    (0, show_version_1.show_version)(options, version);
-  }
-
-  show_options(options) {
-    (0, show_options_1.show_options)(options);
-  }
-
-  check_git_resources(options) {
-    (0, check_git_resources_1.check_git_resources)(options);
-  }
-
-  check_kubernetes_cluster(options) {
-    (0, check_kubernetes_cluster_1.check_kubernetes_cluster)(options);
-  }
-
   check_kubernetes_connection(options) {
     (0, check_kubernetes_connection_1.check_kubernetes_connection)(options);
-  }
-
-  check_kubernetes_enviroment(options) {
-    (0, check_kubernetes_enviroment_1.check_kubernetes_enviroment)(options);
   }
 
   check_kubernetes_enviroment_configuration(options) {

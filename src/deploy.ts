@@ -1,9 +1,6 @@
-import { show_version } from './deploy/show_version';
-import { show_options } from './deploy/show_options';
-import { check_git_resources } from './deploy/check_git_resources';
-import { check_kubernetes_cluster } from './deploy/check_kubernetes_cluster';
+import { Options } from './types';
+
 import { check_kubernetes_connection } from './deploy/check_kubernetes_connection';
-import { check_kubernetes_enviroment } from './deploy/check_kubernetes_enviroment';
 import { check_kubernetes_enviroment_configuration } from './deploy/check_kubernetes_enviroment_configuration';
 import { check_kubernetes_cluster_conditions } from './deploy/check_kubernetes_cluster_conditions';
 import { check_hosts } from './deploy/check_hosts';
@@ -28,28 +25,8 @@ import { clean_kustomize } from './deploy/clean_kustomize';
 import { check_deployment } from './deploy/check_deployment';
 
 export class Deploy {
-  show_version(options: Options, version: string) {
-    show_version(options, version);
-  }
-
-  show_options(options: Options) {
-    show_options(options);
-  }
-
-  check_git_resources(options: Options) {
-    check_git_resources(options);
-  }
-
-  check_kubernetes_cluster(options: Options) {
-    check_kubernetes_cluster(options);
-  }
-
   check_kubernetes_connection(options: Options) {
     check_kubernetes_connection(options);
-  }
-
-  check_kubernetes_enviroment(options: Options) {
-    check_kubernetes_enviroment(options);
   }
 
   check_kubernetes_enviroment_configuration(options: Options) {

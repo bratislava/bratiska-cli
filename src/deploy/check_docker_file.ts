@@ -1,5 +1,6 @@
 import * as helpers from '../helpers';
 import fs from 'fs';
+import { Options } from './../types';
 
 export function check_docker_file(options: Options) {
   helpers.line(`(${helpers.step(options)}) Checking docker file...`);

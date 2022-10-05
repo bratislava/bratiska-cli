@@ -27,32 +27,27 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.build_docker_image = void 0;
+exports.check_kubernetes_enviroment = void 0;
 const helpers = __importStar(require("../helpers"));
-const commands = __importStar(require("../commands"));
-function build_docker_image(options) {
-  helpers.line(`(${helpers.step(options)}) Building docker image for platform linux/amd64...`);
-  if (options.image) {
+
+function check_kubernetes_enviroment(options) {
+  helpers.line(`(${helpers.step(options)}) Checking chosen Kubernetes cluster with the environment...`);
+  if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
+    options.env = "dev";
     return;
   }
-  const image_tag = helpers.image_tag(options);
-  helpers.print_info(`\nDocker image tag: ${image_tag}`);
-  /* we will check if we already have an image */
-  const image = commands.docker_check_image(options);
-  if (image.err === "" && options.force_rebuild === false) {
-    helpers.line(`\ndocker image is present...`);
-    helpers.skipping();
-    return;
+  if (typeof options.env === "undefined") {
+    options.env = helpers.map_cluster_to_env(options.cluster);
+    helpers.print_if_debug(options, `options.env: ${options.env}`);
+  } else if (options.env !== helpers.map_cluster_to_env(options.cluster)) {
+    const cluster_env = helpers.map_cluster_to_env(options.cluster);
+    if (options.tag_command === false) {
+      throw new Error(`Your kubernetes context "${options.cluster}" (${cluster_env}) do not match chosen context (${options.env})! Change with --env or kubernetes cluster context!`);
+    }
   }
-  commands.docker_build(options);
-  if (options.beta) {
-    const latest_tag = helpers.image_latest_tag(options);
-    helpers.line(`\n adding latest tag: ${latest_tag} ...`);
-    const tag_bash = commands.docker_tag(image_tag, latest_tag);
-    helpers.print_if_debug(options, tag_bash.res);
-    helpers.print_if_debug(options, tag_bash.err);
-  }
-  helpers.finished();
+  helpers.ok();
+  return options;
 }
-exports.build_docker_image = build_docker_image;
+
+exports.check_kubernetes_enviroment = check_kubernetes_enviroment;

@@ -1,5 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
+import { Options } from './../types';
 
 export function show_version(options: Options, version: string) {
   options.bratiska_cli_version = version;
