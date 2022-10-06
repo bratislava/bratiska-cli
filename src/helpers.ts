@@ -611,7 +611,7 @@ function tag_new_message(pre_tag: string) {
   print_warning_line(`\n${spacer()}This is the first tag with this format: `);
   print_important_info_line(pre_tag);
   print_warning_line(` in this repository. Creating the first version: '`);
-  print_important_info_line(`${pre_tag}1.0.0`);
+  print_important_info_line(`${pre_tag}0.0.1`);
   print_warning_line(`'`);
 }
 
@@ -626,10 +626,18 @@ function tag_value_dev(options: Options) {
   tag_value += `-${options.commit_short}`;
   tag_value += `-${options.user_name}`;
   tag_value += `-${options.user_email}`;
-  return tag_value;
+  tag_value = tag_value.replace('@', '-').replace('/', '-');
+
+  return tag_value.substring(0, 128);
 }
 
 function tag_value_staging(options: Options) {
+  if (options.branch !== 'master') {
+    throw new Error(
+      `You need to be on the 'master' branch to be able tag in staging/prod environment. Currently you are on: '${options.branch}'`,
+    );
+  }
+
   let tag_format = options.env;
   if (options.tech !== false) {
     tag_format += `-${options.tech}`;

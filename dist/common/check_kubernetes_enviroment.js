@@ -34,9 +34,13 @@ function check_kubernetes_enviroment(options) {
   if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
     options.env = "dev";
-    return;
+    return options;
   }
   if (typeof options.env === "undefined") {
+    if (options.tag_command === true && options.branch !== "master") {
+      options.env = "dev";
+      return options;
+    }
     options.env = helpers.map_cluster_to_env(options.cluster);
     helpers.print_if_debug(options, `options.env: ${options.env}`);
   } else if (options.env !== helpers.map_cluster_to_env(options.cluster)) {

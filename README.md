@@ -8,17 +8,29 @@
 
 ### Simple deployment utility for our Bratislava projects
 
+## Installation
+
+Installing dependencies
+
+```bash
+yarn global add bratislava/bratiska-cli
+```
+
 ## Prerequisites
 
 To be able to work with this utility, you need to have a few things configured:
 
 #### Accesses:
 
-1. Docker Harbor access - can be granted [here](https://portal.azure.com/#view/Microsoft_AAD_IAM/ManagedAppMenuBlade/~/Users/objectId/7b1ee611-cf01-4179-a765-215ee291f687/appId/216af6db-a39f-44b3-94d1-fd5142f14e6a) (note - [OIADS_EMPLOYEES](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Members/groupId/48fcf79f-46c5-44fc-8608-70eb512f840c) are included by default)
+1. Docker Harbor access - can be
+   granted [here](https://portal.azure.com/#view/Microsoft_AAD_IAM/ManagedAppMenuBlade/~/Users/objectId/7b1ee611-cf01-4179-a765-215ee291f687/appId/216af6db-a39f-44b3-94d1-fd5142f14e6a) (
+   note
+   - [OIADS_EMPLOYEES](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Members/groupId/48fcf79f-46c5-44fc-8608-70eb512f840c)
+   are included by default)
 2. Kubernetes access - contact the IT department or this
 3. Github access
 
-#### Installations:
+#### Installations of required:
 
 1. Installed `git` (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. Installed `kubectl` (https://kubernetes.io/docs/tasks/tools/)
@@ -29,7 +41,7 @@ To be able to work with this utility, you need to have a few things configured:
 6. Installed `envsubst` (`brew install gettext`)
 7. Kustomization files in `/kubernetes` folder
 
-#### Running apps:
+#### Required running apps:
 
 These apps needs are running when you use `bratiska-cli`:
 
@@ -46,25 +58,134 @@ These apps needs are running when you use `bratiska-cli`:
 - You need to have running `kubect` and be signed into the Kubernetes cluster. If you have issues signing to Kubernetes,
   contact your administrator.
 
-## Installation
-
-Installing dependencies
-
-```bash
-yarn global add bratislava/bratiska-cli
-```
-
-
-
 ## Usage
 
-### Preparation
+### command `tag`
+
+#### Usage options
+
+To tag a version of a code you can simply run just this command:
+
+```bash
+bratiska-cli tag
+```
+
+This creates a dynamic tag based on your current environment. See tags format bellow.
+
+##### Specify environment
+
+You don't have to use automatic environment, there is also option to specify `env` in command:
+
+```bash
+bratiska-cli tag dev
+```
+
+Allowed `env` values are `dev`, `staging`, `prod`.
+
+##### Specify environment and tech
+
+Maybe you would like to invoke only deployment of `strapi` or `next` so use this command:
+
+```bash
+bratiska-cli tag staging-strapi
+```
+
+##### Specify environment, tech and version
+
+Automatically to every tag we increment last value. So if a tag is on `staging-strapi1.2.2` it will be automatically
+incremented to `staging-strapi1.2.3`.
+
+```bash
+bratiska-cli tag staging-strapi
+```
+
+If you did some feature update, use feature flag `--feature` to increment feature version from `staging-strapi1.2.2`
+to `staging-strapi1.3.0`
+
+```bash
+bratiska-cli tag staging-strapi --feature
+```
+
+And if you did major change, you can use `--major` flag to increment from `staging-strapi1.2.2` to `staging-strapi2.0.0`
+
+```bash
+bratiska-cli tag staging-strapi --major
+```
+
+##### Specify tag value
+
+Sometimes you need different tag value, so use `--tag` flag to define your custom tag:
+
+```bash
+bratiska-cli tag --tag stable
+```
+
+##### Delete tag value
+
+If you need to delete tag, you can use automatic last tag delete by tech, or you can specify it. Just add `--delete`
+flag.
+
+```bash
+bratiska-cli tag --tag stable --delete
+```
+
+(deletes `stable` tag)
+
+```bash
+bratiska-cli tag dev-next --delete
+```
+
+(deletes last `dev-next` tag)
+
+##### Recreate tag value
+
+If tag is already created on different commit, you can recreate it on your current commit like:
+
+```bash
+bratiska-cli tag --tag stable --recreate
+```
+
+(delete old `stable` and create it in a current commit)
+
+##### Debugging
+
+If you have some problem, there is always option to use --debug flag to print more info.
+
+```bash
+bratiska-cli tag --tag stable --recreate --debug
+```
+
+#### Tags format
+
+For every environment we have different tag format:
+
+##### Environment `dev`
+
+Tags are based on format `{env}-{tech}-{branch}-{commit_short}-{user_name}-{user_email}` so it can be
+like: `dev-master-4a18e16-richi-richard.dvorsky-bratislava.sk`
+
+##### Environment `staging` and `prod`
+
+Tags are based on format `{env}-{tech}{version}` so it can be like `staging-next1.4.7`
+
+#### Versions format
+
+Versions are done in a way:
+
+- bugfix is incrementing last digit `0.0.1`
+- feature is incrementing middle digit `0.1.0`
+- major is incrementing first digit `1.0.0`
+
+### command `deploy`
 
 Before you run any of the following commands, make sure you are
 
-1. logged in to harbor (see [running apps](#running-apps) above, as well as the [signing to harbor](#signing-to-harbor) section below)
-2. logged in to correct cluster (replace `<env>` is one of `dev`, `staging` or `prod` and `user.name@bratislava.sk` with your credentials)
-  - to login through Windows you need to set password `export KUBECTL_VSPHERE_PASSWORD={{password}}`
+1. logged in to harbor (see [running apps](#running-apps) above, as well as the [signing to harbor](#signing-to-harbor)
+   section below)
+2. logged in to correct cluster (replace `<env>` is one of `dev`, `staging` or `prod` and `user.name@bratislava.sk` with
+   your credentials)
+
+- to login through Windows you need to set password `export KUBECTL_VSPHERE_PASSWORD={{password}}`
 
 ```
 kubectl vsphere login --server=10.10.10.1 --insecure-skip-tls-verify --tanzu-kubernetes-cluster-name=tkg-innov-<env> -u user.name@bratislava.sk
@@ -72,7 +193,6 @@ kubectl vsphere login --server=10.10.10.1 --insecure-skip-tls-verify --tanzu-kub
 
 3. if you are logged in to multiple clusters, make sure you are using the correct one - `kubectl config use-context tkg-innov-<env>`
 
-### Deployment
 
 There is straightforward usage because the utility tries to obtain all values from the repo automatically, and if something is missing, it will point out.
 
