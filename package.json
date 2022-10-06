@@ -4,7 +4,7 @@
   "description": "Simple CLI for deploying Bratislava apps to kubernetes",
   "preferGlobal": true,
   "bin": {
-    "bratiska-cli": "./dist §/bratiska-cli.js"
+    "bratiska-cli": "./dist/bratiska-cli.js"
   },
   "main": "./dist/bratiska-cli.js",
   "scripts": {
