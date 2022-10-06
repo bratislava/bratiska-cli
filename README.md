@@ -161,8 +161,8 @@ For every environment we have different tag format:
 
 ##### Environment `dev`
 
-Tags are based on format `{env}-{tech}-{branch}-{commit_short}-{user_name}-{user_email}` so it can be
-like: `dev-master-4a18e16-richi-richard.dvorsky-bratislava.sk`
+Tags are based on format `{env}-{tech}-{branch}-{commit_short}-{user_name}` so it can be
+like: `dev-next-master-4a18e16-richi`
 
 ##### Environment `staging` and `prod`
 

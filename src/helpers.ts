@@ -165,7 +165,8 @@ export function tag(options: Options) {
     tag = `-tag-${options.gittag}`;
   }
 
-  return `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${options.commit}${tag}${branch}-v${options.version}${untracked}${force_rebuild}`;
+  const tag_value = `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${branch}${options.commit}${tag}-v${options.version}${untracked}${force_rebuild}`;
+  return tag_value.substring(0, 128);
 }
 
 export function latest_tag(options: Options) {
@@ -625,10 +626,9 @@ function tag_value_dev(options: Options) {
   tag_value += `-${options.branch}`;
   tag_value += `-${options.commit_short}`;
   tag_value += `-${options.user_name}`;
-  tag_value += `-${options.user_email}`;
   tag_value = tag_value.replace('@', '-').replace('/', '-');
 
-  return tag_value.substring(0, 128);
+  return tag_value.substring(0, 64);
 }
 
 function tag_value_staging(options: Options) {
