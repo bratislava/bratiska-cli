@@ -65,6 +65,11 @@ export function show_options(options: Options) {
   const pack = helpers.load_package(options);
   if (typeof options.deployment === 'undefined') {
     options.deployment = pack.name;
+    if (options.deployment === 'app') {
+      throw new Error(
+        `You are using general package.json project name: app. Please change the project  name in the package.json to different one.`,
+      );
+    }
   }
 
   if (typeof options.version === 'undefined') {
