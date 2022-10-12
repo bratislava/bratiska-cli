@@ -149,6 +149,7 @@ function git_origin_commit_tag(tag) {
   const result = child_process_1.default.spawnSync("git", ["ls-remote", "origin", "--contains", `"refs/tags/${tag}"`], {
     encoding: "utf8"
   });
+  console.log(`"refs/tags/${tag}"`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.git_origin_commit_tag = git_origin_commit_tag;

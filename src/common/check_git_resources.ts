@@ -1,6 +1,7 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
 import { Options } from './../types';
+import { git_get_last_remote_tags } from '../commands';
 
 export function check_git_resources(options: Options) {
   const step = helpers.step(options);
@@ -78,6 +79,7 @@ export function check_git_resources(options: Options) {
       );
 
       const branch_bash = commands.git_branch_from_commit(options.commit);
+      helpers.print_if_debug_bash(options, 'branch_bash', branch_bash);
       options.branch = branch_bash.res;
 
       if (branch_bash.res === '') {
@@ -94,17 +96,16 @@ export function check_git_resources(options: Options) {
   helpers.print_important_info(`${options.branch}`);
 
   const repository_bash = commands.git_repository_url();
+  helpers.print_if_debug_bash(options, 'repository_bash', repository_bash);
   if (repository_bash.err !== '') {
     throw new Error(
       'There was an issue getting the remote repository URL. Please push your changes to GitHub or azure.\n',
     );
   }
   options.repository_uri = repository_bash.res;
-  helpers.print_if_debug_bash(options, 'repository_bash', repository_bash);
   helpers.print_if_debug(options, `repository_uri: ${options.repository_uri}`);
 
   const name_bash = commands.git_repo_name(options);
-
   if (name_bash === '') {
     throw new Error(
       'There was an issue fetching git repo name from git origin!',
@@ -160,14 +161,21 @@ export function check_git_resources(options: Options) {
   options.gittag = false;
   options.origin_gittag = false;
   if (gittag_bash.res !== '') {
-    options.gittag = gittag_bash.res.replace(/\n/g, '-');
+    options.gittag_list = gittag_bash.res.split(/\n/g);
+    const len = options.gittag_list.length;
+    //latest tag is important
+    options.gittag = options.gittag_list[len - 1];
   }
-  helpers.print_if_debug(options, `options.gittag: ${options.gittag}`);
+  helpers.print_if_debug(options, `options.gittag: '${options.gittag}'`);
 
   if (options.gittag) {
-    const gittag_origin_bash = commands.git_origin_commit_tag(options.gittag);
-    if (gittag_origin_bash.res !== '') {
-      options.origin_gittag = gittag_origin_bash.res;
+    const gittag_origin_raw = commands.git_get_last_remote_tags(
+      options,
+      options.gittag,
+    );
+    helpers.print_if_debug(options, `gittag_origin_raw: ${gittag_origin_raw}`);
+    if (gittag_origin_raw !== '') {
+      options.origin_gittag = gittag_origin_raw;
     }
   }
 

@@ -9,7 +9,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.0.3';
+const version = '2.0.4';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();

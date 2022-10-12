@@ -131,6 +131,7 @@ export function git_origin_commit_tag(tag: string): Bash {
       encoding: 'utf8',
     },
   );
+  console.log(`"refs/tags/${tag}"`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
