@@ -104,6 +104,9 @@ function show_options(options) {
   if (typeof options.tech === "undefined") {
     options.tech = false;
   }
+  if (typeof options.local === "undefined") {
+    options.local = false;
+  }
   if (typeof options.feature === "undefined") {
     options.feature = false;
   }

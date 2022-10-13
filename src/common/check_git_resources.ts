@@ -137,7 +137,7 @@ export function check_git_resources(options: Options) {
   }
 
   options.untracked = false;
-  if (status_bash.res !== '') {
+  if (status_bash.res !== '' && options.tag_command === false) {
     options.untracked = true;
     helpers.spacer_line(`Untracked: `);
     helpers.print_warning(

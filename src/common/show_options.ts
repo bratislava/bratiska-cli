@@ -96,6 +96,10 @@ export function show_options(options: Options) {
     options.tech = false;
   }
 
+  if (typeof options.local === 'undefined') {
+    options.local = false;
+  }
+
   if (typeof options.feature === 'undefined') {
     options.feature = false;
   }
@@ -159,7 +163,6 @@ export function show_options(options: Options) {
   options.repository_uri = path.basename(options.pwd);
 
   helpers.print_options(options);
-
   helpers.line('(0) Showing detected app info... \n');
   helpers.spacer_line(`Application name: `);
   helpers.print_important_info(`${options.deployment}`);

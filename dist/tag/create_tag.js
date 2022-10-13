@@ -55,6 +55,12 @@ function create_tag(options) {
     options.created = true;
     helpers.print_important_info(`ok`);
   }
+  if (options.local) {
+    options.pushed = false;
+    helpers.spacer_line(`Pushed: `);
+    helpers.print_warning(`skipped because of the --local flag`);
+    return options;
+  }
   const git_push_tag_bash = commands.git_push_tag(tag_value);
   helpers.print_if_debug_bash(options, "git_push_tag_bash", git_push_tag_bash);
   if (git_push_tag_bash.err !== "") {

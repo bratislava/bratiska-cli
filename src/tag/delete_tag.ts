@@ -36,6 +36,13 @@ export function delete_tag(options: Options) {
     }
   }
 
+  if (options.local) {
+    options.deleted_origin = false;
+    helpers.spacer_line(`Deleted remote: `);
+    helpers.print_warning(`skipped because of the --local flag`);
+    return options;
+  }
+
   const delete_tag_origin_bash = commands.git_delete_tag_origin(tag_value);
   helpers.print_if_debug_bash(
     options,

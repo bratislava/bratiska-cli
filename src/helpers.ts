@@ -3,6 +3,7 @@ import clear from 'clear';
 import figlet from 'figlet';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import { compareVersions } from 'compare-versions';
 import * as commands from './commands';
 import crypto from 'crypto';
 import { Bash, Options } from './types';
@@ -517,6 +518,10 @@ export function print_options(options: Options) {
     print_important_info_spacer(`--major`);
   }
 
+  if (options.local) {
+    print_important_info_spacer(`--local`);
+  }
+
   if (options.env) {
     print_important_info_spacer(`--env=${options.env}`);
   }
@@ -592,6 +597,8 @@ function increment_feature(version: string) {
     ++terms[0];
     terms[1] = 0;
     terms[2] = 0;
+  } else {
+    terms[2] = 0;
   }
   return terms.join('.');
 }
@@ -600,20 +607,21 @@ function increment_major(version: string) {
   return [parseInt(version.split('.')[0]) + 1, 0, 0].join('.');
 }
 
-function tag_overridden_message(options: Options, tag_value: string) {
-  print_warning_line(`\n${spacer()}Automatically generated tag: `);
-  print_important_info_line(tag_value);
-  print_warning_line(` was overridden by --tag '`);
+function tag_overridden_message(options: Options) {
+  print_warning_line(
+    `\n${spacer()}Automatically generated tag was overridden by --tag: `,
+  );
+  print_warning_line(` '`);
   print_important_info_line(<string>options.tag);
   print_warning_line(`'`);
 }
 
-function tag_new_message(pre_tag: string) {
+function tag_new_message(tag_text: string) {
   print_warning_line(`\n${spacer()}This is the first tag with this format: `);
-  print_important_info_line(pre_tag);
-  print_warning_line(` in this repository. Creating the first version: '`);
-  print_important_info_line(`${pre_tag}0.0.1`);
-  print_warning_line(`'`);
+  print_important_info_line(tag_text);
+  print_warning_line(
+    ` in this repository. Taking and incrementing a version from 'prod'.`,
+  );
 }
 
 function tag_value_dev(options: Options) {
@@ -631,43 +639,84 @@ function tag_value_dev(options: Options) {
   return tag_value.substring(0, 64);
 }
 
+function tag_get_latest_version(options: Options, tag: string) {
+  const tag_format = tag + `[0-9]\.[0-9]\.[0-9]*`;
+  const last_tag = commands.git_get_last_remote_tags(options, tag_format);
+  print_if_debug(
+    options,
+    `tag_get_latest_version tag: ${tag} and result is: ${last_tag}`,
+  );
+
+  if (last_tag === '') {
+    return false;
+  }
+
+  return last_tag.replace(tag, '');
+}
+
 function tag_value_staging(options: Options) {
   if (options.branch !== 'master') {
     throw new Error(
       `You need to be on the 'master' branch to be able tag in staging/prod environment. Currently you are on: '${options.branch}'`,
     );
   }
-
-  let tag_format = options.env;
+  let tag_text = options.env;
   if (options.tech !== false) {
-    tag_format += `-${options.tech}`;
+    tag_text += `-${options.tech}`;
   }
-  const pre_tag = tag_format;
-  tag_format += `[0-9]\.[0-9]\.[0-9]*`;
 
-  const last_tag = commands.git_get_last_remote_tags(options, tag_format);
-  if (last_tag === '') {
-    if (options.delete) {
-      return pre_tag;
-    }
-    tag_new_message(pre_tag);
-    return `${pre_tag}0.0.1`;
-  } else {
-    if (options.delete) {
-      return last_tag;
-    }
-    const tag_version = last_tag.replace(pre_tag, '');
+  let latest_main_version = tag_get_latest_version(options, 'prod');
+  let latest_tag_version = tag_get_latest_version(options, tag_text);
 
-    if (options.major === true) {
-      return pre_tag + increment_major(tag_version);
-    }
-
-    if (options.feature === true) {
-      return pre_tag + increment_feature(tag_version);
-    }
-
-    return pre_tag + increment_bug(tag_version);
+  if (latest_main_version === false) {
+    latest_main_version = '0.0.0';
   }
+
+  if (latest_tag_version === false) {
+    if (options.delete) {
+      return tag_text;
+    }
+    latest_tag_version = '0.0.0';
+    tag_new_message(tag_text);
+  }
+
+  if (options.delete) {
+    return tag_text + latest_tag_version;
+  }
+
+  let new_tag_version = '';
+  print_if_debug(
+    options,
+    `latest_main_version: ${<string>(
+      latest_main_version
+    )}, latest_tag_version: ${<string>latest_tag_version}`,
+  );
+  const compare_result = compareVersions(
+    <string>latest_main_version,
+    <string>latest_tag_version,
+  );
+
+  switch (compare_result) {
+    case 1:
+      new_tag_version = <string>latest_main_version;
+      break;
+    case -1:
+      new_tag_version = <string>latest_tag_version;
+      break;
+    default:
+      new_tag_version = <string>latest_main_version;
+      break;
+  }
+
+  if (options.major === true) {
+    return tag_text + increment_major(new_tag_version);
+  }
+
+  if (options.feature === true) {
+    return tag_text + increment_feature(new_tag_version);
+  }
+
+  return tag_text + increment_bug(new_tag_version);
 }
 
 function tag_value_prod(options: Options) {
@@ -676,6 +725,13 @@ function tag_value_prod(options: Options) {
 
 export function tag_value(options: Options) {
   let tag_value = '';
+
+  if (options.tag !== false) {
+    if (options.env !== '') {
+      tag_overridden_message(options);
+    }
+    return <string>options.tag;
+  }
 
   switch (options.env) {
     case 'dev':
@@ -687,13 +743,6 @@ export function tag_value(options: Options) {
     case 'prod':
       tag_value = tag_value_prod(options);
       break;
-  }
-
-  if (options.tag !== false) {
-    if (options.env !== '') {
-      tag_overridden_message(options, tag_value);
-    }
-    return <string>options.tag;
   }
 
   return tag_value;

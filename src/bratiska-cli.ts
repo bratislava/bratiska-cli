@@ -9,7 +9,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.0.4';
+const version = '2.0.5';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -39,10 +39,11 @@ try {
     .argument('[env]', 'environment', '')
     .summary('Tag a version of app and run pipelines')
     .description('Tag a version of app and run pipelines')
-    .option('-tag, --tag <tag>', 'Specify a tag')
+    .option('-t, --tag <tag>', 'Specify a tag')
     .option('-tech, --tech <tech>', 'Technology in tag used in pipelines')
     .option('-recreate, --recreate', 'Recreate and re-push tag')
     .option('-delete, --delete', 'Delete a tag locally and in origin')
+    .option('-local, --local', 'Nothing will be pushed to origin')
     .option(
       '-feature, --feature',
       'Increment version of app with feature level',
