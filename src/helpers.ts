@@ -170,9 +170,10 @@ export function tag(options: Options) {
     tag = `-tag-${options.gittag}`;
   }
 
-  let tag_value = `bratiska-cli-${options.bratiska_cli_version}${pipelines}${branch}${options.commit}${tag}-v${options.version}${untracked}${force_rebuild}`;
+  let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${options.commit}${tag}-v${options.version}`;
   tag_value = tag_value.replace(' ', '-');
   tag_value = tag_value.replace(/[#@/\\_]/g, '-');
+  tag_value = tag_value.replace(/-+/g, '-');
 
   return tag_value.substring(0, 128);
 }
@@ -648,6 +649,7 @@ function tag_value_dev(options: Options) {
   tag_value += `-${options.user_name}`;
   tag_value = tag_value.replace(' ', '-');
   tag_value = tag_value.replace(/[#@/\\_]/g, '-');
+  tag_value = tag_value.replace(/-+/g, '-');
 
   return tag_value.substring(0, 64);
 }
