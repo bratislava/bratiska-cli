@@ -74,7 +74,11 @@ function show_options(options) {
     options.no_image_repo_check = false;
   }
   if (typeof options.namespace === "undefined") {
+    // ignore namespace when not defined during only image build
     options.namespace = "standalone";
+    if (options.build_image || options.build_image_no_registry) {
+      options.namespace = false;
+    }
   }
   if (typeof options.sentry === "undefined") {
     options.sentry = false;
@@ -94,6 +98,9 @@ function show_options(options) {
   }
   if (typeof options.debug === "undefined") {
     options.debug = false;
+  }
+  if (typeof options.dry_run === "undefined") {
+    options.dry_run = false;
   }
   if (typeof options.recreate === "undefined") {
     options.recreate = false;

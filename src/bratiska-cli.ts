@@ -9,7 +9,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.0.5';
+const version = '2.1.0';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -39,7 +39,7 @@ try {
     .argument('[env]', 'environment', '')
     .summary('Tag a version of app and run pipelines')
     .description('Tag a version of app and run pipelines')
-    .option('-t, --tag <tag>', 'Specify a tag')
+    .option('-tag, --tag <tag>', 'Specify a tag')
     .option('-tech, --tech <tech>', 'Technology in tag used in pipelines')
     .option('-recreate, --recreate', 'Recreate and re-push tag')
     .option('-delete, --delete', 'Delete a tag locally and in origin')
@@ -50,6 +50,7 @@ try {
     )
     .option('-major, --major', 'Increment version of app with major level')
     .option('-debug, --debug', 'Debugging')
+    .option('-dry_run, --dry_run', 'Run without creating an tag')
     .action((env, options) => {
       /* step 0 */
       common.show_version(options, version);
@@ -88,7 +89,7 @@ try {
       'Specify kustomize file or kustomize directory',
     )
     .option('-i, --image <url>', 'Specify image from harbour via url')
-    .option('-n, --namespace <namespace>', 'Namespace', 'standalone')
+    .option('-n, --namespace <namespace>', 'Namespace')
     .option('-d, --deployment <deployment>', 'Deployment app')
     .option('-h, --host <host>', 'Host url address')
     .option('-e, --env <env>', 'Deployment environment')

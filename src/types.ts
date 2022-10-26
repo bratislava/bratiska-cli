@@ -8,7 +8,6 @@ export interface Options
   env: string;
   host: string;
   commit: string;
-  namespace: string;
   app_port: string;
   step: number;
   registry: string;

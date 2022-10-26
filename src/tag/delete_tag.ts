@@ -18,6 +18,11 @@ export function delete_tag(options: Options) {
   helpers.spacer_line(`Tag value: `);
   helpers.print_important_info(`${tag_value}`);
 
+  if (options.dry_run) {
+    helpers.skipping();
+    return;
+  }
+
   const delete_tag_bash = commands.git_delete_tag(tag_value);
   helpers.print_if_debug_bash(options, 'delete_tag_bash', delete_tag_bash);
   helpers.spacer_line(`Deleted locally: `);

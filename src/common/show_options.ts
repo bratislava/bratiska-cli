@@ -55,7 +55,11 @@ export function show_options(options: Options) {
   }
 
   if (typeof options.namespace === 'undefined') {
+    // ignore namespace when not defined during only image build
     options.namespace = 'standalone';
+    if (options.build_image || options.build_image_no_registry) {
+      options.namespace = false;
+    }
   }
 
   if (typeof options.sentry === 'undefined') {
@@ -82,6 +86,10 @@ export function show_options(options: Options) {
 
   if (typeof options.debug === 'undefined') {
     options.debug = false;
+  }
+
+  if (typeof options.dry_run === 'undefined') {
+    options.dry_run = false;
   }
 
   if (typeof options.recreate === 'undefined') {
@@ -163,6 +171,7 @@ export function show_options(options: Options) {
   options.repository_uri = path.basename(options.pwd);
 
   helpers.print_options(options);
+
   helpers.line('(0) Showing detected app info... \n');
   helpers.spacer_line(`Application name: `);
   helpers.print_important_info(`${options.deployment}`);

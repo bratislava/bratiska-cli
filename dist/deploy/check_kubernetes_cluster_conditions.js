@@ -33,7 +33,8 @@ function check_kubernetes_cluster_conditions(options) {
   helpers.line(`(${helpers.step(options)}) Checking Kubernetes cluster conditions...`);
   if (options.build_kustomize ||
     options.build_image ||
-    options.build_image_no_registry) {
+    options.build_image_no_registry ||
+    options.dry_run) {
     helpers.skipping();
     return;
   }

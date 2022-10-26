@@ -17,6 +17,10 @@ export function create_tag(options: Options) {
   helpers.spacer_line(`Tag value: `);
   helpers.print_important_info(`${tag_value}`);
 
+  if (options.dry_run) {
+    helpers.skipping();
+    return;
+  }
   const add_tag_bash = commands.git_add_tag(tag_value);
   helpers.print_if_debug_bash(options, 'add_tag_bash', add_tag_bash);
 

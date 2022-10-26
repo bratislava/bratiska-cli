@@ -202,7 +202,7 @@ export function kubectl_pods_admin(options: Options): Bash {
 export function kubectl_pods(options: Options): Bash {
   const result = cp.spawnSync(
     'kubectl',
-    ['get', 'pods', '-n', options.namespace, '--request-timeout=3'],
+    ['get', 'pods', '-n', <string>options.namespace, '--request-timeout=3'],
     {
       encoding: 'utf8',
     },

@@ -139,7 +139,12 @@ function message(content) {
 }
 exports.message = message;
 function image(options) {
-    return `${options.registry}/${options.namespace}/${options.deployment}`;
+  let image = `${options.registry}/`;
+  if (options.namespace) {
+    image += `${options.namespace}/`;
+  }
+  image += `${options.deployment}`;
+  return image;
 }
 exports.image = image;
 function image_tag(options) {
@@ -170,14 +175,15 @@ function tag(options) {
   if (options.force_rebuild) {
     force_rebuild = "-force-rebuild-" + crypto_1.default.randomBytes(20).toString("hex");
   }
-  branch = branch.replace(/\//g, "");
   if (options.pipelines) {
-    pipelines = "pipelines-";
+    pipelines = "-pipelines";
   }
   if (options.gittag) {
     tag = `-tag-${options.gittag}`;
   }
-  const tag_value = `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${branch}${options.commit}${tag}-v${options.version}${untracked}${force_rebuild}`;
+  let tag_value = `bratiska-cli-${options.bratiska_cli_version}${pipelines}${branch}${options.commit}${tag}-v${options.version}${untracked}${force_rebuild}`;
+  tag_value = tag_value.replace(" ", "-");
+  tag_value = tag_value.replace(/[#@/\\_]/g, "-");
   return tag_value.substring(0, 128);
 }
 exports.tag = tag;
@@ -297,6 +303,9 @@ function assign_env_vars(options) {
   }
   if (!options.commit) {
     throw new Error("Git Commit cannot be false!");
+  }
+  if (!options.namespace) {
+    throw new Error("Namespace have to be filled! Please use --namespace <namespace_name> for defining namespace in kubernetes.\n");
   }
   if (!options.deployment) {
     throw new Error("Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n");
@@ -544,24 +553,20 @@ function increment_feature(version) {
   }
   return terms.join(".");
 }
-
 function increment_major(version) {
   return [parseInt(version.split(".")[0]) + 1, 0, 0].join(".");
 }
-
 function tag_overridden_message(options) {
   print_warning_line(`\n${spacer()}Automatically generated tag was overridden by --tag: `);
   print_warning_line(` '`);
   print_important_info_line(options.tag);
   print_warning_line(`'`);
 }
-
 function tag_new_message(tag_text) {
   print_warning_line(`\n${spacer()}This is the first tag with this format: `);
   print_important_info_line(tag_text);
   print_warning_line(` in this repository. Taking and incrementing a version from 'prod'.`);
 }
-
 function tag_value_dev(options) {
   let tag_value = "";
   tag_value = options.env;
@@ -571,10 +576,10 @@ function tag_value_dev(options) {
   tag_value += `-${options.branch}`;
   tag_value += `-${options.commit_short}`;
   tag_value += `-${options.user_name}`;
-  tag_value = tag_value.replace("@", "-").replace("/", "-");
+  tag_value = tag_value.replace(" ", "-");
+  tag_value = tag_value.replace(/[#@/\\_]/g, "-");
   return tag_value.substring(0, 64);
 }
-
 function tag_get_latest_version(options, tag) {
   const tag_format = tag + `[0-9]\.[0-9]\.[0-9]*`;
   const last_tag = commands.git_get_last_remote_tags(options, tag_format);
@@ -584,7 +589,6 @@ function tag_get_latest_version(options, tag) {
   }
   return last_tag.replace(tag, "");
 }
-
 function tag_value_staging(options) {
   if (options.branch !== "master") {
     throw new Error(`You need to be on the 'master' branch to be able tag in staging/prod environment. Currently you are on: '${options.branch}'`);

@@ -123,7 +123,12 @@ export function message(content: string): void {
 }
 
 export function image(options: Options) {
-  return `${options.registry}/${options.namespace}/${options.deployment}`;
+  let image = `${options.registry}/`;
+  if (options.namespace) {
+    image += `${options.namespace}/`;
+  }
+  image += `${options.deployment}`;
+  return image;
 }
 
 export function image_tag(options: Options) {
@@ -156,17 +161,19 @@ export function tag(options: Options) {
   if (options.force_rebuild) {
     force_rebuild = '-force-rebuild-' + crypto.randomBytes(20).toString('hex');
   }
-  branch = branch.replace(/\//g, '');
 
   if (options.pipelines) {
-    pipelines = 'pipelines-';
+    pipelines = '-pipelines';
   }
 
   if (options.gittag) {
     tag = `-tag-${options.gittag}`;
   }
 
-  const tag_value = `bratiska-cli-${options.bratiska_cli_version}-${pipelines}${branch}${options.commit}${tag}-v${options.version}${untracked}${force_rebuild}`;
+  let tag_value = `bratiska-cli-${options.bratiska_cli_version}${pipelines}${branch}${options.commit}${tag}-v${options.version}${untracked}${force_rebuild}`;
+  tag_value = tag_value.replace(' ', '-');
+  tag_value = tag_value.replace(/[#@/\\_]/g, '-');
+
   return tag_value.substring(0, 128);
 }
 
@@ -293,6 +300,11 @@ export function assign_env_vars(options: Options) {
   if (!options.commit) {
     throw new Error('Git Commit cannot be false!');
   }
+  if (!options.namespace) {
+    throw new Error(
+      'Namespace have to be filled! Please use --namespace <namespace_name> for defining namespace in kubernetes.\n',
+    );
+  }
   if (!options.deployment) {
     throw new Error(
       'Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n',
@@ -364,7 +376,7 @@ export function assign_env_vars(options: Options) {
     print_if_debug(options, `COMMIT=${process.env['COMMIT']}`);
   }
   if (!process.env['NAMESPACE']) {
-    process.env['NAMESPACE'] = options.namespace;
+    process.env['NAMESPACE'] = <string>options.namespace;
     print_if_debug(options, `NAMESPACE=${process.env['NAMESPACE']}`);
   }
   if (!process.env['IMAGE_PULL_SECRET']) {
@@ -634,7 +646,8 @@ function tag_value_dev(options: Options) {
   tag_value += `-${options.branch}`;
   tag_value += `-${options.commit_short}`;
   tag_value += `-${options.user_name}`;
-  tag_value = tag_value.replace('@', '-').replace('/', '-');
+  tag_value = tag_value.replace(' ', '-');
+  tag_value = tag_value.replace(/[#@/\\_]/g, '-');
 
   return tag_value.substring(0, 64);
 }
