@@ -2,6 +2,8 @@ import * as helpers from '../helpers';
 import * as commands from '../commands';
 import { Options } from './../types';
 
+// TODO be able to create tags with v* easily with counting versions
+
 export function create_tag(options: Options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Creating tag...`);

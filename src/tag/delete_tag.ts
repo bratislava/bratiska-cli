@@ -1,7 +1,8 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
 import { Options } from './../types';
-import { print_error_line } from '../helpers';
+
+// TODO be able to remove last dev tag
 
 export function delete_tag(options: Options) {
   const step = helpers.step(options);
