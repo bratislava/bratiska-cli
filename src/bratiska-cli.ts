@@ -9,7 +9,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.1.2';
+const version = '2.1.3';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -51,6 +51,7 @@ try {
     .option('-major, --major', 'Increment version of app with major level')
     .option('-debug, --debug', 'Debugging')
     .option('-dry_run, --dry_run', 'Run without creating an tag')
+    .option('-force, --force <pass>', 'Force')
     .action((env, options) => {
       /* step 0 */
       common.show_version(options, version);

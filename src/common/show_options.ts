@@ -140,11 +140,7 @@ export function show_options(options: Options) {
   const pack = helpers.load_package(options);
   if (typeof options.deployment === 'undefined') {
     options.deployment = pack.name;
-    if (
-      (options.deployment === 'app' ||
-        options.deployment === 'nest-prisma-template') &&
-      options.force === false
-    ) {
+    if (options.deployment === 'app' && options.force === false) {
       throw new Error(
         `You are using general package.json project name: ${options.deployment}. Please change the project name in the package.json to a different one.`,
       );

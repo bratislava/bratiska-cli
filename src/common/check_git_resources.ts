@@ -42,6 +42,32 @@ export function check_git_resources(options: Options) {
   }
   options.commit_short = commit_short_bash.res;
 
+  const name_bash = commands.git_repo_name(options);
+  if (name_bash === '') {
+    throw new Error(
+      'There was an issue fetching git repo name from git origin!',
+    );
+  }
+  options.repo_name = name_bash;
+  helpers.print_if_debug(options, `reponame: ${options.repo_name}`);
+  helpers.spacer_line(`Repository name: `);
+  helpers.print_important_info(`${options.repo_name}`);
+
+  // this rule applies only to projects which are not strapi and next
+  helpers.print_if_debug(
+    options,
+    `${options.repo_name} != ${options.deployment}`,
+  );
+  if (
+    options.repo_name != options.deployment &&
+    !~options.deployment.toLowerCase().indexOf('strapi') &&
+    !~options.deployment.toLowerCase().indexOf('next')
+  ) {
+    throw Error(
+      `You have repository name mismatch. Git repo name: ${options.repo_name} != package.json name: ${options.deployment}. Please fix the names, that they match with the repository name and project.json name.`,
+    );
+  }
+
   const commit_bash = commands.git_current_commit();
   helpers.print_if_debug_bash(options, 'commit_bash', commit_bash);
 
@@ -104,15 +130,6 @@ export function check_git_resources(options: Options) {
   }
   options.repository_uri = repository_bash.res;
   helpers.print_if_debug(options, `repository_uri: ${options.repository_uri}`);
-
-  const name_bash = commands.git_repo_name(options);
-  if (name_bash === '') {
-    throw new Error(
-      'There was an issue fetching git repo name from git origin!',
-    );
-  }
-  options.repo_name = name_bash;
-  helpers.print_if_debug(options, `reponame: ${options.repo_name}`);
 
   const fetch_bash = commands.git_fetch_origin();
   helpers.print_if_debug_bash(options, 'fetch_bash', fetch_bash);

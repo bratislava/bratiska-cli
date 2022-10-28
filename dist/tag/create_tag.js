@@ -30,6 +30,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.create_tag = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
+
+// TODO be able to create tags with v* easily with counting versions
 function create_tag(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Creating tag...`);

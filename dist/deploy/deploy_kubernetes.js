@@ -30,6 +30,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deploy_kubernetes = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
+
+//TODO return deployment status
 function deploy_kubernetes(options) {
   helpers.line(`(${helpers.step(options)}) Deploying to kubernetes...`);
   if (options.dry_run ||

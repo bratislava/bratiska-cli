@@ -31,7 +31,7 @@ exports.check_deployment = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function check_deployment(options) {
-    helpers.line(`(${helpers.step(options)}) Checking the deployment status...`);
+  helpers.line(`(${helpers.step(options)}) Checking the deployment status...`);
   if (options.dry_run ||
     options.build_kustomize ||
     options.build_image ||
@@ -39,7 +39,7 @@ function check_deployment(options) {
     helpers.skipping();
     return;
   }
-    commands.kubectl_deployment_status(options);
-    helpers.finished();
+  commands.kubectl_deployment_status(options);
+  helpers.finished();
 }
 exports.check_deployment = check_deployment;
