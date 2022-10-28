@@ -66,20 +66,6 @@ export function show_options(options: Options) {
     options.sentry = false;
   }
 
-  const pack = helpers.load_package(options);
-  if (typeof options.deployment === 'undefined') {
-    options.deployment = pack.name;
-    if (options.deployment === 'app') {
-      throw new Error(
-        `You are using general package.json project name: app. Please change the project  name in the package.json to different one.`,
-      );
-    }
-  }
-
-  if (typeof options.version === 'undefined') {
-    options.version = pack.version;
-  }
-
   if (typeof options.beta === 'undefined') {
     options.beta = false;
   }
@@ -149,6 +135,24 @@ export function show_options(options: Options) {
 
   if (options.sentry) {
     process.env['SENTRY_AUTH_TOKEN'] = <string>options.sentry;
+  }
+
+  const pack = helpers.load_package(options);
+  if (typeof options.deployment === 'undefined') {
+    options.deployment = pack.name;
+    if (
+      (options.deployment === 'app' ||
+        options.deployment === 'nest-prisma-template') &&
+      options.force === false
+    ) {
+      throw new Error(
+        `You are using general package.json project name: ${options.deployment}. Please change the project name in the package.json to a different one.`,
+      );
+    }
+  }
+
+  if (typeof options.version === 'undefined') {
+    options.version = pack.version;
   }
 
   if (
