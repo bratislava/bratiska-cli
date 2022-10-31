@@ -5,7 +5,6 @@ import { Options } from './../types';
 export function clean_docker_image(options: Options) {
   helpers.line(`(${helpers.step(options)}) Cleaning local docker image...`);
   if (
-    options.debug ||
     options.image ||
     options.dry_run ||
     options.build_image ||

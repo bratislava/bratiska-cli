@@ -149,6 +149,7 @@ export function tag(options: Options) {
 
   let untracked = '';
   let pipelines = '';
+  let commit = '';
   let tag = '';
   let branch = '-' + options.branch;
   if (options.untracked) {
@@ -157,6 +158,11 @@ export function tag(options: Options) {
   if (options.branch === 'origin/master') {
     branch = '';
   }
+
+  if (options.commit) {
+    commit = `-${options.commit}`;
+  }
+
   let force_rebuild = '';
   if (options.force_rebuild) {
     force_rebuild = '-force-rebuild-' + crypto.randomBytes(20).toString('hex');
@@ -170,7 +176,7 @@ export function tag(options: Options) {
     tag = `-tag-${options.gittag}`;
   }
 
-  let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${options.commit}${tag}-v${options.version}`;
+  let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${commit}${tag}-v${options.version}`;
   tag_value = tag_value.replace(' ', '-');
   tag_value = tag_value.replace(/[#@/\\_]/g, '-');
   tag_value = tag_value.replace(/-+/g, '-');
@@ -549,6 +555,10 @@ export function print_options(options: Options) {
 
   if (options.deployment) {
     print_important_info_spacer(`--deployment=${options.deployment}`);
+  }
+
+  if (options.kubectl_timeout) {
+    print_important_info_spacer(`--kubectl_timeout=${options.kubectl_timeout}`);
   }
 
   if (options.version) {

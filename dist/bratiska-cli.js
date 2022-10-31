@@ -35,7 +35,7 @@ const deploy_1 = require("./deploy");
 const tag_1 = require("./tag");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "2.1.3";
+const version = "2.2.0";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -100,6 +100,7 @@ try {
     .option("-h, --host <host>", "Host url address")
     .option("-e, --env <env>", "Deployment environment")
     .option("-s, --sentry <token>", "Specify sentry auth token for build")
+    .option("-kubectl_timeout, --kubectl_timeout <timeout_in_seconds>", "Specify kubectl timeout in seconds")
     .option("-r, --registry <url>", "Docker image registry url", "harbor.bratislava.sk")
     .option("-staging, --staging", "To deploy on staging, you need to add this flag.")
     .option("-production, --production", "To deploy on production, you need to add this flag.")
@@ -166,8 +167,8 @@ try {
       deploy.check_deployment(options);
     });
   commander_1.program.parse(process.argv);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
 }
 catch (e) {
   helpers.log("");

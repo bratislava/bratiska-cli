@@ -66,6 +66,10 @@ export function show_options(options: Options) {
     options.sentry = false;
   }
 
+  if (typeof options.kubectl_timeout === 'undefined') {
+    options.kubectl_timeout = '120';
+  }
+
   if (typeof options.beta === 'undefined') {
     options.beta = false;
   }

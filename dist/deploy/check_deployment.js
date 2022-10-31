@@ -39,7 +39,16 @@ function check_deployment(options) {
     helpers.skipping();
     return;
   }
-  commands.kubectl_deployment_status(options);
+  commands.kubectl_deployment_status_stdio(options);
+  const status_bash = commands.kubectl_deployment_status_utf8(options);
+  helpers.print_if_debug_bash(options, "status_bash", status_bash);
+  if (status_bash.err) {
+    helpers.print_warning(`Deployment was not successfully rolled out. Showing kubernetes deployment events for ${options.deployment}:`);
+    commands.kubectl_deployment_events(options);
+    helpers.print_warning(`Showing kubernetes container logs for ${options.deployment}:`);
+    commands.kubectl_deployment_logs(options);
+    throw Error(`Exiting bratiska-cli with status code 1, because deployment was not successfully rolled out in kubernetes.`);
+  }
   helpers.finished();
 }
 exports.check_deployment = check_deployment;

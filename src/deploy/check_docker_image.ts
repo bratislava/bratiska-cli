@@ -18,12 +18,14 @@ export function check_docker_image(options: Options) {
     );
   }
   const res_json = image.res;
+  helpers.print_if_debug(options, `check_docker_image: ${res_json}`);
+
   const iro = JSON.parse(res_json);
-  if (iro[0].RepoTags[0] !== helpers.image_tag(options)) {
+  const local_docker_tags = iro[0].RepoTags;
+  const image_tag = helpers.image_tag(options);
+  if (!local_docker_tags.includes(image_tag)) {
     throw new Error(
-      `The image was not properly created. Tags do not fit! More info: ${
-        iro[0].RepoTags[0]
-      } != ${helpers.image_tag(options)}`,
+      `The image do not exists in local docker image repository. Tag not found: ${image_tag}`,
     );
   }
   helpers.ok();

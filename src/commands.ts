@@ -347,7 +347,7 @@ export function kubect_apply_to_kubernetes(manifest_path: string) {
   });
 }
 
-export function kubectl_deployment_status(options: Options) {
+export function kubectl_deployment_status_stdio(options: Options) {
   helpers.log(chalk.reset(''));
   cp.spawnSync(
     'kubectl',
@@ -356,6 +356,54 @@ export function kubectl_deployment_status(options: Options) {
       'status',
       'deployment',
       `${options.deployment}-app`,
+      `--namespace=${options.namespace}`,
+      `--timeout=${options.kubectl_timeout}s`,
+    ],
+    {
+      stdio: 'inherit',
+    },
+  );
+}
+
+export function kubectl_deployment_status_utf8(options: Options) {
+  helpers.log(chalk.reset(''));
+  const result = cp.spawnSync(
+    'kubectl',
+    [
+      'rollout',
+      'status',
+      'deployment',
+      `${options.deployment}-app`,
+      `--namespace=${options.namespace}`,
+      `--timeout=${options.kubectl_timeout}s`,
+    ],
+    {
+      encoding: 'utf8',
+    },
+  );
+
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+export function kubectl_deployment_events(options: Options) {
+  helpers.log(chalk.reset(''));
+
+  const cmd = `kubectl get events --namespace=${options.namespace} --sort-by='.metadata.creationTimestamp' | grep -i ${options.deployment}-app`;
+  helpers.print_if_debug(options, `kubectl deployment logs: ${cmd}`);
+
+  execSync(cmd, {
+    stdio: 'inherit',
+  });
+}
+
+export function kubectl_deployment_logs(options: Options) {
+  helpers.log(chalk.reset(''));
+  cp.spawnSync(
+    'kubectl',
+    [
+      'logs',
+      '-f',
+      `deployment/${options.deployment}-app`,
       `--namespace=${options.namespace}`,
     ],
     {

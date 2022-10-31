@@ -32,8 +32,7 @@ const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function clean_docker_image(options) {
   helpers.line(`(${helpers.step(options)}) Cleaning local docker image...`);
-  if (options.debug ||
-    options.image ||
+  if (options.image ||
     options.dry_run ||
     options.build_image ||
     options.build_image_no_registry) {

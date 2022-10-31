@@ -34,13 +34,13 @@ exports.check_bratiska_build_envs = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
 function check_bratiska_build_envs(options) {
-    helpers.line(`(${helpers.step(options)}) Checking for bratiska-cli build envs file: `);
-    if (options.image) {
-        helpers.skipping();
-        return;
-    }
-    const envs_file = helpers.bratiska_cli_build_dot_env_path(options);
-    helpers.print_if_debug(options, `bratiska-cli.build envs file: ${envs_file}`);
+  helpers.line(`(${helpers.step(options)}) Checking for bratiska-cli build envs file: `);
+  if (options.image) {
+    helpers.skipping();
+    return;
+  }
+  const envs_file = helpers.bratiska_cli_build_dot_env_path(options);
+  helpers.print_if_debug(options, `bratiska-cli.build envs file: ${envs_file}`);
   if (!fs_1.default.existsSync(envs_file)) {
     helpers.not_present();
     helpers.skipping();
