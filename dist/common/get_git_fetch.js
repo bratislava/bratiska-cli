@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_git_fetch = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function get_git_fetch(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Fetching git repo changes...`);
@@ -50,5 +49,4 @@ function get_git_fetch(options) {
   helpers.ok();
   return options;
 }
-
 exports.get_git_fetch = get_git_fetch;

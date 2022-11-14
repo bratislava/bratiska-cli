@@ -156,21 +156,21 @@ function show_options(options) {
   }
   helpers.line("(0) Starting with options... \n");
   options.kustomize_default_path = false;
-    const path_ku_local = helpers.kustomize_folder_path(options);
-    if (fs_1.default.existsSync(path_ku_local)) {
-        options.kustomize_default_path = true;
-    }
-    options.repository_uri = path.basename(options.pwd);
+  const path_ku_local = helpers.kustomize_folder_path(options);
+  if (fs_1.default.existsSync(path_ku_local)) {
+    options.kustomize_default_path = true;
+  }
+  options.repository_uri = path.basename(options.pwd);
   helpers.print_options(options);
   helpers.line("(0) Showing detected app info... \n");
   helpers.spacer_line(`Application name: `);
-    helpers.print_important_info(`${options.deployment}`);
-    helpers.spacer_line(`Directory of application: `);
-    helpers.print_important_info(`${options.pwd}`);
+  helpers.print_important_info(`${options.deployment}`);
+  helpers.spacer_line(`Directory of application: `);
+  helpers.print_important_info(`${options.pwd}`);
   helpers.spacer_line(`Package.json: `);
   helpers.print_important_info("present");
   helpers.spacer_line(`Kubernetes folder with kustomize files included: `);
-    helpers.print_important_info(`${options.kustomize_default_path}`);
-    return options;
+  helpers.print_important_info(`${options.kustomize_default_path}`);
+  return options;
 }
 exports.show_options = show_options;

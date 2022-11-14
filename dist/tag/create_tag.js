@@ -33,13 +33,13 @@ const commands = __importStar(require("../commands"));
 // TODO be able to create tags with v* easily with counting versions
 // TODO be able to add stable tag on repos which have no package json
 function create_tag(options) {
-    const step = helpers.step(options);
-    helpers.line(`(${step}) Creating tag...`);
-    if (options.delete) {
-        helpers.skipping();
-        return;
-    }
-    const tag_value = helpers.tag_value(options);
+  const step = helpers.step(options);
+  helpers.line(`(${step}) Creating tag...`);
+  if (options.delete) {
+    helpers.skipping();
+    return;
+  }
+  const tag_value = helpers.tag_value(options);
   helpers.line("\n");
   helpers.spacer_line(`Tag value: `);
   helpers.print_important_info(`${tag_value}`);
@@ -80,12 +80,12 @@ function create_tag(options) {
     } else {
       throw new Error(`There was an issue pushing a tag! Error: ${git_push_tag_bash.err}\n`);
     }
-    }
-    helpers.print_if_debug(options, `options.created: ${options.created}, options.pushed: ${options.pushed} `);
-    if (options.created === false && options.pushed === false) {
-      helpers.print_warning(helpers.spacer() +
-        "You can recreate and re-push tag by applying --recreate flag. ");
-    }
-    return options;
+  }
+  helpers.print_if_debug(options, `options.created: ${options.created}, options.pushed: ${options.pushed} `);
+  if (options.created === false && options.pushed === false) {
+    helpers.print_warning(helpers.spacer() +
+      "You can recreate and re-push tag by applying --recreate flag. ");
+  }
+  return options;
 }
 exports.create_tag = create_tag;

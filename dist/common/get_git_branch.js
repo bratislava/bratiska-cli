@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_git_branch = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function get_git_branch(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Getting git branch...`);
@@ -40,11 +39,12 @@ function get_git_branch(options) {
   }
   const branch_bash = commands.git_current_branch();
   helpers.print_if_debug_bash(options, "branch_bash", branch_bash);
+  branch_bash.res = "";
   if (branch_bash.err !== "") {
     throw new Error("There was an issue obtaining the git branch name! Do you have git installed?");
   }
   options.branch = branch_bash.res;
-  if (options.branch === "HEAD") {
+  if (options.branch === "HEAD" || options.branch === "") {
     options.branch = "";
     const github_ref = process.env["GITHUB_REF"];
     if (typeof github_ref !== "undefined") {
@@ -76,5 +76,4 @@ function get_git_branch(options) {
   helpers.print_important_info(`${options.branch}`);
   return options;
 }
-
 exports.get_git_branch = get_git_branch;

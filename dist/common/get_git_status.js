@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_git_status = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function get_git_status(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Getting git status info...`);
@@ -52,5 +51,4 @@ function get_git_status(options) {
   helpers.ok();
   return options;
 }
-
 exports.get_git_status = get_git_status;

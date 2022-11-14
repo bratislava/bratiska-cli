@@ -93,7 +93,7 @@ export function print_info_line(cmd: string): void {
 }
 
 export function print_debug(cmd: string | undefined): void {
-  process.stdout.write(chalk.cyan(`\nDEBUG: ${cmd}\n`));
+  process.stdout.write(chalk.cyan(`DEBUG: ${cmd}\n`));
 }
 
 export function print_if_debug(
@@ -794,13 +794,12 @@ export function get_final_branch(
   print_if_debug(options, `branch_list flattened: ${branch_list.flat()}`);
   print_if_debug(options, `branch_list.length: ${branch_list.length}`);
 
-  print_if_debug(
-    options,
-    `branch_list has master?: ${branch_list.includes('master')}`,
-  );
+  const is_master = branch_list.findIndex((e) => e.includes('master'));
+
+  print_if_debug(options, `branch_list has master?: ${is_master}`);
 
   if (branch_list.length > 0) {
-    if (branch_list.includes('master')) {
+    if (is_master !== -1) {
       return 'master';
     } else {
       return branch_list[0];

@@ -31,10 +31,10 @@ exports.show_version = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function show_version(options, version) {
-    options.bratiska_cli_version = version;
-    options.step = 0;
-    console.log(version);
-    const package_json = commands.get_bratiska_cli_git_package_json();
+  options.bratiska_cli_version = version;
+  options.step = 0;
+  console.log(version);
+  const package_json = commands.get_bratiska_cli_git_package_json();
   if (package_json !== "") {
     const package_obj = JSON.parse(package_json);
     const package_version = package_obj.version;

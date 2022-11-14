@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_git_tags = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function get_git_tags(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Checking git tags...`);
@@ -62,5 +61,4 @@ function get_git_tags(options) {
   helpers.print_if_debug(options, `Possible image tag: ${helpers.image_tag(options)}`);
   return options;
 }
-
 exports.get_git_tags = get_git_tags;

@@ -155,9 +155,7 @@ function git_origin_commit_tag(tag) {
   console.log(`"refs/tags/${tag}"`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_origin_commit_tag = git_origin_commit_tag;
-
 function git_get_last_remote_tags(options, tag_format) {
   // let tag_format = "v[0-9]\.[0-9]\.[0-9]*"
   const cmd = `git ls-remote origin --contains "refs\/tags\/${tag_format}" | grep ".*[^}]$" | cut -f 2 | tail -n1 | awk '{gsub(/refs\\/tags\\//,"")}1'`;
@@ -165,20 +163,16 @@ function git_get_last_remote_tags(options, tag_format) {
   const last_tag = (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
   return last_tag.trim();
 }
-
 exports.git_get_last_remote_tags = git_get_last_remote_tags;
-
 function git_list_of_brnaches_with_refs(refs) {
-  const result = child_process_1.default.spawnSync("git", ["branch", "-r", "--contains", `"${refs}"`], {
+  const result = child_process_1.default.spawnSync("git", ["branch", "-r", "--contains", `${refs}`], {
     encoding: "utf8"
   });
   let res = result.stdout.trim();
   res = res.replace(/"/g, "");
   return { res: res, err: result.stderr };
 }
-
 exports.git_list_of_brnaches_with_refs = git_list_of_brnaches_with_refs;
-
 function git_current_status(options) {
   const result = child_process_1.default.spawnSync("git", ["status", "-s"], {
     encoding: "utf8"
@@ -186,9 +180,7 @@ function git_current_status(options) {
   helpers.print_if_debug(options, "Untracked changes: " + result.stdout.trim());
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_status = git_current_status;
-
 function git_repo_name(options) {
   const cmd = "basename `git rev-parse --show-toplevel`";
     helpers.print_if_debug(options, cmd);
@@ -319,11 +311,11 @@ function get_bratiska_cli_git_package_json() {
 }
 exports.get_bratiska_cli_git_package_json = get_bratiska_cli_git_package_json;
 function kustomize_build_manifest(options) {
-    let path = helpers.kustomize_folder_path(options);
-    if (options.kustomize) {
-        path = options.kustomize;
-    }
-    const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
+  let path = helpers.kustomize_folder_path(options);
+  if (options.kustomize) {
+    path = options.kustomize;
+  }
+  const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
   helpers.print_if_debug(options, cmd);
   (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
 }

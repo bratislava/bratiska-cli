@@ -1,7 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
-import { Bash, Options } from '../types';
-import { get_final_branch } from '../helpers';
+import { Options } from '../types';
 
 export function get_git_branch(options: Options) {
   const step = helpers.step(options);
@@ -13,14 +12,14 @@ export function get_git_branch(options: Options) {
 
   const branch_bash = commands.git_current_branch();
   helpers.print_if_debug_bash(options, 'branch_bash', branch_bash);
-
+  branch_bash.res = '';
   if (branch_bash.err !== '') {
     throw new Error(
       'There was an issue obtaining the git branch name! Do you have git installed?',
     );
   }
   options.branch = branch_bash.res;
-  if (options.branch === 'HEAD') {
+  if (options.branch === 'HEAD' || options.branch === '') {
     options.branch = '';
     const github_ref = process.env['GITHUB_REF'];
 

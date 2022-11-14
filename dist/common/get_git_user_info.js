@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_git_user_info = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function get_git_user_info(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Getting git user info...`);
@@ -57,5 +56,4 @@ function get_git_user_info(options) {
   helpers.print_important_info(`${options.user_email}`);
   return options;
 }
-
 exports.get_git_user_info = get_git_user_info;

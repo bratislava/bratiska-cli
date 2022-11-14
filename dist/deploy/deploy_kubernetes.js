@@ -32,7 +32,7 @@ const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 //TODO return deployment status
 function deploy_kubernetes(options) {
-    helpers.line(`(${helpers.step(options)}) Deploying to kubernetes...`);
+  helpers.line(`(${helpers.step(options)}) Deploying to kubernetes...`);
   if (options.dry_run ||
     options.build_kustomize ||
     options.build_image ||
@@ -40,7 +40,7 @@ function deploy_kubernetes(options) {
     helpers.skipping();
     return;
   }
-    commands.kubect_apply_to_kubernetes(helpers.manifest_path(options));
-    helpers.finished();
+  commands.kubect_apply_to_kubernetes(helpers.manifest_path(options));
+  helpers.finished();
 }
 exports.deploy_kubernetes = deploy_kubernetes;

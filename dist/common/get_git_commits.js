@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_git_commits = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function get_git_commits(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Getting git commits...`);
@@ -54,5 +53,4 @@ function get_git_commits(options) {
   helpers.print_important_info(`${options.commit}`);
   return options;
 }
-
 exports.get_git_commits = get_git_commits;

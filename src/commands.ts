@@ -153,7 +153,7 @@ export function git_get_last_remote_tags(
 export function git_list_of_brnaches_with_refs(refs: string): Bash {
   const result = cp.spawnSync(
     'git',
-    ['branch', '-r', '--contains', `"${refs}"`],
+    ['branch', '-r', '--contains', `${refs}`],
     {
       encoding: 'utf8',
     },

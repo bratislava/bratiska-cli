@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_git_repo_name = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_git_repo_name(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Checking git repo name...`);
@@ -62,5 +61,4 @@ function check_git_repo_name(options) {
   helpers.print_if_debug(options, `repository_uri: ${options.repository_uri}`);
   return options;
 }
-
 exports.check_git_repo_name = check_git_repo_name;

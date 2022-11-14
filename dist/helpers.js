@@ -41,39 +41,27 @@ exports.log = console.log.bind(console);
 function line(content) {
   process.stdout.write("\x1b[37m" + content);
 }
-
 exports.line = line;
-
 function spacer() {
   return "    ";
 }
-
 exports.spacer = spacer;
-
 function spacer_line(content) {
   return line(spacer() + content);
 }
-
 exports.spacer_line = spacer_line;
-
 function spacer_log(content) {
   return line("\n" + spacer() + content);
 }
-
 exports.spacer_log = spacer_log;
-
 function ok() {
   (0, exports.log)(chalk_1.default.green(" OK"));
 }
-
 exports.ok = ok;
-
 function skipping() {
   (0, exports.log)(chalk_1.default.yellow(" SKIPPING"));
 }
-
 exports.skipping = skipping;
-
 function not_present() {
   line(chalk_1.default.yellow(" NOT PRESENT"));
 }
@@ -131,7 +119,7 @@ function print_info_line(cmd) {
 }
 exports.print_info_line = print_info_line;
 function print_debug(cmd) {
-  process.stdout.write(chalk_1.default.cyan(`\nDEBUG: ${cmd}\n`));
+  process.stdout.write(chalk_1.default.cyan(`DEBUG: ${cmd}\n`));
 }
 exports.print_debug = print_debug;
 function print_if_debug(options, cmd) {
@@ -686,18 +674,17 @@ function tag_value(options) {
   }
   return tag_value;
 }
-
 exports.tag_value = tag_value;
-
 function get_final_branch(options, branch_list_in_string) {
   print_if_debug(options, `branch_list_in_string: ${branch_list_in_string}`);
   const branch_list_dirty = branch_list_in_string.split(/\r?\n/);
   const branch_list = branch_list_dirty.filter((e) => !e.includes("HEAD"));
   print_if_debug(options, `branch_list flattened: ${branch_list.flat()}`);
   print_if_debug(options, `branch_list.length: ${branch_list.length}`);
-  print_if_debug(options, `branch_list has master?: ${branch_list.includes("master")}`);
+  const is_master = branch_list.findIndex((e) => e.includes("master"));
+  print_if_debug(options, `branch_list has master?: ${is_master}`);
   if (branch_list.length > 0) {
-    if (branch_list.includes("master")) {
+    if (is_master !== -1) {
       return "master";
     } else {
       return branch_list[0];
@@ -705,5 +692,4 @@ function get_final_branch(options, branch_list_in_string) {
   }
   return false;
 }
-
 exports.get_final_branch = get_final_branch;

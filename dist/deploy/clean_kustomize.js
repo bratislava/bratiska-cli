@@ -34,7 +34,7 @@ exports.clean_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
 function clean_kustomize(options) {
-    helpers.line(`(${helpers.step(options)}) Cleaning kustomize manifest...`);
+  helpers.line(`(${helpers.step(options)}) Cleaning kustomize manifest...`);
   if (options.debug ||
     options.dry_run ||
     options.build_kustomize ||
@@ -48,6 +48,6 @@ function clean_kustomize(options) {
   } catch (err) {
     throw new Error(`We had an error by cleaning the manifest file.`);
   }
-    helpers.ok();
+  helpers.ok();
 }
 exports.clean_kustomize = clean_kustomize;
