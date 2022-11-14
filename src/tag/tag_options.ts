@@ -1,5 +1,5 @@
 import * as helpers from '../helpers';
-import { Options } from './../types';
+import { Options } from '../types';
 
 export function tag_options(options: Options, env: any) {
   options.tag_command = true;

@@ -32,21 +32,21 @@ const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 // TODO be able to remove last dev tag
 function delete_tag(options) {
-    const step = helpers.step(options);
-    helpers.line(`(${step}) Deleting tag...`);
-    if (options.recreate === false && options.delete === false) {
-        helpers.skipping();
-        return;
-    }
-    const tag_value = helpers.tag_value(options);
+  const step = helpers.step(options);
+  helpers.line(`(${step}) Deleting tag...`);
+  if (options.recreate === false && options.delete === false) {
+    helpers.skipping();
+    return;
+  }
+  const tag_value = helpers.tag_value(options);
   helpers.line("\n");
   helpers.spacer_line(`Tag value: `);
-    helpers.print_important_info(`${tag_value}`);
-    if (options.dry_run) {
-        helpers.skipping();
-        return;
-    }
-    const delete_tag_bash = commands.git_delete_tag(tag_value);
+  helpers.print_important_info(`${tag_value}`);
+  if (options.dry_run) {
+    helpers.skipping();
+    return;
+  }
+  const delete_tag_bash = commands.git_delete_tag(tag_value);
   helpers.print_if_debug_bash(options, "delete_tag_bash", delete_tag_bash);
   helpers.spacer_line(`Deleted locally: `);
   if (delete_tag_bash.res !== "" && delete_tag_bash.err === "") {
@@ -63,10 +63,10 @@ function delete_tag(options) {
   if (options.local) {
     options.deleted_origin = false;
     helpers.spacer_line(`Deleted remote: `);
-        helpers.print_warning(`skipped because of the --local flag`);
-        return options;
-    }
-    const delete_tag_origin_bash = commands.git_delete_tag_origin(tag_value);
+    helpers.print_warning(`skipped because of the --local flag`);
+    return options;
+  }
+  const delete_tag_origin_bash = commands.git_delete_tag_origin(tag_value);
   helpers.print_if_debug_bash(options, "delete_tag_origin_bash", delete_tag_origin_bash);
   helpers.spacer_line(`Deleted remote: `);
   if (delete_tag_origin_bash.err !== "") {
@@ -85,12 +85,12 @@ function delete_tag(options) {
         break;
       default:
         throw new Error(`There was an issue deleting a remote tag! Error: ${delete_tag_origin_bash.err}\n`);
-        }
     }
-    if (options.deleted_localy === false && options.deleted_origin === false) {
-      helpers.print_warning(helpers.spacer() +
-        "You should create tag first, because no tags were found locally and in remote origin. Or change tag name by --tag some_tag_value ");
-    }
-    return options;
+  }
+  if (options.deleted_localy === false && options.deleted_origin === false) {
+    helpers.print_warning(helpers.spacer() +
+      "You should create tag first, because no tags were found locally and in remote origin. Or change tag name by --tag some_tag_value ");
+  }
+  return options;
 }
 exports.delete_tag = delete_tag;

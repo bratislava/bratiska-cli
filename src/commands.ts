@@ -47,6 +47,7 @@ export function git_branch_from_commit(commit: string): Bash {
     [
       'branch',
       '--no-color',
+      '--list',
       '--format',
       '"%(refname:lstrip=2)"',
       '--no-column',
@@ -57,7 +58,9 @@ export function git_branch_from_commit(commit: string): Bash {
       encoding: 'utf8',
     },
   );
-  return { res: result.stdout.trim(), err: result.stderr };
+  let res = result.stdout.trim();
+  res = res.replace(/"/g, '');
+  return { res: res, err: result.stderr };
 }
 
 export function git_repository_url(): Bash {
@@ -145,6 +148,19 @@ export function git_get_last_remote_tags(
 
   const last_tag = execSync(cmd, { encoding: 'utf8' });
   return last_tag.trim();
+}
+
+export function git_list_of_brnaches_with_refs(refs: string): Bash {
+  const result = cp.spawnSync(
+    'git',
+    ['branch', '-r', '--contains', `"${refs}"`],
+    {
+      encoding: 'utf8',
+    },
+  );
+  let res = result.stdout.trim();
+  res = res.replace(/"/g, '');
+  return { res: res, err: result.stderr };
 }
 
 export function git_current_status(options: Options): Bash {

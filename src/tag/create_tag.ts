@@ -3,6 +3,7 @@ import * as commands from '../commands';
 import { Options } from './../types';
 
 // TODO be able to create tags with v* easily with counting versions
+// TODO be able to add stable tag on repos which have no package json
 
 export function create_tag(options: Options) {
   const step = helpers.step(options);

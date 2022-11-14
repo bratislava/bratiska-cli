@@ -26,8 +26,8 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.print_options = exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug_bash = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_error_line_spacer = exports.print_error_line = exports.print_error = exports.print_warning_line = exports.print_warning = exports.print_important_info_line = exports.print_important_info_spacer = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.spacer_line = exports.spacer = exports.line = exports.log = void 0;
-exports.tag_value = exports.is_allowed_env = exports.step = void 0;
+exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug_bash = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_error_line_spacer = exports.print_error_line = exports.print_error = exports.print_warning_line = exports.print_warning = exports.print_important_info_line = exports.print_important_info_spacer = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.spacer_log = exports.spacer_line = exports.spacer = exports.line = exports.log = void 0;
+exports.get_final_branch = exports.tag_value = exports.is_allowed_env = exports.step = exports.print_options = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -41,23 +41,39 @@ exports.log = console.log.bind(console);
 function line(content) {
   process.stdout.write("\x1b[37m" + content);
 }
+
 exports.line = line;
+
 function spacer() {
   return "    ";
 }
+
 exports.spacer = spacer;
+
 function spacer_line(content) {
   return line(spacer() + content);
 }
+
 exports.spacer_line = spacer_line;
+
+function spacer_log(content) {
+  return line("\n" + spacer() + content);
+}
+
+exports.spacer_log = spacer_log;
+
 function ok() {
   (0, exports.log)(chalk_1.default.green(" OK"));
 }
+
 exports.ok = ok;
+
 function skipping() {
   (0, exports.log)(chalk_1.default.yellow(" SKIPPING"));
 }
+
 exports.skipping = skipping;
+
 function not_present() {
   line(chalk_1.default.yellow(" NOT PRESENT"));
 }
@@ -600,7 +616,7 @@ function tag_get_latest_version(options, tag) {
 }
 function tag_value_staging(options) {
   if (options.branch !== "master") {
-    throw new Error(`You need to be on the 'master' branch to be able tag in staging/prod environment. Currently you are on: '${options.branch}'`);
+    print_warning_line("Be aware, you are not on master branch! We don`t recommend to deploy to staging from other branches than master.");
   }
   let tag_text = options.env;
   if (options.tech !== false) {
@@ -644,6 +660,9 @@ function tag_value_staging(options) {
   return tag_text + increment_bug(new_tag_version);
 }
 function tag_value_prod(options) {
+  if (options.branch !== "master") {
+    throw new Error(`You need to be on the 'master' branch to be able tag in prod environment. Currently you are on: '${options.branch}'`);
+  }
   return tag_value_staging(options);
 }
 function tag_value(options) {
@@ -667,4 +686,24 @@ function tag_value(options) {
   }
   return tag_value;
 }
+
 exports.tag_value = tag_value;
+
+function get_final_branch(options, branch_list_in_string) {
+  print_if_debug(options, `branch_list_in_string: ${branch_list_in_string}`);
+  const branch_list_dirty = branch_list_in_string.split(/\r?\n/);
+  const branch_list = branch_list_dirty.filter((e) => !e.includes("HEAD"));
+  print_if_debug(options, `branch_list flattened: ${branch_list.flat()}`);
+  print_if_debug(options, `branch_list.length: ${branch_list.length}`);
+  print_if_debug(options, `branch_list has master?: ${branch_list.includes("master")}`);
+  if (branch_list.length > 0) {
+    if (branch_list.includes("master")) {
+      return "master";
+    } else {
+      return branch_list[0];
+    }
+  }
+  return false;
+}
+
+exports.get_final_branch = get_final_branch;

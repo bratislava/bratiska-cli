@@ -24,6 +24,10 @@ export function spacer_line(content: string) {
   return line(spacer() + content);
 }
 
+export function spacer_log(content: string) {
+  return line('\n' + spacer() + content);
+}
+
 export function ok(): void {
   log(chalk.green(' OK'));
 }
@@ -681,8 +685,8 @@ function tag_get_latest_version(options: Options, tag: string) {
 
 function tag_value_staging(options: Options) {
   if (options.branch !== 'master') {
-    throw new Error(
-      `You need to be on the 'master' branch to be able tag in staging/prod environment. Currently you are on: '${options.branch}'`,
+    print_warning_line(
+      'Be aware, you are not on master branch! We don`t recommend to deploy to staging from other branches than master.',
     );
   }
   let tag_text = options.env;
@@ -745,6 +749,11 @@ function tag_value_staging(options: Options) {
 }
 
 function tag_value_prod(options: Options) {
+  if (options.branch !== 'master') {
+    throw new Error(
+      `You need to be on the 'master' branch to be able tag in prod environment. Currently you are on: '${options.branch}'`,
+    );
+  }
   return tag_value_staging(options);
 }
 
@@ -771,4 +780,32 @@ export function tag_value(options: Options) {
   }
 
   return tag_value;
+}
+
+export function get_final_branch(
+  options: Options,
+  branch_list_in_string: string,
+) {
+  print_if_debug(options, `branch_list_in_string: ${branch_list_in_string}`);
+
+  const branch_list_dirty = branch_list_in_string.split(/\r?\n/);
+  const branch_list = branch_list_dirty.filter((e) => !e.includes('HEAD'));
+
+  print_if_debug(options, `branch_list flattened: ${branch_list.flat()}`);
+  print_if_debug(options, `branch_list.length: ${branch_list.length}`);
+
+  print_if_debug(
+    options,
+    `branch_list has master?: ${branch_list.includes('master')}`,
+  );
+
+  if (branch_list.length > 0) {
+    if (branch_list.includes('master')) {
+      return 'master';
+    } else {
+      return branch_list[0];
+    }
+  }
+
+  return false;
 }
