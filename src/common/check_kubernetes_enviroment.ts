@@ -1,26 +1,40 @@
 import * as helpers from '../helpers';
-import { Options } from './../types';
+import { Options } from '../types';
 
 export function check_kubernetes_enviroment(options: Options) {
-  helpers.line(
-    `(${helpers.step(
-      options,
-    )}) Checking chosen Kubernetes cluster with the environment...`,
-  );
+  helpers.line(`(${helpers.step(options)}) Checking environment...`);
+
   if (options.build_image || options.build_image_no_registry) {
-    helpers.skipping();
-    options.env = 'dev';
+    if (typeof options.env === 'undefined') {
+      options.env = 'dev';
+      helpers.print_if_debug(
+        options,
+        `Environment is not set for --build_image or --build_image_no_registry, setting default environment: ${options.env}`,
+      );
+    }
+
+    helpers.spacer_log(`Environment: `);
+    helpers.print_important_info(`${options.env}`);
     return options;
   }
 
   if (typeof options.env === 'undefined') {
     if (options.tag_command === true && options.branch !== 'master') {
       options.env = 'dev';
+      helpers.print_if_debug(
+        options,
+        `Environment is not set for tagging, setting default environment: ${options.env}`,
+      );
+      helpers.spacer_log(`Environment: `);
+      helpers.print_important_info(`${options.env}`);
       return options;
     }
 
     options.env = helpers.map_cluster_to_env(options.cluster);
-    helpers.print_if_debug(options, `options.env: ${options.env}`);
+    helpers.print_if_debug(
+      options,
+      `getting Environment from kubernetes cluster: ${options.env}`,
+    );
   } else if (options.env !== helpers.map_cluster_to_env(options.cluster)) {
     const cluster_env = helpers.map_cluster_to_env(options.cluster);
 
@@ -31,6 +45,7 @@ export function check_kubernetes_enviroment(options: Options) {
     }
   }
 
-  helpers.ok();
+  helpers.spacer_log(`Environment: `);
+  helpers.print_important_info(`${options.env}`);
   return options;
 }
