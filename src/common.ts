@@ -9,6 +9,7 @@ import { get_git_commits } from './common/get_git_commits';
 import { check_git_repo_name } from './common/check_git_repo_name';
 import { get_git_branch } from './common/get_git_branch';
 import { get_git_fetch } from './common/get_git_fetch';
+import { get_git_pull } from './common/get_git_pull';
 import { get_git_status } from './common/get_git_status';
 import { check_git_merge_status } from './common/check_git_merge_status';
 import { get_git_tags } from './common/get_git_tags';
@@ -36,6 +37,10 @@ export class Common {
 
   get_git_fetch(options: Options) {
     get_git_fetch(options);
+  }
+
+  get_git_pull(options: Options) {
+    get_git_pull(options);
   }
 
   get_git_branch(options: Options) {

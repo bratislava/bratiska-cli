@@ -35,7 +35,7 @@ const deploy_1 = require("./deploy");
 const tag_1 = require("./tag");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "2.3.3";
+const version = "2.3.4";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -60,6 +60,7 @@ try {
     .option("-recreate, --recreate", "Recreate and re-push tag")
     .option("-delete, --delete", "Delete a tag locally and in origin")
     .option("-local, --local", "Nothing will be pushed to origin")
+    .option("-no_pull, --no_pull", "If you dont want to git pull from origin during tag")
     .option("-feature, --feature", "Increment version of app with feature level")
     .option("-major, --major", "Increment version of app with major level")
     .option("-debug, --debug", "Debugging")
@@ -74,6 +75,8 @@ try {
       common.show_options(options);
       /* step 3 */
       common.get_git_fetch(options);
+      /* step 4 */
+      common.get_git_pull(options);
       /* step 5 */
       common.get_git_user_info(options);
       /* step 6 */

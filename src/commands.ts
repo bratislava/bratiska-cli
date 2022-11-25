@@ -77,6 +77,13 @@ export function git_fetch_origin(): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
+export function git_pull_origin(): Bash {
+  const result = cp.spawnSync('git', ['pull', 'origin'], {
+    encoding: 'utf8',
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 export function git_current_commit(): Bash {
   const result = cp.spawnSync('git', ['rev-parse', 'HEAD'], {
     encoding: 'utf8',

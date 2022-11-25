@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_deployment_logs = exports.kubectl_deployment_events = exports.kubectl_deployment_status_utf8 = exports.kubectl_deployment_status_stdio = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_list_of_brnaches_with_refs = exports.git_get_last_remote_tags = exports.git_origin_commit_tag = exports.git_push_tag = exports.git_delete_tag_origin = exports.git_delete_tag = exports.git_add_tag = exports.git_commit_tag = exports.git_current_commit_short = exports.git_current_commit = exports.git_fetch_origin = exports.git_repository_url = exports.git_branch_from_commit = exports.git_current_branch = exports.git_user_email = exports.git_user_name = exports.cd = exports.pwd = void 0;
+exports.kubectl_deployment_logs = exports.kubectl_deployment_events = exports.kubectl_deployment_status_utf8 = exports.kubectl_deployment_status_stdio = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_list_of_brnaches_with_refs = exports.git_get_last_remote_tags = exports.git_origin_commit_tag = exports.git_push_tag = exports.git_delete_tag_origin = exports.git_delete_tag = exports.git_add_tag = exports.git_commit_tag = exports.git_current_commit_short = exports.git_current_commit = exports.git_pull_origin = exports.git_fetch_origin = exports.git_repository_url = exports.git_branch_from_commit = exports.git_current_branch = exports.git_user_email = exports.git_user_name = exports.cd = exports.pwd = void 0;
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
@@ -91,21 +91,36 @@ function git_repository_url() {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.git_repository_url = git_repository_url;
+
 function git_fetch_origin() {
   const result = child_process_1.default.spawnSync("git", ["fetch", "origin"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.git_fetch_origin = git_fetch_origin;
+
+function git_pull_origin() {
+  const result = child_process_1.default.spawnSync("git", ["pull", "origin"], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+exports.git_pull_origin = git_pull_origin;
+
 function git_current_commit() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "HEAD"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.git_current_commit = git_current_commit;
+
 function git_current_commit_short() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "--short", "HEAD"], {
     encoding: "utf8"

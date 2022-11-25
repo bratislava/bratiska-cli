@@ -1,12 +1,12 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
-import { Options } from './../types';
+import { Options } from '../types';
 
 export function check_pushed_image(options: Options) {
   helpers.line(
     `(${helpers.step(
       options,
-    )}) Checking if the image is in the remote registry.\n...`,
+    )}) Checking if the image is in the remote registry...`,
   );
   if (
     options.build_image_no_registry ||

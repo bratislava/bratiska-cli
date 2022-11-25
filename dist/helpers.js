@@ -477,6 +477,9 @@ function print_options(options) {
   if (options.build_image_no_registry) {
     print_important_info_spacer("--build_image_no_registry");
   }
+  if (options.no_pull) {
+    print_important_info_spacer("--no_pull");
+  }
   if (options.recreate) {
     print_important_info_spacer(`--recreate`);
   }

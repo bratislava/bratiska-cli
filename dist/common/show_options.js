@@ -64,6 +64,9 @@ function show_options(options) {
   if (typeof options.image === "undefined") {
     options.image = false;
   }
+  if (typeof options.no_pull === "undefined") {
+    options.no_pull = false;
+  }
   if (typeof options.tag === "undefined") {
     options.tag = false;
   }

@@ -27,31 +27,31 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_pushed_image = void 0;
+exports.get_git_pull = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function check_pushed_image(options) {
-  helpers.line(`(${helpers.step(options)}) Checking if the image is in the remote registry...`);
-  if (options.build_image_no_registry ||
-    options.no_image_repo_check ||
-    options.dry_run) {
+
+function get_git_pull(options) {
+  const step = helpers.step(options);
+  helpers.line(`(${step}) Pulling git repo...`);
+  if (options.no_pull) {
     helpers.skipping();
     return;
   }
-  const imagetag = helpers.image_tag(options);
-  helpers.print_if_debug(options, `image tag: ${imagetag}`);
-  const image_r = commands.docker_check_image_in_registry(options, imagetag);
-  if (image_r.err !== "") {
-    throw new Error(`Image (${imagetag}) is not in the registry! Check your repository. Error: ${image_r.err}`);
+  const pull_bash = commands.git_pull_origin();
+  helpers.print_if_debug_bash(options, "pull_bash", pull_bash);
+  if (pull_bash.res === "Already up to date.") {
+    helpers.print_important_info_line(" Already up to date\n");
+  } else if (pull_bash.res !== "Already up to date.") {
+    helpers.print_warning(" Repo was updated via git pull\n");
   }
-  if (options.beta) {
-    const latestTag = helpers.image_latest_tag(options);
-    helpers.print_if_debug(options, `image latest tag: ${latestTag}`);
-    const image_r = commands.docker_check_image_in_registry(options, latestTag);
-    if (image_r.err !== "") {
-      throw new Error(`Latest image (${latestTag}) is not in the registry! Check your repository. Error: ${image_r.err}`);
-    }
+  if (pull_bash.err !== "") {
+    throw new Error("There was an issue pulling changes from git origin! Error:" +
+      pull_bash.err);
   }
-  helpers.ok();
+  options.pull = pull_bash.res;
+  helpers.print_if_debug(options, `options.pull: ${options.pull}`);
+  return options;
 }
-exports.check_pushed_image = check_pushed_image;
+
+exports.get_git_pull = get_git_pull;

@@ -9,7 +9,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.3.3';
+const version = '2.3.4';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -45,6 +45,10 @@ try {
     .option('-delete, --delete', 'Delete a tag locally and in origin')
     .option('-local, --local', 'Nothing will be pushed to origin')
     .option(
+      '-no_pull, --no_pull',
+      'If you dont want to git pull from origin during tag',
+    )
+    .option(
       '-feature, --feature',
       'Increment version of app with feature level',
     )
@@ -61,6 +65,8 @@ try {
       common.show_options(options);
       /* step 3 */
       common.get_git_fetch(options);
+      /* step 4 */
+      common.get_git_pull(options);
       /* step 5 */
       common.get_git_user_info(options);
       /* step 6 */

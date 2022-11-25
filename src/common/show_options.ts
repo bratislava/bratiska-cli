@@ -3,7 +3,7 @@ import * as commands from '../commands';
 import * as path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
-import { Options } from './../types';
+import { Options } from '../types';
 
 export function show_options(options: Options) {
   const pwd = commands.pwd();
@@ -40,6 +40,10 @@ export function show_options(options: Options) {
 
   if (typeof options.image === 'undefined') {
     options.image = false;
+  }
+
+  if (typeof options.no_pull === 'undefined') {
+    options.no_pull = false;
   }
 
   if (typeof options.tag === 'undefined') {
