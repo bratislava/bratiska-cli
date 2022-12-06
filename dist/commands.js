@@ -91,36 +91,28 @@ function git_repository_url() {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_repository_url = git_repository_url;
-
 function git_fetch_origin() {
   const result = child_process_1.default.spawnSync("git", ["fetch", "origin"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_fetch_origin = git_fetch_origin;
-
 function git_pull_origin() {
   const result = child_process_1.default.spawnSync("git", ["pull", "origin"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_pull_origin = git_pull_origin;
-
 function git_current_commit() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "HEAD"], {
     encoding: "utf8"
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.git_current_commit = git_current_commit;
-
 function git_current_commit_short() {
   const result = child_process_1.default.spawnSync("git", ["rev-parse", "--short", "HEAD"], {
     encoding: "utf8"
@@ -204,13 +196,17 @@ function git_repo_name(options) {
 }
 exports.git_repo_name = git_repo_name;
 function git_check_commit_remote(commit, branch) {
-    if (typeof branch === 'undefined') {
-        branch = 'master';
-    }
-    const result = child_process_1.default.spawnSync('git', ['branch', `--contains=${commit}`, `--points-at=origin/${branch}`], {
-        encoding: 'utf8',
-    });
-    return { res: result.stdout.trim(), err: result.stderr };
+  if (typeof branch === "undefined") {
+    branch = "master";
+  }
+  //check if branch contains origin already
+  if (branch.indexOf("origin/") === -1) {
+    branch = `origin/${branch}`;
+  }
+  const result = child_process_1.default.spawnSync("git", ["branch", `--contains=${commit}`, `--points-at=${branch}`], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.git_check_commit_remote = git_check_commit_remote;
 function kubectl_cluster() {

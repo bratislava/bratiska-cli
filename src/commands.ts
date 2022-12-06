@@ -190,9 +190,14 @@ export function git_check_commit_remote(commit: string, branch?: string) {
     branch = 'master';
   }
 
+  //check if branch contains origin already
+  if (branch.indexOf('origin/') === -1) {
+    branch = `origin/${branch}`;
+  }
+
   const result = cp.spawnSync(
     'git',
-    ['branch', `--contains=${commit}`, `--points-at=origin/${branch}`],
+    ['branch', `--contains=${commit}`, `--points-at=${branch}`],
     {
       encoding: 'utf8',
     },

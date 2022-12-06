@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_git_pull = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function get_git_pull(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Pulling git repo...`);
@@ -53,5 +52,4 @@ function get_git_pull(options) {
   helpers.print_if_debug(options, `options.pull: ${options.pull}`);
   return options;
 }
-
 exports.get_git_pull = get_git_pull;

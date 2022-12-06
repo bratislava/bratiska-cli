@@ -14,7 +14,6 @@ const get_git_pull_1 = require("./common/get_git_pull");
 const get_git_status_1 = require("./common/get_git_status");
 const check_git_merge_status_1 = require("./common/check_git_merge_status");
 const get_git_tags_1 = require("./common/get_git_tags");
-
 class Common {
   show_options(options) {
     (0, show_options_1.show_options)(options);
