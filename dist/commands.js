@@ -333,9 +333,10 @@ function kustomize_build_manifest(options) {
 exports.kustomize_build_manifest = kustomize_build_manifest;
 function kubect_apply_to_kubernetes(manifest_path) {
   helpers.log(chalk_1.default.reset(""));
-  child_process_1.default.spawnSync("kubectl", ["apply", `-f=${manifest_path}`], {
-    stdio: "inherit"
+  const result = child_process_1.default.spawnSync("kubectl", ["apply", `-f=${manifest_path}`], {
+    encoding: "utf8"
   });
+  return { res: result.stdout, err: result.stderr };
 }
 exports.kubect_apply_to_kubernetes = kubect_apply_to_kubernetes;
 function kubectl_deployment_status_stdio(options) {

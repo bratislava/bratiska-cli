@@ -9,7 +9,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.3.5';
+const version = '2.3.6';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -211,7 +211,6 @@ try {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
 } catch (e: Error) {
-  helpers.log('');
-  helpers.log('\x1b[31m', `ISSUE: ${e.message}`);
+  helpers.log('\x1b[31m', `\nISSUE: ${e.message}`);
   process.exit(1);
 }

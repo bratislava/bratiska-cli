@@ -155,6 +155,15 @@ export function show_options(options: Options) {
     }
   }
 
+  if (options.image) {
+    const img = <string>options.image;
+    if (!img.includes(options.deployment)) {
+      throw new Error(
+        `Image should include deployment name: ${options.deployment} for security reasons. Now it is: ${img}`,
+      );
+    }
+  }
+
   if (typeof options.version === 'undefined') {
     options.version = pack.version;
   }

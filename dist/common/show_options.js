@@ -150,6 +150,12 @@ function show_options(options) {
       throw new Error(`You are using general package.json project name: ${options.deployment}. Please change the project name in the package.json to a different one.`);
     }
   }
+  if (options.image) {
+    const img = options.image;
+    if (!img.includes(options.deployment)) {
+      throw new Error(`Image should include deployment name: ${options.deployment} for security reasons. Now it is: ${img}`);
+    }
+  }
   if (typeof options.version === "undefined") {
     options.version = pack.version;
   }

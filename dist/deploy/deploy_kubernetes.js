@@ -40,7 +40,12 @@ function deploy_kubernetes(options) {
     helpers.skipping();
     return;
   }
-  commands.kubect_apply_to_kubernetes(helpers.manifest_path(options));
-  helpers.finished();
+  const apply_to_kubernetes_bash = commands.kubect_apply_to_kubernetes(helpers.manifest_path(options));
+  helpers.print_if_debug_bash(options, "apply_to_kubernetes_bash", apply_to_kubernetes_bash);
+  if (apply_to_kubernetes_bash.err) {
+    throw new Error(`We had an error applying the kustomize manifest to kubernetes. ${apply_to_kubernetes_bash.err}`);
+  }
+  helpers.log(apply_to_kubernetes_bash.res);
+  helpers.ok();
 }
 exports.deploy_kubernetes = deploy_kubernetes;

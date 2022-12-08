@@ -35,7 +35,7 @@ const deploy_1 = require("./deploy");
 const tag_1 = require("./tag");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "2.3.5";
+const version = "2.3.6";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -196,7 +196,6 @@ try {
   // @ts-ignore
 }
 catch (e) {
-  helpers.log("");
-  helpers.log("\x1b[31m", `ISSUE: ${e.message}`);
+  helpers.log("\x1b[31m", `\nISSUE: ${e.message}`);
   process.exit(1);
 }

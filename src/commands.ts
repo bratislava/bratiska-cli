@@ -370,9 +370,12 @@ export function kustomize_build_manifest(options: Options) {
 
 export function kubect_apply_to_kubernetes(manifest_path: string) {
   helpers.log(chalk.reset(''));
-  cp.spawnSync('kubectl', ['apply', `-f=${manifest_path}`], {
-    stdio: 'inherit',
+
+  const result = cp.spawnSync('kubectl', ['apply', `-f=${manifest_path}`], {
+    encoding: 'utf8',
   });
+
+  return { res: result.stdout, err: result.stderr };
 }
 
 export function kubectl_deployment_status_stdio(options: Options) {
