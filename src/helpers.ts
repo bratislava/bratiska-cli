@@ -250,23 +250,26 @@ export function check_ports(options: Options): void {
   print_if_debug(options, `env_path_base: ${env_path_base}`);
   print_if_debug(options, `env_path_main: ${env_path_main}`);
 
-  print_if_debug(options, process.env['PORT']);
+  print_if_debug(options, `local terminal env['PORT']: ${process.env['PORT']}`);
   dotenv.config({ path: env_path_main });
-  print_if_debug(options, process.env['PORT']);
+  print_if_debug(options, `env_path_main env['PORT']: ${process.env['PORT']}`);
   dotenv.config({ override: true, path: env_path_base });
-  print_if_debug(options, process.env['PORT']);
+  print_if_debug(options, `env_path_base env['PORT']: ${process.env['PORT']}`);
   dotenv.config({ override: true, path: env_path_specific });
-  print_if_debug(options, process.env['PORT']);
+  print_if_debug(
+    options,
+    `env_path_specific env['PORT']: ${process.env['PORT']}`,
+  );
 
   if (typeof process.env['PORT'] === 'undefined') {
     options.app_port = '3000';
     line(` using default app port `);
-    print_important_info_line(`'PORT' = '${options.app_port}'`);
+    print_important_info_line(`PORT=${options.app_port}`);
     line(`...`);
   } else {
     options.app_port = process.env['PORT'];
     line(` using app port from env `);
-    print_important_info_line(`'PORT' = '${options.app_port}'`);
+    print_important_info_line(`PORT=${options.app_port}`);
     line(`...`);
   }
 }

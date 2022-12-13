@@ -27,31 +27,32 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get_git_fetch = void 0;
+exports.get_git_current_branch = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function get_git_fetch(options) {
+
+function get_git_current_branch(options) {
   const step = helpers.step(options);
-  helpers.line(`(${step}) Fetching git repo changes...`);
-  if (options.no_pull) {
+  helpers.line(`(${step}) Getting current git branch...`);
+  if (options.image) {
     helpers.skipping();
     return;
   }
-  if (options.branch !== "HEAD" &&
-    options.branch !== "" &&
-    options.branch !== "master") {
-    helpers.skipping();
-    return;
+  options.branch = "";
+  const branch_bash = commands.git_current_branch();
+  helpers.print_if_debug_bash(options, "branch_bash", branch_bash);
+  branch_bash.res = "";
+  if (branch_bash.err !== "") {
+    throw new Error("There was an issue obtaining the git branch name! Do you have git installed?");
   }
-  const fetch_bash = commands.git_fetch_origin();
-  helpers.print_if_debug_bash(options, "fetch_bash", fetch_bash);
-  if (fetch_bash.err !== "") {
-    throw new Error("There was an issue fetching changes from git origin! Error:" +
-      fetch_bash.err);
+  options.branch = branch_bash.res;
+  helpers.spacer_log(`Current git branch from HEAD: `);
+  if (options.branch !== "HEAD" && options.branch !== "") {
+    helpers.print_important_info(`${options.branch}`);
+  } else {
+    helpers.print_warning(`Branch is unknown for now, we will determine it later.`);
   }
-  options.fetch = fetch_bash.res;
-  helpers.print_if_debug(options, `fetch: ${options.fetch}`);
-  helpers.ok();
   return options;
 }
-exports.get_git_fetch = get_git_fetch;
+
+exports.get_git_current_branch = get_git_current_branch;

@@ -9,7 +9,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.3.8';
+const version = '2.3.9';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -64,12 +64,14 @@ try {
       /* step 2 */
       common.show_options(options);
       /* step 3 */
-      common.get_git_fetch(options);
+      common.get_git_current_branch(options);
       /* step 4 */
-      common.get_git_pull(options);
+      common.get_git_fetch(options);
       /* step 5 */
-      common.get_git_user_info(options);
+      common.get_git_pull(options);
       /* step 6 */
+      common.get_git_user_info(options);
+      /* step 7 */
       common.get_git_commits(options);
       /* step 8 */
       common.get_git_branch(options);
@@ -144,70 +146,72 @@ try {
       /* step 1 */
       common.show_options(options);
       /* step 2 */
-      common.get_git_fetch(options);
+      common.get_git_current_branch(options);
       /* step 3 */
-      common.get_git_status(options);
+      common.get_git_fetch(options);
       /* step 4 */
-      common.get_git_user_info(options);
+      common.get_git_status(options);
       /* step 5 */
-      common.get_git_commits(options);
+      common.get_git_user_info(options);
       /* step 6 */
-      common.check_git_repo_name(options);
+      common.get_git_commits(options);
       /* step 7 */
-      common.get_git_branch(options);
+      common.check_git_repo_name(options);
       /* step 8 */
-      common.check_git_merge_status(options);
+      common.get_git_branch(options);
       /* step 9 */
-      common.get_git_tags(options);
+      common.check_git_merge_status(options);
       /* step 10 */
-      common.check_kubernetes_cluster(options);
+      common.get_git_tags(options);
       /* step 11 */
-      deploy.check_kubernetes_connection(options);
+      common.check_kubernetes_cluster(options);
       /* step 12 */
-      common.check_kubernetes_enviroment(options);
+      deploy.check_kubernetes_connection(options);
       /* step 13 */
-      options = deploy.check_kubernetes_enviroment_configuration(options);
+      common.check_kubernetes_enviroment(options);
       /* step 14 */
-      deploy.check_kubernetes_cluster_conditions(options);
+      options = deploy.check_kubernetes_enviroment_configuration(options);
       /* step 15 */
-      deploy.check_hosts(options);
+      deploy.check_kubernetes_cluster_conditions(options);
       /* step 16 */
-      deploy.check_ports_numbers(options);
+      deploy.check_hosts(options);
       /* step 17 */
-      deploy.check_kubernetes_harbor_key(options);
+      deploy.check_ports_numbers(options);
       /* step 18 */
-      deploy.check_docker_file(options);
+      deploy.check_kubernetes_harbor_key(options);
       /* step 19 */
-      deploy.check_docker(options);
+      deploy.check_docker_file(options);
       /* step 20 */
-      deploy.check_docker_running(options);
+      deploy.check_docker(options);
       /* step 21 */
-      deploy.check_docker_login(options);
+      deploy.check_docker_running(options);
       /* step 22 */
-      deploy.check_bratiska_build_envs(options);
+      deploy.check_docker_login(options);
       /* step 23 */
-      deploy.build_docker_image(options);
+      deploy.check_bratiska_build_envs(options);
       /* step 24 */
-      deploy.check_docker_image(options);
+      deploy.build_docker_image(options);
       /* step 25 */
-      deploy.clean_bratiska_build_envs(options);
+      deploy.check_docker_image(options);
       /* step 26 */
-      deploy.push_docker_image(options);
+      deploy.clean_bratiska_build_envs(options);
       /* step 27 */
-      deploy.check_pushed_image(options);
+      deploy.push_docker_image(options);
       /* step 28 */
-      deploy.clean_docker_image(options);
+      deploy.check_pushed_image(options);
       /* step 29 */
-      deploy.create_kustomize_env_vars(options);
+      deploy.clean_docker_image(options);
       /* step 30 */
-      deploy.build_kustomize(options);
+      deploy.create_kustomize_env_vars(options);
       /* step 31 */
-      deploy.check_kustomize(options);
+      deploy.build_kustomize(options);
       /* step 32 */
-      deploy.deploy_kubernetes(options);
+      deploy.check_kustomize(options);
       /* step 33 */
-      deploy.clean_kustomize(options);
+      deploy.deploy_kubernetes(options);
       /* step 34 */
+      deploy.clean_kustomize(options);
+      /* step 35 */
       deploy.check_deployment(options);
     });
 

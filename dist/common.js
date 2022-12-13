@@ -9,11 +9,13 @@ const get_git_user_info_1 = require("./common/get_git_user_info");
 const get_git_commits_1 = require("./common/get_git_commits");
 const check_git_repo_name_1 = require("./common/check_git_repo_name");
 const get_git_branch_1 = require("./common/get_git_branch");
+const get_git_current_branch_1 = require("./common/get_git_current_branch");
 const get_git_fetch_1 = require("./common/get_git_fetch");
 const get_git_pull_1 = require("./common/get_git_pull");
 const get_git_status_1 = require("./common/get_git_status");
 const check_git_merge_status_1 = require("./common/check_git_merge_status");
 const get_git_tags_1 = require("./common/get_git_tags");
+
 class Common {
   show_options(options) {
     (0, show_options_1.show_options)(options);
@@ -45,6 +47,10 @@ class Common {
 
   get_git_branch(options) {
     (0, get_git_branch_1.get_git_branch)(options);
+  }
+
+  get_git_current_branch(options) {
+    (0, get_git_current_branch_1.get_git_current_branch)(options);
   }
 
   check_git_repo_name(options) {

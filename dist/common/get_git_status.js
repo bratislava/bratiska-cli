@@ -45,10 +45,10 @@ function get_git_status(options) {
   options.untracked = false;
   if (status_bash.res !== "" && options.tag_command === false) {
     options.untracked = true;
-    helpers.spacer_line(`Untracked: `);
     helpers.print_warning("We have untracked changes in the repo, adding the flag \"untracked\"");
+  } else {
+    helpers.ok();
   }
-  helpers.ok();
   return options;
 }
 exports.get_git_status = get_git_status;

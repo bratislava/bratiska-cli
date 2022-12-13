@@ -10,21 +10,8 @@ export function get_git_branch(options: Options) {
     return;
   }
 
-  options.branch = '';
-
-  const branch_bash = commands.git_current_branch();
-  helpers.print_if_debug_bash(options, 'branch_bash', branch_bash);
-  branch_bash.res = '';
-  if (branch_bash.err !== '') {
-    throw new Error(
-      'There was an issue obtaining the git branch name! Do you have git installed?',
-    );
-  }
-  options.branch = branch_bash.res;
-  if (options.branch !== 'HEAD' && options.branch !== '') {
-    helpers.spacer_log(`Current branch from HEAD: `);
-    helpers.print_important_info(`${options.branch}`);
-    return options;
+  if (options.branch === undefined) {
+    options.branch = '';
   }
 
   const github_ref = process.env['GITHUB_REF'];
