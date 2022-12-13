@@ -28,7 +28,8 @@ export function check_git_repo_name(options: Options) {
   if (
     options.repo_name != options.deployment &&
     !~options.deployment.toLowerCase().indexOf('strapi') &&
-    !~options.deployment.toLowerCase().indexOf('next')
+    !~options.deployment.toLowerCase().indexOf('next') &&
+    !~options.deployment.toLowerCase().indexOf('planner-live-api')
   ) {
     throw Error(
       `You have repository name mismatch. Git repo name: ${options.repo_name} != package.json name: ${options.deployment}. Please fix the names, that they match with the repository name and project.json name.`,

@@ -1,7 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
 import { Options } from '../types';
-import { spacer_log } from '../helpers';
 
 export function get_git_commits(options: Options) {
   const step = helpers.step(options);
