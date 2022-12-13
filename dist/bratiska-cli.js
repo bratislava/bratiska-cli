@@ -35,7 +35,7 @@ const deploy_1 = require("./deploy");
 const tag_1 = require("./tag");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "2.3.7";
+const version = "2.3.8";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -118,6 +118,7 @@ try {
     .option("-debug, --debug", "Debugging")
     .option("-beta, --beta", "Beta features")
     .option("-no_image_repo_check, --no_image_repo_check", "No Image repository check")
+    .option("-no_pull, --no_pull", "If you dont want to git pull from origin during tag")
     .option("-force, --force <pass>", "Force")
     .action((options) => {
       /* step 0 */

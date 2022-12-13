@@ -9,7 +9,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.3.7';
+const version = '2.3.8';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -132,6 +132,10 @@ try {
     .option(
       '-no_image_repo_check, --no_image_repo_check',
       'No Image repository check',
+    )
+    .option(
+      '-no_pull, --no_pull',
+      'If you dont want to git pull from origin during tag',
     )
     .option('-force, --force <pass>', 'Force')
     .action((options) => {

@@ -37,6 +37,12 @@ function get_git_pull(options) {
     helpers.skipping();
     return;
   }
+  const branch_bash = commands.git_current_branch();
+  helpers.print_if_debug_bash(options, "branch_bash", branch_bash);
+  branch_bash.res = "";
+  if (branch_bash.err !== "") {
+    throw new Error("There was an issue obtaining the git branch name! Do you have git installed?");
+  }
   const pull_bash = commands.git_pull_origin();
   helpers.print_if_debug_bash(options, "pull_bash", pull_bash);
   if (pull_bash.res === "Already up to date.") {
