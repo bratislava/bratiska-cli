@@ -32,10 +32,10 @@ const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 const compare_versions_1 = require("compare-versions");
 function show_version(options, local_bratiska_version) {
-    options.bratiska_cli_version = local_bratiska_version;
-    options.step = 0;
-    console.log(local_bratiska_version);
-    const github_package_json = commands.get_bratiska_cli_git_package_json();
+  options.bratiska_cli_version = local_bratiska_version;
+  options.step = 0;
+  console.log(local_bratiska_version);
+  const github_package_json = commands.get_bratiska_cli_git_package_json();
   if (github_package_json !== "") {
     const package_obj = JSON.parse(github_package_json);
     const github_package_version = package_obj.version;
@@ -49,8 +49,8 @@ function show_version(options, local_bratiska_version) {
       } else {
         helpers.sleep(3000);
       }
-        }
-        console.log();
     }
+    console.log();
+  }
 }
 exports.show_version = show_version;

@@ -709,13 +709,10 @@ function get_final_branch(options, branch_list_in_string) {
   }
   return false;
 }
-
 exports.get_final_branch = get_final_branch;
-
 function sleep(time) {
   const stop = new Date().getTime();
   while (new Date().getTime() < stop + time) {
   }
 }
-
 exports.sleep = sleep;
