@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug_bash = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_error_line_spacer = exports.print_error_line = exports.print_error = exports.print_warning_line = exports.print_warning = exports.print_important_info_line = exports.print_important_info_spacer = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.spacer_log = exports.spacer_line = exports.spacer = exports.line = exports.log = void 0;
-exports.get_final_branch = exports.tag_value = exports.calculate_version_diff = exports.is_allowed_env = exports.step = exports.print_options = void 0;
+exports.sleep = exports.get_final_branch = exports.tag_value = exports.calculate_version_diff = exports.is_allowed_env = exports.step = exports.print_options = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -529,20 +529,15 @@ function print_options(options) {
   }
 }
 exports.print_options = print_options;
-
 function step(options) {
   options.step++;
   return options.step;
 }
-
 exports.step = step;
-
 function is_allowed_env(env) {
   return ALLOWED_ENVIRONMENTS.includes(env);
 }
-
 exports.is_allowed_env = is_allowed_env;
-
 function increment_bug(version) {
   const terms = version.split(".").map(function(e) {
     return parseInt(e);
@@ -556,7 +551,6 @@ function increment_bug(version) {
   }
   return terms.join(".");
 }
-
 function calculate_version_diff(v1, v2) {
   const v1_terms = v1.split(".").map(function(e) {
     return parseInt(e);
@@ -571,9 +565,7 @@ function calculate_version_diff(v1, v2) {
     (v2_terms[1] - v1_terms[1]) * 10 +
     (v2_terms[2] - v1_terms[2]));
 }
-
 exports.calculate_version_diff = calculate_version_diff;
-
 function increment_feature(version) {
   const terms = version.split(".").map(function(e) {
     return parseInt(e);
@@ -717,4 +709,13 @@ function get_final_branch(options, branch_list_in_string) {
   }
   return false;
 }
+
 exports.get_final_branch = get_final_branch;
+
+function sleep(time) {
+  const stop = new Date().getTime();
+  while (new Date().getTime() < stop + time) {
+  }
+}
+
+exports.sleep = sleep;

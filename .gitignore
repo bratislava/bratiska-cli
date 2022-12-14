@@ -112,3 +112,4 @@ kubernetes/
 .env.dev
 .env.production.local
 .env.bratiska-cli-build.dev
+.package-lock.json

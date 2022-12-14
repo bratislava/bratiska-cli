@@ -23,7 +23,7 @@ export function show_version(options: Options, local_bratiska_version: string) {
     );
 
     if (compare_result === 1) {
-      helpers.print_important_info(
+      helpers.print_warning(
         `There is a newer bratiska-cli version (${github_package_version}) for you available. Please update with \`yarn global upgrade\` `,
       );
 
@@ -36,6 +36,8 @@ export function show_version(options: Options, local_bratiska_version: string) {
         throw new Error(
           `Your bratiska-cli version (${local_bratiska_version}) is at-least four updates old, please update it, to continue using it!`,
         );
+      } else {
+        helpers.sleep(3000);
       }
     }
 

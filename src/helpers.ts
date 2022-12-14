@@ -832,3 +832,8 @@ export function get_final_branch(
 
   return false;
 }
+
+export function sleep(time: number) {
+  const stop = new Date().getTime();
+  while (new Date().getTime() < stop + time) {}
+}
