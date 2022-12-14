@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.get_git_current_branch = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function get_git_current_branch(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Getting current git branch...`);
@@ -41,11 +40,11 @@ function get_git_current_branch(options) {
   options.branch = "";
   const branch_bash = commands.git_current_branch();
   helpers.print_if_debug_bash(options, "branch_bash", branch_bash);
-  branch_bash.res = "";
   if (branch_bash.err !== "") {
     throw new Error("There was an issue obtaining the git branch name! Do you have git installed?");
   }
   options.branch = branch_bash.res;
+  helpers.print_if_debug(options, `branch: ${options.branch}`);
   helpers.spacer_log(`Current git branch from HEAD: `);
   if (options.branch !== "HEAD" && options.branch !== "") {
     helpers.print_important_info(`${options.branch}`);
@@ -54,5 +53,4 @@ function get_git_current_branch(options) {
   }
   return options;
 }
-
 exports.get_git_current_branch = get_git_current_branch;

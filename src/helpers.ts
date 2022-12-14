@@ -620,6 +620,23 @@ function increment_bug(version: string) {
   return terms.join('.');
 }
 
+export function calculate_version_diff(v1: string, v2: string) {
+  const v1_terms = v1.split('.').map(function (e) {
+    return parseInt(e);
+  });
+  const v2_terms = v2.split('.').map(function (e) {
+    return parseInt(e);
+  });
+  if (v1_terms.length != 3 || v2_terms.length != 3) {
+    return 0;
+  }
+  return (
+    (v2_terms[0] - v1_terms[0]) * 100 +
+    (v2_terms[1] - v1_terms[1]) * 10 +
+    (v2_terms[2] - v1_terms[2])
+  );
+}
+
 function increment_feature(version: string) {
   const terms = version.split('.').map(function (e) {
     return parseInt(e);

@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.load_json = exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug_bash = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_error_line_spacer = exports.print_error_line = exports.print_error = exports.print_warning_line = exports.print_warning = exports.print_important_info_line = exports.print_important_info_spacer = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.spacer_log = exports.spacer_line = exports.spacer = exports.line = exports.log = void 0;
-exports.get_final_branch = exports.tag_value = exports.is_allowed_env = exports.step = exports.print_options = void 0;
+exports.get_final_branch = exports.tag_value = exports.calculate_version_diff = exports.is_allowed_env = exports.step = exports.print_options = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -250,11 +250,11 @@ function capitalize(s) {
 }
 exports.capitalize = capitalize;
 function check_ports(options) {
-    const env_path_specific = kustomize_folder_path(options) + '/.env';
-    const env_path_base = kustomize_folder_base(options) + '/.env';
-    const env_path_main = options.pwd + '/.env';
-    print_if_debug(options, `env_path_specific: ${env_path_specific}`);
-    print_if_debug(options, `env_path_base: ${env_path_base}`);
+  const env_path_specific = kustomize_folder_path(options) + "/.env";
+  const env_path_base = kustomize_folder_base(options) + "/.env";
+  const env_path_main = options.pwd + "/.env";
+  print_if_debug(options, `env_path_specific: ${env_path_specific}`);
+  print_if_debug(options, `env_path_base: ${env_path_base}`);
   print_if_debug(options, `env_path_main: ${env_path_main}`);
   print_if_debug(options, `local terminal env['PORT']: ${process.env["PORT"]}`);
   dotenv_1.default.config({ path: env_path_main });
@@ -263,18 +263,17 @@ function check_ports(options) {
   print_if_debug(options, `env_path_base env['PORT']: ${process.env["PORT"]}`);
   dotenv_1.default.config({ override: true, path: env_path_specific });
   print_if_debug(options, `env_path_specific env['PORT']: ${process.env["PORT"]}`);
-    if (typeof process.env['PORT'] === 'undefined') {
-      options.app_port = "3000";
-      line(` using default app port `);
-      print_important_info_line(`PORT=${options.app_port}`);
-      line(`...`);
-    }
-    else {
-        options.app_port = process.env['PORT'];
-      line(` using app port from env `);
-      print_important_info_line(`PORT=${options.app_port}`);
-      line(`...`);
-    }
+  if (typeof process.env["PORT"] === "undefined") {
+    options.app_port = "3000";
+    line(` using default app port `);
+    print_important_info_line(`PORT=${options.app_port}`);
+    line(`...`);
+  } else {
+    options.app_port = process.env["PORT"];
+    line(` using app port from env `);
+    print_important_info_line(`PORT=${options.app_port}`);
+    line(`...`);
+  }
 }
 exports.check_ports = check_ports;
 function map_cluster_to_env(cluster) {
@@ -530,15 +529,20 @@ function print_options(options) {
   }
 }
 exports.print_options = print_options;
+
 function step(options) {
   options.step++;
   return options.step;
 }
+
 exports.step = step;
+
 function is_allowed_env(env) {
   return ALLOWED_ENVIRONMENTS.includes(env);
 }
+
 exports.is_allowed_env = is_allowed_env;
+
 function increment_bug(version) {
   const terms = version.split(".").map(function(e) {
     return parseInt(e);
@@ -552,6 +556,24 @@ function increment_bug(version) {
   }
   return terms.join(".");
 }
+
+function calculate_version_diff(v1, v2) {
+  const v1_terms = v1.split(".").map(function(e) {
+    return parseInt(e);
+  });
+  const v2_terms = v2.split(".").map(function(e) {
+    return parseInt(e);
+  });
+  if (v1_terms.length != 3 || v2_terms.length != 3) {
+    return 0;
+  }
+  return ((v2_terms[0] - v1_terms[0]) * 100 +
+    (v2_terms[1] - v1_terms[1]) * 10 +
+    (v2_terms[2] - v1_terms[2]));
+}
+
+exports.calculate_version_diff = calculate_version_diff;
+
 function increment_feature(version) {
   const terms = version.split(".").map(function(e) {
     return parseInt(e);
