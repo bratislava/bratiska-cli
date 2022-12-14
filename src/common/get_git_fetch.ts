@@ -23,10 +23,9 @@ export function get_git_fetch(options: Options) {
   const fetch_bash = commands.git_fetch_origin();
   helpers.print_if_debug_bash(options, 'fetch_bash', fetch_bash);
 
-  if (fetch_bash.err !== '') {
+  if (fetch_bash.err.includes('Username')) {
     throw new Error(
-      'There was an issue fetching changes from git origin! Error:' +
-        fetch_bash.err,
+      `There was an issue fetching changes from git origin! You don\`t have access to remote repo from this terminal. Please try to run 'git fetch' in this terminal window to see output.`,
     );
   }
 
