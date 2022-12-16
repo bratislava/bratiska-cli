@@ -33,6 +33,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
+const helpers_1 = require("../helpers");
 function check_kustomize(options) {
   helpers.line(`(${helpers.step(options)}) Checking the kustomize manifest...`);
   if (options.build_image || options.build_image_no_registry) {
@@ -42,6 +43,11 @@ function check_kustomize(options) {
   const manifest_path = helpers.manifest_path(options);
   if (!fs_1.default.existsSync(manifest_path)) {
     throw new Error(`We had an error creating the kustomize manifest. No kustomize file was found!`);
+  }
+  // print manifest_path file content if options.debug is true
+  if (options.debug) {
+    const manifest_content = fs_1.default.readFileSync(manifest_path, "utf8");
+    (0, helpers_1.print_if_debug)(options, `manifest_content: ${manifest_content}`);
   }
   const stats = fs_1.default.statSync(manifest_path);
   if (stats.size < 10) {

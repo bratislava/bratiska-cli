@@ -8,6 +8,15 @@ export function show_version(options: Options, local_bratiska_version: string) {
   options.step = 0;
   console.log(local_bratiska_version);
 
+  if (process.env['CI']) {
+    helpers.print_if_debug(
+      options,
+      `CI pipelines environment detected. Skipping version check.`,
+    );
+    console.log();
+    return;
+  }
+
   const github_package_json = commands.get_bratiska_cli_git_package_json();
   if (github_package_json !== '') {
     const package_obj = JSON.parse(github_package_json);
@@ -32,7 +41,7 @@ export function show_version(options: Options, local_bratiska_version: string) {
         github_package_version,
       );
 
-      if (difference >= 4) {
+      if (difference >= 3) {
         throw new Error(
           `Your bratiska-cli version (${local_bratiska_version}) is at-least four updates old, please update it, to continue using it!`,
         );
