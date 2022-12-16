@@ -318,6 +318,9 @@ exports.docker_running = docker_running;
 function get_bratiska_cli_git_package_json() {
   const package_url = "https://raw.githubusercontent.com/bratislava/bratiska-cli/master/package.json";
   const res = (0, sync_request_1.default)("GET", package_url);
+  if (res.statusCode !== 200) {
+    throw new Error(`We had problems with internet connection to bratiska-cli github repo. Status code: ${res.statusCode}. Error getting package.json from ${package_url}. `);
+  }
   return res.getBody("utf8");
 }
 exports.get_bratiska_cli_git_package_json = get_bratiska_cli_git_package_json;

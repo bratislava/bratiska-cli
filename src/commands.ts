@@ -350,6 +350,11 @@ export function get_bratiska_cli_git_package_json() {
     'https://raw.githubusercontent.com/bratislava/bratiska-cli/master/package.json';
 
   const res = request('GET', package_url);
+  if (res.statusCode !== 200) {
+    throw new Error(
+      `We had problems with internet connection to bratiska-cli github repo. Status code: ${res.statusCode}. Error getting package.json from ${package_url}. `,
+    );
+  }
   return res.getBody('utf8');
 }
 
