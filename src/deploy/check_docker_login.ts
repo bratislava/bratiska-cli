@@ -4,7 +4,7 @@ import { Options } from './../types';
 
 export function check_docker_login(options: Options) {
   helpers.line(`(${helpers.step(options)}) Checking docker login...`);
-  if (options.image || options.build_image_no_registry) {
+  if (options.build_image_no_registry) {
     helpers.skipping();
     return;
   }
