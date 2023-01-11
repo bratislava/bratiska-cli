@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_deployment_logs = exports.kubectl_deployment_events = exports.kubectl_deployment_status_utf8 = exports.kubectl_deployment_status_stdio = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_list_of_brnaches_with_refs = exports.git_get_last_remote_tags = exports.git_origin_commit_tag = exports.git_push_tag = exports.git_delete_tag_origin = exports.git_delete_tag = exports.git_add_tag = exports.git_commit_tag = exports.git_current_commit_short = exports.git_current_commit = exports.git_pull_origin = exports.git_fetch_origin = exports.git_repository_url = exports.git_branch_from_commit = exports.git_current_branch = exports.git_user_email = exports.git_user_name = exports.cd = exports.pwd = void 0;
+exports.kubectl_deployment_logs = exports.kubectl_deployment_events = exports.kubectl_deployment_status_utf8 = exports.kubectl_deployment_status_stdio = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_service_account = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_list_of_brnaches_with_refs = exports.git_get_last_remote_tags = exports.git_origin_commit_tag = exports.git_push_tag = exports.git_delete_tag_origin = exports.git_delete_tag = exports.git_add_tag = exports.git_commit_tag = exports.git_current_commit_short = exports.git_current_commit = exports.git_pull_origin = exports.git_fetch_origin = exports.git_repository_url = exports.git_branch_from_commit = exports.git_current_branch = exports.git_user_email = exports.git_user_name = exports.cd = exports.pwd = void 0;
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
@@ -223,25 +223,46 @@ function kubectl_pods_admin(options) {
     helpers.print_if_debug(options, `kubectl get pods admin: ${result.stdout}\n ${result.stderr}`);
     return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.kubectl_pods_admin = kubectl_pods_admin;
+
 function kubectl_pods(options) {
-    const result = child_process_1.default.spawnSync('kubectl', ['get', 'pods', '-n', options.namespace, '--request-timeout=3'], {
-        encoding: 'utf8',
-    });
-    helpers.print_if_debug(options, `kubectl get pods: ${result.stdout}\n ${result.stderr}`);
-    return { res: result.stdout.trim(), err: result.stderr };
+  const result = child_process_1.default.spawnSync("kubectl", ["get", "pods", "-n", options.namespace, "--request-timeout=3"], {
+    encoding: "utf8"
+  });
+  helpers.print_if_debug(options, `kubectl get pods: ${result.stdout}\n ${result.stderr}`);
+  return { res: result.stdout.trim(), err: result.stderr };
 }
+
 exports.kubectl_pods = kubectl_pods;
+
+function kubectl_service_account(options) {
+  const result = child_process_1.default.spawnSync("kubectl", [
+    "get",
+    "serviceAccounts",
+    "default",
+    "-n",
+    options.namespace,
+    "--request-timeout=3"
+  ], {
+    encoding: "utf8"
+  });
+  helpers.print_if_debug(options, `kubectl get serviceAccounts: ${result.stdout}\n ${result.stderr}`);
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
+exports.kubectl_service_account = kubectl_service_account;
+
 function kubectl_pull_secret(options) {
-    const result = child_process_1.default.spawnSync('kubectl', [
-        'get',
-        'secret',
-        helpers.pull_secret_name(options),
-        `--namespace=${options.namespace}`,
-    ], {
-        encoding: 'utf8',
-    });
-    return { res: result.stdout.trim(), err: result.stderr };
+  const result = child_process_1.default.spawnSync("kubectl", [
+    "get",
+    "secret",
+    helpers.pull_secret_name(options),
+    `--namespace=${options.namespace}`
+  ], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.kubectl_pull_secret = kubectl_pull_secret;
 function docker() {

@@ -1,6 +1,7 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
 import { Options } from './../types';
+import { kubectl_service_account } from '../commands';
 
 export function check_kubernetes_connection(options: Options) {
   helpers.line(
@@ -17,7 +18,7 @@ export function check_kubernetes_connection(options: Options) {
     helpers.skipping();
     return;
   }
-  const pods = commands.kubectl_pods(options);
+  const pods = commands.kubectl_service_account(options);
   if (pods.err !== '') {
     throw new Error(
       `Kubernetes cluster ${options.cluster} is not reachable from your computer! Maybe turn on VPN or check the internet connection or sign in to the cluster.`,

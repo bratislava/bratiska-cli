@@ -243,6 +243,29 @@ export function kubectl_pods(options: Options): Bash {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
+export function kubectl_service_account(options: Options): Bash {
+  const result = cp.spawnSync(
+    'kubectl',
+    [
+      'get',
+      'serviceAccounts',
+      'default',
+      '-n',
+      <string>options.namespace,
+      '--request-timeout=3',
+    ],
+    {
+      encoding: 'utf8',
+    },
+  );
+
+  helpers.print_if_debug(
+    options,
+    `kubectl get serviceAccounts: ${result.stdout}\n ${result.stderr}`,
+  );
+  return { res: result.stdout.trim(), err: result.stderr };
+}
+
 export function kubectl_pull_secret(options: Options): Bash {
   const result = cp.spawnSync(
     'kubectl',
