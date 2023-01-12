@@ -29,7 +29,7 @@
     "chalk": "^4.1.2",
     "child_process": "^1.0.2",
     "clear": "^0.1.0",
-    "commander": "^9.2.0",
+    "commander": "^9.5.0",
     "compare-versions": "^5.0.1",
     "dotenv": "^16.0.1",
     "figlet": "^1.5.2",
