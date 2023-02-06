@@ -30,8 +30,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_enviroment = void 0;
 const helpers = __importStar(require("../helpers"));
 function check_kubernetes_enviroment(options) {
-  helpers.line(`(${helpers.step(options)}) Checking environment...`);
-  if (options.build_image || options.build_image_no_registry) {
+  helpers.line(`(${helpers.step(options)}) Checking kubernetes environment...`);
+  if (options.build_image ||
+    options.build_image_no_registry ||
+    options.dry_run) {
     if (typeof options.env === "undefined") {
       options.env = "dev";
       helpers.print_if_debug(options, `Environment is not set for --build_image or --build_image_no_registry, setting default environment: ${options.env}`);

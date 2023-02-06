@@ -1,6 +1,6 @@
 {
   "name": "bratiska-cli",
-  "version": "2.3.16",
+  "version": "2.3.17",
   "description": "Simple CLI for deploying Bratislava apps to kubernetes",
   "preferGlobal": true,
   "bin": {
