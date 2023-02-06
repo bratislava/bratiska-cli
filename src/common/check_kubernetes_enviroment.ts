@@ -2,9 +2,13 @@ import * as helpers from '../helpers';
 import { Options } from '../types';
 
 export function check_kubernetes_enviroment(options: Options) {
-  helpers.line(`(${helpers.step(options)}) Checking environment...`);
+  helpers.line(`(${helpers.step(options)}) Checking kubernetes environment...`);
 
-  if (options.build_image || options.build_image_no_registry) {
+  if (
+    options.build_image ||
+    options.build_image_no_registry ||
+    options.dry_run
+  ) {
     if (typeof options.env === 'undefined') {
       options.env = 'dev';
       helpers.print_if_debug(
