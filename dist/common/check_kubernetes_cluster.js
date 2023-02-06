@@ -33,7 +33,9 @@ const commands = __importStar(require("../commands"));
 function check_kubernetes_cluster(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Checking the current Kubernetes cluster...`);
-  if (options.build_image || options.build_image_no_registry) {
+  if (options.build_image ||
+    options.build_image_no_registry ||
+    options.dry_run) {
     helpers.skipping();
     return;
   }
