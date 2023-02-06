@@ -155,7 +155,7 @@ export function show_options(options: Options) {
     }
   }
 
-  if (options.image) {
+  if (options.image && options.no_image_repo_check === false) {
     const img = <string>options.image;
     if (!img.includes(options.deployment)) {
       throw new Error(

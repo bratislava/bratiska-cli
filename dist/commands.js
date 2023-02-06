@@ -223,9 +223,7 @@ function kubectl_pods_admin(options) {
     helpers.print_if_debug(options, `kubectl get pods admin: ${result.stdout}\n ${result.stderr}`);
     return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.kubectl_pods_admin = kubectl_pods_admin;
-
 function kubectl_pods(options) {
   const result = child_process_1.default.spawnSync("kubectl", ["get", "pods", "-n", options.namespace, "--request-timeout=3"], {
     encoding: "utf8"
@@ -233,9 +231,7 @@ function kubectl_pods(options) {
   helpers.print_if_debug(options, `kubectl get pods: ${result.stdout}\n ${result.stderr}`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.kubectl_pods = kubectl_pods;
-
 function kubectl_service_account(options) {
   const result = child_process_1.default.spawnSync("kubectl", [
     "get",
@@ -250,9 +246,7 @@ function kubectl_service_account(options) {
   helpers.print_if_debug(options, `kubectl get serviceAccounts: ${result.stdout}\n ${result.stderr}`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.kubectl_service_account = kubectl_service_account;
-
 function kubectl_pull_secret(options) {
   const result = child_process_1.default.spawnSync("kubectl", [
     "get",
