@@ -228,6 +228,10 @@ export function docker_build_next_env(options: Options) {
   return `${options.pwd}/.env.production.local`;
 }
 
+export function docker_ignore_path(options: Options) {
+  return `${options.pwd}/.dockerignore`;
+}
+
 export function kustomize_folder_base(options: Options) {
   return `${options.pwd}/kubernetes/base`;
 }

@@ -11,6 +11,7 @@ const check_docker_1 = require("./deploy/check_docker");
 const check_docker_login_1 = require("./deploy/check_docker_login");
 const check_docker_running_1 = require("./deploy/check_docker_running");
 const check_bratiska_build_envs_1 = require("./deploy/check_bratiska_build_envs");
+const check_docker_ignore_1 = require("./deploy/check_docker_ignore");
 const build_docker_image_1 = require("./deploy/build_docker_image");
 const check_docker_image_1 = require("./deploy/check_docker_image");
 const clean_bratiska_build_envs_1 = require("./deploy/clean_bratiska_build_envs");
@@ -46,25 +47,36 @@ class Deploy {
     check_docker(options) {
         (0, check_docker_1.check_docker)(options);
     }
-    check_docker_login(options) {
-        (0, check_docker_login_1.check_docker_login)(options);
-    }
-    check_docker_running(options) {
-        (0, check_docker_running_1.check_docker_running)(options);
-    }
-    check_bratiska_build_envs(options) {
-        (0, check_bratiska_build_envs_1.check_bratiska_build_envs)(options);
-    }
-    build_docker_image(options) {
-        (0, build_docker_image_1.build_docker_image)(options);
-    }
-    check_docker_image(options) {
-        (0, check_docker_image_1.check_docker_image)(options);
-    }
-    clean_bratiska_build_envs(options) {
-        (0, clean_bratiska_build_envs_1.clean_bratiska_build_envs)(options);
-    }
-    push_docker_image(options) {
+
+  check_docker_login(options) {
+    (0, check_docker_login_1.check_docker_login)(options);
+  }
+
+  check_docker_running(options) {
+    (0, check_docker_running_1.check_docker_running)(options);
+  }
+
+  check_bratiska_build_envs(options) {
+    (0, check_bratiska_build_envs_1.check_bratiska_build_envs)(options);
+  }
+
+  check_docker_ignore(options) {
+    (0, check_docker_ignore_1.check_docker_ignore)(options);
+  }
+
+  build_docker_image(options) {
+    (0, build_docker_image_1.build_docker_image)(options);
+  }
+
+  check_docker_image(options) {
+    (0, check_docker_image_1.check_docker_image)(options);
+  }
+
+  clean_bratiska_build_envs(options) {
+    (0, clean_bratiska_build_envs_1.clean_bratiska_build_envs)(options);
+  }
+
+  push_docker_image(options) {
         (0, push_docker_image_1.push_docker_image)(options);
     }
     check_pushed_image(options) {

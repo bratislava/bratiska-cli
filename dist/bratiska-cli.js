@@ -35,7 +35,7 @@ const deploy_1 = require("./deploy");
 const tag_1 = require("./tag");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "2.3.17";
+const version = "2.4.0";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -172,28 +172,30 @@ try {
       /* step 23 */
       deploy.check_bratiska_build_envs(options);
       /* step 24 */
-      deploy.build_docker_image(options);
+      deploy.check_docker_ignore(options);
       /* step 25 */
-      deploy.check_docker_image(options);
+      deploy.build_docker_image(options);
       /* step 26 */
-      deploy.clean_bratiska_build_envs(options);
+      deploy.check_docker_image(options);
       /* step 27 */
-      deploy.push_docker_image(options);
+      deploy.clean_bratiska_build_envs(options);
       /* step 28 */
-      deploy.check_pushed_image(options);
+      deploy.push_docker_image(options);
       /* step 29 */
-      deploy.clean_docker_image(options);
+      deploy.check_pushed_image(options);
       /* step 30 */
-      deploy.create_kustomize_env_vars(options);
+      deploy.clean_docker_image(options);
       /* step 31 */
-      deploy.build_kustomize(options);
+      deploy.create_kustomize_env_vars(options);
       /* step 32 */
-      deploy.check_kustomize(options);
+      deploy.build_kustomize(options);
       /* step 33 */
-      deploy.deploy_kubernetes(options);
+      deploy.check_kustomize(options);
       /* step 34 */
-      deploy.clean_kustomize(options);
+      deploy.deploy_kubernetes(options);
       /* step 35 */
+      deploy.clean_kustomize(options);
+      /* step 36 */
       deploy.check_deployment(options);
     });
   commander_1.program.parse(process.argv);

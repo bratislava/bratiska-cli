@@ -32,6 +32,9 @@ export function check_bratiska_build_envs(options: Options) {
     throw new Error(`We had problem creating next env.production.local!`);
   } else {
     helpers.line(` loaded and created...`);
+    if (options.debug) {
+      helpers.line(`${fs.readFileSync(envs_next_file, 'utf8')}`);
+    }
   }
 
   if (options.sentry) {

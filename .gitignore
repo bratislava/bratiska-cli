@@ -113,3 +113,4 @@ kubernetes/
 .env.production.local
 .env.bratiska-cli-build.dev
 .package-lock.json
+.dockerignore

@@ -55,6 +55,9 @@ function check_bratiska_build_envs(options) {
     throw new Error(`We had problem creating next env.production.local!`);
   } else {
     helpers.line(` loaded and created...`);
+    if (options.debug) {
+      helpers.line(`${fs_1.default.readFileSync(envs_next_file, "utf8")}`);
+    }
   }
   if (options.sentry) {
     fs_1.default.appendFileSync(envs_next_file, `\nSENTRY_AUTH_TOKEN=${options.sentry}`);

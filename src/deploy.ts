@@ -10,6 +10,7 @@ import { check_docker } from './deploy/check_docker';
 import { check_docker_login } from './deploy/check_docker_login';
 import { check_docker_running } from './deploy/check_docker_running';
 import { check_bratiska_build_envs } from './deploy/check_bratiska_build_envs';
+import { check_docker_ignore } from './deploy/check_docker_ignore';
 import { build_docker_image } from './deploy/build_docker_image';
 import { check_docker_image } from './deploy/check_docker_image';
 import { clean_bratiska_build_envs } from './deploy/clean_bratiska_build_envs';
@@ -63,6 +64,10 @@ export class Deploy {
 
   check_bratiska_build_envs(options: Options) {
     check_bratiska_build_envs(options);
+  }
+
+  check_docker_ignore(options: Options) {
+    check_docker_ignore(options);
   }
 
   build_docker_image(options: Options) {
