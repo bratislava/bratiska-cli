@@ -23,10 +23,13 @@ export function check_deployment(options: Options) {
       `Deployment was not successfully rolled out. Showing kubernetes deployment events for ${options.deployment}:`,
     );
     commands.kubectl_deployment_events(options);
+    /*
+    //currently disables as it was slowing pipeline
     helpers.print_warning(
       `Showing kubernetes container logs for ${options.deployment}:`,
     );
     commands.kubectl_deployment_logs(options);
+    */
     throw Error(
       `Exiting bratiska-cli with status code 1, because deployment was not successfully rolled out in kubernetes.`,
     );
