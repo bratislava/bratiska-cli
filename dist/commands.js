@@ -357,30 +357,27 @@ function kubect_apply_to_kubernetes(manifest_path) {
   return { res: result.stdout, err: result.stderr };
 }
 exports.kubect_apply_to_kubernetes = kubect_apply_to_kubernetes;
-
 function kubectl_deploy_status_stdio(kind, options) {
   helpers.log(chalk_1.default.reset(""));
   child_process_1.default.spawnSync("kubectl", [
     "rollout",
     "status",
     kind,
-    `${options.deployment}-${helpers.kind_to_app(kind)}}`,
+    `${options.deployment}-${helpers.kind_to_app(kind)}`,
     `--namespace=${options.namespace}`,
     `--timeout=${options.kubectl_timeout}s`
   ], {
     stdio: "inherit"
   });
 }
-
 exports.kubectl_deploy_status_stdio = kubectl_deploy_status_stdio;
-
 function kubectl_deploy_status_utf8(kind, options) {
   helpers.log(chalk_1.default.reset(""));
   const result = child_process_1.default.spawnSync("kubectl", [
     "rollout",
     "status",
     kind,
-    `${options.deployment}-${helpers.kind_to_app(kind)}}`,
+    `${options.deployment}-${helpers.kind_to_app(kind)}`,
     `--namespace=${options.namespace}`,
     `--timeout=${options.kubectl_timeout}s`
   ], {
@@ -388,9 +385,7 @@ function kubectl_deploy_status_utf8(kind, options) {
   });
   return { res: result.stdout.trim(), err: result.stderr };
 }
-
 exports.kubectl_deploy_status_utf8 = kubectl_deploy_status_utf8;
-
 function kubectl_deploy_events(kind, options) {
   helpers.log(chalk_1.default.reset(""));
   const cmd = `kubectl get events --namespace=${options.namespace} --sort-by='.metadata.creationTimestamp' | grep -i ${options.deployment}-${helpers.kind_to_app(kind)}`;
@@ -399,9 +394,7 @@ function kubectl_deploy_events(kind, options) {
     stdio: "inherit"
   });
 }
-
 exports.kubectl_deploy_events = kubectl_deploy_events;
-
 function kubectl_deployment_logs(options) {
   helpers.log(chalk_1.default.reset(""));
   child_process_1.default.spawnSync("kubectl", [
