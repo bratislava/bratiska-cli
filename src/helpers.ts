@@ -463,6 +463,7 @@ export function load_package(options?: Options) {
       repository_uri: '',
       step: 0,
       pwd: pwd,
+      kustomize_kinds: [],
     };
   }
 
@@ -840,4 +841,13 @@ export function get_final_branch(
 export function sleep(time: number) {
   const stop = new Date().getTime();
   while (new Date().getTime() < stop + time) {}
+}
+
+export function kind_to_app(kind: string) {
+  switch (kind) {
+    case 'deployment':
+      return 'app';
+    case 'statefulset':
+      return 'database';
+  }
 }

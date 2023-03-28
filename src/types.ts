@@ -11,6 +11,7 @@ export interface Options
   app_port: string;
   step: number;
   registry: string;
+  kustomize_kinds: string[];
 }
 
 export interface Bash {

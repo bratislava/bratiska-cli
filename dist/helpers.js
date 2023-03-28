@@ -27,7 +27,7 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_ignore_path = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug_bash = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_error_line_spacer = exports.print_error_line = exports.print_error = exports.print_warning_line = exports.print_warning = exports.print_important_info_line = exports.print_important_info_spacer = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.spacer_log = exports.spacer_line = exports.spacer = exports.line = exports.log = void 0;
-exports.sleep = exports.get_final_branch = exports.tag_value = exports.calculate_version_diff = exports.is_allowed_env = exports.step = exports.print_options = exports.load_json = void 0;
+exports.kind_to_app = exports.sleep = exports.get_final_branch = exports.tag_value = exports.calculate_version_diff = exports.is_allowed_env = exports.step = exports.print_options = exports.load_json = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -226,39 +226,27 @@ exports.kustomize_folder_path = kustomize_folder_path;
 function bratiska_cli_build_env_filename(options) {
   return `.env.bratiska-cli-build.${options.env}`;
 }
-
 exports.bratiska_cli_build_env_filename = bratiska_cli_build_env_filename;
-
 function bratiska_cli_build_dot_env_path(options) {
   return `${options.pwd}/${bratiska_cli_build_env_filename(options)}`;
 }
-
 exports.bratiska_cli_build_dot_env_path = bratiska_cli_build_dot_env_path;
-
 function docker_build_next_env(options) {
   return `${options.pwd}/.env.production.local`;
 }
-
 exports.docker_build_next_env = docker_build_next_env;
-
 function docker_ignore_path(options) {
   return `${options.pwd}/.dockerignore`;
 }
-
 exports.docker_ignore_path = docker_ignore_path;
-
 function kustomize_folder_base(options) {
   return `${options.pwd}/kubernetes/base`;
 }
-
 exports.kustomize_folder_base = kustomize_folder_base;
-
 function pull_secret_name(options) {
   return `harbor-secret-${options.env}-${options.namespace}-bratiska-cli`;
 }
-
 exports.pull_secret_name = pull_secret_name;
-
 function capitalize(s) {
   if (typeof s !== "string")
     return "";
@@ -435,7 +423,8 @@ function load_package(options) {
         registry: "",
         repository_uri: "",
         step: 0,
-        pwd: pwd
+        pwd: pwd,
+        kustomize_kinds: []
       };
     }
     const path = options.pwd + '/package.json';
@@ -725,10 +714,24 @@ function get_final_branch(options, branch_list_in_string) {
   }
   return false;
 }
+
 exports.get_final_branch = get_final_branch;
+
 function sleep(time) {
   const stop = new Date().getTime();
   while (new Date().getTime() < stop + time) {
   }
 }
+
 exports.sleep = sleep;
+
+function kind_to_app(kind) {
+  switch (kind) {
+    case "deployment":
+      return "app";
+    case "statefulset":
+      return "database";
+  }
+}
+
+exports.kind_to_app = kind_to_app;

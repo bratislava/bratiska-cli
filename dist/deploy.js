@@ -38,15 +38,18 @@ class Deploy {
     check_hosts(options) {
         (0, check_hosts_1.check_hosts)(options);
     }
-    check_kubernetes_harbor_key(options) {
-        (0, check_kubernetes_harbor_key_1.check_kubernetes_harbor_key)(options);
-    }
-    check_docker_file(options) {
-        (0, check_docker_file_1.check_docker_file)(options);
-    }
-    check_docker(options) {
-        (0, check_docker_1.check_docker)(options);
-    }
+
+  check_kubernetes_harbor_key(options) {
+    (0, check_kubernetes_harbor_key_1.check_kubernetes_harbor_key)(options);
+  }
+
+  check_docker_file(options) {
+    (0, check_docker_file_1.check_docker_file)(options);
+  }
+
+  check_docker(options) {
+    (0, check_docker_1.check_docker)(options);
+  }
 
   check_docker_login(options) {
     (0, check_docker_login_1.check_docker_login)(options);
@@ -77,16 +80,19 @@ class Deploy {
   }
 
   push_docker_image(options) {
-        (0, push_docker_image_1.push_docker_image)(options);
-    }
-    check_pushed_image(options) {
-        (0, check_pushed_image_1.check_pushed_image)(options);
-    }
-    clean_docker_image(options) {
-        (0, clean_docker_image_1.clean_docker_image)(options);
-    }
-    check_ports_numbers(options) {
-        (0, check_ports_numbers_1.check_ports_numbers)(options);
+    (0, push_docker_image_1.push_docker_image)(options);
+  }
+
+  check_pushed_image(options) {
+    (0, check_pushed_image_1.check_pushed_image)(options);
+  }
+
+  clean_docker_image(options) {
+    (0, clean_docker_image_1.clean_docker_image)(options);
+  }
+
+  check_ports_numbers(options) {
+    (0, check_ports_numbers_1.check_ports_numbers)(options);
     }
     create_kustomize_env_vars(options) {
         (0, create_kustomize_env_vars_1.create_kustomize_env_vars)(options);

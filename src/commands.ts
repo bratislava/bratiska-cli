@@ -406,15 +406,15 @@ export function kubect_apply_to_kubernetes(manifest_path: string) {
   return { res: result.stdout, err: result.stderr };
 }
 
-export function kubectl_deployment_status_stdio(options: Options) {
+export function kubectl_deploy_status_stdio(kind: string, options: Options) {
   helpers.log(chalk.reset(''));
   cp.spawnSync(
     'kubectl',
     [
       'rollout',
       'status',
-      'deployment',
-      `${options.deployment}-app`,
+      kind,
+      `${options.deployment}-${helpers.kind_to_app(kind)}}`,
       `--namespace=${options.namespace}`,
       `--timeout=${options.kubectl_timeout}s`,
     ],
@@ -424,15 +424,15 @@ export function kubectl_deployment_status_stdio(options: Options) {
   );
 }
 
-export function kubectl_deployment_status_utf8(options: Options) {
+export function kubectl_deploy_status_utf8(kind: string, options: Options) {
   helpers.log(chalk.reset(''));
   const result = cp.spawnSync(
     'kubectl',
     [
       'rollout',
       'status',
-      'deployment',
-      `${options.deployment}-app`,
+      kind,
+      `${options.deployment}-${helpers.kind_to_app(kind)}}`,
       `--namespace=${options.namespace}`,
       `--timeout=${options.kubectl_timeout}s`,
     ],
@@ -444,11 +444,15 @@ export function kubectl_deployment_status_utf8(options: Options) {
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
-export function kubectl_deployment_events(options: Options) {
+export function kubectl_deploy_events(kind: string, options: Options) {
   helpers.log(chalk.reset(''));
 
-  const cmd = `kubectl get events --namespace=${options.namespace} --sort-by='.metadata.creationTimestamp' | grep -i ${options.deployment}-app`;
-  helpers.print_if_debug(options, `kubectl deployment logs: ${cmd}`);
+  const cmd = `kubectl get events --namespace=${
+    options.namespace
+  } --sort-by='.metadata.creationTimestamp' | grep -i ${
+    options.deployment
+  }-${helpers.kind_to_app(kind)}`;
+  helpers.print_if_debug(options, `kubectl deploy logs: ${cmd}`);
 
   execSync(cmd, {
     stdio: 'inherit',

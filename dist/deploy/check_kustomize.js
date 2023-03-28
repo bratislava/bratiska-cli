@@ -44,15 +44,29 @@ function check_kustomize(options) {
   if (!fs_1.default.existsSync(manifest_path)) {
     throw new Error(`We had an error creating the kustomize manifest. No kustomize file was found!`);
   }
-  // print manifest_path file content if options.debug is true
-  if (options.debug) {
-    const manifest_content = fs_1.default.readFileSync(manifest_path, "utf8");
-    (0, helpers_1.print_if_debug)(options, `manifest_content: ${manifest_content}`);
-  }
+  // load manifest file content
+  const manifest_content = fs_1.default.readFileSync(manifest_path, "utf8");
+  (0, helpers_1.print_if_debug)(options, `manifest_content: ${manifest_content}`);
   const stats = fs_1.default.statSync(manifest_path);
   if (stats.size < 10) {
     throw new Error(`We had an error creating the kustomize manifest. The Kustomize file is empty! Check issue logs on kustomize build.`);
   }
+  // match of kubernetes kinds form the manifest file without kind string
+  const kinds = manifest_content.match(/(?<=kind: ).*/g);
+  // if no kinds were found in the manifest file, throw an error
+  if (!kinds) {
+    throw new Error(`We had an error creating the kustomize manifest. No Kubernetes kinds were found in the manifest file!`);
+  }
+  // if no kinds were found in the manifest file, throw an error
+  if (kinds.length < 1) {
+    throw new Error(`We had an error creating the kustomize manifest. No Kubernetes kinds were found in the manifest file!`);
+  }
+  (0, helpers_1.print_if_debug)(options, `${kinds.length} kinds found: ${kinds}`);
+  // convert all kinds to lowercase with foreach
+  kinds.forEach((kind, index) => {
+    kinds[index] = kind.toLowerCase();
+  });
+  options.kustomize_kinds = kinds;
   helpers.ok();
 }
 exports.check_kustomize = check_kustomize;

@@ -39,15 +39,26 @@ function check_deployment(options) {
     helpers.skipping();
     return;
   }
-  commands.kubectl_deployment_status_stdio(options);
-  const status_bash = commands.kubectl_deployment_status_utf8(options);
+  //check if deployment kind is in kubernetes kinds array
+  let kind = "deployment";
+  if (options.kustomize_kinds.includes("statefulset") &&
+    !options.kustomize_kinds.includes("deployment")) {
+    kind = "statefulset";
+  }
+  commands.kubectl_deploy_status_stdio(kind, options);
+  const status_bash = commands.kubectl_deploy_status_utf8(kind, options);
   helpers.print_if_debug_bash(options, "status_bash", status_bash);
   if (status_bash.err) {
-    helpers.print_warning(`Deployment was not successfully rolled out. Showing kubernetes deployment events for ${options.deployment}:`);
-    commands.kubectl_deployment_events(options);
-    helpers.print_warning(`Showing kubernetes container logs for ${options.deployment}:`);
+    helpers.print_warning(`Deploy was not successfully rolled out. Showing kubernetes deploy events for ${options.deployment}:`);
+    commands.kubectl_deploy_events(kind, options);
+    /*
+    //currently disables as it was slowing pipeline
+    helpers.print_warning(
+      `Showing kubernetes container logs for ${options.deployment}:`,
+    );
     commands.kubectl_deployment_logs(options);
-    throw Error(`Exiting bratiska-cli with status code 1, because deployment was not successfully rolled out in kubernetes.`);
+    */
+    throw Error(`Exiting bratiska-cli with status code 1, because deploy was not successfully rolled out in kubernetes.`);
   }
   helpers.finished();
 }
