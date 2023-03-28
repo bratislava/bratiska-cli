@@ -31,11 +31,11 @@ exports.build_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
 function build_docker_image(options) {
-    helpers.line(`(${helpers.step(options)}) Building docker image for platform linux/amd64...`);
-    if (options.image) {
-        helpers.skipping();
-        return;
-    }
+  helpers.line(`(${helpers.step(options)}) Building docker image for platform linux/amd64...`);
+  if (options.image) {
+    helpers.skipping();
+    return;
+  }
   const image_tag = helpers.image_tag(options);
   helpers.spacer_line(`\n${helpers.spacer()} Registry:  `);
   helpers.print_important_info(`${helpers.image(options)}`);
@@ -61,6 +61,6 @@ function build_docker_image(options) {
     helpers.print_if_debug(options, tag_bash.res);
     helpers.print_if_debug(options, tag_bash.err);
   }
-    helpers.finished();
+  helpers.finished();
 }
 exports.build_docker_image = build_docker_image;
