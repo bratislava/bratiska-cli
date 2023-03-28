@@ -16,8 +16,8 @@ import { check_git_merge_status } from './common/check_git_merge_status';
 import { get_git_tags } from './common/get_git_tags';
 
 export class Common {
-  show_options(options: Options) {
-    show_options(options);
+  show_options(env: string, options: Options) {
+    show_options(env, options);
   }
 
   show_version(options: Options, version: string) {

@@ -26,9 +26,9 @@ const deploy_kubernetes_1 = require("./deploy/deploy_kubernetes");
 const clean_kustomize_1 = require("./deploy/clean_kustomize");
 const check_deployment_1 = require("./deploy/check_deployment");
 class Deploy {
-    check_kubernetes_connection(options) {
-        (0, check_kubernetes_connection_1.check_kubernetes_connection)(options);
-    }
+  check_kubernetes_connection(options) {
+    (0, check_kubernetes_connection_1.check_kubernetes_connection)(options);
+  }
 
   check_kubernetes_enviroment_configuration(options) {
     return (0, check_kubernetes_enviroment_configuration_1.check_kubernetes_enviroment_configuration)(options);
@@ -109,14 +109,17 @@ class Deploy {
   check_kustomize(options) {
     (0, check_kustomize_1.check_kustomize)(options);
   }
-    deploy_kubernetes(options) {
-        (0, deploy_kubernetes_1.deploy_kubernetes)(options);
-    }
-    clean_kustomize(options) {
-        (0, clean_kustomize_1.clean_kustomize)(options);
-    }
-    check_deployment(options) {
-        (0, check_deployment_1.check_deployment)(options);
-    }
+
+  deploy_kubernetes(options) {
+    (0, deploy_kubernetes_1.deploy_kubernetes)(options);
+  }
+
+  clean_kustomize(options) {
+    (0, clean_kustomize_1.clean_kustomize)(options);
+  }
+
+  check_deployment(options) {
+    (0, check_deployment_1.check_deployment)(options);
+  }
 }
 exports.Deploy = Deploy;

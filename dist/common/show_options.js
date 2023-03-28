@@ -36,7 +36,14 @@ const commands = __importStar(require("../commands"));
 const path = __importStar(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const crypto_1 = __importDefault(require("crypto"));
-function show_options(options) {
+
+function show_options(env, options) {
+  if (typeof env !== "undefined" &&
+    env !== "" &&
+    typeof options.env === "undefined") {
+    options.env = env;
+  }
+  helpers.print_if_debug(options, `options.env from start: ${options.env}`);
   const pwd = commands.pwd();
   if (pwd === "") {
     throw new Error("There was an issue getting the current working directory!");
@@ -161,7 +168,7 @@ function show_options(options) {
   }
   if (!helpers.is_allowed_env(options.env) &&
     typeof options.env !== "undefined") {
-    throw new Error(`Unknown environment: '${options.env}'. Please use one of the allowed environments: 'dev', 'staging', 'prod'`);
+    throw new Error(`Unknown Environment: '${options.env}'. Please use one of the allowed environments: 'dev', 'staging', 'prod'`);
   }
   helpers.line("(0) Starting with options... \n");
   options.kustomize_default_path = false;
@@ -174,6 +181,10 @@ function show_options(options) {
   helpers.line("(0) Showing detected app info... \n");
   helpers.spacer_line(`Application name: `);
   helpers.print_important_info(`${options.deployment}`);
+  if (options.env) {
+    helpers.spacer_line(`Environment: `);
+    helpers.print_important_info(`${options.env}`);
+  }
   helpers.spacer_line(`Directory of application: `);
   helpers.print_important_info(`${options.pwd}`);
   helpers.spacer_line(`Package.json: `);

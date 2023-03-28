@@ -4,9 +4,9 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
       desc = {
-          enumerable: true, get: function() {
-              return m[k];
-          }
+        enumerable: true, get: function() {
+          return m[k];
+        }
       };
     }
     Object.defineProperty(o, k2, desc);
@@ -15,16 +15,16 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     o[k2] = m[k];
 }));
 var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
+  Object.defineProperty(o, "default", { enumerable: true, value: v });
 }) : function(o, v) {
-    o["default"] = v;
+  o["default"] = v;
 });
 var __importStar = (this && this.__importStar) || function(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  __setModuleDefault(result, mod);
+  return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.build_docker_image = void 0;
@@ -46,11 +46,11 @@ function build_docker_image(options) {
     helpers.spacer_line(` Is image already present: `);
     /* we will check if we already have an image */
     const image = commands.docker_check_image(options);
-    if (image.err === "" && options.force_rebuild === false) {
-        helpers.line(`image is already present on local machine`);
-        helpers.skipping();
-        return;
-    }
+  if (image.err === "" && options.force_rebuild === false) {
+    helpers.line(`image is already present on local machine`);
+    helpers.skipping();
+    return;
+  }
     helpers.print_important_info(`image not present, building...`);
     helpers.spacer_line(` Docker build logs: \n`);
     commands.docker_build(options);

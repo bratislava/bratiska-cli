@@ -5,7 +5,17 @@ import fs from 'fs';
 import crypto from 'crypto';
 import { Options } from '../types';
 
-export function show_options(options: Options) {
+export function show_options(env: string, options: Options) {
+  if (
+    typeof env !== 'undefined' &&
+    env !== '' &&
+    typeof options.env === 'undefined'
+  ) {
+    options.env = env;
+  }
+
+  helpers.print_if_debug(options, `options.env from start: ${options.env}`);
+
   const pwd = commands.pwd();
   if (pwd === '') {
     throw new Error(
@@ -173,7 +183,7 @@ export function show_options(options: Options) {
     typeof options.env !== 'undefined'
   ) {
     throw new Error(
-      `Unknown environment: '${options.env}'. Please use one of the allowed environments: 'dev', 'staging', 'prod'`,
+      `Unknown Environment: '${options.env}'. Please use one of the allowed environments: 'dev', 'staging', 'prod'`,
     );
   }
 
@@ -192,6 +202,10 @@ export function show_options(options: Options) {
   helpers.line('(0) Showing detected app info... \n');
   helpers.spacer_line(`Application name: `);
   helpers.print_important_info(`${options.deployment}`);
+  if (options.env) {
+    helpers.spacer_line(`Environment: `);
+    helpers.print_important_info(`${options.env}`);
+  }
   helpers.spacer_line(`Directory of application: `);
   helpers.print_important_info(`${options.pwd}`);
   helpers.spacer_line(`Package.json: `);

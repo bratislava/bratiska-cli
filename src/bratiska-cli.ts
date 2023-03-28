@@ -62,7 +62,7 @@ try {
       /* step 1 */
       tag.tag_options(options, env);
       /* step 2 */
-      common.show_options(options);
+      common.show_options(env, options);
       /* step 3 */
       common.get_git_current_branch(options);
       /* step 4 */
@@ -92,7 +92,7 @@ try {
     .description(
       'If you need to deploy app to kubernetes, this is tool for you',
     )
-    //.argument('[source_path]', 'Path to main folder for app')
+    .argument('[env]', 'environment', '')
     .option('-build_image, --build_image', 'Build image only.')
     .option('-force_rebuild, --force_rebuild', 'Forcing image rebuild.')
     .option(
@@ -140,11 +140,11 @@ try {
       'If you dont want to git pull from origin during tag',
     )
     .option('-force, --force <pass>', 'Force')
-    .action((options) => {
+    .action((env, options) => {
       /* step 0 */
       common.show_version(options, version);
       /* step 1 */
-      common.show_options(options);
+      common.show_options(env, options);
       /* step 2 */
       common.get_git_current_branch(options);
       /* step 3 */
