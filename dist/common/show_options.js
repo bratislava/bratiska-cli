@@ -36,7 +36,6 @@ const commands = __importStar(require("../commands"));
 const path = __importStar(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const crypto_1 = __importDefault(require("crypto"));
-
 function show_options(env, options) {
   if (typeof env !== "undefined" &&
     env !== "" &&
