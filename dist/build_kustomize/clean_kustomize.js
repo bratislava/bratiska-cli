@@ -26,26 +26,30 @@ var __importStar = (this && this.__importStar) || function(mod) {
   __setModuleDefault(result, mod);
   return result;
 };
+var __importDefault = (this && this.__importDefault) || function(mod) {
+  return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_docker_login = void 0;
+exports.clean_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
-const commands = __importStar(require("../commands"));
-function check_docker_login(options) {
-  helpers.line(`(${helpers.step(options)}) Checking docker login...`);
-  if (options.build_image_no_registry || options.no_image_repo_check) {
+const fs_1 = __importDefault(require("fs"));
+
+function clean_kustomize(options) {
+  helpers.line(`(${helpers.step(options)}) Cleaning kustomize manifest...`);
+  if (options.debug ||
+    options.dry_run ||
+    options.build_kustomize ||
+    options.build_image ||
+    options.build_image_no_registry) {
     helpers.skipping();
     return;
   }
-  const docker = commands.docker_login(options);
-  helpers.print_if_debug(options, `docker_login res: ${docker.res.trim()} err: ${docker.err}`);
-  if (!(docker.res.includes("Login Succeeded") ||
-    docker.res.includes("Already logged in to"))) {
-    throw new Error(`You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`);
-  }
-  if (docker.err !== "" &&
-    !docker.err.includes("Your password will be stored unencrypted in")) {
-    throw new Error(`There was an error checking docker registry ${options.registry} Error: ${docker.err}`);
+  try {
+    fs_1.default.unlinkSync(helpers.manifest_path(options));
+  } catch (err) {
+    throw new Error(`We had an error by cleaning the manifest file.`);
   }
   helpers.ok();
 }
-exports.check_docker_login = check_docker_login;
+
+exports.clean_kustomize = clean_kustomize;

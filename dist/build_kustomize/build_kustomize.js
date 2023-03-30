@@ -27,25 +27,18 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_docker_login = void 0;
+exports.build_kustomize = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function check_docker_login(options) {
-  helpers.line(`(${helpers.step(options)}) Checking docker login...`);
-  if (options.build_image_no_registry || options.no_image_repo_check) {
+
+function build_kustomize(options) {
+  helpers.line(`(${helpers.step(options)}) Building the kustomize manifest...`);
+  if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
     return;
   }
-  const docker = commands.docker_login(options);
-  helpers.print_if_debug(options, `docker_login res: ${docker.res.trim()} err: ${docker.err}`);
-  if (!(docker.res.includes("Login Succeeded") ||
-    docker.res.includes("Already logged in to"))) {
-    throw new Error(`You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`);
-  }
-  if (docker.err !== "" &&
-    !docker.err.includes("Your password will be stored unencrypted in")) {
-    throw new Error(`There was an error checking docker registry ${options.registry} Error: ${docker.err}`);
-  }
+  commands.kustomize_build_manifest(options);
   helpers.ok();
 }
-exports.check_docker_login = check_docker_login;
+
+exports.build_kustomize = build_kustomize;

@@ -312,13 +312,13 @@ function is_deployment_image(options) {
 }
 exports.is_deployment_image = is_deployment_image;
 function assign_env_vars(options) {
-    if (options.image) {
-      options.repository_uri = "using_external_image";
-      options.commit = "using_external_image";
-    }
-    if (!options.repository_uri) {
-      throw new Error("Git repository URI cannot be false!");
-    }
+  if (options.image) {
+    options.repository_uri = "using_external_image";
+    options.commit = "using_external_image";
+  }
+  if (!options.repository_uri) {
+    throw new Error("Git repository URI cannot be false!");
+  }
   if (!options.commit) {
     throw new Error("Git Commit cannot be false!");
   }
@@ -654,16 +654,16 @@ function tag_value_staging(options) {
     return tag_text + latest_tag_version;
   }
   let new_tag_version = "";
-    print_if_debug(options, `latest_main_version: ${(latest_main_version)}, latest_tag_version: ${latest_tag_version}`);
-    const compare_result = (0, compare_versions_1.compareVersions)(latest_main_version, latest_tag_version);
-    switch (compare_result) {
-        case 1:
-            new_tag_version = latest_main_version;
-            break;
-        case -1:
-            new_tag_version = latest_tag_version;
-            break;
-        default:
+  print_if_debug(options, `latest_main_version: ${(latest_main_version)}, latest_tag_version: ${latest_tag_version}`);
+  const compare_result = (0, compare_versions_1.compareVersions)(latest_main_version, latest_tag_version);
+  switch (compare_result) {
+    case 1:
+      new_tag_version = latest_main_version;
+      break;
+    case -1:
+      new_tag_version = latest_tag_version;
+      break;
+    default:
             new_tag_version = latest_main_version;
             break;
     }
@@ -683,12 +683,12 @@ function tag_value_prod(options) {
 }
 function tag_value(options) {
   let tag_value = "";
-    if (options.tag !== false) {
-      if (options.env !== "") {
-        tag_overridden_message(options);
-      }
-      return options.tag;
+  if (options.tag !== false) {
+    if (options.env !== "") {
+      tag_overridden_message(options);
     }
+    return options.tag;
+  }
   switch (options.env) {
     case "dev":
       tag_value = tag_value_dev(options);
@@ -700,7 +700,7 @@ function tag_value(options) {
       tag_value = tag_value_prod(options);
       break;
   }
-    return tag_value;
+  return tag_value;
 }
 exports.tag_value = tag_value;
 function get_final_branch(options, branch_list_in_string) {
@@ -718,7 +718,7 @@ function get_final_branch(options, branch_list_in_string) {
       return branch_list[0];
     }
   }
-    return false;
+  return false;
 }
 exports.get_final_branch = get_final_branch;
 function sleep(time) {

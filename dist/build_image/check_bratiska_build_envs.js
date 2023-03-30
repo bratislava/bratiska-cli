@@ -33,7 +33,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_bratiska_build_envs = void 0;
 const helpers = __importStar(require("../helpers"));
 const fs_1 = __importDefault(require("fs"));
-
 function check_bratiska_build_envs(options) {
   helpers.line(`(${helpers.step(options)}) Checking for bratiska-cli build envs file: `);
   if (options.image) {
@@ -66,5 +65,4 @@ function check_bratiska_build_envs(options) {
   }
   helpers.ok();
 }
-
 exports.check_bratiska_build_envs = check_bratiska_build_envs;

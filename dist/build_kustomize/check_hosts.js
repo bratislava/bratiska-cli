@@ -27,25 +27,28 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_docker_login = void 0;
+exports.check_hosts = void 0;
 const helpers = __importStar(require("../helpers"));
-const commands = __importStar(require("../commands"));
-function check_docker_login(options) {
-  helpers.line(`(${helpers.step(options)}) Checking docker login...`);
-  if (options.build_image_no_registry || options.no_image_repo_check) {
+
+function check_hosts(options) {
+  helpers.line(`(${helpers.step(options)}) Determining host...`);
+  if (options.build_image || options.build_image_no_registry) {
     helpers.skipping();
     return;
   }
-  const docker = commands.docker_login(options);
-  helpers.print_if_debug(options, `docker_login res: ${docker.res.trim()} err: ${docker.err}`);
-  if (!(docker.res.includes("Login Succeeded") ||
-    docker.res.includes("Already logged in to"))) {
-    throw new Error(`You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`);
+  let env = options.env + ".";
+  if (options.env === "prod") {
+    env = "";
   }
-  if (docker.err !== "" &&
-    !docker.err.includes("Your password will be stored unencrypted in")) {
-    throw new Error(`There was an error checking docker registry ${options.registry} Error: ${docker.err}`);
+  options.deployment_env = env;
+  if (typeof options.host === "undefined") {
+    options.host = options.deployment + "." + env + "bratislava.sk";
   }
+  helpers.line(` using this host `);
+  helpers.print_important_info_line(`${options.host}`);
+  helpers.line(`...`);
   helpers.ok();
+  return options;
 }
-exports.check_docker_login = check_docker_login;
+
+exports.check_hosts = check_hosts;

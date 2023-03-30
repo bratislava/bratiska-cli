@@ -33,6 +33,7 @@ const figlet_1 = __importDefault(require("figlet"));
 const commander_1 = require("commander");
 const deploy_1 = require("./deploy");
 const build_image_1 = require("./build_image");
+const build_kustomize_1 = require("./build_kustomize");
 const tag_1 = require("./tag");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
@@ -41,6 +42,7 @@ const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
 const build_image = new build_image_1.BuildImage();
+const build_kustomize = new build_kustomize_1.BuildKustomize();
 try {
   (0, clear_1.default)();
   console.log(chalk_1.default.blue(figlet_1.default.textSync("Bratiska-cli", { horizontalLayout: "full" })));
@@ -158,9 +160,9 @@ try {
       /* step 15 */
       deploy.check_kubernetes_cluster_conditions(options);
       /* step 16 */
-      deploy.check_hosts(options);
+      build_kustomize.check_hosts(options);
       /* step 17 */
-      deploy.check_ports_numbers(options);
+      build_kustomize.check_ports_numbers(options);
       /* step 18 */
       deploy.check_kubernetes_harbor_key(options);
       /* step 19 */
@@ -188,15 +190,15 @@ try {
       /* step 30 */
       build_image.clean_docker_image(options);
       /* step 31 */
-      deploy.create_kustomize_env_vars(options);
+      build_kustomize.create_kustomize_env_vars(options);
       /* step 32 */
-      deploy.build_kustomize(options);
+      build_kustomize.build_kustomize(options);
       /* step 33 */
-      deploy.check_kustomize(options);
+      build_kustomize.check_kustomize(options);
       /* step 34 */
       deploy.deploy_kubernetes(options);
       /* step 35 */
-      deploy.clean_kustomize(options);
+      build_kustomize.clean_kustomize(options);
       /* step 36 */
       deploy.check_deployment(options);
     });
@@ -304,17 +306,17 @@ try {
       /* step 14 */
       options = deploy.check_kubernetes_enviroment_configuration(options);
       /* step 11 */
-      deploy.check_hosts(options);
+      build_kustomize.check_hosts(options);
       /* step 12 */
-      deploy.check_ports_numbers(options);
+      build_kustomize.check_ports_numbers(options);
       /* step 13 */
       build_image.check_pushed_image(options);
       /* step 14 */
-      deploy.create_kustomize_env_vars(options);
+      build_kustomize.create_kustomize_env_vars(options);
       /* step 15 */
-      deploy.build_kustomize(options);
+      build_kustomize.build_kustomize(options);
       /* step 16 */
-      deploy.check_kustomize(options);
+      build_kustomize.check_kustomize(options);
     });
   commander_1.program.parse(process.argv);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

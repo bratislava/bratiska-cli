@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_docker_image = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_docker_image(options) {
   helpers.line(`(${helpers.step(options)}) Checking if the image was locally created...`);
   if (options.image) {
@@ -51,5 +50,4 @@ function check_docker_image(options) {
   }
   helpers.ok();
 }
-
 exports.check_docker_image = check_docker_image;
