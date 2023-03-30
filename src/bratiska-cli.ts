@@ -5,14 +5,16 @@ import clear from 'clear';
 import figlet from 'figlet';
 import { program } from 'commander';
 import { Deploy } from './deploy';
+import { BuildImage } from './build_image';
 import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.5.2';
+const version = '2.6.0';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
+const build_image = new BuildImage();
 
 try {
   clear();
@@ -135,10 +137,7 @@ try {
       '-no_image_repo_check, --no_image_repo_check',
       'No Image repository check',
     )
-    .option(
-      '-no_pull, --no_pull',
-      'If you dont want to git pull from origin during tag',
-    )
+    .option('-no_pull, --no_pull', 'If you dont want to git pull from origin.')
     .option('-force, --force <pass>', 'Force')
     .action((env, options) => {
       /* step 0 */
@@ -180,29 +179,29 @@ try {
       /* step 18 */
       deploy.check_kubernetes_harbor_key(options);
       /* step 19 */
-      deploy.check_docker_file(options);
+      build_image.check_docker_file(options);
       /* step 20 */
-      deploy.check_docker(options);
+      build_image.check_docker(options);
       /* step 21 */
-      deploy.check_docker_running(options);
+      build_image.check_docker_running(options);
       /* step 22 */
-      deploy.check_docker_login(options);
+      build_image.check_docker_login(options);
       /* step 23 */
-      deploy.check_bratiska_build_envs(options);
+      build_image.check_bratiska_build_envs(options);
       /* step 24 */
-      deploy.check_docker_ignore(options);
+      build_image.check_docker_ignore(options);
       /* step 25 */
-      deploy.build_docker_image(options);
+      build_image.build_docker_image(options);
       /* step 26 */
-      deploy.check_docker_image(options);
+      build_image.check_docker_image(options);
       /* step 27 */
-      deploy.clean_bratiska_build_envs(options);
+      build_image.clean_bratiska_build_envs(options);
       /* step 28 */
-      deploy.push_docker_image(options);
+      build_image.push_docker_image(options);
       /* step 29 */
-      deploy.check_pushed_image(options);
+      build_image.check_pushed_image(options);
       /* step 30 */
-      deploy.clean_docker_image(options);
+      build_image.clean_docker_image(options);
       /* step 31 */
       deploy.create_kustomize_env_vars(options);
       /* step 32 */
@@ -215,6 +214,146 @@ try {
       deploy.clean_kustomize(options);
       /* step 36 */
       deploy.check_deployment(options);
+    });
+
+  program
+    .command('build_image')
+    .summary('Build and push docker image to registry')
+    .description('This command will build and push docker image to registry.')
+    .option('-force_rebuild, --force_rebuild', 'Forcing image rebuild.')
+    .option(
+      '-build_image_no_registry, --build_image_no_registry',
+      'Don`t push to registry',
+    )
+    .option('-s, --sentry <token>', 'Specify sentry auth token for build')
+    .option(
+      '-r, --registry <url>',
+      'Docker image registry url',
+      'harbor.bratislava.sk',
+    )
+    .option('-debug, --debug', 'Debugging')
+    .option('-beta, --beta', 'Beta features')
+    .option(
+      '-no_image_repo_check, --no_image_repo_check',
+      'No Image repository check.',
+    )
+    .option('-no_pull, --no_pull', 'If you dont want to git pull from origin.')
+    .option('-force, --force <pass>', 'Force')
+    .action((options) => {
+      /* step 0 */
+      common.show_version(options, version);
+      /* step 1 */
+      common.show_options('build_image', options);
+      /* step 2 */
+      common.get_git_current_branch(options);
+      /* step 3 */
+      common.get_git_fetch(options);
+      /* step 4 */
+      common.get_git_status(options);
+      /* step 5 */
+      common.get_git_user_info(options);
+      /* step 6 */
+      common.get_git_commits(options);
+      /* step 7 */
+      common.check_git_repo_name(options);
+      /* step 8 */
+      common.get_git_branch(options);
+      /* step 9 */
+      common.check_git_merge_status(options);
+      /* step 10 */
+      common.get_git_tags(options);
+      /* step 19 */
+      build_image.check_docker_file(options);
+      /* step 20 */
+      build_image.check_docker(options);
+      /* step 21 */
+      build_image.check_docker_running(options);
+      /* step 22 */
+      build_image.check_docker_login(options);
+      /* step 23 */
+      build_image.check_bratiska_build_envs(options);
+      /* step 24 */
+      build_image.check_docker_ignore(options);
+      /* step 25 */
+      build_image.build_docker_image(options);
+      /* step 26 */
+      build_image.check_docker_image(options);
+      /* step 27 */
+      build_image.clean_bratiska_build_envs(options);
+      /* step 28 */
+      build_image.push_docker_image(options);
+      /* step 29 */
+      build_image.check_pushed_image(options);
+      /* step 30 */
+      build_image.clean_docker_image(options);
+      /* step 31 */
+    });
+
+  program
+    .command('build_kustomize')
+    .summary('Build kustomize file needed for deployment')
+    .description(
+      'This command will build kustomize file needed for deployment.',
+    )
+    .argument('[env]', 'environment', '')
+    .option(
+      '-k, --kustomize <file_or_direcotry>',
+      'Specify kustomize file or kustomize directory',
+    )
+    .option('-i, --image <url>', 'Specify image from harbour via url')
+    .option('-n, --namespace <namespace>', 'Namespace')
+    .option('-d, --deployment <deployment>', 'Deployment app')
+    .option('-h, --host <host>', 'Host url address')
+    .option('-e, --env <env>', 'Deployment environment')
+    .option(
+      '-r, --registry <url>',
+      'Docker image registry url',
+      'harbor.bratislava.sk',
+    )
+    .option('-debug, --debug', 'Debugging')
+    .option('-beta, --beta', 'Beta features')
+    .option(
+      '-no_image_repo_check, --no_image_repo_check',
+      'No Image repository check',
+    )
+    .option('-force, --force <pass>', 'Force')
+    .action((env, options) => {
+      /* step 0 */
+      common.show_version(options, version);
+      /* step 1 */
+      common.show_options(env, options);
+      /* step 2 */
+      common.get_git_current_branch(options);
+      /* step 3 */
+      common.get_git_fetch(options);
+      /* step 4 */
+      common.get_git_status(options);
+      /* step 5 */
+      common.get_git_user_info(options);
+      /* step 6 */
+      common.get_git_commits(options);
+      /* step 7 */
+      common.check_git_repo_name(options);
+      /* step 8 */
+      common.get_git_branch(options);
+      /* step 9 */
+      common.check_git_merge_status(options);
+      /* step 10 */
+      common.get_git_tags(options);
+      /* step 14 */
+      options = deploy.check_kubernetes_enviroment_configuration(options);
+      /* step 11 */
+      deploy.check_hosts(options);
+      /* step 12 */
+      deploy.check_ports_numbers(options);
+      /* step 13 */
+      build_image.check_pushed_image(options);
+      /* step 14 */
+      deploy.create_kustomize_env_vars(options);
+      /* step 15 */
+      deploy.build_kustomize(options);
+      /* step 16 */
+      deploy.check_kustomize(options);
     });
 
   program.parse(process.argv);

@@ -36,7 +36,13 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const compare_versions_1 = require("compare-versions");
 const commands = __importStar(require("./commands"));
 const crypto_1 = __importDefault(require("crypto"));
-const ALLOWED_ENVIRONMENTS = ["dev", "staging", "prod"];
+const ALLOWED_ENVIRONMENTS = [
+  "dev",
+  "staging",
+  "prod",
+  "build_image",
+  "build_kustomize"
+];
 exports.log = console.log.bind(console);
 function line(content) {
   process.stdout.write("\x1b[37m" + content);
@@ -313,15 +319,15 @@ function assign_env_vars(options) {
     if (!options.repository_uri) {
       throw new Error("Git repository URI cannot be false!");
     }
-    if (!options.commit) {
-      throw new Error("Git Commit cannot be false!");
-    }
-    if (!options.namespace) {
-      throw new Error("Namespace have to be filled! Please use --namespace <namespace_name> for defining namespace in kubernetes.\n");
-    }
-    if (!options.deployment) {
-      throw new Error("Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n");
-    }
+  if (!options.commit) {
+    throw new Error("Git Commit cannot be false!");
+  }
+  if (!options.namespace) {
+    throw new Error("Namespace have to be filled! Please use --namespace <namespace_name> for defining namespace in kubernetes.\n");
+  }
+  if (!options.deployment) {
+    throw new Error("Deployment names have to be filled! Please use --deployment <deployment_name> for defining deployment name.\n");
+  }
   if (!options.host) {
     throw new Error("The host has to be filled! Please use --host <host> for deployment URL host.\n");
   }
@@ -547,13 +553,13 @@ function increment_bug(version) {
   const terms = version.split(".").map(function(e) {
     return parseInt(e);
   });
-    if (terms.length != 3) {
-        return version;
-    }
-    if (++terms[2] > 9) {
-        ++terms[1];
-        terms[2] = 0;
-    }
+  if (terms.length != 3) {
+    return version;
+  }
+  if (++terms[2] > 9) {
+    ++terms[1];
+    terms[2] = 0;
+  }
   return terms.join(".");
 }
 function calculate_version_diff(v1, v2) {
@@ -563,9 +569,9 @@ function calculate_version_diff(v1, v2) {
   const v2_terms = v2.split(".").map(function(e) {
     return parseInt(e);
   });
-    if (v1_terms.length != 3 || v2_terms.length != 3) {
-        return 0;
-    }
+  if (v1_terms.length != 3 || v2_terms.length != 3) {
+    return 0;
+  }
   return ((v2_terms[0] - v1_terms[0]) * 100 +
     (v2_terms[1] - v1_terms[1]) * 10 +
     (v2_terms[2] - v1_terms[2]));
@@ -616,9 +622,9 @@ function tag_value_dev(options) {
   return tag_value.substring(0, 64);
 }
 function tag_get_latest_version(options, tag) {
-    const tag_format = tag + `[0-9]\.[0-9]\.[0-9]*`;
-    const last_tag = commands.git_get_last_remote_tags(options, tag_format);
-    print_if_debug(options, `tag_get_latest_version tag: ${tag} and result is: ${last_tag}`);
+  const tag_format = tag + `[0-9]\.[0-9]\.[0-9]*`;
+  const last_tag = commands.git_get_last_remote_tags(options, tag_format);
+  print_if_debug(options, `tag_get_latest_version tag: ${tag} and result is: ${last_tag}`);
   if (last_tag === "") {
     return false;
   }
@@ -637,16 +643,16 @@ function tag_value_staging(options) {
   if (latest_main_version === false) {
     latest_main_version = "0.0.0";
   }
-    if (latest_tag_version === false) {
-        if (options.delete) {
-            return tag_text;
-        }
-      latest_tag_version = "0.0.0";
-      tag_new_message(tag_text);
-    }
+  if (latest_tag_version === false) {
     if (options.delete) {
-        return tag_text + latest_tag_version;
+      return tag_text;
     }
+    latest_tag_version = "0.0.0";
+    tag_new_message(tag_text);
+  }
+  if (options.delete) {
+    return tag_text + latest_tag_version;
+  }
   let new_tag_version = "";
     print_if_debug(options, `latest_main_version: ${(latest_main_version)}, latest_tag_version: ${latest_tag_version}`);
     const compare_result = (0, compare_versions_1.compareVersions)(latest_main_version, latest_tag_version);
@@ -673,7 +679,7 @@ function tag_value_prod(options) {
   if (options.branch !== "master") {
     throw new Error(`You need to be on the 'master' branch to be able tag in prod environment. Currently you are on: '${options.branch}'`);
   }
-    return tag_value_staging(options);
+  return tag_value_staging(options);
 }
 function tag_value(options) {
   let tag_value = "";
@@ -681,37 +687,37 @@ function tag_value(options) {
       if (options.env !== "") {
         tag_overridden_message(options);
       }
-        return options.tag;
+      return options.tag;
     }
-    switch (options.env) {
-      case "dev":
-        tag_value = tag_value_dev(options);
-        break;
-      case "staging":
-        tag_value = tag_value_staging(options);
-        break;
-      case "prod":
-        tag_value = tag_value_prod(options);
-        break;
-    }
+  switch (options.env) {
+    case "dev":
+      tag_value = tag_value_dev(options);
+      break;
+    case "staging":
+      tag_value = tag_value_staging(options);
+      break;
+    case "prod":
+      tag_value = tag_value_prod(options);
+      break;
+  }
     return tag_value;
 }
 exports.tag_value = tag_value;
 function get_final_branch(options, branch_list_in_string) {
-    print_if_debug(options, `branch_list_in_string: ${branch_list_in_string}`);
+  print_if_debug(options, `branch_list_in_string: ${branch_list_in_string}`);
   const branch_list_dirty = branch_list_in_string.split(/\r?\n/);
   const branch_list = branch_list_dirty.filter((e) => !e.includes("HEAD"));
-    print_if_debug(options, `branch_list flattened: ${branch_list.flat()}`);
-    print_if_debug(options, `branch_list.length: ${branch_list.length}`);
+  print_if_debug(options, `branch_list flattened: ${branch_list.flat()}`);
+  print_if_debug(options, `branch_list.length: ${branch_list.length}`);
   const is_master = branch_list.findIndex((e) => e.includes("master"));
-    print_if_debug(options, `branch_list has master?: ${is_master}`);
-    if (branch_list.length > 0) {
-      if (is_master !== -1) {
-        return "master";
-      } else {
-        return branch_list[0];
-      }
+  print_if_debug(options, `branch_list has master?: ${is_master}`);
+  if (branch_list.length > 0) {
+    if (is_master !== -1) {
+      return "master";
+    } else {
+      return branch_list[0];
     }
+  }
     return false;
 }
 exports.get_final_branch = get_final_branch;

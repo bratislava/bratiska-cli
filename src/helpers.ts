@@ -8,7 +8,13 @@ import * as commands from './commands';
 import crypto from 'crypto';
 import { Bash, Options } from './types';
 
-const ALLOWED_ENVIRONMENTS = ['dev', 'staging', 'prod'];
+const ALLOWED_ENVIRONMENTS = [
+  'dev',
+  'staging',
+  'prod',
+  'build_image',
+  'build_kustomize',
+];
 
 export const log = console.log.bind(console);
 

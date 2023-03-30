@@ -16,21 +16,90 @@ Installing dependencies
 yarn global add bratislava/bratiska-cli
 ```
 
+### Versions
+
+We provide three versions of `bratiska-cli`:
+
+- `stable` - this is the stable version of `bratiska-cli` which is sometimes more versions behind than `beta`. And it is
+  used in our CI/CD pipelines.
+- `beta` - this is the latest version of `bratiska-cli` which is not always stable
+- `vX.X.X` - this is the specific version of `bratiska-cli` which is not always stable, but it usually the latest.
+
+To install specific version of `bratiska-cli` use:
+
+```bash
+yarn global add bratislava/bratiska-cli#vX.X.X
+```
+
+To install `beta` version of `bratiska-cli` use:
+
+```bash
+yarn global add bratislava/bratiska-cli#beta
+```
+
+To install `stable` version of `bratiska-cli` use:
+
+```bash
+yarn global add bratislava/bratiska-cli#stable
+```
+
 ## Prerequisites
 
-To be able to work with this utility, you need to have a few things configured:
+To be able to work with this utility, you need to have a few things configured. Different commands require different
+accesses.
+How to install required tools and how to configure them is described bellow this list.
+
+### `tag` command
+
+Is the simplies command, it requires only:
+
+- installed `git`
+- correct access rights to github repository.
+
+### `build_image` command
+
+Requires more things to be installed and configured:
+
+- installed `git`
+- installed `docker`
+- access rights to docker repository
+- access rights to github repository
+
+### `build_kustomize` command
+
+Requires even more things to be installed and configured:
+
+- installed `git`
+- installed `docker`
+- installed `kustomize`
+- installed `envsubst`
+- access rights to docker repository
+- access rights to github repository
+
+### `deploy` command
+
+The most complex command, requires much more things to be installed and configured:
+
+- installed `git`
+- installed `docker`
+- installed `kustomize`
+- installed `envsubst`
+- installed `kubectl`
+- access rights to docker repository
+- access rights to github repository
+- access rights to kubernetes cluster
 
 #### Accesses:
 
 1. Docker Harbor access - can be
    granted [here](https://portal.azure.com/#view/Microsoft_AAD_IAM/ManagedAppMenuBlade/~/Users/objectId/7b1ee611-cf01-4179-a765-215ee291f687/appId/216af6db-a39f-44b3-94d1-fd5142f14e6a) (
    note
-   - [OIADS_EMPLOYEES](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Members/groupId/48fcf79f-46c5-44fc-8608-70eb512f840c)
-   are included by default)
-2. Kubernetes access - contact the IT department or this
-3. Github access
+    - [OIADS_EMPLOYEES](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Members/groupId/48fcf79f-46c5-44fc-8608-70eb512f840c)
+      are included by default)
+2. Kubernetes access - contact the IT department
+3. Github access on github.com/bratislava - contact the IT department
 
-#### Installations of required:
+#### Install guides
 
 1. Installed `git` (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. Installed `kubectl` (https://kubernetes.io/docs/tasks/tools/)
@@ -62,15 +131,21 @@ These apps needs are running when you use `bratiska-cli`:
 
 ### command `tag`
 
-#### Usage options
+This is the simpliest command of `bratiska-cli`. We are using it for our CI/CD. It is creates a tag on the current
+branch and pushes it to the remote repository. Before creating the tag, it checks if the current branch is clean and if
+there are any untracked files, and it is pulling the newest version from the repository. Then it tries to dtermine the
+branch, enviroment or user to create proper tag value for some enviroments (see bellow tag values).
 
-To tag a version of a code you can simply run just this command:
+#### Add tag
+
+To tag a version of a code you can simply run just this command. Please note that this command will create a tag locally
+and on remote repository.
+This creates a dynamic tag based on your current environment (checking it from kubernetes if authorized). See tags
+format bellow.
 
 ```bash
 bratiska-cli tag
 ```
-
-This creates a dynamic tag based on your current environment. See tags format bellow.
 
 ##### Specify environment
 
@@ -88,6 +163,12 @@ Maybe you would like to invoke only deployment of `strapi` or `next` so use this
 
 ```bash
 bratiska-cli tag staging-strapi
+```
+
+or
+
+```bash
+bratiska-cli tag staging-next
 ```
 
 ##### Specify environment, tech and version
@@ -112,6 +193,12 @@ And if you did major change, you can use `--major` flag to increment from `stagi
 bratiska-cli tag staging-strapi --major
 ```
 
+or you can specify tech by using `--tech` flag:
+
+```bash
+bratiska-cli tag staging --tech strapi
+```
+
 ##### Specify tag value
 
 Sometimes you need different tag value, so use `--tag` flag to define your custom tag:
@@ -120,7 +207,29 @@ Sometimes you need different tag value, so use `--tag` flag to define your custo
 bratiska-cli tag --tag stable
 ```
 
-##### Delete tag value
+or just specify version:
+
+```bash
+bratiska-cli tag --tag v1.2.3
+```
+
+##### Tag local only
+
+To tag only locally use `--local` flag:
+
+```bash
+bratiska-cli tag --local
+```
+
+##### Tag local only without pulling changes from the remote repository
+
+To tag only locally use `--local --no_pull` flag:
+
+```bash
+bratiska-cli tag --local --no_pull
+```
+
+#### Delete tag value
 
 If you need to delete tag, you can use automatic last tag delete by tech, or you can specify it. Just add `--delete`
 flag.
@@ -137,7 +246,7 @@ bratiska-cli tag dev-next --delete
 
 (deletes last `dev-next` tag)
 
-##### Recreate tag value
+#### Recreate tag value
 
 If tag is already created on different commit, you can recreate it on your current commit like:
 
@@ -147,12 +256,18 @@ bratiska-cli tag --tag stable --recreate
 
 (delete old `stable` and create it in a current commit)
 
-##### Debugging
+#### Debugging
 
 If you have some problem, there is always option to use --debug flag to print more info.
 
 ```bash
 bratiska-cli tag --tag stable --recreate --debug
+```
+
+or use `--dry_run` flag to see what will be done:
+
+```bash
+bratiska-cli tag --tag stable --recreate --dry_run
 ```
 
 #### Tags format
@@ -175,6 +290,168 @@ Versions are done in a way:
 - bugfix is incrementing last digit `0.0.1`
 - feature is incrementing middle digit `0.1.0`
 - major is incrementing first digit `1.0.0`
+
+### command `build_image`
+
+For building images we are using command `build_image`. It is building image from Dockerfile in the current directory
+and pushing it to our docker repository.
+
+#### Build image
+
+The simplest usage is using command without any flags. It will build image from Dockerfile in the current directory and
+push it to our docker repository.
+
+```bash
+bratiska-cli build_image
+```
+
+#### Don't push image to the registry
+
+If you don't want to push image to the registry, use `--build_image_no_registry` flag.
+
+```bash
+bratiska-cli build_image --no_push
+```
+
+#### Specify image registry
+
+If you want to specify image registry, use `--registry` flag.
+
+```bash
+bratiska-cli build_image --registry harbor.example.com
+```
+
+#### No image registry check
+
+CLI will tell you that image you are building is already in registry. To skip this check use `--no_image_repo_check`
+flag.
+
+```bash
+bratiska-cli build_image --no_image_repo_check
+```
+
+#### Define build time sentry
+
+If you want to define build time sentry token, use `--sentry` flag.
+
+```bash
+bratiska-cli build_image --sentry 1234567890
+```
+
+#### Force rebuild an image
+
+If you want to force rebuild an image, use `--force_rebuild` flag. It is needed for overriding cache and image tag.
+
+```bash
+bratiska-cli build_image --force_rebuild
+```
+
+#### Debugging
+
+If you have some problem, there is always option to use --debug flag to print more info.
+
+```bash
+bratiska-cli build_image --force_rebuild --debug
+```
+
+To use beta functionality, you can use `--beta` flag.
+
+```bash
+bratiska-cli build_image --force_rebuild --beta
+```
+
+### command `build_kustomize`
+
+If you want to just build kustomize from the source `/kubernetes` folder you can use `build_kustomize` command.
+
+#### Build kustomize
+
+This commands build kustomize from the source `/kubernetes` folder. Please note that you need have already ready image
+in the registry.
+
+```bash
+bratiska-cli build_kustomize
+```
+
+#### Specify image environment
+
+If you want to specify image environment, use:
+
+```bash
+bratiska-cli build_kustomize dev
+```
+
+allowed values are `dev`, `staging` and `prod`
+
+#### Build image with custom image
+
+If you want to build image with custom image, use `--image` flag. Please note that you need have already ready image in
+the registry.
+
+```bash
+bratiska-cli build_kustomize --image harbor.example.com/standalone/nest-prisma-template/master-4a18e16-richi
+```
+
+if you want to just use whatever image, then after `--image` flag type app package name, like `nest-prisma-template`
+
+```bash
+bratiska-cli build_kustomize --image app-package-name
+```
+
+#### No image registry check
+
+CLI will tell you that image you are building is already in registry. To skip this check use `--no_image_repo_check`
+flag.
+
+```bash
+bratiska-cli build_kustomize --no_image_repo_check
+```
+
+#### Specify namespace
+
+If you want to specify kubernetes namespace, use `--namespace` flag.
+
+```bash
+bratiska-cli build_kustomize --namespace standalone
+```
+
+#### Specify deployment name
+
+If you want to specify kubernetes deployment name, use `--deployment` flag.
+
+```bash
+bratiska-cli build_kustomize --deployment nest-prisma-template
+```
+
+#### Specify kustomize path
+
+If you want to specify kustomize address path, use `--kustomize` flag.
+
+```bash
+bratiska-cli build_kustomize --kustomize /new_kubernetes
+```
+
+#### Define host address
+
+If you want to define host address, use `--host` flag.
+
+```bash
+bratiska-cli build_kustomize --host nest-prisma-template.example.com
+```
+
+#### Debugging
+
+If you have some problem, there is always option to use --debug flag to print more info.
+
+```bash
+bratiska-cli build_kustomize --debug
+```
+
+To use beta functionality, you can use `--beta` flag.
+
+```bash
+bratiska-cli build_kustomize --beta
+```
 
 ### command `deploy`
 

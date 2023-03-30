@@ -5,18 +5,6 @@ import { check_kubernetes_enviroment_configuration } from './deploy/check_kubern
 import { check_kubernetes_cluster_conditions } from './deploy/check_kubernetes_cluster_conditions';
 import { check_hosts } from './deploy/check_hosts';
 import { check_kubernetes_harbor_key } from './deploy/check_kubernetes_harbor_key';
-import { check_docker_file } from './deploy/check_docker_file';
-import { check_docker } from './deploy/check_docker';
-import { check_docker_login } from './deploy/check_docker_login';
-import { check_docker_running } from './deploy/check_docker_running';
-import { check_bratiska_build_envs } from './deploy/check_bratiska_build_envs';
-import { check_docker_ignore } from './deploy/check_docker_ignore';
-import { build_docker_image } from './deploy/build_docker_image';
-import { check_docker_image } from './deploy/check_docker_image';
-import { clean_bratiska_build_envs } from './deploy/clean_bratiska_build_envs';
-import { push_docker_image } from './deploy/push_docker_image';
-import { check_pushed_image } from './deploy/check_pushed_image';
-import { clean_docker_image } from './deploy/clean_docker_image';
 import { check_ports_numbers } from './deploy/check_ports_numbers';
 import { create_kustomize_env_vars } from './deploy/create_kustomize_env_vars';
 import { build_kustomize } from './deploy/build_kustomize';
@@ -44,54 +32,6 @@ export class Deploy {
 
   check_kubernetes_harbor_key(options: Options) {
     check_kubernetes_harbor_key(options);
-  }
-
-  check_docker_file(options: Options) {
-    check_docker_file(options);
-  }
-
-  check_docker(options: Options) {
-    check_docker(options);
-  }
-
-  check_docker_login(options: Options) {
-    check_docker_login(options);
-  }
-
-  check_docker_running(options: Options) {
-    check_docker_running(options);
-  }
-
-  check_bratiska_build_envs(options: Options) {
-    check_bratiska_build_envs(options);
-  }
-
-  check_docker_ignore(options: Options) {
-    check_docker_ignore(options);
-  }
-
-  build_docker_image(options: Options) {
-    build_docker_image(options);
-  }
-
-  check_docker_image(options: Options) {
-    check_docker_image(options);
-  }
-
-  clean_bratiska_build_envs(options: Options) {
-    clean_bratiska_build_envs(options);
-  }
-
-  push_docker_image(options: Options) {
-    push_docker_image(options);
-  }
-
-  check_pushed_image(options: Options) {
-    check_pushed_image(options);
-  }
-
-  clean_docker_image(options: Options) {
-    clean_docker_image(options);
   }
 
   check_ports_numbers(options: Options) {
