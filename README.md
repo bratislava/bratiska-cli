@@ -468,15 +468,31 @@ Before you run any of the following commands, make sure you are
 kubectl vsphere login --server=10.10.10.1 --insecure-skip-tls-verify --tanzu-kubernetes-cluster-name=tkg-innov-<env> -u user.name@bratislava.sk
 ```
 
-3. if you are logged in to multiple clusters, make sure you are using the correct one - `kubectl config use-context tkg-innov-<env>`
+3. if you are logged in to multiple clusters, make sure you are using the correct
+   one - `kubectl config use-context tkg-innov-<env>`
 
+#### Simple deploy
 
-There is straightforward usage because the utility tries to obtain all values from the repo automatically, and if something is missing, it will point out.
+There is straightforward usage because the utility tries to obtain all values from the repo automatically, and if
+something is missing, it will point out.
 
 ```bash
 bratiska-cli deploy
 ```
 
+#### Specify deploy environment
+
+if you want to specify image environment, use:
+
+```bash
+bratiska-cli deploy dev
+```
+
+allowed values are `dev`, `staging` and `prod`.
+
+#### Also you can specify all options manually
+
+```bash
 If you need to deploy to staging or production, you need to add a special flag to the command.
 
 ```bash
@@ -489,46 +505,12 @@ or
 bratiska-cli deploy --production
 ```
 
-### Run with more options
-
-#### Build image only
-
-If you want to build an image only, run:
-
-```bash
-bratiska-cli deploy --build_image
-```
-
-#### Build image only without push to the registry
-
-If you want to build an image without pushing to registry run:
-
-```bash
-bratiska-cli deploy --build_image_no_registry
-```
-
-#### Build kustomize only
-
-If you want to build a kustomize file, only run.
-
-```bash
-bratiska-cli deploy --build_kustomize
-```
-
-#### Build kustomize only with specified docker image
-
-If you want to build a kustomize file, only run.
-
-```bash
-bratiska-cli deploy --build_kustomize --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
-```
-
 #### Deploy with a special image
 
 If you have a specified image, you can deploy it.
 
 ```bash
-bratiska-cli deploy  --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
+bratiska-cli deploy --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked
 ```
 
 #### Specify kustomize file or folder
@@ -560,7 +542,7 @@ bratiska-cli deploy --namespace=bratislava-monorepo
 Default deployment for the app names from `project.json`, but you can change it like:
 
 ```bash
-bratiska-cli deploy --deployment=nest-Prisma-template-super-duper
+bratiska-cli deploy --deployment=nest-prisma-template-super-duper
 ```
 
 #### Host
@@ -569,14 +551,6 @@ Default deployment host for an app depends on `deployment` and `environment`, bu
 
 ```bash
 bratiska-cli deploy --host=starwars.bratislava.sk
-```
-
-#### Enviroment
-
-If you want to change the environment, you can specify it there:
-
-```bash
-bratiska-cli deploy --env=dev
 ```
 
 Or you switch env with `kubectl config use-context tkg-innov-dev`
@@ -618,7 +592,7 @@ Dry run with custom image and specified folder to kustomize.
 bratiska-cli deploy --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
 ```
 
-## Automatization
+## Automatisation
 
 ### Bratiska-cli args in config.json
 
@@ -815,8 +789,4 @@ git push origin v1.3.5
 
 - If you find some bug, please get in touch with us on GitHub or mail inovacie@bratislava.sk
 - Website - [https://inovacie.bratislava.sk/](https://inovacie.bratislava.sk/)
-
-TODO
--- secrets creation support
-
 
