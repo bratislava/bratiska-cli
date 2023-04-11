@@ -664,16 +664,16 @@ function tag_value_staging(options) {
       new_tag_version = latest_tag_version;
       break;
     default:
-            new_tag_version = latest_main_version;
-            break;
-    }
-    if (options.major === true) {
-        return tag_text + increment_major(new_tag_version);
-    }
-    if (options.feature === true) {
-        return tag_text + increment_feature(new_tag_version);
-    }
-    return tag_text + increment_bug(new_tag_version);
+      new_tag_version = latest_main_version;
+      break;
+  }
+  if (options.major === true) {
+    return tag_text + increment_major(new_tag_version);
+  }
+  if (options.feature === true) {
+    return tag_text + increment_feature(new_tag_version);
+  }
+  return tag_text + increment_bug(new_tag_version);
 }
 function tag_value_prod(options) {
   if (options.branch !== "master") {
