@@ -7,7 +7,6 @@ const check_kustomize_1 = require("./build_kustomize/check_kustomize");
 const clean_kustomize_1 = require("./build_kustomize/clean_kustomize");
 const check_ports_numbers_1 = require("./build_kustomize/check_ports_numbers");
 const check_hosts_1 = require("./build_kustomize/check_hosts");
-
 class BuildKustomize {
   check_hosts(options) {
     (0, check_hosts_1.check_hosts)(options);
@@ -33,5 +32,4 @@ class BuildKustomize {
     (0, clean_kustomize_1.clean_kustomize)(options);
   }
 }
-
 exports.BuildKustomize = BuildKustomize;
