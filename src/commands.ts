@@ -365,7 +365,12 @@ export function docker_running(options: Options) {
   const result = cp.spawnSync('docker', ['info'], {
     encoding: 'utf8',
   });
-  return { res: result.stdout.trim(), err: result.stderr };
+
+  return {
+    res: result.stdout.trim(),
+    err: result.stderr,
+    status: result.status,
+  };
 }
 
 export function get_bratiska_cli_git_package_json() {

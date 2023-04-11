@@ -49,8 +49,8 @@ function show_version(options, local_bratiska_version) {
     if (compare_result === 1) {
       helpers.print_warning(`There is a newer bratiska-cli version (${github_package_version}) for you available. Please update with \`yarn global upgrade\` `);
       const difference = helpers.calculate_version_diff(local_bratiska_version, github_package_version);
-      if (difference >= 3) {
-        throw new Error(`Your bratiska-cli version (${local_bratiska_version}) is at-least four updates old, please update it, to continue using it!`);
+      if (difference >= 5) {
+        throw new Error(`Your bratiska-cli version (${local_bratiska_version}) is at-least five updates old, please update it, to continue using it!`);
       } else {
         helpers.sleep(3000);
       }

@@ -29,7 +29,6 @@ var __importStar = (this && this.__importStar) || function(mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_ports_numbers = void 0;
 const helpers = __importStar(require("../helpers"));
-
 function check_ports_numbers(options) {
   helpers.line(`(${helpers.step(options)}) Checking the ports numbers...`);
   if (options.build_image || options.build_image_no_registry) {
@@ -39,5 +38,4 @@ function check_ports_numbers(options) {
   helpers.check_ports(options);
   helpers.ok();
 }
-
 exports.check_ports_numbers = check_ports_numbers;
