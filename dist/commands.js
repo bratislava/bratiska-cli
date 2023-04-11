@@ -327,7 +327,11 @@ function docker_running(options) {
   const result = child_process_1.default.spawnSync("docker", ["info"], {
     encoding: "utf8"
   });
-  return { res: result.stdout.trim(), err: result.stderr };
+  return {
+    res: result.stdout.trim(),
+    err: result.stderr,
+    status: result.status
+  };
 }
 exports.docker_running = docker_running;
 function get_bratiska_cli_git_package_json() {
