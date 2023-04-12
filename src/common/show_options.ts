@@ -81,7 +81,7 @@ export function show_options(env: string, options: Options) {
   }
 
   if (typeof options.kubectl_timeout === 'undefined') {
-    options.kubectl_timeout = '120';
+    options.kubectl_timeout = '300';
   }
 
   if (typeof options.beta === 'undefined') {
