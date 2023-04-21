@@ -37,7 +37,7 @@ const build_kustomize_1 = require("./build_kustomize");
 const tag_1 = require("./tag");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "2.6.2";
+const version = "2.6.3";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -112,6 +112,7 @@ try {
     .option("-dry_run, --dry_run", "Run without deploying to kubernetes")
     .option("-k, --kustomize <file_or_direcotry>", "Specify kustomize file or kustomize directory")
     .option("-i, --image <url>", "Specify image from harbour via url")
+    .option("-tag, --tag <tag>", "Specify an image tag")
     .option("-n, --namespace <namespace>", "Namespace")
     .option("-d, --deployment <deployment>", "Deployment app")
     .option("-h, --host <host>", "Host url address")
@@ -209,6 +210,7 @@ try {
     .option("-force_rebuild, --force_rebuild", "Forcing image rebuild.")
     .option("-build_image_no_registry, --build_image_no_registry", "Don`t push to registry")
     .option("-s, --sentry <token>", "Specify sentry auth token for build")
+    .option("-tag, --tag <tag>", "Specify an image tag")
     .option("-r, --registry <url>", "Docker image registry url", "harbor.bratislava.sk")
     .option("-debug, --debug", "Debugging")
     .option("-beta, --beta", "Beta features")
@@ -271,6 +273,7 @@ try {
     .argument("[env]", "environment", "")
     .option("-k, --kustomize <file_or_direcotry>", "Specify kustomize file or kustomize directory")
     .option("-i, --image <url>", "Specify image from harbour via url")
+    .option("-tag, --tag <tag>", "Specify a image tag")
     .option("-n, --namespace <namespace>", "Namespace")
     .option("-d, --deployment <deployment>", "Deployment app")
     .option("-h, --host <host>", "Host url address")

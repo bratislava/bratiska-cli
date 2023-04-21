@@ -151,6 +151,10 @@ export function image_tag(options: Options) {
 }
 
 export function tag(options: Options) {
+  if (options.tag !== false) {
+    return <string>options.tag;
+  }
+
   if (options.image) {
     options.image = <string>options.image;
     const tmp_split = options.image.split(':');

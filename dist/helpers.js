@@ -166,6 +166,9 @@ function image_tag(options) {
 }
 exports.image_tag = image_tag;
 function tag(options) {
+  if (options.tag !== false) {
+    return options.tag;
+  }
   if (options.image) {
     options.image = options.image;
     const tmp_split = options.image.split(":");
