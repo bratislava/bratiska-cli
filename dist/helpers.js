@@ -366,7 +366,7 @@ function assign_env_vars(options) {
   // sometimes raw HOSTNAME cannot be used, therefore we have this placeholder
   if (!process.env["BRATISKA_HOSTNAME"]) {
     process.env["BRATISKA_HOSTNAME"] = options.host;
-    print_if_debug(options, `HOSTNAME=${process.env["BRATISKA_HOSTNAME"]}`);
+    print_if_debug(options, `BRATISKA_HOSTNAME=${process.env["BRATISKA_HOSTNAME"]}`);
   }
   if (!process.env["IMAGE_TAG"]) {
     process.env["IMAGE_TAG"] = image_tag(options);
