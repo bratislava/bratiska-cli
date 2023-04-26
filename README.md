@@ -321,6 +321,14 @@ If you want to specify image registry, use `--registry` flag.
 bratiska-cli build_image --registry harbor.example.com
 ```
 
+#### Specify namespace
+
+If you want to specify for harbor, use `--namespace` flag.
+
+```bash
+bratiska-cli build_image --namespace wordpress
+```
+
 #### No image registry check
 
 CLI will tell you that image you are building is already in registry. To skip this check use `--no_image_repo_check`
@@ -346,6 +354,14 @@ If you want to force rebuild an image, use `--force_rebuild` flag. It is needed 
 bratiska-cli build_image --force_rebuild
 ```
 
+##### Specify the tag value
+
+If you want to specify tag for the image, use `--tag` flag.
+
+```bash
+bratiska-cli build_image --tag 6.2-wordpress-php-fpm8.2
+```
+
 #### Debugging
 
 If you have some problem, there is always option to use --debug flag to print more info.
@@ -359,6 +375,7 @@ To use beta functionality, you can use `--beta` flag.
 ```bash
 bratiska-cli build_image --force_rebuild --beta
 ```
+
 
 ### command `build_kustomize`
 
@@ -409,7 +426,7 @@ bratiska-cli build_kustomize --no_image_repo_check
 
 #### Specify namespace
 
-If you want to specify kubernetes namespace, use `--namespace` flag.
+If you want to specify kubernetes namespace together with harbor namespace (we use it together), use `--namespace` flag.
 
 ```bash
 bratiska-cli build_kustomize --namespace standalone
@@ -680,10 +697,17 @@ prod => `` (is empty)
 ```dotenv
 ENV
 ```
+
 Can have three values: `dev`, `staging`, `prod`
 
 ```dotenv
 HOSTNAME
+```
+
+or
+
+```dotenv
+BRATISKA_HOSTNAME
 ```
 
 the hostname of the app

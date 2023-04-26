@@ -11,7 +11,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.6.4';
+const version = '2.6.5';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
