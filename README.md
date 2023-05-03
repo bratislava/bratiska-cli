@@ -670,8 +670,8 @@ You can
 achieve it by creating files:
 
 `.env.bratiska-cli-build.dev`
-`.env.env.bratiska-cli-build.staging`
-`.env.env.bratiska-cli-build.prod`
+`.env.bratiska-cli-build.staging`
+`.env.bratiska-cli-build.prod`
 
 Which is then loaded by bratiska-cli, and all its content is copied to file `.env.production.local`, which is then
 loaded to docker and processed by next during the build. More info regarding the next envs can be found
