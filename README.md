@@ -659,16 +659,16 @@ in `config.json`
 
 ### Environment variables for docker next build
 
-Sometimes you need to have different environment variables for other clusters during docker next build. You can
+Sometimes you need to have different environment variables for other clusters during docker next build with bratiska.
+You can
 achieve it by creating files:
 
-`.env.dev`
-`.env.staging`
-`.env.prod`
+`.env.bratiska-cli-build.dev`
+`.env.env.bratiska-cli-build.staging`
+`.env.env.bratiska-cli-build.prod`
 
 Which is then loaded by bratiska-cli, and all its content is copied to file `.env.production.local`, which is then
-loaded
-to docker and processed by next during the build. More info regarding the next envs can be found
+loaded to docker and processed by next during the build. More info regarding the next envs can be found
 here: https://nextjs.org/docs/basic-features/environment-variables
 
 ### Environment variables passed to kustomize files
