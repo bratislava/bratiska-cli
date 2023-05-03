@@ -16,6 +16,11 @@ Installing dependencies
 yarn global add bratislava/bratiska-cli
 ```
 
+#### Note
+
+This utility needs `linux` based operating system to run properly. If you are using `Windows`, you can use `WSL` to run
+it.
+
 ### Versions
 
 We provide three versions of `bratiska-cli`:
@@ -47,7 +52,8 @@ yarn global add bratislava/bratiska-cli#stable
 
 To be able to work with this utility, you need to have a few things configured. Different commands require different
 accesses.
-How to install required tools and how to configure them is described bellow this list.
+How to install required tools and how to configure them is described bellow this list. This utility runs only on `linux`
+based operating systems.
 
 ### `tag` command
 
