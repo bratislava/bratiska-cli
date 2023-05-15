@@ -636,7 +636,7 @@ function increment_bug(version: string) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[2] > 9) {
+  if (++terms[2] > 99) {
     ++terms[1];
     terms[2] = 0;
   }
