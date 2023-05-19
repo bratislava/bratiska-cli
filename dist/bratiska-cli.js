@@ -37,7 +37,7 @@ const build_kustomize_1 = require("./build_kustomize");
 const tag_1 = require("./tag");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "2.6.8";
+const version = "2.6.9";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -94,7 +94,7 @@ try {
       /* step 10 */
       //common.check_kubernetes_cluster(options);
       /* step 11 */
-      common.check_kubernetes_enviroment(options);
+      //common.check_kubernetes_enviroment(options);
       /* step 12 */
       tag.delete_tag(options);
       /* step 13 */
