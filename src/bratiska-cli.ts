@@ -11,7 +11,7 @@ import { Tag } from './tag';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '2.6.7';
+const version = '2.6.8';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -82,7 +82,7 @@ try {
       /* step 9 */
       common.get_git_tags(options);
       /* step 10 */
-      common.check_kubernetes_cluster(options);
+      //common.check_kubernetes_cluster(options);
       /* step 11 */
       common.check_kubernetes_enviroment(options);
       /* step 12 */
