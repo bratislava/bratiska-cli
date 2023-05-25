@@ -192,6 +192,7 @@ export function tag(options: Options) {
 
   let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${commit}${tag}-v${options.version}`;
   tag_value = tag_value.replace(' ', '-');
+  tag_value = tag_value.replace('+', '-');
   tag_value = tag_value.replace(/[#@/\\_]/g, '-');
   tag_value = tag_value.replace(/-+/g, '-');
 
