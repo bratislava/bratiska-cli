@@ -35,14 +35,16 @@ const deploy_1 = require("./deploy");
 const build_image_1 = require("./build_image");
 const build_kustomize_1 = require("./build_kustomize");
 const tag_1 = require("./tag");
+const label_1 = require("./label");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "2.6.10";
+const version = "3.0.0";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
 const build_image = new build_image_1.BuildImage();
 const build_kustomize = new build_kustomize_1.BuildKustomize();
+const label = new label_1.Label();
 try {
   (0, clear_1.default)();
   console.log(chalk_1.default.blue(figlet_1.default.textSync("Bratiska-cli", { horizontalLayout: "full" })));
@@ -321,6 +323,43 @@ try {
       build_kustomize.build_kustomize(options);
       /* step 16 */
       build_kustomize.check_kustomize(options);
+    });
+  commander_1.program
+    .command("label")
+    .summary("Apply labels to kubernetes resources")
+    .description("This command will add label to all kubernetes resources based on deployment app.")
+    .argument("[label_value]", "label value like a=xyz", "")
+    .option("-r, --resources <resources>", "Kubernetes resources types where label will be applied. If none is provided, then all resources all applied. Example in comma separated list: \"deployments,services,ingresses\"")
+    .option("-s, --secrets <secrets>", "App secrets where label will be applied without app prefix. If none is provided, then default secrets are applied. Example in comma separated list: \"database-secret,redis-secret\"")
+    .option("-recursive, --recursive", "If label will be applied to spec resources inside of resources, like a matchLabels or template labels")
+    .option("-n, --namespace <namespace>", "Namespace")
+    .option("-d, --deployment <deployment>", "Deployment app")
+    .option("-staging, --staging", "Staging flag")
+    .option("-production, --production", "Production flag")
+    .option("-debug, --debug", "Debugging")
+    .option("-beta, --beta", "Beta features")
+    .option("-force, --force <pass>", "Force")
+    .action((label_value, options) => {
+      /* step 0 */
+      common.show_version(options, version);
+      /* step 1 */
+      common.show_options("", options);
+      /* step 2 */
+      label.show_label_info(label_value, options);
+      /* step 3 */
+      common.check_kubernetes_cluster(options);
+      /* step 4 */
+      deploy.check_kubernetes_connection(options);
+      /* step 5 */
+      common.check_kubernetes_enviroment(options);
+      /* step 6 */
+      common.check_kubernetes_deployment(options);
+      /* step 7 */
+      deploy.check_kubernetes_cluster_conditions(options);
+      /* step 8 */
+      label.add_label_to_resources(options);
+      /* step 9 */
+      label.add_label_to_secrets(options);
     });
   commander_1.program.parse(process.argv);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

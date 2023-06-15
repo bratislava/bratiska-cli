@@ -26,6 +26,10 @@ export function spacer() {
   return '    ';
 }
 
+export function double_spacer() {
+  return spacer() + spacer();
+}
+
 export function spacer_line(content: string) {
   return line(spacer() + content);
 }
@@ -576,6 +580,10 @@ export function print_options(options: Options) {
     print_important_info_spacer(`--local`);
   }
 
+  if (options.recursive) {
+    print_important_info_spacer(`--recursive`);
+  }
+
   if (options.env) {
     print_important_info_spacer(`--env=${options.env}`);
   }
@@ -618,6 +626,14 @@ export function print_options(options: Options) {
 
   if (options.registry) {
     print_important_info_spacer(`--registry=${options.registry}`);
+  }
+
+  if (options.resources) {
+    print_important_info_spacer(`--resources=${options.resources}`);
+  }
+
+  if (options.secrets) {
+    print_important_info_spacer(`--secrets=${options.secrets}`);
   }
 }
 

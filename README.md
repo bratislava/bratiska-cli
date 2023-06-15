@@ -95,6 +95,14 @@ The most complex command, requires much more things to be installed and configur
 - access rights to github repository
 - access rights to kubernetes cluster
 
+### `label` command
+
+If you need to add label to kubernetes resources, you can use this command. It requires:
+
+- installed `git`
+- installed `kubectl`
+- access rights to kubernetes cluster
+
 #### Accesses:
 
 1. Docker Harbor access - can be
@@ -614,6 +622,122 @@ Dry run with custom image and specified folder to kustomize.
 ```bash
 bratiska-cli deploy --dry_run --image harbor.bratislava.sk/standalone/nest-prisma-template:bratiska-cli-3f3ce4fd14c76138a081596b2987a81f18a3c747-master-untracked --kustomize ./kubernetes/base
 ```
+
+### command `label`
+
+This command allow you to add lables to kubernetes resources. You can specify resources by name or by label selector. As
+secrets don't have app name labels, bratiska-cli tries to use some predefined most used secrets to try to hit correct
+secret for that app.
+Kubernetes resource with new label looks like this:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nest-forms-backend-app
+  namespace: standalone
+  labels:
+    app: nest-forms-backend
+    source: nest-forms-backend
+    labelkey: labelvalue
+```
+
+#### Simple add label to kubernetes app
+
+If you want to add label to almost all resources which has a deployment like `nest-prisma-template`, you can use this
+command:
+
+```bash
+bratiska-cli label key=value 
+``` 
+
+Please note that you need to be in folder where is `project.json` file from which we determine the name of the app.
+In normal run you don`t need to specify resource, because label command is taking all these resources into account:
+
+```bash
+pods
+deployments
+statefulsets
+persistentvolumeclaims
+services
+endpoints
+ingresses
+configmaps
+sealedsecrets
+secrets
+```
+
+#### Add label on staging or production
+
+Just as in other cases you can use `--staging` or `--production` flag to confirm environment. You also need to have
+kubectl context set to correct cluster.
+
+```bash
+bratiska-cli label key=value --staging
+```
+
+or
+
+```bash
+bratiska-cli label key=value --production
+```
+
+#### Specify resource which needs to be tagged
+
+If you want to tag only one resource, you can use this command:
+
+```bash
+bratiska-cli label key=value --resources=deployments
+```
+
+#### Specify secret which needs to be tagged
+
+If your app has some secret which was not taged from general list of secrets, you can specify it like this:
+
+```bash
+bratiska-cli label key=value --secret=database-secret
+```
+
+Usually secret has a name `nest-prisma-template-database-secret`, but you have to specify it without app name.
+
+Here is the list of secrets which are trying to be tagged by default:
+
+```bash
+tls
+database-secret
+general-secret
+mailgun-secret
+azure-secret
+internals-secret
+meilisearch-secret
+plugin-preview-secret
+cognito-secret
+magproxy-secret
+scanner-secret
+forms-secret
+app-secret
+mapbox-secret
+msal-secret
+ginis-secret
+```
+
+If secret does not exist in the namespace `label` command will just skip it and says that secret does not exist.
+
+```bash
+Error from server (NotFound): secrets "nest-forms-backend-mapbox-secret" not found
+secret mapbox-secret does not exist. Skipping...
+```
+
+#### Add label to subset of resources
+
+This feature is not yet fully implemented in the version `3.0.0` but if you need to add label to sub resources you can
+use:
+
+```bash
+bratiska-cli label key=value --recursive
+```
+
+Please not that this will restart the current running pods.
 
 ## Automatisation
 
