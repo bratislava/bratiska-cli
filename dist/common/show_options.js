@@ -122,6 +122,15 @@ function show_options(env, options) {
   if (typeof options.major === "undefined") {
     options.major = false;
   }
+  if (typeof options.resources === "undefined") {
+    options.resources = false;
+  }
+  if (typeof options.secrets === "undefined") {
+    options.secrets = false;
+  }
+  if (typeof options.recursive === "undefined") {
+    options.recursive = false;
+  }
   if (process.env["CI"]) {
     options.pipelines = true;
   }

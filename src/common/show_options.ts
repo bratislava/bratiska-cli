@@ -120,6 +120,18 @@ export function show_options(env: string, options: Options) {
     options.major = false;
   }
 
+  if (typeof options.resources === 'undefined') {
+    options.resources = false;
+  }
+
+  if (typeof options.secrets === 'undefined') {
+    options.secrets = false;
+  }
+
+  if (typeof options.recursive === 'undefined') {
+    options.recursive = false;
+  }
+
   if (process.env['CI']) {
     options.pipelines = true;
   }
