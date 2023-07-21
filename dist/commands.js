@@ -26,7 +26,7 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_deployment_logs = exports.kubectl_deploy_events = exports.kubectl_deploy_status_utf8 = exports.kubectl_deploy_status_stdio = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_service_account = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_list_of_brnaches_with_refs = exports.git_get_last_remote_tags = exports.git_origin_commit_tag = exports.git_push_tag = exports.git_delete_tag_origin = exports.git_delete_tag = exports.git_add_tag = exports.git_commit_tag = exports.git_current_commit_short = exports.git_current_commit = exports.git_pull_origin = exports.git_fetch_origin = exports.git_repository_url = exports.git_branch_from_commit = exports.git_current_branch = exports.git_user_email = exports.git_user_name = exports.cd = exports.pwd = void 0;
+exports.kubectl_label_secrets = exports.kubectl_label_resources = exports.kubect_get_deployment = exports.kubectl_deployment_logs = exports.kubectl_deploy_events = exports.kubectl_deploy_status_utf8 = exports.kubectl_deploy_status_stdio = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_service_account = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_list_of_brnaches_with_refs = exports.git_get_last_remote_tags = exports.git_origin_commit_tag = exports.git_push_tag = exports.git_delete_tag_origin = exports.git_delete_tag = exports.git_add_tag = exports.git_commit_tag = exports.git_current_commit_short = exports.git_current_commit = exports.git_pull_origin = exports.git_fetch_origin = exports.git_repository_url = exports.git_branch_from_commit = exports.git_current_branch = exports.git_user_email = exports.git_user_name = exports.cd = exports.pwd = void 0;
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
@@ -410,4 +410,65 @@ function kubectl_deployment_logs(options) {
     stdio: "inherit"
   });
 }
+
 exports.kubectl_deployment_logs = kubectl_deployment_logs;
+
+function kubect_get_deployment(options) {
+  const result = child_process_1.default.spawnSync("kubectl", [
+    "get",
+    "deployment",
+    `${options.deployment}-app`,
+    `-n=${options.namespace}`
+  ], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout, err: result.stderr };
+}
+
+exports.kubect_get_deployment = kubect_get_deployment;
+
+function kubectl_label_resources(options) {
+  helpers.log(chalk_1.default.reset(""));
+  //check if options.resources is an array
+  if (!Array.isArray(options.resources)) {
+    throw new Error(`options.resources is not an array. It is ${typeof options.resources}`);
+  }
+  const resources_imp = options.resources.join(",");
+  let dryrun = "";
+  if (options.dryrun) {
+    dryrun = "--dry-run=client";
+  }
+  const cmd = `kubectl label ${resources_imp} -l "app=${options.deployment}" -n=${options.namespace} ${options.label} app=${options.deployment} --overwrite ${dryrun}`;
+  helpers.print_if_debug(options, `label command: ${cmd}`);
+  (0, child_process_1.execSync)(cmd, {
+    stdio: "inherit"
+  });
+}
+
+exports.kubectl_label_resources = kubectl_label_resources;
+
+function kubectl_label_secrets(options) {
+  helpers.log(chalk_1.default.reset(""));
+  //check if options.resources is an array
+  if (!Array.isArray(options.secrets)) {
+    throw new Error(`options.secrets is not an array. It is ${typeof options.secrets}`);
+  }
+  let dryrun = "";
+  if (options.dryrun) {
+    dryrun = "--dry-run=client";
+  }
+  //loop through secrets and label them
+  options.secrets.forEach((secret) => {
+    try {
+      const cmd = `kubectl label secrets ${options.deployment}-${secret} -n=${options.namespace} ${options.label} app=${options.deployment} --overwrite ${dryrun}`;
+      helpers.print_if_debug(options, `label command: ${cmd}`);
+      (0, child_process_1.execSync)(cmd, {
+        stdio: "inherit"
+      });
+    } catch (error) {
+      helpers.print_warning(`secret ${secret} does not exist. Skipping...`);
+    }
+  });
+}
+
+exports.kubectl_label_secrets = kubectl_label_secrets;
