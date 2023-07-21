@@ -26,6 +26,10 @@ export function spacer() {
   return '    ';
 }
 
+export function double_spacer() {
+  return spacer() + spacer();
+}
+
 export function spacer_line(content: string) {
   return line(spacer() + content);
 }
@@ -151,6 +155,10 @@ export function image_tag(options: Options) {
 }
 
 export function tag(options: Options) {
+  if (options.tag !== false) {
+    return <string>options.tag;
+  }
+
   if (options.image) {
     options.image = <string>options.image;
     const tmp_split = options.image.split(':');
@@ -188,6 +196,7 @@ export function tag(options: Options) {
 
   let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${commit}${tag}-v${options.version}`;
   tag_value = tag_value.replace(' ', '-');
+  tag_value = tag_value.replace('+', '-');
   tag_value = tag_value.replace(/[#@/\\_]/g, '-');
   tag_value = tag_value.replace(/-+/g, '-');
 
@@ -379,6 +388,14 @@ export function assign_env_vars(options: Options) {
     process.env['HOSTNAME'] = options.host;
     print_if_debug(options, `HOSTNAME=${process.env['HOSTNAME']}`);
   }
+  // sometimes raw HOSTNAME cannot be used, therefore we have this placeholder
+  if (!process.env['BRATISKA_HOSTNAME']) {
+    process.env['BRATISKA_HOSTNAME'] = options.host;
+    print_if_debug(
+      options,
+      `BRATISKA_HOSTNAME=${process.env['BRATISKA_HOSTNAME']}`,
+    );
+  }
   if (!process.env['IMAGE_TAG']) {
     process.env['IMAGE_TAG'] = <string>image_tag(options);
     print_if_debug(options, `IMAGE_TAG=${process.env['IMAGE_TAG']}`);
@@ -563,6 +580,10 @@ export function print_options(options: Options) {
     print_important_info_spacer(`--local`);
   }
 
+  if (options.recursive) {
+    print_important_info_spacer(`--recursive`);
+  }
+
   if (options.env) {
     print_important_info_spacer(`--env=${options.env}`);
   }
@@ -606,6 +627,14 @@ export function print_options(options: Options) {
   if (options.registry) {
     print_important_info_spacer(`--registry=${options.registry}`);
   }
+
+  if (options.resources) {
+    print_important_info_spacer(`--resources=${options.resources}`);
+  }
+
+  if (options.secrets) {
+    print_important_info_spacer(`--secrets=${options.secrets}`);
+  }
 }
 
 export function step(options: Options) {
@@ -624,7 +653,7 @@ function increment_bug(version: string) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[2] > 9) {
+  if (++terms[2] > 99) {
     ++terms[1];
     terms[2] = 0;
   }
