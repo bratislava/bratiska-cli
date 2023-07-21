@@ -26,8 +26,8 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.load_package = exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_ignore_path = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug_bash = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_error_line_spacer = exports.print_error_line = exports.print_error = exports.print_warning_line = exports.print_warning = exports.print_important_info_line = exports.print_important_info_spacer = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.spacer_log = exports.spacer_line = exports.spacer = exports.line = exports.log = void 0;
-exports.kind_to_app = exports.sleep = exports.get_final_branch = exports.tag_value = exports.calculate_version_diff = exports.is_allowed_env = exports.step = exports.print_options = exports.load_json = void 0;
+exports.game_over = exports.star_wars = exports.assign_env_vars = exports.is_deployment_image = exports.is_master_image = exports.map_cluster_to_env = exports.check_ports = exports.capitalize = exports.pull_secret_name = exports.kustomize_folder_base = exports.docker_ignore_path = exports.docker_build_next_env = exports.bratiska_cli_build_dot_env_path = exports.bratiska_cli_build_env_filename = exports.kustomize_folder_path = exports.dockerfile_path = exports.manifest_path = exports.manifest = exports.image_latest_tag = exports.latest_tag = exports.tag = exports.image_tag = exports.image = exports.message = exports.print_line_if_debug = exports.print_if_debug_bash = exports.print_if_debug = exports.print_debug = exports.print_info_line = exports.print_info = exports.print_error_line_spacer = exports.print_error_line = exports.print_error = exports.print_warning_line = exports.print_warning = exports.print_important_info_line = exports.print_important_info_spacer = exports.print_important_info = exports.print_command = exports.br = exports.finished = exports.not_present = exports.skipping = exports.ok = exports.spacer_log = exports.spacer_line = exports.double_spacer = exports.spacer = exports.line = exports.log = void 0;
+exports.kind_to_app = exports.sleep = exports.get_final_branch = exports.tag_value = exports.calculate_version_diff = exports.is_allowed_env = exports.step = exports.print_options = exports.load_json = exports.load_package = void 0;
 const chalk_1 = __importDefault(require("chalk"));
 const clear_1 = __importDefault(require("clear"));
 const figlet_1 = __importDefault(require("figlet"));
@@ -44,22 +44,37 @@ const ALLOWED_ENVIRONMENTS = [
   "build_kustomize"
 ];
 exports.log = console.log.bind(console);
+
 function line(content) {
   process.stdout.write("\x1b[37m" + content);
 }
+
 exports.line = line;
+
 function spacer() {
   return "    ";
 }
+
 exports.spacer = spacer;
-function spacer_line(content) {
-    return line(spacer() + content);
+
+function double_spacer() {
+  return spacer() + spacer();
 }
+
+exports.double_spacer = double_spacer;
+
+function spacer_line(content) {
+  return line(spacer() + content);
+}
+
 exports.spacer_line = spacer_line;
+
 function spacer_log(content) {
   return line("\n" + spacer() + content);
 }
+
 exports.spacer_log = spacer_log;
+
 function ok() {
   (0, exports.log)(chalk_1.default.green(" OK"));
 }
@@ -166,6 +181,9 @@ function image_tag(options) {
 }
 exports.image_tag = image_tag;
 function tag(options) {
+  if (options.tag !== false) {
+    return options.tag;
+  }
   if (options.image) {
     options.image = options.image;
     const tmp_split = options.image.split(":");
@@ -197,6 +215,7 @@ function tag(options) {
   }
   let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${commit}${tag}-v${options.version}`;
   tag_value = tag_value.replace(" ", "-");
+  tag_value = tag_value.replace("+", "-");
   tag_value = tag_value.replace(/[#@/\\_]/g, "-");
   tag_value = tag_value.replace(/-+/g, "-");
   return tag_value.substring(0, 128);
@@ -360,6 +379,11 @@ function assign_env_vars(options) {
     process.env["HOSTNAME"] = options.host;
     print_if_debug(options, `HOSTNAME=${process.env["HOSTNAME"]}`);
   }
+  // sometimes raw HOSTNAME cannot be used, therefore we have this placeholder
+  if (!process.env["BRATISKA_HOSTNAME"]) {
+    process.env["BRATISKA_HOSTNAME"] = options.host;
+    print_if_debug(options, `BRATISKA_HOSTNAME=${process.env["BRATISKA_HOSTNAME"]}`);
+  }
   if (!process.env["IMAGE_TAG"]) {
     process.env["IMAGE_TAG"] = image_tag(options);
     print_if_debug(options, `IMAGE_TAG=${process.env["IMAGE_TAG"]}`);
@@ -496,25 +520,28 @@ function print_options(options) {
     if (options.delete) {
         print_important_info_spacer(`--delete`);
     }
-    if (options.feature) {
-        print_important_info_spacer(`--feature`);
-    }
-    if (options.major) {
-        print_important_info_spacer(`--major`);
-    }
-    if (options.local) {
-        print_important_info_spacer(`--local`);
-    }
-    if (options.env) {
-        print_important_info_spacer(`--env=${options.env}`);
-    }
-    if (options.tech) {
-        print_important_info_spacer(`--tech=${options.tech}`);
-    }
-    if (options.tag) {
-        print_important_info_spacer(`--tag=${options.tag}`);
-    }
-    if (options.deployment) {
+  if (options.feature) {
+    print_important_info_spacer(`--feature`);
+  }
+  if (options.major) {
+    print_important_info_spacer(`--major`);
+  }
+  if (options.local) {
+    print_important_info_spacer(`--local`);
+  }
+  if (options.recursive) {
+    print_important_info_spacer(`--recursive`);
+  }
+  if (options.env) {
+    print_important_info_spacer(`--env=${options.env}`);
+  }
+  if (options.tech) {
+    print_important_info_spacer(`--tech=${options.tech}`);
+  }
+  if (options.tag) {
+    print_important_info_spacer(`--tag=${options.tag}`);
+  }
+  if (options.deployment) {
         print_important_info_spacer(`--deployment=${options.deployment}`);
     }
     if (options.kubectl_timeout) {
@@ -529,15 +556,21 @@ function print_options(options) {
     if (options.kustomize) {
         print_important_info_spacer(`--kustomize=${options.kustomize}`);
     }
-    if (options.namespace) {
-        print_important_info_spacer(`--namespace=${options.namespace}`);
-    }
-    if (options.host) {
-        print_important_info_spacer(`--host=${options.host}`);
-    }
-    if (options.registry) {
-        print_important_info_spacer(`--registry=${options.registry}`);
-    }
+  if (options.namespace) {
+    print_important_info_spacer(`--namespace=${options.namespace}`);
+  }
+  if (options.host) {
+    print_important_info_spacer(`--host=${options.host}`);
+  }
+  if (options.registry) {
+    print_important_info_spacer(`--registry=${options.registry}`);
+  }
+  if (options.resources) {
+    print_important_info_spacer(`--resources=${options.resources}`);
+  }
+  if (options.secrets) {
+    print_important_info_spacer(`--secrets=${options.secrets}`);
+  }
 }
 exports.print_options = print_options;
 function step(options) {
@@ -556,7 +589,7 @@ function increment_bug(version) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[2] > 9) {
+  if (++terms[2] > 99) {
     ++terms[1];
     terms[2] = 0;
   }

@@ -8,15 +8,20 @@ import { Deploy } from './deploy';
 import { BuildImage } from './build_image';
 import { BuildKustomize } from './build_kustomize';
 import { Tag } from './tag';
+import { Label } from './label';
 import { Common } from './common';
 import * as helpers from './helpers';
+import { add_label_to_resources } from './label/add_label_to_resources';
+import { check_kubernetes_deployment } from './common/check_kubernetes_deployment';
+import { add_label_to_secrets } from './label/add_label_to_secrets';
 
-const version = '2.6.2';
+const version = '3.0.0';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
 const build_image = new BuildImage();
 const build_kustomize = new BuildKustomize();
+const label = new Label();
 
 try {
   clear();
@@ -82,9 +87,9 @@ try {
       /* step 9 */
       common.get_git_tags(options);
       /* step 10 */
-      common.check_kubernetes_cluster(options);
+      //common.check_kubernetes_cluster(options);
       /* step 11 */
-      common.check_kubernetes_enviroment(options);
+      //common.check_kubernetes_enviroment(options);
       /* step 12 */
       tag.delete_tag(options);
       /* step 13 */
@@ -110,6 +115,7 @@ try {
       'Specify kustomize file or kustomize directory',
     )
     .option('-i, --image <url>', 'Specify image from harbour via url')
+    .option('-tag, --tag <tag>', 'Specify an image tag')
     .option('-n, --namespace <namespace>', 'Namespace')
     .option('-d, --deployment <deployment>', 'Deployment app')
     .option('-h, --host <host>', 'Host url address')
@@ -228,6 +234,8 @@ try {
       'Don`t push to registry',
     )
     .option('-s, --sentry <token>', 'Specify sentry auth token for build')
+    .option('-tag, --tag <tag>', 'Specify an image tag')
+    .option('-n, --namespace <namespace>', 'Namespace')
     .option(
       '-r, --registry <url>',
       'Docker image registry url',
@@ -303,6 +311,7 @@ try {
       'Specify kustomize file or kustomize directory',
     )
     .option('-i, --image <url>', 'Specify image from harbour via url')
+    .option('-tag, --tag <tag>', 'Specify a image tag')
     .option('-n, --namespace <namespace>', 'Namespace')
     .option('-d, --deployment <deployment>', 'Deployment app')
     .option('-h, --host <host>', 'Host url address')
@@ -356,6 +365,55 @@ try {
       build_kustomize.build_kustomize(options);
       /* step 16 */
       build_kustomize.check_kustomize(options);
+    });
+
+  program
+    .command('label')
+    .summary('Apply labels to kubernetes resources')
+    .description(
+      'This command will add label to all kubernetes resources based on deployment app.',
+    )
+    .argument('[label_value]', 'label value like a=xyz', '')
+    .option(
+      '-r, --resources <resources>',
+      'Kubernetes resources types where label will be applied. If none is provided, then all resources all applied. Example in comma separated list: "deployments,services,ingresses"',
+    )
+    .option(
+      '-s, --secrets <secrets>',
+      'App secrets where label will be applied without app prefix. If none is provided, then default secrets are applied. Example in comma separated list: "database-secret,redis-secret"',
+    )
+    .option(
+      '-recursive, --recursive',
+      'If label will be applied to spec resources inside of resources, like a matchLabels or template labels',
+    )
+    .option('-n, --namespace <namespace>', 'Namespace')
+    .option('-d, --deployment <deployment>', 'Deployment app')
+    .option('-staging, --staging', 'Staging flag')
+    .option('-production, --production', 'Production flag')
+    .option('-debug, --debug', 'Debugging')
+    .option('-beta, --beta', 'Beta features')
+    .option('-force, --force <pass>', 'Force')
+    .action((label_value, options) => {
+      /* step 0 */
+      common.show_version(options, version);
+      /* step 1 */
+      common.show_options('', options);
+      /* step 2 */
+      label.show_label_info(label_value, options);
+      /* step 3 */
+      common.check_kubernetes_cluster(options);
+      /* step 4 */
+      deploy.check_kubernetes_connection(options);
+      /* step 5 */
+      common.check_kubernetes_enviroment(options);
+      /* step 6 */
+      common.check_kubernetes_deployment(options);
+      /* step 7 */
+      deploy.check_kubernetes_cluster_conditions(options);
+      /* step 8 */
+      label.add_label_to_resources(options);
+      /* step 9 */
+      label.add_label_to_secrets(options);
     });
 
   program.parse(process.argv);

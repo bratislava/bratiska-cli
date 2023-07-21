@@ -15,6 +15,8 @@ const get_git_pull_1 = require("./common/get_git_pull");
 const get_git_status_1 = require("./common/get_git_status");
 const check_git_merge_status_1 = require("./common/check_git_merge_status");
 const get_git_tags_1 = require("./common/get_git_tags");
+const check_kubernetes_deployment_1 = require("./common/check_kubernetes_deployment");
+
 class Common {
   show_options(env, options) {
     (0, show_options_1.show_options)(env, options);
@@ -70,6 +72,10 @@ class Common {
 
   check_kubernetes_enviroment(options) {
     (0, check_kubernetes_enviroment_1.check_kubernetes_enviroment)(options);
+  }
+
+  check_kubernetes_deployment(options) {
+    (0, check_kubernetes_deployment_1.check_kubernetes_deployment)(options);
   }
 }
 exports.Common = Common;

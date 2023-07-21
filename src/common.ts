@@ -14,6 +14,7 @@ import { get_git_pull } from './common/get_git_pull';
 import { get_git_status } from './common/get_git_status';
 import { check_git_merge_status } from './common/check_git_merge_status';
 import { get_git_tags } from './common/get_git_tags';
+import { check_kubernetes_deployment } from './common/check_kubernetes_deployment';
 
 export class Common {
   show_options(env: string, options: Options) {
@@ -70,5 +71,9 @@ export class Common {
 
   check_kubernetes_enviroment(options: Options) {
     check_kubernetes_enviroment(options);
+  }
+
+  check_kubernetes_deployment(options: Options) {
+    check_kubernetes_deployment(options);
   }
 }
