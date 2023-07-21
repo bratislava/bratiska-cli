@@ -479,3 +479,72 @@ export function kubectl_deployment_logs(options: Options) {
     },
   );
 }
+
+export function kubect_get_deployment(options: Options): Bash {
+  const result = cp.spawnSync(
+    'kubectl',
+    [
+      'get',
+      'deployment',
+      `${options.deployment}-app`,
+      `-n=${options.namespace}`,
+    ],
+    {
+      encoding: 'utf8',
+    },
+  );
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function kubectl_label_resources(options: Options) {
+  helpers.log(chalk.reset(''));
+
+  //check if options.resources is an array
+  if (!Array.isArray(options.resources)) {
+    throw new Error(
+      `options.resources is not an array. It is ${typeof options.resources}`,
+    );
+  }
+  const resources_imp = options.resources.join(',');
+
+  let dryrun = '';
+  if (options.dryrun) {
+    dryrun = '--dry-run=client';
+  }
+  const cmd = `kubectl label ${resources_imp} -l "app=${options.deployment}" -n=${options.namespace} ${options.label} app=${options.deployment} --overwrite ${dryrun}`;
+  helpers.print_if_debug(options, `label command: ${cmd}`);
+
+  execSync(cmd, {
+    stdio: 'inherit',
+  });
+}
+
+export function kubectl_label_secrets(options: Options) {
+  helpers.log(chalk.reset(''));
+
+  //check if options.resources is an array
+  if (!Array.isArray(options.secrets)) {
+    throw new Error(
+      `options.secrets is not an array. It is ${typeof options.secrets}`,
+    );
+  }
+  let dryrun = '';
+  if (options.dryrun) {
+    dryrun = '--dry-run=client';
+  }
+
+  //loop through secrets and label them
+  options.secrets.forEach((secret) => {
+    try {
+      const cmd = `kubectl label secrets ${options.deployment}-${secret} -n=${options.namespace} ${options.label} app=${options.deployment} --overwrite ${dryrun}`;
+      helpers.print_if_debug(options, `label command: ${cmd}`);
+
+      execSync(cmd, {
+        stdio: 'inherit',
+      });
+    } catch (error) {
+      helpers.print_warning(`secret ${secret} does not exist. Skipping...`);
+    }
+  });
+}
