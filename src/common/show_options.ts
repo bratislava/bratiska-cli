@@ -146,7 +146,7 @@ export function show_options(env: string, options: Options) {
       .update(options.force)
       .digest('base64');
     console.log(pass);
-    if (pass === 'ynqstnhwPpmybNTjkQfHxXJuviKIyMRV66kUWcrspmU=') {
+    if (pass === '8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=') {
       options.force = true;
       helpers.star_wars();
     } else {

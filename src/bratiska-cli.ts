@@ -11,11 +11,8 @@ import { Tag } from './tag';
 import { Label } from './label';
 import { Common } from './common';
 import * as helpers from './helpers';
-import { add_label_to_resources } from './label/add_label_to_resources';
-import { check_kubernetes_deployment } from './common/check_kubernetes_deployment';
-import { add_label_to_secrets } from './label/add_label_to_secrets';
 
-const version = '3.0.1';
+const version = '3.0.2';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
