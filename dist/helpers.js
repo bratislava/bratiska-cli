@@ -473,15 +473,15 @@ function print_options(options) {
     if (options.production) {
       print_important_info_spacer("--production");
     }
-    if (options.beta) {
-        print_important_info_spacer(`--beta`);
-    }
-    if (options.debug) {
-      print_important_info_spacer("--debug");
-    }
-    if (options.no_image_repo_check) {
-      print_important_info_spacer("--no_image_repo_check");
-    }
+  if (options.beta) {
+    print_important_info_spacer(`--beta`);
+  }
+  if (options.debug) {
+    print_important_info_spacer("--debug");
+  }
+  if (options.no_image_repo_check) {
+    print_important_info_spacer("--no_image_repo_check");
+  }
   if (options.dry_run) {
     print_important_info_spacer("--dry_run");
   }
