@@ -44,37 +44,26 @@ const ALLOWED_ENVIRONMENTS = [
   "build_kustomize"
 ];
 exports.log = console.log.bind(console);
-
 function line(content) {
   process.stdout.write("\x1b[37m" + content);
 }
-
 exports.line = line;
-
 function spacer() {
   return "    ";
 }
-
 exports.spacer = spacer;
-
 function double_spacer() {
   return spacer() + spacer();
 }
-
 exports.double_spacer = double_spacer;
-
 function spacer_line(content) {
   return line(spacer() + content);
 }
-
 exports.spacer_line = spacer_line;
-
 function spacer_log(content) {
   return line("\n" + spacer() + content);
 }
-
 exports.spacer_log = spacer_log;
-
 function ok() {
   (0, exports.log)(chalk_1.default.green(" OK"));
 }
@@ -511,15 +500,15 @@ function print_options(options) {
     if (options.build_image_no_registry) {
       print_important_info_spacer("--build_image_no_registry");
     }
-    if (options.no_pull) {
-      print_important_info_spacer("--no_pull");
-    }
-    if (options.recreate) {
-        print_important_info_spacer(`--recreate`);
-    }
-    if (options.delete) {
-        print_important_info_spacer(`--delete`);
-    }
+  if (options.no_pull) {
+    print_important_info_spacer("--no_pull");
+  }
+  if (options.recreate) {
+    print_important_info_spacer(`--recreate`);
+  }
+  if (options.delete) {
+    print_important_info_spacer(`--delete`);
+  }
   if (options.feature) {
     print_important_info_spacer(`--feature`);
   }
@@ -542,20 +531,20 @@ function print_options(options) {
     print_important_info_spacer(`--tag=${options.tag}`);
   }
   if (options.deployment) {
-        print_important_info_spacer(`--deployment=${options.deployment}`);
-    }
-    if (options.kubectl_timeout) {
-        print_important_info_spacer(`--kubectl_timeout=${options.kubectl_timeout}`);
-    }
-    if (options.version) {
-        print_important_info_spacer(`--version=${options.version}`);
-    }
-    if (options.image) {
-        print_important_info_spacer(`--image=${options.image}`);
-    }
-    if (options.kustomize) {
-        print_important_info_spacer(`--kustomize=${options.kustomize}`);
-    }
+    print_important_info_spacer(`--deployment=${options.deployment}`);
+  }
+  if (options.kubectl_timeout) {
+    print_important_info_spacer(`--kubectl_timeout=${options.kubectl_timeout}`);
+  }
+  if (options.version) {
+    print_important_info_spacer(`--version=${options.version}`);
+  }
+  if (options.image) {
+    print_important_info_spacer(`--image=${options.image}`);
+  }
+  if (options.kustomize) {
+    print_important_info_spacer(`--kustomize=${options.kustomize}`);
+  }
   if (options.namespace) {
     print_important_info_spacer(`--namespace=${options.namespace}`);
   }

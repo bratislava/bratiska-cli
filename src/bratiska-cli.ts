@@ -15,7 +15,7 @@ import { add_label_to_resources } from './label/add_label_to_resources';
 import { check_kubernetes_deployment } from './common/check_kubernetes_deployment';
 import { add_label_to_secrets } from './label/add_label_to_secrets';
 
-const version = '3.0.0';
+const version = '3.0.1';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();

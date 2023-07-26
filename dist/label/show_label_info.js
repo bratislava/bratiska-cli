@@ -29,7 +29,6 @@ var __importStar = (this && this.__importStar) || function(mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.show_label_info = void 0;
 const helpers = __importStar(require("../helpers"));
-
 function show_label_info(label, options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Showing label info...\n`);
@@ -105,5 +104,4 @@ function show_label_info(label, options) {
   helpers.print_important_info(`${options.secrets.join("\n" + helpers.double_spacer())}`);
   return options;
 }
-
 exports.show_label_info = show_label_info;

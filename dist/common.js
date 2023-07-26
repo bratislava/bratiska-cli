@@ -16,7 +16,6 @@ const get_git_status_1 = require("./common/get_git_status");
 const check_git_merge_status_1 = require("./common/check_git_merge_status");
 const get_git_tags_1 = require("./common/get_git_tags");
 const check_kubernetes_deployment_1 = require("./common/check_kubernetes_deployment");
-
 class Common {
   show_options(env, options) {
     (0, show_options_1.show_options)(env, options);

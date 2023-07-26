@@ -243,7 +243,7 @@ function kubectl_service_account(options) {
   ], {
     encoding: "utf8"
   });
-  helpers.print_if_debug(options, `kubectl get serviceAccounts: ${result.stdout}\n ${result.stderr}`);
+  helpers.print_if_debug(options, `kubectl get serviceAccounts default -n ${(options.namespace)} --request-timeout=3: ${result.stdout}\n ${result.stderr}`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.kubectl_service_account = kubectl_service_account;
@@ -410,9 +410,7 @@ function kubectl_deployment_logs(options) {
     stdio: "inherit"
   });
 }
-
 exports.kubectl_deployment_logs = kubectl_deployment_logs;
-
 function kubect_get_deployment(options) {
   const result = child_process_1.default.spawnSync("kubectl", [
     "get",
@@ -424,9 +422,7 @@ function kubect_get_deployment(options) {
   });
   return { res: result.stdout, err: result.stderr };
 }
-
 exports.kubect_get_deployment = kubect_get_deployment;
-
 function kubectl_label_resources(options) {
   helpers.log(chalk_1.default.reset(""));
   //check if options.resources is an array
@@ -444,9 +440,7 @@ function kubectl_label_resources(options) {
     stdio: "inherit"
   });
 }
-
 exports.kubectl_label_resources = kubectl_label_resources;
-
 function kubectl_label_secrets(options) {
   helpers.log(chalk_1.default.reset(""));
   //check if options.resources is an array
@@ -470,5 +464,4 @@ function kubectl_label_secrets(options) {
     }
   });
 }
-
 exports.kubectl_label_secrets = kubectl_label_secrets;

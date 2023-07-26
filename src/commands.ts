@@ -261,7 +261,9 @@ export function kubectl_service_account(options: Options): Bash {
 
   helpers.print_if_debug(
     options,
-    `kubectl get serviceAccounts: ${result.stdout}\n ${result.stderr}`,
+    `kubectl get serviceAccounts default -n ${<string>(
+      options.namespace
+    )} --request-timeout=3: ${result.stdout}\n ${result.stderr}`,
   );
   return { res: result.stdout.trim(), err: result.stderr };
 }
