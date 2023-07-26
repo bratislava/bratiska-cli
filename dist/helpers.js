@@ -482,15 +482,15 @@ function print_options(options) {
     if (options.no_image_repo_check) {
       print_important_info_spacer("--no_image_repo_check");
     }
-    if (options.dry_run) {
-      print_important_info_spacer("--dry_run");
-    }
-    if (options.force) {
-      print_important_info_spacer("--force");
-    }
-    if (options.build_kustomize) {
-      print_important_info_spacer("--build_kustomize");
-    }
+  if (options.dry_run) {
+    print_important_info_spacer("--dry_run");
+  }
+  if (options.force) {
+    print_important_info_spacer("--force");
+  }
+  if (options.build_kustomize) {
+    print_important_info_spacer("--build_kustomize");
+  }
   if (options.force_rebuild) {
     print_important_info_spacer("--force_rebuild");
   }
