@@ -467,12 +467,12 @@ function load_json(path) {
 }
 exports.load_json = load_json;
 function print_options(options) {
-    if (options.staging) {
-      print_important_info_spacer("--staging");
-    }
-    if (options.production) {
-      print_important_info_spacer("--production");
-    }
+  if (options.staging) {
+    print_important_info_spacer("--staging");
+  }
+  if (options.production) {
+    print_important_info_spacer("--production");
+  }
   if (options.beta) {
     print_important_info_spacer(`--beta`);
   }

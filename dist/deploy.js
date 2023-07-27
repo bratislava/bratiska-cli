@@ -7,6 +7,8 @@ const check_kubernetes_cluster_conditions_1 = require("./deploy/check_kubernetes
 const check_kubernetes_harbor_key_1 = require("./deploy/check_kubernetes_harbor_key");
 const deploy_kubernetes_1 = require("./deploy/deploy_kubernetes");
 const check_deployment_1 = require("./deploy/check_deployment");
+const check_deploy_commands_1 = require("./deploy/check_deploy_commands");
+
 class Deploy {
   check_kubernetes_connection(options) {
     (0, check_kubernetes_connection_1.check_kubernetes_connection)(options);
@@ -30,6 +32,10 @@ class Deploy {
 
   check_deployment(options) {
     (0, check_deployment_1.check_deployment)(options);
+  }
+
+  check_deploy_commands(options) {
+    (0, check_deploy_commands_1.check_deploy_commands)(options);
   }
 }
 exports.Deploy = Deploy;

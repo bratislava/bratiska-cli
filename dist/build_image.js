@@ -13,6 +13,8 @@ const clean_bratiska_build_envs_1 = require("./build_image/clean_bratiska_build_
 const push_docker_image_1 = require("./build_image/push_docker_image");
 const check_pushed_image_1 = require("./build_image/check_pushed_image");
 const clean_docker_image_1 = require("./build_image/clean_docker_image");
+const check_build_image_commands_1 = require("./build_image/check_build_image_commands");
+
 class BuildImage {
   check_docker_file(options) {
     (0, check_docker_file_1.check_docker_file)(options);
@@ -60,6 +62,10 @@ class BuildImage {
 
   clean_docker_image(options) {
     (0, clean_docker_image_1.clean_docker_image)(options);
+  }
+
+  check_build_image_commands(options) {
+    (0, check_build_image_commands_1.check_build_image_commands)(options);
   }
 }
 exports.BuildImage = BuildImage;

@@ -550,3 +550,47 @@ export function kubectl_label_secrets(options: Options) {
     }
   });
 }
+
+export function envsubst(options: Options): Bash {
+  const cmd = `envsubst`;
+
+  helpers.print_if_debug(options, cmd);
+  const result = cp.spawnSync(cmd, {
+    encoding: 'utf8',
+  });
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function kustomize(options: Options): Bash {
+  const cmd = `kustomize`;
+
+  helpers.print_if_debug(options, cmd);
+  const result = cp.spawnSync(cmd, {
+    encoding: 'utf8',
+  });
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function kubectl(options: Options): Bash {
+  const cmd = `kubectl`;
+
+  helpers.print_if_debug(options, cmd);
+  const result = cp.spawnSync(cmd, {
+    encoding: 'utf8',
+  });
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function git(options: Options): Bash {
+  const cmd = `git`;
+
+  helpers.print_if_debug(options, cmd);
+  const result = cp.spawnSync(cmd, {
+    encoding: 'utf8',
+  });
+
+  return { res: result.stdout, err: result.stderr };
+}
