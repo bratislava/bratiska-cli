@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_build_image_commands = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_build_image_commands(options) {
   helpers.line(`(${helpers.step(options)}) Checking required build_image commands... \n`);
   const git_bash = commands.git(options);
@@ -50,5 +49,4 @@ function check_build_image_commands(options) {
     helpers.print_important_info(`   installed`);
   }
 }
-
 exports.check_build_image_commands = check_build_image_commands;

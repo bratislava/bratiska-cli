@@ -8,7 +8,6 @@ const check_kubernetes_harbor_key_1 = require("./deploy/check_kubernetes_harbor_
 const deploy_kubernetes_1 = require("./deploy/deploy_kubernetes");
 const check_deployment_1 = require("./deploy/check_deployment");
 const check_deploy_commands_1 = require("./deploy/check_deploy_commands");
-
 class Deploy {
   check_kubernetes_connection(options) {
     (0, check_kubernetes_connection_1.check_kubernetes_connection)(options);

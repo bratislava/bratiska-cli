@@ -38,7 +38,7 @@ const tag_1 = require("./tag");
 const label_1 = require("./label");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "3.1.0";
+const version = "3.1.1";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -213,6 +213,7 @@ try {
     .option("-build_image_no_registry, --build_image_no_registry", "Don`t push to registry")
     .option("-s, --sentry <token>", "Specify sentry auth token for build")
     .option("-tag, --tag <tag>", "Specify an image tag")
+    .option("-e, --env <env>", "Deployment environment")
     .option("-n, --namespace <namespace>", "Namespace")
     .option("-r, --registry <url>", "Docker image registry url", "harbor.bratislava.sk")
     .option("-debug, --debug", "Debugging")

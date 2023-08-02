@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_build_kustomize_commands = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_build_kustomize_commands(options) {
   helpers.line(`(${helpers.step(options)}) Checking required build kustomize commands... \n`);
   const git_bash = commands.git(options);
@@ -66,5 +65,4 @@ function check_build_kustomize_commands(options) {
     helpers.print_important_info(`   installed`);
   }
 }
-
 exports.check_build_kustomize_commands = check_build_kustomize_commands;

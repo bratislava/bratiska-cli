@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_label_commands = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_label_commands(options) {
   helpers.line(`(${helpers.step(options)}) Checking required label commands... \n`);
   const git_bash = commands.git(options);
@@ -50,5 +49,4 @@ function check_label_commands(options) {
     helpers.print_important_info(`  installed`);
   }
 }
-
 exports.check_label_commands = check_label_commands;

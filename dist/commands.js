@@ -464,9 +464,7 @@ function kubectl_label_secrets(options) {
     }
   });
 }
-
 exports.kubectl_label_secrets = kubectl_label_secrets;
-
 function envsubst(options) {
   const cmd = `envsubst`;
   helpers.print_if_debug(options, cmd);
@@ -475,9 +473,7 @@ function envsubst(options) {
   });
   return { res: result.stdout, err: result.stderr };
 }
-
 exports.envsubst = envsubst;
-
 function kustomize(options) {
   const cmd = `kustomize`;
   helpers.print_if_debug(options, cmd);
@@ -486,9 +482,7 @@ function kustomize(options) {
   });
   return { res: result.stdout, err: result.stderr };
 }
-
 exports.kustomize = kustomize;
-
 function kubectl(options) {
   const cmd = `kubectl`;
   helpers.print_if_debug(options, cmd);
@@ -497,9 +491,7 @@ function kubectl(options) {
   });
   return { res: result.stdout, err: result.stderr };
 }
-
 exports.kubectl = kubectl;
-
 function git(options) {
   const cmd = `git`;
   helpers.print_if_debug(options, cmd);
@@ -508,5 +500,4 @@ function git(options) {
   });
   return { res: result.stdout, err: result.stderr };
 }
-
 exports.git = git;

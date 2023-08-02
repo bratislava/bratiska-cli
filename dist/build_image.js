@@ -14,7 +14,6 @@ const push_docker_image_1 = require("./build_image/push_docker_image");
 const check_pushed_image_1 = require("./build_image/check_pushed_image");
 const clean_docker_image_1 = require("./build_image/clean_docker_image");
 const check_build_image_commands_1 = require("./build_image/check_build_image_commands");
-
 class BuildImage {
   check_docker_file(options) {
     (0, check_docker_file_1.check_docker_file)(options);

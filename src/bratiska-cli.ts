@@ -12,7 +12,7 @@ import { Label } from './label';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '3.1.0';
+const version = '3.1.1';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -232,6 +232,7 @@ try {
     )
     .option('-s, --sentry <token>', 'Specify sentry auth token for build')
     .option('-tag, --tag <tag>', 'Specify an image tag')
+    .option('-e, --env <env>', 'Deployment environment')
     .option('-n, --namespace <namespace>', 'Namespace')
     .option(
       '-r, --registry <url>',

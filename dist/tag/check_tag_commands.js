@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_tag_commands = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_tag_commands(options) {
   helpers.line(`(${helpers.step(options)}) Checking required tag commands... \n`);
   const git_bash = commands.git(options);
@@ -42,5 +41,4 @@ function check_tag_commands(options) {
     helpers.print_important_info(`       installed`);
   }
 }
-
 exports.check_tag_commands = check_tag_commands;
