@@ -30,7 +30,7 @@
     "child_process": "^1.0.2",
     "clear": "^0.1.0",
     "commander": "^11.0.0",
-    "compare-versions": "^5.0.1",
+    "compare-versions": "^6.0.0",
     "dotenv": "^16.0.1",
     "figlet": "^1.5.2",
     "fs": "^0.0.1-security",
