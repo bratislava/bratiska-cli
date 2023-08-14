@@ -15,6 +15,6 @@ export function check_tag_commands(options: Options) {
     );
   } else {
     helpers.spacer_line(`git:`);
-    helpers.print_important_info(`       installed`);
+    helpers.print_important_info(` installed`);
   }
 }

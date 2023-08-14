@@ -12,7 +12,7 @@ import { Label } from './label';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '3.1.1';
+const version = '3.1.2';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -214,10 +214,12 @@ try {
       /* step 34 */
       build_kustomize.check_kustomize(options);
       /* step 35 */
-      deploy.deploy_kubernetes(options);
+      common.check_kubernetes_enviroment(options);
       /* step 36 */
-      build_kustomize.clean_kustomize(options);
+      deploy.deploy_kubernetes(options);
       /* step 37 */
+      build_kustomize.clean_kustomize(options);
+      /* step 38 */
       deploy.check_deployment(options);
     });
 

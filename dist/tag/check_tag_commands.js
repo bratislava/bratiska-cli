@@ -38,7 +38,7 @@ function check_tag_commands(options) {
     throw new Error(`git command is not available on your computer! Please run installation command: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git`);
   } else {
     helpers.spacer_line(`git:`);
-    helpers.print_important_info(`       installed`);
+    helpers.print_important_info(` installed`);
   }
 }
 exports.check_tag_commands = check_tag_commands;

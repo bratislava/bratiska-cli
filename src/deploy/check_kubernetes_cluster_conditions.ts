@@ -1,5 +1,5 @@
 import * as helpers from '../helpers';
-import { Options } from './../types';
+import { Options } from '../types';
 
 export function check_kubernetes_cluster_conditions(options: Options) {
   helpers.line(

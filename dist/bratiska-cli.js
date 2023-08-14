@@ -38,7 +38,7 @@ const tag_1 = require("./tag");
 const label_1 = require("./label");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "3.1.1";
+const version = "3.1.2";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -199,10 +199,12 @@ try {
       /* step 34 */
       build_kustomize.check_kustomize(options);
       /* step 35 */
-      deploy.deploy_kubernetes(options);
+      common.check_kubernetes_enviroment(options);
       /* step 36 */
-      build_kustomize.clean_kustomize(options);
+      deploy.deploy_kubernetes(options);
       /* step 37 */
+      build_kustomize.clean_kustomize(options);
+      /* step 38 */
       deploy.check_deployment(options);
     });
   commander_1.program
