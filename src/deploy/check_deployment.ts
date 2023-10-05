@@ -25,23 +25,27 @@ export function check_deployment(options: Options) {
   commands.kubectl_deploy_status_stdio(kind, options);
 
   const status_bash = commands.kubectl_deploy_status_utf8(kind, options);
-  helpers.print_if_debug_bash(options, 'status_bash', status_bash);
 
   if (status_bash.err) {
+    helpers.print_if_debug_bash(options, 'status_bash', status_bash);
     helpers.print_warning(
       `Deploy was not successfully rolled out. Showing kubernetes deploy events for ${options.deployment}:`,
     );
     commands.kubectl_deploy_events(kind, options);
-    /*
-    //currently disables as it was slowing pipeline
-    helpers.print_warning(
-      `Showing kubernetes container logs for ${options.deployment}:`,
+
+    const latest_pod_bash = commands.kubectl_get_latest_pod(kind, options);
+    helpers.print_if_debug_bash(options, 'latest_pod', latest_pod_bash);
+    const pod = latest_pod_bash.res;
+    helpers.line(
+      `\n(${helpers.step(options)}) Showing kubernetes logs for pod ${pod}:...`,
     );
-    commands.kubectl_deployment_logs(options);
-    */
-    throw Error(
-      `Exiting bratiska-cli with status code 1, because deploy was not successfully rolled out in kubernetes.`,
-    );
+    try {
+      commands.kubectl_get_log_for_pod(pod, options);
+    } catch (e) {
+      throw Error(
+        `Exiting bratiska-cli with status code 1, because deploy was not successfully rolled out in kubernetes. Check pod ${pod} log in grafana.bratislava.sk or directly in kubernetes.`,
+      );
+    }
   }
 
   helpers.finished();

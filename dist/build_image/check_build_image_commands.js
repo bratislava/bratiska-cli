@@ -41,8 +41,8 @@ function check_build_image_commands(options) {
     helpers.print_important_info(`       installed`);
   }
   const docker_bash = commands.docker();
-  helpers.print_if_debug_bash(options, "docker", docker_bash);
   if (docker_bash.err !== "") {
+    helpers.print_if_debug_bash(options, "docker", docker_bash);
     throw new Error(`docker command is not available on your computer! Please check installation instructions: https://docs.docker.com/engine/install`);
   } else {
     helpers.spacer_line(`docker: `);

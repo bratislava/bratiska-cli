@@ -39,9 +39,10 @@ function check_kubernetes_connection(options) {
     helpers.skipping();
     return;
   }
-  const pods = commands.kubectl_service_account(options);
-  if (pods.err !== "") {
-    throw new Error(`Kubernetes cluster ${options.cluster} is not reachable from your computer! Maybe turn on VPN or check the internet connection or sign in to the cluster.`);
+  const pods_bash = commands.kubectl_service_account(options);
+  if (pods_bash.err !== "") {
+    helpers.print_if_debug_bash(options, "kubectl_service_account", pods_bash);
+    throw new Error(`Probably Kubernetes cluster ${options.cluster} is not reachable from your computer! But it can be also issue with your CICD account, when it is wrongly selected, or doesnt have proper RoleBinding. Please reach your system administrator.`);
   }
   helpers.ok();
   return options;

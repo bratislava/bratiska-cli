@@ -8,8 +8,8 @@ export function check_deploy_commands(options: Options) {
   );
 
   const git_bash = commands.git(options);
-  helpers.print_if_debug_bash(options, 'git', git_bash);
   if (git_bash.err !== '') {
+    helpers.print_if_debug_bash(options, 'git', git_bash);
     throw new Error(
       `git command is not available on your computer! Please run installation command: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git`,
     );
@@ -19,8 +19,8 @@ export function check_deploy_commands(options: Options) {
   }
 
   const envsubst_bash = commands.envsubst(options);
-  helpers.print_if_debug_bash(options, 'envsubst', envsubst_bash);
   if (envsubst_bash.err !== '') {
+    helpers.print_if_debug_bash(options, 'envsubst', envsubst_bash);
     throw new Error(
       `envsubst command is not available on your computer! Please run installation command: 'brew install gettext'`,
     );
@@ -30,8 +30,8 @@ export function check_deploy_commands(options: Options) {
   }
 
   const kustomize_bash = commands.kustomize(options);
-  helpers.print_if_debug_bash(options, 'kustomize', kustomize_bash);
   if (kustomize_bash.err !== '') {
+    helpers.print_if_debug_bash(options, 'kustomize', kustomize_bash);
     throw new Error(
       `kustomize command is not available on your computer! Please check installation instructions: https://kubectl.docs.kubernetes.io/installation/kustomize/`,
     );
@@ -41,8 +41,8 @@ export function check_deploy_commands(options: Options) {
   }
 
   const kubectl_bash = commands.kubectl(options);
-  helpers.print_if_debug_bash(options, 'kubectl', kubectl_bash);
   if (kubectl_bash.err !== '') {
+    helpers.print_if_debug_bash(options, 'kubectl', kubectl_bash);
     throw new Error(
       `kubectl command is not available on your computer! Please check installation instructions: https://kubernetes.io/docs/tasks/tools/`,
     );
@@ -52,8 +52,8 @@ export function check_deploy_commands(options: Options) {
   }
 
   const docker_bash = commands.docker();
-  helpers.print_if_debug_bash(options, 'docker', docker_bash);
   if (docker_bash.err !== '') {
+    helpers.print_if_debug_bash(options, 'docker', docker_bash);
     throw new Error(
       `docker command is not available on your computer! Please check installation instructions: https://docs.docker.com/engine/install`,
     );

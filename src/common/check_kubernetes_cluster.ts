@@ -18,8 +18,8 @@ export function check_kubernetes_cluster(options: Options) {
   const response_cluster = commands.kubectl_cluster();
   options.cluster = response_cluster.res;
 
-  helpers.print_if_debug(options, `current cluster: ${options.cluster}`);
   if (response_cluster.err !== '' && options.tag_command === false) {
+    helpers.print_if_debug(options, `current cluster: ${options.cluster}`);
     throw new Error(
       'There is no Kubernetes context available. Please log in to the Kubernetes cluster! \n More info:' +
         response_cluster.err,

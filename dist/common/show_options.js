@@ -42,16 +42,13 @@ function show_options(env, options) {
     typeof options.env === "undefined") {
     options.env = env;
   }
-  helpers.print_if_debug(options, `options.env from start: ${options.env}`);
   const pwd = commands.pwd();
   if (pwd === "") {
+    helpers.print_if_debug(options, `options.env from start: ${options.env}`);
     throw new Error("There was an issue getting the current working directory!");
   }
   options.pwd = pwd;
   options.pipelines = false;
-  if (options.debug) {
-    helpers.print_debug(`pwd: ${options.pwd}`);
-  }
   if (typeof options.build_image === "undefined") {
     options.build_image = false;
   }

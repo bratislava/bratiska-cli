@@ -39,16 +39,16 @@ function check_pushed_image(options) {
     return;
   }
   const imagetag = helpers.image_tag(options);
-  helpers.print_if_debug(options, `image tag: ${imagetag}`);
   const image_r = commands.docker_check_image_in_registry(options, imagetag);
   if (image_r.err !== "") {
+    helpers.print_if_debug(options, `image tag: ${imagetag}`);
     throw new Error(`Image (${imagetag}) is not in the registry! Check your repository. Error: ${image_r.err}`);
   }
   if (options.beta) {
     const latestTag = helpers.image_latest_tag(options);
-    helpers.print_if_debug(options, `image latest tag: ${latestTag}`);
     const image_r = commands.docker_check_image_in_registry(options, latestTag);
     if (image_r.err !== "") {
+      helpers.print_if_debug(options, `image latest tag: ${latestTag}`);
       throw new Error(`Latest image (${latestTag}) is not in the registry! Check your repository. Error: ${image_r.err}`);
     }
   }
