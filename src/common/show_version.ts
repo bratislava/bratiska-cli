@@ -41,9 +41,9 @@ export function show_version(options: Options, local_bratiska_version: string) {
         github_package_version,
       );
 
-      if (difference >= 5) {
+      if (difference >= 10) {
         throw new Error(
-          `Your bratiska-cli version (${local_bratiska_version}) is at-least five updates old, please update it, to continue using it!`,
+          `Your bratiska-cli version (${local_bratiska_version}) is too old, please update it, to continue using it!`,
         );
       } else {
         helpers.sleep(3000);

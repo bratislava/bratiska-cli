@@ -488,7 +488,6 @@ function git(options) {
   return { res: result.stdout, err: result.stderr };
 }
 exports.git = git;
-
 function kubectl_get_latest_pod(kind, options) {
   const result = child_process_1.default.spawnSync("kubectl", [
     "get",
@@ -504,9 +503,7 @@ function kubectl_get_latest_pod(kind, options) {
   });
   return { res: result.stdout, err: result.stderr };
 }
-
 exports.kubectl_get_latest_pod = kubectl_get_latest_pod;
-
 function kubectl_get_log_for_pod(pod, options) {
   const cmd = `kubectl logs --all-containers --namespace=${options.namespace} pod/${pod} -f --request-timeout=30s`;
   helpers.log(chalk_1.default.white("\n"));
@@ -514,5 +511,4 @@ function kubectl_get_log_for_pod(pod, options) {
     stdio: "inherit"
   });
 }
-
 exports.kubectl_get_log_for_pod = kubectl_get_log_for_pod;
