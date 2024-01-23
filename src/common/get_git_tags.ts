@@ -15,7 +15,7 @@ export function get_git_tags(options: Options) {
 
   options.gittag = false;
   options.origin_gittag = false;
-  if (gittag_bash.res !== '') {
+  if (gittag_bash.res !== '' && options.github_ref !== 'refs/heads/master') {
     options.gittag_list = gittag_bash.res.split(/\n/g);
     const len = options.gittag_list.length;
     //latest tag is important
