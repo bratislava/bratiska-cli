@@ -54,6 +54,7 @@ function get_git_branch(options) {
   }
   if (typeof github_ref !== "undefined") {
     helpers.print_if_debug(options, `Branch is in detached HEAD, getting ref env GITHUB_REF: ${github_ref}`);
+    options.github_ref = github_ref;
     const branch_bash = commands.git_list_of_brnaches_with_refs(github_ref);
     helpers.print_if_debug_bash(options, "branch_bash", branch_bash);
     options.branch = helpers.get_final_branch(options, branch_bash.res);
