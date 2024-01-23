@@ -33,7 +33,7 @@ const commands = __importStar(require("../commands"));
 function get_git_tags(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Checking git tags...`);
-  if (options.image) {
+  if (options.image || options.github_ref === "refs/heads/master") {
     helpers.skipping();
     return;
   }
@@ -41,7 +41,7 @@ function get_git_tags(options) {
   helpers.print_if_debug_bash(options, "gittag_bash", gittag_bash);
   options.gittag = false;
   options.origin_gittag = false;
-  if (gittag_bash.res !== "" && options.github_ref !== "refs/heads/master") {
+  if (gittag_bash.res !== "") {
     options.gittag_list = gittag_bash.res.split(/\n/g);
     const len = options.gittag_list.length;
     //latest tag is important

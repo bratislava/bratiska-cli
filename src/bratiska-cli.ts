@@ -12,7 +12,7 @@ import { Label } from './label';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '3.2.2';
+const version = '3.2.3';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
