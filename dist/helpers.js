@@ -578,10 +578,7 @@ function increment_bug(version) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[2] > 99) {
-    ++terms[1];
-    terms[2] = 0;
-  }
+  ++terms[2];
   return terms.join(".");
 }
 function calculate_version_diff(v1, v2) {
@@ -606,13 +603,8 @@ function increment_feature(version) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[1] > 9) {
-    ++terms[0];
-    terms[1] = 0;
+  ++terms[1];
     terms[2] = 0;
-  } else {
-    terms[2] = 0;
-  }
   return terms.join(".");
 }
 function increment_major(version) {
