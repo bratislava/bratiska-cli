@@ -492,7 +492,13 @@ export function load_package(options?: Options) {
 
   const path = options.pwd + '/package.json';
   if (!fs.existsSync(path)) {
-    throw new Error('We haven`t found package.json in path: ' + path);
+
+    if (options.tag) {
+      print_warning("There is no package.json, but is omitted when --tag command is used.");
+      sleep(2000);
+      return {};
+    }
+    throw new Error("We haven`t found package.json in path: " + path);
   }
   return load_json(path);
 }
