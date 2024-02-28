@@ -13,7 +13,7 @@
 Installing dependencies
 
 ```bash
-yarn global add bratislava/bratiska-cli
+yarn global add bratislava/bratiska-cli@stable
 ```
 
 #### Note
