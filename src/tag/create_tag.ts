@@ -1,6 +1,6 @@
 import * as helpers from '../helpers';
 import * as commands from '../commands';
-import { Options } from './../types';
+import { Options } from "../types";
 
 // TODO be able to create tags with v* easily with counting versions
 // TODO be able to add stable tag on repos which have no package json

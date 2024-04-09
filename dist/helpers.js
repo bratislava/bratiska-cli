@@ -453,7 +453,7 @@ function load_package(options) {
         sleep(2000);
         return {};
       }
-        throw new Error('We haven`t found package.json in path: ' + path);
+      throw new Error("We haven`t found package.json in path: " + path);
     }
     return load_json(path);
 }
@@ -641,7 +641,7 @@ function tag_value_dev(options) {
   return tag_value.substring(0, 64);
 }
 function tag_get_latest_version(options, tag) {
-  const tag_format = tag + `[0-9]\.[0-9]\.[0-9]*`;
+  const tag_format = tag + `*.*.*`;
   const last_tag = commands.git_get_last_remote_tags(options, tag_format);
   print_if_debug(options, `tag_get_latest_version tag: ${tag} and result is: ${last_tag}`);
   if (last_tag === "") {
@@ -675,6 +675,7 @@ function tag_value_staging(options) {
   let new_tag_version = "";
   print_if_debug(options, `latest_main_version: ${(latest_main_version)}, latest_tag_version: ${latest_tag_version}`);
   const compare_result = (0, compare_versions_1.compareVersions)(latest_main_version, latest_tag_version);
+  print_if_debug(options, "compare_result: " + compare_result);
   switch (compare_result) {
     case 1:
       new_tag_version = latest_main_version;
@@ -686,6 +687,7 @@ function tag_value_staging(options) {
       new_tag_version = latest_main_version;
       break;
   }
+  print_if_debug(options, "new_tag_version: " + new_tag_version);
   if (options.major === true) {
     return tag_text + increment_major(new_tag_version);
   }
