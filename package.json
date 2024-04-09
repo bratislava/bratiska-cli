@@ -40,7 +40,7 @@
     "@types/clear": "^0.1.2",
     "@types/figlet": "^1.5.4",
     "@types/inquirer": "^8.2.1",
-    "@types/node": "^20.11.13",
+    "@types/node": "^20.12.6",
     "@types/node-fetch": "^2.6.11",
     "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@typescript-eslint/parser": "^6.20.0",
