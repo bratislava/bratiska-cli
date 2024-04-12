@@ -38,7 +38,7 @@ const tag_1 = require("./tag");
 const label_1 = require("./label");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "3.3.3";
+const version = "3.4.0";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -47,13 +47,13 @@ const build_kustomize = new build_kustomize_1.BuildKustomize();
 const label = new label_1.Label();
 try {
     (0, clear_1.default)();
-    console.log(chalk_1.default.blue(figlet_1.default.textSync("Bratiska-cli", { horizontalLayout: "full" })));
+  console.log(chalk_1.default.blue(figlet_1.default.textSync("Bratiska-cli", { horizontalLayout: "full" })));
     commander_1.program
       .name("bratiska-cli")
       .version(version)
       .description("Simple Bratiska-cli utility for managing Bratislava Innovation apps")
       .action(() => {
-          console.log(chalk_1.default.green("Please choose from selected commands based on yur needs. My favourite command is `deploy`."));
+        console.log(chalk_1.default.green("Please choose from selected commands based on yur needs. My favourite command is `deploy`."));
         commander_1.program.help();
     });
     commander_1.program
@@ -125,6 +125,7 @@ try {
       .option("-debug, --debug", "Debugging")
       .option("-beta, --beta", "Beta features")
       .option("-no_image_repo_check, --no_image_repo_check", "No Image repository check")
+      .option("-skip_deployment_check, --skip_deployment_check", "Skip checking if the kubernetes deployment was deployed successfully")
       .option("-no_pull, --no_pull", "If you dont want to git pull from origin.")
       .option("-force, --force <pass>", "Force")
       .action((env, options) => {
@@ -229,7 +230,7 @@ try {
         /* step 1 */
         build_image.check_build_image_commands(options);
         /* step 2 */
-          common.show_options("build_image", options);
+        common.show_options("build_image", options);
         /* step 3 */
         common.get_git_current_branch(options);
         /* step 4 */
@@ -351,7 +352,7 @@ try {
         /* step 1 */
         label.check_label_commands(options);
         /* step 2 */
-          common.show_options("", options);
+        common.show_options("", options);
         /* step 3 */
         label.show_label_info(label_value, options);
         /* step 4 */
@@ -374,6 +375,6 @@ try {
     // @ts-ignore
 }
 catch (e) {
-    helpers.log("\x1b[31m", `\nISSUE: ${e.message}`);
+  helpers.log("\x1b[31m", `\nISSUE: ${e.message}`);
     process.exit(1);
 }

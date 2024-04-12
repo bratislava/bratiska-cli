@@ -487,6 +487,9 @@ function print_options(options) {
   if (options.no_image_repo_check) {
     print_important_info_spacer("--no_image_repo_check");
   }
+  if (options.skip_deployment_check) {
+    print_important_info_spacer("--skip_deployment_check");
+  }
   if (options.dry_run) {
     print_important_info_spacer("--dry_run");
   }

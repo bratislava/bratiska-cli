@@ -12,7 +12,7 @@ import { Label } from './label';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = "3.3.3";
+const version = "3.4.0";
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
@@ -140,6 +140,7 @@ try {
       '-no_image_repo_check, --no_image_repo_check',
       'No Image repository check',
     )
+    .option("-skip_deployment_check, --skip_deployment_check", "Skip checking if the kubernetes deployment was deployed successfully")
     .option('-no_pull, --no_pull', 'If you dont want to git pull from origin.')
     .option('-force, --force <pass>', 'Force')
     .action((env, options) => {
