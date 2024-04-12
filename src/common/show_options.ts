@@ -64,6 +64,10 @@ export function show_options(env: string, options: Options) {
     options.no_image_repo_check = false;
   }
 
+  if (typeof options.skip_deployment_check === "undefined") {
+    options.skip_deployment_check = false;
+  }
+
   if (typeof options.namespace === 'undefined') {
     // ignore namespace when not defined during only image build
     options.namespace = 'standalone';
