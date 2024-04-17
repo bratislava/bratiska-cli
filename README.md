@@ -13,7 +13,7 @@
 Installing dependencies
 
 ```bash
-yarn global add bratislava/bratiska-cli
+yarn global add bratislava/bratiska-cli@stable
 ```
 
 #### Note
@@ -604,6 +604,15 @@ can`t update production.
 
 ```bash
 bratiska-cli deploy --staging
+```
+
+#### Skip deployment check
+
+If you are deploying some cron jobs to kubernetes, there is nothing to check if the deployment was successful, so in
+that case, we have this option flag you can use.
+
+```bash
+bratiska-cli deploy --skip_deployment_check
 ```
 
 #### Debug

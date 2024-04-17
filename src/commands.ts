@@ -149,8 +149,9 @@ export function git_get_last_remote_tags(
   options: Options,
   tag_format: string,
 ): string {
-  // let tag_format = "v[0-9]\.[0-9]\.[0-9]*"
-  const cmd = `git ls-remote origin --contains "refs\/tags\/${tag_format}" | grep ".*[^}]$" | cut -f 2 | tail -n1 | awk '{gsub(/refs\\/tags\\//,"")}1'`;
+  helpers.print_if_debug(options, `tag_format: ${tag_format}`);
+
+  const cmd = `git ls-remote origin --contains "refs\/tags\/${tag_format}" | grep ".*[^}]$" | cut -f 2 | sort -V | tail -n1 | awk '{gsub(/refs\\/tags\\//,"")}1'`;
   helpers.print_if_debug(options, cmd);
 
   const last_tag = execSync(cmd, { encoding: 'utf8' });
@@ -258,11 +259,14 @@ export function kubectl_service_account(options: Options): Bash {
       encoding: 'utf8',
     },
   );
-
+  /*
   helpers.print_if_debug(
     options,
-    `kubectl get serviceAccounts: ${result.stdout}\n ${result.stderr}`,
+    `kubectl get serviceAccounts default -n ${<string>(
+      options.namespace
+    )} --request-timeout=3: ${result.stdout}\n ${result.stderr}`,
   );
+ */
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
@@ -343,17 +347,13 @@ export function docker_check_image_in_registry(
     imagetag = <string>options.image;
   }
 
-  helpers.print_if_debug(options, `docker image manifest inspect ${imagetag}`);
   const result = cp.spawnSync('docker', ['manifest', 'inspect', imagetag], {
     encoding: 'utf8',
   });
-  helpers.print_if_debug(options, `Res: ${result.stdout.trim()}`);
-  helpers.print_if_debug(options, `Err: ${result.stderr}`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
 
 export function docker_login(options: Options) {
-  helpers.print_if_debug(options, `docker login ${options.registry}`);
   const result = cp.spawnSync('docker', ['login', options.registry], {
     encoding: 'utf8',
   });
@@ -361,7 +361,6 @@ export function docker_login(options: Options) {
 }
 
 export function docker_running(options: Options) {
-  helpers.print_if_debug(options, `docker running`);
   const result = cp.spawnSync('docker', ['info'], {
     encoding: 'utf8',
   });
@@ -397,7 +396,7 @@ export function kustomize_build_manifest(options: Options) {
     options,
   )}`;
 
-  helpers.print_if_debug(options, cmd);
+  //helpers.print_if_debug(options, cmd);
   execSync(cmd, { encoding: 'utf8' });
 }
 
@@ -462,22 +461,6 @@ export function kubectl_deploy_events(kind: string, options: Options) {
   execSync(cmd, {
     stdio: 'inherit',
   });
-}
-
-export function kubectl_deployment_logs(options: Options) {
-  helpers.log(chalk.reset(''));
-  cp.spawnSync(
-    'kubectl',
-    [
-      'logs',
-      '-f',
-      `deployment/${options.deployment}-app`,
-      `--namespace=${options.namespace}`,
-    ],
-    {
-      stdio: 'inherit',
-    },
-  );
 }
 
 export function kubect_get_deployment(options: Options): Bash {
@@ -546,5 +529,70 @@ export function kubectl_label_secrets(options: Options) {
     } catch (error) {
       helpers.print_warning(`secret ${secret} does not exist. Skipping...`);
     }
+  });
+}
+
+export function envsubst(options: Options): Bash {
+  const cmd = `envsubst`;
+  const result = cp.spawnSync(cmd, {
+    encoding: 'utf8',
+  });
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function kustomize(options: Options): Bash {
+  const cmd = `kustomize`;
+  const result = cp.spawnSync(cmd, {
+    encoding: 'utf8',
+  });
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function kubectl(options: Options): Bash {
+  const cmd = `kubectl`;
+  const result = cp.spawnSync(cmd, {
+    encoding: 'utf8',
+  });
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function git(options: Options): Bash {
+  const cmd = `git`;
+  const result = cp.spawnSync(cmd, {
+    encoding: 'utf8',
+  });
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function kubectl_get_latest_pod(kind: string, options: Options) {
+  const result = cp.spawnSync(
+    'kubectl',
+    [
+      'get',
+      'pods',
+      '-l',
+      `app=${options.deployment},service=${helpers.kind_to_app(kind)}`,
+      `--namespace=${options.namespace}`,
+      `--sort-by=.metadata.creationTimestamp`,
+      `-o`,
+      `jsonpath='{.items[-1:].metadata.name}'`,
+    ],
+    {
+      encoding: 'utf8',
+    },
+  );
+
+  return { res: result.stdout, err: result.stderr };
+}
+
+export function kubectl_get_log_for_pod(pod: string, options: Options) {
+  const cmd = `kubectl logs --all-containers --namespace=${options.namespace} pod/${pod} -f --request-timeout=30s`;
+  helpers.log(chalk.white('\n'));
+  execSync(cmd, {
+    stdio: 'inherit',
   });
 }

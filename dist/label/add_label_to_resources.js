@@ -30,12 +30,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.add_label_to_resources = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function add_label_to_resources(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Adding label to resources...\n`);
   commands.kubectl_label_resources(options);
   return options;
 }
-
 exports.add_label_to_resources = add_label_to_resources;

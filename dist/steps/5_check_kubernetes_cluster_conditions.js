@@ -57,10 +57,10 @@ function check_kubernetes_cluster_conditions(options) {
                 if (options.gittag === false && options.force === false) {
                     throw new Error(`You cannot deploy to 'tkg-innov-prod' when the changes are not tagged. Please tag and push your tags.!`);
                 }
-                if (options.gittag !== 'v' + options.version) {
+                if (options.gittag !== "v" + options.version && options.force === false) {
                     throw new Error(`Git tag version should match your package.json! Git tag: ${options.gittag} !== v${options.version}`);
                 }
-                if (options.origin_gittag === false) {
+                if (options.origin_gittag === false && options.force === false) {
                     throw new Error(`Push your local tag to origin because origin tag is not same as your local.`);
                 }
             }

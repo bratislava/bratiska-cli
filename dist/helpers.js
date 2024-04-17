@@ -44,37 +44,26 @@ const ALLOWED_ENVIRONMENTS = [
   "build_kustomize"
 ];
 exports.log = console.log.bind(console);
-
 function line(content) {
   process.stdout.write("\x1b[37m" + content);
 }
-
 exports.line = line;
-
 function spacer() {
   return "    ";
 }
-
 exports.spacer = spacer;
-
 function double_spacer() {
   return spacer() + spacer();
 }
-
 exports.double_spacer = double_spacer;
-
 function spacer_line(content) {
   return line(spacer() + content);
 }
-
 exports.spacer_line = spacer_line;
-
 function spacer_log(content) {
   return line("\n" + spacer() + content);
 }
-
 exports.spacer_log = spacer_log;
-
 function ok() {
   (0, exports.log)(chalk_1.default.green(" OK"));
 }
@@ -459,7 +448,12 @@ function load_package(options) {
     }
     const path = options.pwd + '/package.json';
     if (!fs_1.default.existsSync(path)) {
-        throw new Error('We haven`t found package.json in path: ' + path);
+      if (options.tag) {
+        print_warning("There is no package.json, but is omitted when --tag command is used.");
+        sleep(2000);
+        return {};
+      }
+      throw new Error("We haven`t found package.json in path: " + path);
     }
     return load_json(path);
 }
@@ -478,48 +472,51 @@ function load_json(path) {
 }
 exports.load_json = load_json;
 function print_options(options) {
-    if (options.staging) {
-      print_important_info_spacer("--staging");
-    }
-    if (options.production) {
-      print_important_info_spacer("--production");
-    }
-    if (options.beta) {
-        print_important_info_spacer(`--beta`);
-    }
-    if (options.debug) {
-      print_important_info_spacer("--debug");
-    }
-    if (options.no_image_repo_check) {
-      print_important_info_spacer("--no_image_repo_check");
-    }
-    if (options.dry_run) {
-      print_important_info_spacer("--dry_run");
-    }
-    if (options.force) {
-      print_important_info_spacer("--force");
-    }
-    if (options.build_kustomize) {
-      print_important_info_spacer("--build_kustomize");
-    }
-    if (options.force_rebuild) {
-      print_important_info_spacer("--force_rebuild");
-    }
-    if (options.build_image) {
-      print_important_info_spacer("--build_image");
-    }
-    if (options.build_image_no_registry) {
-      print_important_info_spacer("--build_image_no_registry");
-    }
-    if (options.no_pull) {
-      print_important_info_spacer("--no_pull");
-    }
-    if (options.recreate) {
-        print_important_info_spacer(`--recreate`);
-    }
-    if (options.delete) {
-        print_important_info_spacer(`--delete`);
-    }
+  if (options.staging) {
+    print_important_info_spacer("--staging");
+  }
+  if (options.production) {
+    print_important_info_spacer("--production");
+  }
+  if (options.beta) {
+    print_important_info_spacer(`--beta`);
+  }
+  if (options.debug) {
+    print_important_info_spacer("--debug");
+  }
+  if (options.no_image_repo_check) {
+    print_important_info_spacer("--no_image_repo_check");
+  }
+  if (options.skip_deployment_check) {
+    print_important_info_spacer("--skip_deployment_check");
+  }
+  if (options.dry_run) {
+    print_important_info_spacer("--dry_run");
+  }
+  if (options.force) {
+    print_important_info_spacer("--force");
+  }
+  if (options.build_kustomize) {
+    print_important_info_spacer("--build_kustomize");
+  }
+  if (options.force_rebuild) {
+    print_important_info_spacer("--force_rebuild");
+  }
+  if (options.build_image) {
+    print_important_info_spacer("--build_image");
+  }
+  if (options.build_image_no_registry) {
+    print_important_info_spacer("--build_image_no_registry");
+  }
+  if (options.no_pull) {
+    print_important_info_spacer("--no_pull");
+  }
+  if (options.recreate) {
+    print_important_info_spacer(`--recreate`);
+  }
+  if (options.delete) {
+    print_important_info_spacer(`--delete`);
+  }
   if (options.feature) {
     print_important_info_spacer(`--feature`);
   }
@@ -542,20 +539,20 @@ function print_options(options) {
     print_important_info_spacer(`--tag=${options.tag}`);
   }
   if (options.deployment) {
-        print_important_info_spacer(`--deployment=${options.deployment}`);
-    }
-    if (options.kubectl_timeout) {
-        print_important_info_spacer(`--kubectl_timeout=${options.kubectl_timeout}`);
-    }
-    if (options.version) {
-        print_important_info_spacer(`--version=${options.version}`);
-    }
-    if (options.image) {
-        print_important_info_spacer(`--image=${options.image}`);
-    }
-    if (options.kustomize) {
-        print_important_info_spacer(`--kustomize=${options.kustomize}`);
-    }
+    print_important_info_spacer(`--deployment=${options.deployment}`);
+  }
+  if (options.kubectl_timeout) {
+    print_important_info_spacer(`--kubectl_timeout=${options.kubectl_timeout}`);
+  }
+  if (options.version) {
+    print_important_info_spacer(`--version=${options.version}`);
+  }
+  if (options.image) {
+    print_important_info_spacer(`--image=${options.image}`);
+  }
+  if (options.kustomize) {
+    print_important_info_spacer(`--kustomize=${options.kustomize}`);
+  }
   if (options.namespace) {
     print_important_info_spacer(`--namespace=${options.namespace}`);
   }
@@ -589,10 +586,7 @@ function increment_bug(version) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[2] > 99) {
-    ++terms[1];
-    terms[2] = 0;
-  }
+  ++terms[2];
   return terms.join(".");
 }
 function calculate_version_diff(v1, v2) {
@@ -617,13 +611,8 @@ function increment_feature(version) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[1] > 9) {
-    ++terms[0];
-    terms[1] = 0;
+  ++terms[1];
     terms[2] = 0;
-  } else {
-    terms[2] = 0;
-  }
   return terms.join(".");
 }
 function increment_major(version) {
@@ -655,13 +644,18 @@ function tag_value_dev(options) {
   return tag_value.substring(0, 64);
 }
 function tag_get_latest_version(options, tag) {
-  const tag_format = tag + `[0-9]\.[0-9]\.[0-9]*`;
+  const tag_format = tag + `*.*.*`;
   const last_tag = commands.git_get_last_remote_tags(options, tag_format);
-  print_if_debug(options, `tag_get_latest_version tag: ${tag} and result is: ${last_tag}`);
+  print_if_debug(options, `tag_get_latest_version with tag: ${tag} and result is: "${last_tag}"`);
   if (last_tag === "") {
     return false;
   }
-  return last_tag.replace(tag, "");
+  const regex = /\d+\.\d+\.\d+/;
+  let version;
+  if ((version = regex.exec(last_tag)) !== null) {
+    return version[0];
+  }
+  return false;
 }
 function tag_value_staging(options) {
   if (options.branch !== "master") {
@@ -673,6 +667,7 @@ function tag_value_staging(options) {
   }
   let latest_main_version = tag_get_latest_version(options, "prod");
   let latest_tag_version = tag_get_latest_version(options, tag_text);
+  print_if_debug(options, `latest_main_version with "prod" search : ${(latest_main_version)}, latest_tag_version with "${tag_text}" search: ${latest_tag_version}`);
   if (latest_main_version === false) {
     latest_main_version = "0.0.0";
   }
@@ -689,6 +684,7 @@ function tag_value_staging(options) {
   let new_tag_version = "";
   print_if_debug(options, `latest_main_version: ${(latest_main_version)}, latest_tag_version: ${latest_tag_version}`);
   const compare_result = (0, compare_versions_1.compareVersions)(latest_main_version, latest_tag_version);
+  print_if_debug(options, "compare_result: " + compare_result);
   switch (compare_result) {
     case 1:
       new_tag_version = latest_main_version;
@@ -700,6 +696,7 @@ function tag_value_staging(options) {
       new_tag_version = latest_main_version;
       break;
   }
+  print_if_debug(options, "new_tag_version: " + new_tag_version);
   if (options.major === true) {
     return tag_text + increment_major(new_tag_version);
   }

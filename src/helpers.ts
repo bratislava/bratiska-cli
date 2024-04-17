@@ -492,7 +492,13 @@ export function load_package(options?: Options) {
 
   const path = options.pwd + '/package.json';
   if (!fs.existsSync(path)) {
-    throw new Error('We haven`t found package.json in path: ' + path);
+
+    if (options.tag) {
+      print_warning("There is no package.json, but is omitted when --tag command is used.");
+      sleep(2000);
+      return {};
+    }
+    throw new Error("We haven`t found package.json in path: " + path);
   }
   return load_json(path);
 }
@@ -530,6 +536,10 @@ export function print_options(options: Options) {
 
   if (options.no_image_repo_check) {
     print_important_info_spacer('--no_image_repo_check');
+  }
+
+  if (options.skip_deployment_check) {
+    print_important_info_spacer("--skip_deployment_check");
   }
 
   if (options.dry_run) {
@@ -653,10 +663,7 @@ function increment_bug(version: string) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[2] > 99) {
-    ++terms[1];
-    terms[2] = 0;
-  }
+  ++terms[2];
   return terms.join('.');
 }
 
@@ -684,13 +691,8 @@ function increment_feature(version: string) {
   if (terms.length != 3) {
     return version;
   }
-  if (++terms[1] > 9) {
-    ++terms[0];
-    terms[1] = 0;
+  ++terms[1];
     terms[2] = 0;
-  } else {
-    terms[2] = 0;
-  }
   return terms.join('.');
 }
 
@@ -733,18 +735,23 @@ function tag_value_dev(options: Options) {
 }
 
 function tag_get_latest_version(options: Options, tag: string) {
-  const tag_format = tag + `[0-9]\.[0-9]\.[0-9]*`;
+  const tag_format = tag + `*.*.*`;
   const last_tag = commands.git_get_last_remote_tags(options, tag_format);
   print_if_debug(
     options,
-    `tag_get_latest_version tag: ${tag} and result is: ${last_tag}`,
+    `tag_get_latest_version with tag: ${tag} and result is: "${last_tag}"`
   );
 
   if (last_tag === '') {
     return false;
   }
 
-  return last_tag.replace(tag, '');
+  const regex = /\d+\.\d+\.\d+/;
+  let version;
+  if ((version = regex.exec(last_tag)) !== null) {
+    return version[0];
+  }
+  return false;
 }
 
 function tag_value_staging(options: Options) {
@@ -760,6 +767,13 @@ function tag_value_staging(options: Options) {
 
   let latest_main_version = tag_get_latest_version(options, 'prod');
   let latest_tag_version = tag_get_latest_version(options, tag_text);
+
+  print_if_debug(
+    options,
+    `latest_main_version with "prod" search : ${<string>(
+      latest_main_version
+    )}, latest_tag_version with "${tag_text}" search: ${<string>latest_tag_version}`
+  );
 
   if (latest_main_version === false) {
     latest_main_version = '0.0.0';
@@ -789,6 +803,8 @@ function tag_value_staging(options: Options) {
     <string>latest_tag_version,
   );
 
+  print_if_debug(options, "compare_result: " + compare_result);
+
   switch (compare_result) {
     case 1:
       new_tag_version = <string>latest_main_version;
@@ -800,6 +816,8 @@ function tag_value_staging(options: Options) {
       new_tag_version = <string>latest_main_version;
       break;
   }
+
+  print_if_debug(options, "new_tag_version: " + new_tag_version);
 
   if (options.major === true) {
     return tag_text + increment_major(new_tag_version);

@@ -26,7 +26,8 @@ var __importDefault = (this && this.__importDefault) || function(mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kubectl_label_secrets = exports.kubectl_label_resources = exports.kubect_get_deployment = exports.kubectl_deployment_logs = exports.kubectl_deploy_events = exports.kubectl_deploy_status_utf8 = exports.kubectl_deploy_status_stdio = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_service_account = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_list_of_brnaches_with_refs = exports.git_get_last_remote_tags = exports.git_origin_commit_tag = exports.git_push_tag = exports.git_delete_tag_origin = exports.git_delete_tag = exports.git_add_tag = exports.git_commit_tag = exports.git_current_commit_short = exports.git_current_commit = exports.git_pull_origin = exports.git_fetch_origin = exports.git_repository_url = exports.git_branch_from_commit = exports.git_current_branch = exports.git_user_email = exports.git_user_name = exports.cd = exports.pwd = void 0;
+exports.kubectl_get_latest_pod = exports.git = exports.kubectl = exports.kustomize = exports.envsubst = exports.kubectl_label_secrets = exports.kubectl_label_resources = exports.kubect_get_deployment = exports.kubectl_deploy_events = exports.kubectl_deploy_status_utf8 = exports.kubectl_deploy_status_stdio = exports.kubect_apply_to_kubernetes = exports.kustomize_build_manifest = exports.get_bratiska_cli_git_package_json = exports.docker_running = exports.docker_login = exports.docker_check_image_in_registry = exports.docker_push_image = exports.docker_delete_image = exports.docker_check_image = exports.docker_tag = exports.docker_build = exports.docker = exports.kubectl_pull_secret = exports.kubectl_service_account = exports.kubectl_pods = exports.kubectl_pods_admin = exports.kubectl_cluster = exports.git_check_commit_remote = exports.git_repo_name = exports.git_current_status = exports.git_list_of_brnaches_with_refs = exports.git_get_last_remote_tags = exports.git_origin_commit_tag = exports.git_push_tag = exports.git_delete_tag_origin = exports.git_delete_tag = exports.git_add_tag = exports.git_commit_tag = exports.git_current_commit_short = exports.git_current_commit = exports.git_pull_origin = exports.git_fetch_origin = exports.git_repository_url = exports.git_branch_from_commit = exports.git_current_branch = exports.git_user_email = exports.git_user_name = exports.cd = exports.pwd = void 0;
+exports.kubectl_get_log_for_pod = void 0;
 const child_process_1 = __importStar(require("child_process"));
 const helpers = __importStar(require("./helpers"));
 const chalk_1 = __importDefault(require("chalk"));
@@ -164,8 +165,8 @@ function git_origin_commit_tag(tag) {
 }
 exports.git_origin_commit_tag = git_origin_commit_tag;
 function git_get_last_remote_tags(options, tag_format) {
-  // let tag_format = "v[0-9]\.[0-9]\.[0-9]*"
-  const cmd = `git ls-remote origin --contains "refs\/tags\/${tag_format}" | grep ".*[^}]$" | cut -f 2 | tail -n1 | awk '{gsub(/refs\\/tags\\//,"")}1'`;
+  helpers.print_if_debug(options, `tag_format: ${tag_format}`);
+  const cmd = `git ls-remote origin --contains "refs\/tags\/${tag_format}" | grep ".*[^}]$" | cut -f 2 | sort -V | tail -n1 | awk '{gsub(/refs\\/tags\\//,"")}1'`;
   helpers.print_if_debug(options, cmd);
   const last_tag = (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
   return last_tag.trim();
@@ -243,7 +244,14 @@ function kubectl_service_account(options) {
   ], {
     encoding: "utf8"
   });
-  helpers.print_if_debug(options, `kubectl get serviceAccounts: ${result.stdout}\n ${result.stderr}`);
+  /*
+  helpers.print_if_debug(
+    options,
+    `kubectl get serviceAccounts default -n ${<string>(
+      options.namespace
+    )} --request-timeout=3: ${result.stdout}\n ${result.stderr}`,
+  );
+ */
   return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.kubectl_service_account = kubectl_service_account;
@@ -305,17 +313,13 @@ function docker_check_image_in_registry(options, imagetag) {
   if (options.image) {
     imagetag = options.image;
   }
-  helpers.print_if_debug(options, `docker image manifest inspect ${imagetag}`);
   const result = child_process_1.default.spawnSync("docker", ["manifest", "inspect", imagetag], {
     encoding: "utf8"
   });
-  helpers.print_if_debug(options, `Res: ${result.stdout.trim()}`);
-  helpers.print_if_debug(options, `Err: ${result.stderr}`);
   return { res: result.stdout.trim(), err: result.stderr };
 }
 exports.docker_check_image_in_registry = docker_check_image_in_registry;
 function docker_login(options) {
-    helpers.print_if_debug(options, `docker login ${options.registry}`);
     const result = child_process_1.default.spawnSync('docker', ['login', options.registry], {
         encoding: 'utf8',
     });
@@ -323,7 +327,6 @@ function docker_login(options) {
 }
 exports.docker_login = docker_login;
 function docker_running(options) {
-  helpers.print_if_debug(options, `docker running`);
   const result = child_process_1.default.spawnSync("docker", ["info"], {
     encoding: "utf8"
   });
@@ -349,7 +352,7 @@ function kustomize_build_manifest(options) {
     path = options.kustomize;
   }
   const cmd = `kustomize build --load-restrictor LoadRestrictionsNone ${path} | envsubst > ${helpers.manifest(options)}`;
-  helpers.print_if_debug(options, cmd);
+  //helpers.print_if_debug(options, cmd);
   (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
 }
 exports.kustomize_build_manifest = kustomize_build_manifest;
@@ -399,20 +402,6 @@ function kubectl_deploy_events(kind, options) {
   });
 }
 exports.kubectl_deploy_events = kubectl_deploy_events;
-function kubectl_deployment_logs(options) {
-  helpers.log(chalk_1.default.reset(""));
-  child_process_1.default.spawnSync("kubectl", [
-    "logs",
-    "-f",
-    `deployment/${options.deployment}-app`,
-    `--namespace=${options.namespace}`
-  ], {
-    stdio: "inherit"
-  });
-}
-
-exports.kubectl_deployment_logs = kubectl_deployment_logs;
-
 function kubect_get_deployment(options) {
   const result = child_process_1.default.spawnSync("kubectl", [
     "get",
@@ -424,9 +413,7 @@ function kubect_get_deployment(options) {
   });
   return { res: result.stdout, err: result.stderr };
 }
-
 exports.kubect_get_deployment = kubect_get_deployment;
-
 function kubectl_label_resources(options) {
   helpers.log(chalk_1.default.reset(""));
   //check if options.resources is an array
@@ -444,9 +431,7 @@ function kubectl_label_resources(options) {
     stdio: "inherit"
   });
 }
-
 exports.kubectl_label_resources = kubectl_label_resources;
-
 function kubectl_label_secrets(options) {
   helpers.log(chalk_1.default.reset(""));
   //check if options.resources is an array
@@ -470,5 +455,60 @@ function kubectl_label_secrets(options) {
     }
   });
 }
-
 exports.kubectl_label_secrets = kubectl_label_secrets;
+function envsubst(options) {
+  const cmd = `envsubst`;
+  const result = child_process_1.default.spawnSync(cmd, {
+    encoding: "utf8"
+  });
+  return { res: result.stdout, err: result.stderr };
+}
+exports.envsubst = envsubst;
+function kustomize(options) {
+  const cmd = `kustomize`;
+  const result = child_process_1.default.spawnSync(cmd, {
+    encoding: "utf8"
+  });
+  return { res: result.stdout, err: result.stderr };
+}
+exports.kustomize = kustomize;
+function kubectl(options) {
+  const cmd = `kubectl`;
+  const result = child_process_1.default.spawnSync(cmd, {
+    encoding: "utf8"
+  });
+  return { res: result.stdout, err: result.stderr };
+}
+exports.kubectl = kubectl;
+function git(options) {
+  const cmd = `git`;
+  const result = child_process_1.default.spawnSync(cmd, {
+    encoding: "utf8"
+  });
+  return { res: result.stdout, err: result.stderr };
+}
+exports.git = git;
+function kubectl_get_latest_pod(kind, options) {
+  const result = child_process_1.default.spawnSync("kubectl", [
+    "get",
+    "pods",
+    "-l",
+    `app=${options.deployment},service=${helpers.kind_to_app(kind)}`,
+    `--namespace=${options.namespace}`,
+    `--sort-by=.metadata.creationTimestamp`,
+    `-o`,
+    `jsonpath='{.items[-1:].metadata.name}'`
+  ], {
+    encoding: "utf8"
+  });
+  return { res: result.stdout, err: result.stderr };
+}
+exports.kubectl_get_latest_pod = kubectl_get_latest_pod;
+function kubectl_get_log_for_pod(pod, options) {
+  const cmd = `kubectl logs --all-containers --namespace=${options.namespace} pod/${pod} -f --request-timeout=30s`;
+  helpers.log(chalk_1.default.white("\n"));
+  (0, child_process_1.execSync)(cmd, {
+    stdio: "inherit"
+  });
+}
+exports.kubectl_get_log_for_pod = kubectl_get_log_for_pod;

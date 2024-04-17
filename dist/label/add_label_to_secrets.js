@@ -30,12 +30,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.add_label_to_secrets = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function add_label_to_secrets(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Adding label to secrets...\n`);
   commands.kubectl_label_secrets(options);
   return options;
 }
-
 exports.add_label_to_secrets = add_label_to_secrets;

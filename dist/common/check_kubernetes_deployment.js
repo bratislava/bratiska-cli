@@ -30,7 +30,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.check_kubernetes_deployment = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-
 function check_kubernetes_deployment(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Checking if deployment exists...`);
@@ -48,5 +47,4 @@ function check_kubernetes_deployment(options) {
   helpers.ok();
   return options;
 }
-
 exports.check_kubernetes_deployment = check_kubernetes_deployment;

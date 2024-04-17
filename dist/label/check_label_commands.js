@@ -27,26 +27,26 @@ var __importStar = (this && this.__importStar) || function(mod) {
   return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.check_docker_login = void 0;
+exports.check_label_commands = void 0;
 const helpers = __importStar(require("../helpers"));
 const commands = __importStar(require("../commands"));
-function check_docker_login(options) {
-  helpers.line(`(${helpers.step(options)}) Checking docker login...`);
-  if (options.build_image_no_registry || options.no_image_repo_check) {
-    helpers.skipping();
-    return;
+function check_label_commands(options) {
+  helpers.line(`(${helpers.step(options)}) Checking required label commands... \n`);
+  const git_bash = commands.git(options);
+  helpers.print_if_debug_bash(options, "git", git_bash);
+  if (git_bash.err !== "") {
+    throw new Error(`git command is not available on your computer! Please run installation command: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git`);
+  } else {
+    helpers.spacer_line(`git:`);
+    helpers.print_important_info(`       installed`);
   }
-  const docker = commands.docker_login(options);
-  if (!(docker.res.includes("Login Succeeded") ||
-    docker.res.includes("Already logged in to"))) {
-    helpers.print_if_debug(options, `docker_login res: ${docker.res.trim()} err: ${docker.err}`);
-    throw new Error(`You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`);
+  const kubectl_bash = commands.kubectl(options);
+  helpers.print_if_debug_bash(options, "kubectl", kubectl_bash);
+  if (kubectl_bash.err !== "") {
+    throw new Error(`kubectl command is not available on your computer! Please check installation instructions: https://kubernetes.io/docs/tasks/tools/`);
+  } else {
+    helpers.spacer_line(`kubectl: `);
+    helpers.print_important_info(`  installed`);
   }
-  if (docker.err !== "" &&
-    !docker.err.includes("Your password will be stored unencrypted in")) {
-    helpers.print_if_debug(options, `docker_login res: ${docker.res.trim()} err: ${docker.err}`);
-    throw new Error(`There was an error checking docker registry ${options.registry} Error: ${docker.err}`);
-  }
-  helpers.ok();
 }
-exports.check_docker_login = check_docker_login;
+exports.check_label_commands = check_label_commands;

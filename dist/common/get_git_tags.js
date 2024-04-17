@@ -33,7 +33,7 @@ const commands = __importStar(require("../commands"));
 function get_git_tags(options) {
   const step = helpers.step(options);
   helpers.line(`(${step}) Checking git tags...`);
-  if (options.image) {
+  if (options.image || options.github_ref === "refs/heads/master") {
     helpers.skipping();
     return;
   }

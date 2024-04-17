@@ -9,10 +9,7 @@ export function show_version(options: Options, local_bratiska_version: string) {
   console.log(local_bratiska_version);
 
   if (process.env['CI']) {
-    helpers.print_if_debug(
-      options,
-      `CI pipelines environment detected. Skipping version check.`,
-    );
+    helpers.line(`CI pipelines environment detected. Skipping version check.`);
     console.log();
     return;
   }
@@ -21,10 +18,13 @@ export function show_version(options: Options, local_bratiska_version: string) {
   if (github_package_json !== '') {
     const package_obj = JSON.parse(github_package_json);
     const github_package_version = package_obj.version;
-    helpers.print_if_debug(
-      options,
-      `Github bratiska-cli version: ${github_package_version}`,
-    );
+
+    if (local_bratiska_version !== github_package_version) {
+      helpers.print_if_debug(
+        options,
+        `Github bratiska-cli version: ${github_package_version}`,
+      );
+    }
 
     const compare_result = compareVersions(
       github_package_version,
@@ -41,9 +41,9 @@ export function show_version(options: Options, local_bratiska_version: string) {
         github_package_version,
       );
 
-      if (difference >= 5) {
+      if (difference >= 10) {
         throw new Error(
-          `Your bratiska-cli version (${local_bratiska_version}) is at-least five updates old, please update it, to continue using it!`,
+          `Your bratiska-cli version (${local_bratiska_version}) is too old, please update it, to continue using it!`,
         );
       } else {
         helpers.sleep(3000);

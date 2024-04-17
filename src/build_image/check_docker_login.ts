@@ -10,17 +10,16 @@ export function check_docker_login(options: Options) {
   }
 
   const docker = commands.docker_login(options);
-  helpers.print_if_debug(
-    options,
-    `docker_login res: ${docker.res.trim()} err: ${docker.err}`,
-  );
-
   if (
     !(
       docker.res.includes('Login Succeeded') ||
       docker.res.includes('Already logged in to')
     )
   ) {
+    helpers.print_if_debug(
+      options,
+      `docker_login res: ${docker.res.trim()} err: ${docker.err}`,
+    );
     throw new Error(
       `You are unauthorized. Please login to docker registry ${options.registry} with command "docker login ${options.registry}".`,
     );
@@ -30,6 +29,10 @@ export function check_docker_login(options: Options) {
     docker.err !== '' &&
     !docker.err.includes('Your password will be stored unencrypted in')
   ) {
+    helpers.print_if_debug(
+      options,
+      `docker_login res: ${docker.res.trim()} err: ${docker.err}`,
+    );
     throw new Error(
       `There was an error checking docker registry ${options.registry} Error: ${docker.err}`,
     );

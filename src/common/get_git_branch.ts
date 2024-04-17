@@ -39,6 +39,8 @@ export function get_git_branch(options: Options) {
       `Branch is in detached HEAD, getting ref env GITHUB_REF: ${github_ref}`,
     );
 
+    options.github_ref = github_ref;
+
     const branch_bash = commands.git_list_of_brnaches_with_refs(
       <string>github_ref,
     );

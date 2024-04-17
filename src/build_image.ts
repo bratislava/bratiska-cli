@@ -12,6 +12,7 @@ import { clean_bratiska_build_envs } from './build_image/clean_bratiska_build_en
 import { push_docker_image } from './build_image/push_docker_image';
 import { check_pushed_image } from './build_image/check_pushed_image';
 import { clean_docker_image } from './build_image/clean_docker_image';
+import { check_build_image_commands } from './build_image/check_build_image_commands';
 
 export class BuildImage {
   check_docker_file(options: Options) {
@@ -60,5 +61,9 @@ export class BuildImage {
 
   clean_docker_image(options: Options) {
     clean_docker_image(options);
+  }
+
+  check_build_image_commands(options: Options) {
+    check_build_image_commands(options);
   }
 }

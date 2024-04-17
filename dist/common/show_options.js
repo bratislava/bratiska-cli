@@ -42,16 +42,13 @@ function show_options(env, options) {
     typeof options.env === "undefined") {
     options.env = env;
   }
-  helpers.print_if_debug(options, `options.env from start: ${options.env}`);
   const pwd = commands.pwd();
   if (pwd === "") {
+    helpers.print_if_debug(options, `options.env from start: ${options.env}`);
     throw new Error("There was an issue getting the current working directory!");
   }
   options.pwd = pwd;
   options.pipelines = false;
-  if (options.debug) {
-    helpers.print_debug(`pwd: ${options.pwd}`);
-  }
   if (typeof options.build_image === "undefined") {
     options.build_image = false;
   }
@@ -81,6 +78,9 @@ function show_options(env, options) {
   }
   if (typeof options.no_image_repo_check === "undefined") {
     options.no_image_repo_check = false;
+  }
+  if (typeof options.skip_deployment_check === "undefined") {
+    options.skip_deployment_check = false;
   }
   if (typeof options.namespace === "undefined") {
     // ignore namespace when not defined during only image build
@@ -144,7 +144,7 @@ function show_options(env, options) {
       .update(options.force)
       .digest("base64");
     console.log(pass);
-    if (pass === "ynqstnhwPpmybNTjkQfHxXJuviKIyMRV66kUWcrspmU=") {
+    if (pass === "8pJV46gp8KmFsVSNN5DBRmF/1N7AUmBzXAvFsJKmOXU=") {
       options.force = true;
       helpers.star_wars();
     } else {

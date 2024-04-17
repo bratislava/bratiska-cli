@@ -6,6 +6,7 @@ import { check_kubernetes_cluster_conditions } from './deploy/check_kubernetes_c
 import { check_kubernetes_harbor_key } from './deploy/check_kubernetes_harbor_key';
 import { deploy_kubernetes } from './deploy/deploy_kubernetes';
 import { check_deployment } from './deploy/check_deployment';
+import { check_deploy_commands } from './deploy/check_deploy_commands';
 
 export class Deploy {
   check_kubernetes_connection(options: Options) {
@@ -30,5 +31,9 @@ export class Deploy {
 
   check_deployment(options: Options) {
     check_deployment(options);
+  }
+
+  check_deploy_commands(options: Options) {
+    check_deploy_commands(options);
   }
 }
