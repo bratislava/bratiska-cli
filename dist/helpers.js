@@ -646,11 +646,16 @@ function tag_value_dev(options) {
 function tag_get_latest_version(options, tag) {
   const tag_format = tag + `*.*.*`;
   const last_tag = commands.git_get_last_remote_tags(options, tag_format);
-  print_if_debug(options, `tag_get_latest_version tag: ${tag} and result is: ${last_tag}`);
+  print_if_debug(options, `tag_get_latest_version with tag: ${tag} and result is: "${last_tag}"`);
   if (last_tag === "") {
     return false;
   }
-  return last_tag.replace(tag, "");
+  const regex = /\d+\.\d+\.\d+/;
+  let version;
+  if ((version = regex.exec(last_tag)) !== null) {
+    return version[0];
+  }
+  return false;
 }
 function tag_value_staging(options) {
   if (options.branch !== "master") {
@@ -662,6 +667,7 @@ function tag_value_staging(options) {
   }
   let latest_main_version = tag_get_latest_version(options, "prod");
   let latest_tag_version = tag_get_latest_version(options, tag_text);
+  print_if_debug(options, `latest_main_version with "prod" search : ${(latest_main_version)}, latest_tag_version with "${tag_text}" search: ${latest_tag_version}`);
   if (latest_main_version === false) {
     latest_main_version = "0.0.0";
   }
