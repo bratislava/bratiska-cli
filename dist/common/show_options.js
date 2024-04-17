@@ -79,6 +79,9 @@ function show_options(env, options) {
   if (typeof options.no_image_repo_check === "undefined") {
     options.no_image_repo_check = false;
   }
+  if (typeof options.skip_deployment_check === "undefined") {
+    options.skip_deployment_check = false;
+  }
   if (typeof options.namespace === "undefined") {
     // ignore namespace when not defined during only image build
     options.namespace = "standalone";

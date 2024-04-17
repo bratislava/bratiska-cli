@@ -606,6 +606,15 @@ can`t update production.
 bratiska-cli deploy --staging
 ```
 
+#### Skip deployment check
+
+If you are deploying some cron jobs to kubernetes, there is nothing to check if the deployment was successful, so in
+that case, we have this option flag you can use.
+
+```bash
+bratiska-cli deploy --skip_deployment_check
+```
+
 #### Debug
 
 If you need to debug the deploy process, you can add the `--debug` option. This will save the kustomize manifest to the

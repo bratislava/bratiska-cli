@@ -35,7 +35,8 @@ function check_deployment(options) {
   if (options.dry_run ||
     options.build_kustomize ||
     options.build_image ||
-    options.build_image_no_registry) {
+    options.build_image_no_registry ||
+    options.skip_deployment_check) {
     helpers.skipping();
     return;
   }
