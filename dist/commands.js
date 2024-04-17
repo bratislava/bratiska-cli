@@ -165,6 +165,7 @@ function git_origin_commit_tag(tag) {
 }
 exports.git_origin_commit_tag = git_origin_commit_tag;
 function git_get_last_remote_tags(options, tag_format) {
+  helpers.print_if_debug(options, `tag_format: ${tag_format}`);
   const cmd = `git ls-remote origin --contains "refs\/tags\/${tag_format}" | grep ".*[^}]$" | cut -f 2 | sort -V | tail -n1 | awk '{gsub(/refs\\/tags\\//,"")}1'`;
   helpers.print_if_debug(options, cmd);
   const last_tag = (0, child_process_1.execSync)(cmd, { encoding: "utf8" });
