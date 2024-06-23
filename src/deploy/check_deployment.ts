@@ -42,9 +42,13 @@ export function check_deployment(options: Options) {
     );
     try {
       commands.kubectl_get_log_for_pod(pod, options);
+      console.error(
+        `\n Deploy was not successfully rolled out. Check logs above.`,
+      );
+      process.exit(1);
     } catch (e) {
       throw Error(
-        `Exiting bratiska-cli with status code 1, because deploy was not successfully rolled out in kubernetes. Check pod ${pod} log in grafana.bratislava.sk or directly in kubernetes.`,
+        `Exiting bratiska-cli with status code 1, because deploy was not successfully rolled out in kubernetes. Check pod ${pod} logs in grafana.bratislava.sk or directly in kubernetes.`,
       );
     }
   }
