@@ -395,7 +395,7 @@ function kubectl_deploy_status_utf8(kind, options) {
 exports.kubectl_deploy_status_utf8 = kubectl_deploy_status_utf8;
 function kubectl_deploy_events(kind, options) {
   helpers.log(chalk_1.default.reset(""));
-  const cmd = `kubectl get events --namespace=${options.namespace} --sort-by='.metadata.creationTimestamp' | grep -i ${options.deployment}-${helpers.kind_to_app(kind)}`;
+  const cmd = `kubectl get events --request-timeout=180s --namespace=${options.namespace} --sort-by='.metadata.creationTimestamp' | grep -i ${options.deployment}-${helpers.kind_to_app(kind)}`;
   helpers.print_if_debug(options, `kubectl deploy logs: ${cmd}`);
   (0, child_process_1.execSync)(cmd, {
     stdio: "inherit"
@@ -495,6 +495,7 @@ function kubectl_get_latest_pod(kind, options) {
     "-l",
     `app=${options.deployment},service=${helpers.kind_to_app(kind)}`,
     `--namespace=${options.namespace}`,
+    `--request-timeout=30s`,
     `--sort-by=.metadata.creationTimestamp`,
     `-o`,
     `jsonpath='{.items[-1:].metadata.name}'`

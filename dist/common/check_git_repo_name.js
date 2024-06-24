@@ -3,11 +3,11 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = {
-            enumerable: true, get: function() {
-                return m[k];
-            }
-        };
+      desc = {
+        enumerable: true, get: function() {
+          return m[k];
+        }
+      };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
@@ -38,8 +38,8 @@ function check_git_repo_name(options) {
         return;
     }
     const name_bash = commands.git_repo_name(options);
-    if (name_bash === "") {
-        throw new Error("There was an issue fetching git repo name from git origin!");
+  if (name_bash === "") {
+    throw new Error("There was an issue fetching git repo name from git origin!");
     }
     options.repo_name = name_bash;
     helpers.print_if_debug(options, `reponame: ${options.repo_name}`);
@@ -55,9 +55,9 @@ function check_git_repo_name(options) {
         throw Error(`You have repository name mismatch. Git repo name: ${options.repo_name} != package.json name: ${options.deployment}. Please fix the names, that they match with the repository name and project.json name.`);
     }
     const repository_bash = commands.git_repository_url();
-    helpers.print_if_debug_bash(options, "repository_bash", repository_bash);
-    if (repository_bash.err !== "") {
-        throw new Error("There was an issue getting the remote repository URL. Please push your changes to GitHub or azure.\n");
+  helpers.print_if_debug_bash(options, "repository_bash", repository_bash);
+  if (repository_bash.err !== "") {
+    throw new Error("There was an issue getting the remote repository URL. Please push your changes to GitHub or azure.\n");
     }
     options.repository_uri = repository_bash.res;
     helpers.print_if_debug(options, `repository_uri: ${options.repository_uri}`);

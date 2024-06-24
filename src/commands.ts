@@ -451,7 +451,7 @@ export function kubectl_deploy_status_utf8(kind: string, options: Options) {
 export function kubectl_deploy_events(kind: string, options: Options) {
   helpers.log(chalk.reset(''));
 
-  const cmd = `kubectl get events --namespace=${
+  const cmd = `kubectl get events --request-timeout=180s --namespace=${
     options.namespace
   } --sort-by='.metadata.creationTimestamp' | grep -i ${
     options.deployment
@@ -577,6 +577,7 @@ export function kubectl_get_latest_pod(kind: string, options: Options) {
       '-l',
       `app=${options.deployment},service=${helpers.kind_to_app(kind)}`,
       `--namespace=${options.namespace}`,
+      `--request-timeout=30s`,
       `--sort-by=.metadata.creationTimestamp`,
       `-o`,
       `jsonpath='{.items[-1:].metadata.name}'`,
