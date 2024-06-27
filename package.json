@@ -1,11 +1,9 @@
 {
   "name": "bratiska-cli",
-  "version": "3.4.3",
+  "version": "3.4.4",
   "description": "Simple CLI for deploying Bratislava apps to kubernetes",
   "preferGlobal": true,
-  "bin": {
-    "bratiska-cli": "./dist/bratiska-cli.js"
-  },
+  "bin": "./dist/bratiska-cli.js",
   "main": "./dist/bratiska-cli.js",
   "scripts": {
     "build": "tsc && yarn run chmod",
