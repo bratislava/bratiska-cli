@@ -275,7 +275,11 @@ function docker() {
 }
 exports.docker = docker;
 function docker_build(options) {
-    const cmd = `docker buildx build --platform=linux/amd64 --tag=${helpers.image_tag(options)} --target=prod . `;
+  let build_arg = "";
+  if (options.build_arg) {
+    build_arg = `--build-arg="${options.build_arg}"`;
+  }
+  const cmd = `docker buildx build --platform=linux/amd64 ${build_arg} --tag=${helpers.image_tag(options)} --target=prod . `;
     helpers.print_if_debug(options, `docker build command: ${cmd}`);
     (0, child_process_1.execSync)(cmd, {
       stdio: "inherit"

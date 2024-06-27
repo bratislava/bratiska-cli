@@ -1,6 +1,6 @@
 {
   "name": "bratiska-cli",
-  "version": "3.4.4",
+  "version": "3.5.0",
   "description": "Simple CLI for deploying Bratislava apps to kubernetes",
   "preferGlobal": true,
   "bin": "./dist/bratiska-cli.js",
@@ -54,7 +54,10 @@
     "typescript": "^4.6.4"
   },
   "engines": {
-    "npm": ">=7.0.0",
     "node": ">=16.0.0"
+  },
+  "volta": {
+    "node": "20.15.0",
+    "yarn": "3.3.1"
   }
 }

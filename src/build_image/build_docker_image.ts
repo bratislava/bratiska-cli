@@ -1,4 +1,4 @@
-import { Options } from './../types';
+import { Options } from '../types';
 import * as helpers from '../helpers';
 import * as commands from '../commands';
 
@@ -20,6 +20,8 @@ export function build_docker_image(options: Options) {
   helpers.print_important_info(`${helpers.tag(options)}`);
   helpers.spacer_line(` Image-tag: `);
   helpers.print_important_info(`${image_tag}`);
+  helpers.spacer_line(` Build arg: `);
+  helpers.print_important_info(`${options.build_arg}`);
 
   helpers.spacer_line(` Is image already present: `);
   /* we will check if we already have an image */

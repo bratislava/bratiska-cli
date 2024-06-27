@@ -38,7 +38,7 @@ const tag_1 = require("./tag");
 const label_1 = require("./label");
 const common_1 = require("./common");
 const helpers = __importStar(require("./helpers"));
-const version = "3.4.4";
+const version = "3.5.0";
 const deploy = new deploy_1.Deploy();
 const tag = new tag_1.Tag();
 const common = new common_1.Common();
@@ -113,6 +113,7 @@ try {
       .option("-k, --kustomize <file_or_direcotry>", "Specify kustomize file or kustomize directory")
       .option("-i, --image <url>", "Specify image from harbour via url")
       .option("-tag, --tag <tag>", "Specify an image tag")
+      .option("-build_arg, --build_arg <build_arg>", "Specify an docker build args")
       .option("-n, --namespace <namespace>", "Namespace")
       .option("-d, --deployment <deployment>", "Deployment app")
       .option("-h, --host <host>", "Host url address")
@@ -216,6 +217,7 @@ try {
       .option("-build_image_no_registry, --build_image_no_registry", "Don`t push to registry")
       .option("-s, --sentry <token>", "Specify sentry auth token for build")
       .option("-tag, --tag <tag>", "Specify an image tag")
+      .option("-build_arg, --build_arg <build_args>", "Specify an docker build arg")
       .option("-e, --env <env>", "Deployment environment")
       .option("-n, --namespace <namespace>", "Namespace")
       .option("-r, --registry <url>", "Docker image registry url", "harbor.bratislava.sk")

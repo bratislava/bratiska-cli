@@ -449,11 +449,11 @@ function load_package(options) {
     const path = options.pwd + '/package.json';
     if (!fs_1.default.existsSync(path)) {
         if (options.tag) {
-            print_warning("There is no package.json, but is omitted when --tag command is used.");
+          print_warning("There is no package.json, but is omitted when --tag command is used.");
             sleep(2000);
             return {};
         }
-        throw new Error("We haven`t found package.json in path: " + path);
+      throw new Error("We haven`t found package.json in path: " + path);
     }
     return load_json(path);
 }
@@ -488,7 +488,7 @@ function print_options(options) {
       print_important_info_spacer("--no_image_repo_check");
     }
     if (options.skip_deployment_check) {
-        print_important_info_spacer("--skip_deployment_check");
+      print_important_info_spacer("--skip_deployment_check");
     }
     if (options.dry_run) {
       print_important_info_spacer("--dry_run");
@@ -538,6 +538,9 @@ function print_options(options) {
     if (options.tag) {
         print_important_info_spacer(`--tag=${options.tag}`);
     }
+  if (options.build_arg) {
+    print_important_info_spacer(`--build_arg=${options.build_arg}`);
+  }
     if (options.deployment) {
         print_important_info_spacer(`--deployment=${options.deployment}`);
     }
@@ -684,7 +687,7 @@ function tag_value_staging(options) {
   let new_tag_version = "";
     print_if_debug(options, `latest_main_version: ${(latest_main_version)}, latest_tag_version: ${latest_tag_version}`);
     const compare_result = (0, compare_versions_1.compareVersions)(latest_main_version, latest_tag_version);
-    print_if_debug(options, "compare_result: " + compare_result);
+  print_if_debug(options, "compare_result: " + compare_result);
     switch (compare_result) {
         case 1:
             new_tag_version = latest_main_version;
@@ -696,7 +699,7 @@ function tag_value_staging(options) {
             new_tag_version = latest_main_version;
             break;
     }
-    print_if_debug(options, "new_tag_version: " + new_tag_version);
+  print_if_debug(options, "new_tag_version: " + new_tag_version);
     if (options.major === true) {
         return tag_text + increment_major(new_tag_version);
     }
