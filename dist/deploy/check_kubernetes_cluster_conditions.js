@@ -3,11 +3,11 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
     if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-        desc = {
-            enumerable: true, get: function() {
-                return m[k];
-            }
-        };
+      desc = {
+        enumerable: true, get: function() {
+          return m[k];
+        }
+      };
     }
     Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
@@ -39,8 +39,8 @@ function check_kubernetes_cluster_conditions(options) {
         return;
     }
     switch (options.cluster) {
-        case "tkg-innov-staging":
-            if (typeof options.staging === "undefined" && options.force === false) {
+      case "tkg-innov-staging":
+        if (typeof options.staging === "undefined" && options.force === false) {
                 throw new Error("You cannot deploy to 'tkg-innov-staging' without a staging flag! Please add the flag `--staging` to the command.");
             }
             if (options.untracked === true && options.force === false) {
@@ -50,8 +50,8 @@ function check_kubernetes_cluster_conditions(options) {
                 throw new Error(`You cannot deploy to 'tkg-innov-staging' when the changes are not pushed in-branch origin/${options.branch}. Please push your changes!`);
             }
             break;
-        case "tkg-innov-prod":
-            if (typeof options.production === "undefined") {
+      case "tkg-innov-prod":
+        if (typeof options.production === "undefined") {
                 throw new Error("You cannot deploy to 'tkg-innov-prod' without a production flag! Please add the flag `--production` to the command.");
             }
             if (options.untracked === true && options.force === false) {

@@ -492,13 +492,14 @@ export function load_package(options?: Options) {
 
   const path = options.pwd + '/package.json';
   if (!fs.existsSync(path)) {
-
     if (options.tag) {
-      print_warning("There is no package.json, but is omitted when --tag command is used.");
+      print_warning(
+        'There is no package.json, but is omitted when --tag command is used.',
+      );
       sleep(2000);
       return {};
     }
-    throw new Error("We haven`t found package.json in path: " + path);
+    throw new Error('We haven`t found package.json in path: ' + path);
   }
   return load_json(path);
 }
@@ -539,7 +540,7 @@ export function print_options(options: Options) {
   }
 
   if (options.skip_deployment_check) {
-    print_important_info_spacer("--skip_deployment_check");
+    print_important_info_spacer('--skip_deployment_check');
   }
 
   if (options.dry_run) {
@@ -604,6 +605,10 @@ export function print_options(options: Options) {
 
   if (options.tag) {
     print_important_info_spacer(`--tag=${options.tag}`);
+  }
+
+  if (options.build_arg) {
+    print_important_info_spacer(`--build_arg=${options.build_arg}`);
   }
 
   if (options.deployment) {
@@ -692,7 +697,7 @@ function increment_feature(version: string) {
     return version;
   }
   ++terms[1];
-    terms[2] = 0;
+  terms[2] = 0;
   return terms.join('.');
 }
 
@@ -739,7 +744,7 @@ function tag_get_latest_version(options: Options, tag: string) {
   const last_tag = commands.git_get_last_remote_tags(options, tag_format);
   print_if_debug(
     options,
-    `tag_get_latest_version with tag: ${tag} and result is: "${last_tag}"`
+    `tag_get_latest_version with tag: ${tag} and result is: "${last_tag}"`,
   );
 
   if (last_tag === '') {
@@ -772,7 +777,7 @@ function tag_value_staging(options: Options) {
     options,
     `latest_main_version with "prod" search : ${<string>(
       latest_main_version
-    )}, latest_tag_version with "${tag_text}" search: ${<string>latest_tag_version}`
+    )}, latest_tag_version with "${tag_text}" search: ${<string>latest_tag_version}`,
   );
 
   if (latest_main_version === false) {
@@ -803,7 +808,7 @@ function tag_value_staging(options: Options) {
     <string>latest_tag_version,
   );
 
-  print_if_debug(options, "compare_result: " + compare_result);
+  print_if_debug(options, 'compare_result: ' + compare_result);
 
   switch (compare_result) {
     case 1:
@@ -817,7 +822,7 @@ function tag_value_staging(options: Options) {
       break;
   }
 
-  print_if_debug(options, "new_tag_version: " + new_tag_version);
+  print_if_debug(options, 'new_tag_version: ' + new_tag_version);
 
   if (options.major === true) {
     return tag_text + increment_major(new_tag_version);

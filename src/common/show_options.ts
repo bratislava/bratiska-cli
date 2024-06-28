@@ -56,6 +56,10 @@ export function show_options(env: string, options: Options) {
     options.tag = false;
   }
 
+  if (typeof options.build_arg === 'undefined') {
+    options.build_arg = false;
+  }
+
   if (typeof options.tag_command === 'undefined') {
     options.tag_command = false;
   }
@@ -64,7 +68,7 @@ export function show_options(env: string, options: Options) {
     options.no_image_repo_check = false;
   }
 
-  if (typeof options.skip_deployment_check === "undefined") {
+  if (typeof options.skip_deployment_check === 'undefined') {
     options.skip_deployment_check = false;
   }
 

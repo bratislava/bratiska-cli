@@ -73,6 +73,9 @@ function show_options(env, options) {
   if (typeof options.tag === "undefined") {
     options.tag = false;
   }
+  if (typeof options.build_arg === "undefined") {
+    options.build_arg = false;
+  }
   if (typeof options.tag_command === "undefined") {
     options.tag_command = false;
   }
