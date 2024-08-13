@@ -6,6 +6,8 @@ import crypto from 'crypto';
 import { Options } from '../types';
 
 export function show_options(env: string, options: Options) {
+  options.timestamp = Date.now();
+
   if (
     typeof env !== 'undefined' &&
     env !== '' &&
