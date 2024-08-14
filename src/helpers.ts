@@ -195,9 +195,7 @@ export function tag(options: Options) {
     pipelines = '-pipelines';
   }
 
-  if (options.env) {
-    env = `-${options.env}`;
-  }
+  env = `-${options.env}`;
 
   let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${commit}${env}${timestamp}`;
   tag_value = tag_value.replace(' ', '-');
