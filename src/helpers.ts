@@ -168,7 +168,8 @@ export function tag(options: Options) {
   let untracked = '';
   let pipelines = '';
   let commit = '';
-  let tag = '';
+  let timestamp = '';
+  let env = '';
   let branch = '-' + options.branch;
   if (options.untracked) {
     untracked = '-untracked';
@@ -181,6 +182,10 @@ export function tag(options: Options) {
     commit = `-${options.commit}`;
   }
 
+  if (options.timestamp) {
+    timestamp = `-${options.timestamp}`;
+  }
+
   let force_rebuild = '';
   if (options.force_rebuild) {
     force_rebuild = '-force-rebuild-' + crypto.randomBytes(20).toString('hex');
@@ -190,11 +195,9 @@ export function tag(options: Options) {
     pipelines = '-pipelines';
   }
 
-  if (options.gittag) {
-    tag = `-tag-${options.gittag}`;
-  }
+  env = `-${options.env}`;
 
-  let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${commit}${tag}-v${options.version}`;
+  let tag_value = `bratiska-cli-v${options.bratiska_cli_version}${pipelines}${untracked}${force_rebuild}${branch}${commit}${env}${timestamp}`;
   tag_value = tag_value.replace(' ', '-');
   tag_value = tag_value.replace('+', '-');
   tag_value = tag_value.replace(/[#@/\\_]/g, '-');
@@ -474,6 +477,7 @@ export function load_package(options?: Options) {
       );
     }
     options = {
+      timestamp: Date.now(),
       app_port: '',
       cluster: '',
       commit: '',
@@ -593,6 +597,10 @@ export function print_options(options: Options) {
 
   if (options.recursive) {
     print_important_info_spacer(`--recursive`);
+  }
+
+  if (options.timestamp) {
+    print_important_info_spacer(`--timestamp=${options.timestamp}`);
   }
 
   if (options.env) {

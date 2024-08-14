@@ -1,6 +1,7 @@
 //type Options = Record<string, string | number | boolean>;
 export interface Options
   extends Record<string, string | number | boolean | string[]> {
+  timestamp: number;
   cluster: string;
   repository_uri: string;
   deployment: string;
