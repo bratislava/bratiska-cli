@@ -885,7 +885,7 @@ __metadata:
     eslint: ^8.56.0
     eslint-config-prettier: ^9.1.0
     eslint-plugin-prettier: ^5.1.3
-    figlet: ^1.5.2
+    figlet: 1.5.2
     fs: ^0.0.1-security
     install: ^0.13.0
     node-fetch: ^3.3.2
@@ -1546,7 +1546,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"figlet@npm:^1.5.2":
+"figlet@npm:1.5.2":
   version: 1.5.2
   resolution: "figlet@npm:1.5.2"
   checksum: cc860391669b44e119871d589e09a2814aa86351726a5791e0d3e2d098e4fc37171c85fcfed13f4e9000995bd004dc6dbf848da5fe458cf1477e776b7318986f

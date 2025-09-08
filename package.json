@@ -30,7 +30,7 @@
     "commander": "^11.0.0",
     "compare-versions": "^6.1.0",
     "dotenv": "^16.4.5",
-    "figlet": "^1.5.2",
+    "figlet": "1.5.2",
     "fs": "^0.0.1-security",
     "sync-request": "^6.1.0"
   },
