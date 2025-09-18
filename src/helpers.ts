@@ -122,7 +122,7 @@ export function print_if_debug_bash(
 ): void {
   print_if_debug(
     options,
-    `${name}.res: ${bash.res}, ${name}.err: ${bash.err} `,
+    `${name}.res: ${bash.res}, ${name}.err: ${bash.err}, ${name}.status: ${bash.status}`,
   );
 }
 
