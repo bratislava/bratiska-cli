@@ -267,7 +267,11 @@ export function kubectl_service_account(options: Options): Bash {
     )} --request-timeout=3: ${result.stdout}\n ${result.stderr}`,
   );
  */
-  return { res: result.stdout.trim(), err: result.stderr };
+  return {
+    res: result.stdout.trim(),
+    err: result.stderr,
+    status: result.status,
+  };
 }
 
 export function kubectl_pull_secret(options: Options): Bash {
@@ -411,7 +415,7 @@ export function kubect_apply_to_kubernetes(manifest_path: string) {
     encoding: 'utf8',
   });
 
-  return { res: result.stdout, err: result.stderr };
+  return { res: result.stdout, err: result.stderr, status: result.status };
 }
 
 export function kubectl_deploy_status_stdio(kind: string, options: Options) {
@@ -449,7 +453,11 @@ export function kubectl_deploy_status_utf8(kind: string, options: Options) {
     },
   );
 
-  return { res: result.stdout.trim(), err: result.stderr };
+  return {
+    res: result.stdout.trim(),
+    err: result.stderr,
+    status: result.status,
+  };
 }
 
 export function kubectl_deploy_events(kind: string, options: Options) {
