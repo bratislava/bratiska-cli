@@ -111,6 +111,11 @@ const ALLOWED_ENVIRONMENTS = [
     'build_image',
     'build_kustomize',
 ];
+const CLUSTER_SHORTHAND_MAP = {
+    development: 'dev',
+    staging: 'stage',
+    production: 'prod',
+};
 exports.log = console.log.bind(console);
 function line(content) {
     process.stdout.write('\x1b[37m' + content);
@@ -327,8 +332,8 @@ function map_cluster_to_env(cluster) {
     if (cluster.trim() === 'tkg-master') {
         throw new Error('Deploying to cluster tkg-master is not supported! Sorry :(');
     }
-    if (cluster.trim() === 'development') {
-        return 'dev';
+    if (cluster in CLUSTER_SHORTHAND_MAP) {
+        return CLUSTER_SHORTHAND_MAP[cluster];
     }
     const parts = cluster.split('-');
     return parts[2];
