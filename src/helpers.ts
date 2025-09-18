@@ -303,6 +303,9 @@ export function map_cluster_to_env(cluster: string): string {
       'Deploying to cluster tkg-master is not supported! Sorry :(',
     );
   }
+  if (cluster.trim() === 'development') {
+    return 'dev';
+  }
 
   const parts = cluster.split('-');
   return parts[2];

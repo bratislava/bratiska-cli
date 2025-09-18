@@ -27,7 +27,7 @@ export function check_deployment(options: Options) {
 
   const status_bash = commands.kubectl_deploy_status_utf8(kind, options);
 
-  if (status_bash.err) {
+  if (status_bash.status !== 0) {
     helpers.print_if_debug_bash(options, 'status_bash', status_bash);
     helpers.print_warning(
       `Deploy was not successfully rolled out. Showing kubernetes deploy events for ${options.deployment}:`,

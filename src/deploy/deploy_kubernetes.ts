@@ -18,7 +18,7 @@ export function deploy_kubernetes(options: Options) {
   const apply_to_kubernetes_bash = commands.kubect_apply_to_kubernetes(
     helpers.manifest_path(options),
   );
-  if (apply_to_kubernetes_bash.err) {
+  if (apply_to_kubernetes_bash.status !== 0) {
     helpers.print_if_debug_bash(
       options,
       'apply_to_kubernetes_bash',
