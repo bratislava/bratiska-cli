@@ -267,7 +267,7 @@ export function kubectl_service_account(options: Options): Bash {
     )} --request-timeout=3: ${result.stdout}\n ${result.stderr}`,
   );
  */
-  return { res: result.stdout.trim(), err: result.stderr };
+  return { res: result.stdout.trim(), err: result.stderr, status: result.status };
 }
 
 export function kubectl_pull_secret(options: Options): Bash {

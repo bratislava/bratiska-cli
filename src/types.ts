@@ -18,4 +18,5 @@ export interface Options
 export interface Bash {
   res: string;
   err: string;
+  status?: number
 }
