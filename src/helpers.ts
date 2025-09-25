@@ -18,7 +18,7 @@ const ALLOWED_ENVIRONMENTS = [
 
 const CLUSTER_SHORTHAND_MAP = {
   development: 'dev',
-  staging: 'stage',
+  staging: 'staging',
   production: 'prod',
 };
 
