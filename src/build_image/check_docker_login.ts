@@ -25,17 +25,18 @@ export function check_docker_login(options: Options) {
     );
   }
 
-  if (
-    docker.err !== '' &&
-    !docker.err.includes('Your password will be stored unencrypted in')
-  ) {
-    helpers.print_if_debug(
-      options,
-      `docker_login res: ${docker.res.trim()} err: ${docker.err}`,
-    );
-    throw new Error(
-      `There was an error checking docker registry ${options.registry} Error: ${docker.err}`,
-    );
-  }
+  // this trows false alarms. Instead of adding one more exception, count on login error propagating and being printed elsewhere
+  // if (
+  //   docker.err !== '' &&
+  //   !docker.err.includes('Your password will be stored unencrypted in')
+  // ) {
+  //   helpers.print_if_debug(
+  //     options,
+  //     `docker_login res: ${docker.res.trim()} err: ${docker.err}`,
+  //   );
+  //   throw new Error(
+  //     `There was an error checking docker registry ${options.registry} Error: ${docker.err}`,
+  //   );
+  // }
   helpers.ok();
 }
