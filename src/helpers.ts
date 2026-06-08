@@ -624,8 +624,8 @@ export function print_options(options: Options) {
     print_important_info_spacer(`--tag=${options.tag}`);
   }
 
-  if (options.build_arg) {
-    print_important_info_spacer(`--build_arg=${options.build_arg}`);
+  for (const build_arg of build_args(options)) {
+    print_important_info_spacer(`--build_arg=${build_arg}`);
   }
 
   if (options.deployment) {
@@ -672,6 +672,21 @@ export function print_options(options: Options) {
 export function step(options: Options) {
   options.step++;
   return options.step;
+}
+
+export function build_args(options: Options): string[] {
+  if (
+    typeof options.build_arg === 'undefined' ||
+    options.build_arg === false
+  ) {
+    return [];
+  }
+
+  if (Array.isArray(options.build_arg)) {
+    return options.build_arg;
+  }
+
+  return [<string>options.build_arg];
 }
 
 export function is_allowed_env(env: string) {
