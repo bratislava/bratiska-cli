@@ -310,11 +310,11 @@ function docker() {
     return { res: result.stdout.trim(), err: result.stderr };
 }
 function docker_build(options) {
-    let build_arg = '';
-    if (options.build_arg) {
-        build_arg = `--build-arg="${options.build_arg}"`;
-    }
-    const cmd = `docker buildx build --platform=linux/amd64 ${build_arg} --tag=${helpers.image_tag(options)} --target=prod . `;
+    const build_args = helpers
+        .build_args(options)
+        .map((build_arg) => `--build-arg="${build_arg}"`)
+        .join(' ');
+    const cmd = `docker buildx build --platform=linux/amd64 ${build_args} --tag=${helpers.image_tag(options)} --target=prod . `;
     helpers.print_if_debug(options, `docker build command: ${cmd}`);
     (0, child_process_1.execSync)(cmd, {
         stdio: 'inherit',

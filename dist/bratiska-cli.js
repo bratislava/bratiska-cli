@@ -55,6 +55,12 @@ const common = new common_1.Common();
 const build_image = new build_image_1.BuildImage();
 const build_kustomize = new build_kustomize_1.BuildKustomize();
 const label = new label_1.Label();
+function collectBuildArg(value, previous) {
+    if (typeof previous === 'undefined') {
+        return [value];
+    }
+    return previous.concat(value);
+}
 try {
     (0, clear_1.default)();
     console.log(chalk_1.default.blue(figlet_1.default.textSync('Bratiska-cli', { horizontalLayout: 'full' })));
@@ -123,7 +129,7 @@ try {
         .option('-k, --kustomize <file_or_direcotry>', 'Specify kustomize file or kustomize directory')
         .option('-i, --image <url>', 'Specify image from harbour via url')
         .option('-tag, --tag <tag>', 'Specify an image tag')
-        .option('-build_arg, --build_arg <build_arg>', 'Specify an docker build args')
+        .option('-build_arg, --build_arg <build_arg>', 'Specify an docker build args', collectBuildArg)
         .option('-n, --namespace <namespace>', 'Namespace')
         .option('-d, --deployment <deployment>', 'Deployment app')
         .option('-h, --host <host>', 'Host url address')
@@ -227,7 +233,7 @@ try {
         .option('-build_image_no_registry, --build_image_no_registry', 'Don`t push to registry')
         .option('-s, --sentry <token>', 'Specify sentry auth token for build')
         .option('-tag, --tag <tag>', 'Specify an image tag')
-        .option('-build_arg, --build_arg <build_args>', 'Specify an docker build arg')
+        .option('-build_arg, --build_arg <build_args>', 'Specify an docker build arg', collectBuildArg)
         .option('-e, --env <env>', 'Deployment environment')
         .option('-n, --namespace <namespace>', 'Namespace')
         .option('-r, --registry <url>', 'Docker image registry url', 'harbor.bratislava.sk')
