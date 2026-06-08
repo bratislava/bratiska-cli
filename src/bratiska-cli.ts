@@ -12,13 +12,23 @@ import { Label } from './label';
 import { Common } from './common';
 import * as helpers from './helpers';
 
-const version = '3.5.1';
+const version = '3.5.4';
 const deploy = new Deploy();
 const tag = new Tag();
 const common = new Common();
 const build_image = new BuildImage();
 const build_kustomize = new BuildKustomize();
 const label = new Label();
+
+function collectBuildArg(
+  value: string,
+  previous: string[] | undefined,
+): string[] {
+  if (typeof previous === 'undefined') {
+    return [value];
+  }
+  return previous.concat(value);
+}
 
 try {
   clear();
@@ -114,6 +124,7 @@ try {
     .option(
       '-build_arg, --build_arg <build_arg>',
       'Specify an docker build args',
+      collectBuildArg,
     )
     .option('-n, --namespace <namespace>', 'Namespace')
     .option('-d, --deployment <deployment>', 'Deployment app')
@@ -245,6 +256,7 @@ try {
     .option(
       '-build_arg, --build_arg <build_args>',
       'Specify an docker build arg',
+      collectBuildArg,
     )
     .option('-e, --env <env>', 'Deployment environment')
     .option('-n, --namespace <namespace>', 'Namespace')

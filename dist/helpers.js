@@ -90,6 +90,7 @@ exports.load_package = load_package;
 exports.load_json = load_json;
 exports.print_options = print_options;
 exports.step = step;
+exports.build_args = build_args;
 exports.is_allowed_env = is_allowed_env;
 exports.calculate_version_diff = calculate_version_diff;
 exports.tag_value = tag_value;
@@ -570,8 +571,8 @@ function print_options(options) {
     if (options.tag) {
         print_important_info_spacer(`--tag=${options.tag}`);
     }
-    if (options.build_arg) {
-        print_important_info_spacer(`--build_arg=${options.build_arg}`);
+    for (const build_arg of build_args(options)) {
+        print_important_info_spacer(`--build_arg=${build_arg}`);
     }
     if (options.deployment) {
         print_important_info_spacer(`--deployment=${options.deployment}`);
@@ -607,6 +608,16 @@ function print_options(options) {
 function step(options) {
     options.step++;
     return options.step;
+}
+function build_args(options) {
+    if (typeof options.build_arg === 'undefined' ||
+        options.build_arg === false) {
+        return [];
+    }
+    if (Array.isArray(options.build_arg)) {
+        return options.build_arg;
+    }
+    return [options.build_arg];
 }
 function is_allowed_env(env) {
     return ALLOWED_ENVIRONMENTS.includes(env);

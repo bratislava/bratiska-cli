@@ -298,11 +298,11 @@ export function docker(): Bash {
 }
 
 export function docker_build(options: Options) {
-  let build_arg = '';
-  if (options.build_arg) {
-    build_arg = `--build-arg="${options.build_arg}"`;
-  }
-  const cmd = `docker buildx build --platform=linux/amd64 ${build_arg} --tag=${helpers.image_tag(
+  const build_args = helpers
+    .build_args(options)
+    .map((build_arg) => `--build-arg="${build_arg}"`)
+    .join(' ');
+  const cmd = `docker buildx build --platform=linux/amd64 ${build_args} --tag=${helpers.image_tag(
     options,
   )} --target=prod . `;
   helpers.print_if_debug(options, `docker build command: ${cmd}`);
